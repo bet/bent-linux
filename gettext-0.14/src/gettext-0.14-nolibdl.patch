@@ -1,0 +1,35 @@
+diff -ru gettext-0.14.orig/gettext-tools/src/x-glade.c gettext-0.14/gettext-tools/src/x-glade.c
+--- gettext-0.14.orig/gettext-tools/src/x-glade.c	2003-12-15 14:12:07.000000000 +0000
++++ gettext-0.14/gettext-tools/src/x-glade.c	2004-12-24 23:19:56.000000000 +0000
+@@ -139,29 +139,11 @@
+ #define XML_ParserFree (*p_XML_ParserFree)
+ #define XML_ErrorString (*p_XML_ErrorString)
+ 
+-static int libexpat_loaded = 0;
++static int libexpat_loaded = -1;
+ 
+ static bool
+ load_libexpat ()
+ {
+-  if (libexpat_loaded == 0)
+-    {
+-      void *handle = dlopen ("libexpat.so.0", RTLD_LAZY);
+-      if (handle != NULL
+-	  && (p_XML_ParserCreate = dlsym (handle, "XML_ParserCreate")) != NULL
+-	  && (p_XML_SetElementHandler = dlsym (handle, "XML_SetElementHandler")) != NULL
+-	  && (p_XML_SetCharacterDataHandler = dlsym (handle, "XML_SetCharacterDataHandler")) != NULL
+-	  && (p_XML_SetCommentHandler = dlsym (handle, "XML_SetCommentHandler")) != NULL
+-	  && (p_XML_Parse = dlsym (handle, "XML_Parse")) != NULL
+-	  && (p_XML_GetErrorCode = dlsym (handle, "XML_GetErrorCode")) != NULL
+-	  && (p_XML_GetCurrentLineNumber = dlsym (handle, "XML_GetCurrentLineNumber")) != NULL
+-	  && (p_XML_GetCurrentColumnNumber = dlsym (handle, "XML_GetCurrentColumnNumber")) != NULL
+-	  && (p_XML_ParserFree = dlsym (handle, "XML_ParserFree")) != NULL
+-	  && (p_XML_ErrorString = dlsym (handle, "XML_ErrorString")) != NULL)
+-	libexpat_loaded = 1;
+-      else
+-	libexpat_loaded = -1;
+-    }
+   return libexpat_loaded >= 0;
+ }
+ 
+Only in gettext-0.14/gettext-tools/src: x-glade.c.orig

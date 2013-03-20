@@ -1,0 +1,10 @@
+pkg dumpasn1
+
+url http://www.cs.auckland.ac.nz/~pgut001/dumpasn1.c
+    http://www.cs.auckland.ac.nz/~pgut001/dumpasn1.cfg
+
+build \
+    mkdir -p $BPM_ROOT/usr/bin
+    gcc -Os -s -o $BPM_ROOT/usr/bin/dumpasn1 dumpasn1.c
+    mkdir -p $BPM_ROOT/etc/dumpasn1
+    mv dumpasn1.cfg $BPM_ROOT/etc/dumpasn1/

@@ -1,0 +1,10 @@
+pkg ostiary-3.4
+
+url http://ingles.homeunix.org/software/ost/ostiary-3.4.tar.gz
+
+build \
+    tar xzf ostiary-3.4.tar.gz
+    cd ostiary-3.4
+    ./configure --prefix=/usr --sysconfdir=/etc
+    make 'LIBS=-lbind' all
+    make prefix=$BPM_ROOT/usr sysconfdir=$BPM_ROOT/etc install

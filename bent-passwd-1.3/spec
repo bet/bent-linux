@@ -1,0 +1,16 @@
+pkg bent-passwd-1.3
+
+url passwd
+    group
+    rcrc
+    joverc
+
+build \
+    mkdir -p $BPM_ROOT/etc
+    cp passwd group $BPM_ROOT/etc/
+    mkdir -p $BPM_ROOT/root
+    cp rcrc $BPM_ROOT/root/.rcrc
+    mkdir -p $BPM_ROOT/home/bet
+    cp rcrc $BPM_ROOT/home/bet/.rcrc
+    cp joverc $BPM_ROOT/home/bet/.joverc
+    false bpmpkgfix fuxes this bpm, since home bet needs to be bet:bet and /root needs mode 0700

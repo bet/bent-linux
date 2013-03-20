@@ -1,0 +1,44 @@
+pkg dev86-0.16.2
+
+url http://www.cix.co.uk/~mayday/dev86/Dev86src-0.16.0.tar.gz
+    http://www.cix.co.uk/~mayday/dev86/patch-0.16.1.gz
+    http://www.cix.co.uk/~mayday/dev86/patch-0.16.2.gz
+    http://www.cix.co.uk/~mayday/dev86/patch-0.16.3.gz
+    http://www.cix.co.uk/~mayday/dev86/patch-0.16.4.gz
+    http://www.cix.co.uk/~mayday/dev86/patch-0.16.5.gz
+    http://www.cix.co.uk/~mayday/dev86/patch-0.16.6.gz
+    http://www.cix.co.uk/~mayday/dev86/patch-0.16.7.gz
+    http://www.cix.co.uk/~mayday/dev86/patch-0.16.8.gz
+    http://www.cix.co.uk/~mayday/dev86/patch-0.16.9.gz
+    http://www.cix.co.uk/~mayday/dev86/patch-0.16.10.gz
+    http://www.cix.co.uk/~mayday/dev86/patch-0.16.11.gz
+    http://www.cix.co.uk/~mayday/dev86/patch-0.16.12.gz
+    http://www.cix.co.uk/~mayday/dev86/patch-0.16.13.gz
+    http://www.cix.co.uk/~mayday/dev86/patch-0.16.14.gz
+    http://www.cix.co.uk/~mayday/dev86/patch-0.16.15.gz
+
+build \
+    tar xzf Dev86src-0.16.0.tar.gz
+    cd dev86-0.16.0
+    gzip -d <../patch-0.16.1.gz | patch -p1
+    gzip -d <../patch-0.16.2.gz | patch -p1
+    # gzip -d <../patch-0.16.3.gz | patch -p1
+    # gzip -d <../patch-0.16.4.gz | patch -p1
+    # gzip -d <../patch-0.16.5.gz | patch -p1
+    # gzip -d <../patch-0.16.6.gz | patch -p1
+    # gzip -d <../patch-0.16.7.gz | patch -p1
+    # gzip -d <../patch-0.16.8.gz | patch -p1
+    # gzip -d <../patch-0.16.9.gz | patch -p1
+    # gzip -d <../patch-0.16.10.gz | patch -p1
+    # gzip -d <../patch-0.16.11.gz | patch -p1
+    # gzip -d <../patch-0.16.12.gz | patch -p1
+    # gzip -d <../patch-0.16.13.gz | patch -p1
+    # gzip -d <../patch-0.16.14.gz | patch -p1
+    # gzip -d <../patch-0.16.15.gz | patch -p1
+    make
+    perl -pi -le 's/-o root -g root //' make.fil
+    make DIST=$BPM_ROOT install
+    rm -f $BPM_ROOT/usr/bcc/include/linuxmt
+    cp -R libc/kinclude/linuxmt $BPM_ROOT/usr/bcc/include/linuxmt
+    rm -f $BPM_ROOT/usr/bcc/include/arch
+    cp -R libc/kinclude/arch $BPM_ROOT/usr/bcc/include/arch

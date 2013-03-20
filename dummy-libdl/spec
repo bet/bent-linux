@@ -1,0 +1,9 @@
+pkg dummy-libdl
+
+url libdl.c
+
+build \
+    gcc -Os -c -o libdl.o libdl.c
+    ar qc libdl.a libdl.o
+    mkdir -p $BPM_ROOT/usr/lib
+    mv libdl.a $BPM_ROOT/usr/lib/

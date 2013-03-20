@@ -1,0 +1,15 @@
+pkg tla-1.3.5
+
+url http://ftp.gnu.org/gnu/gnu-arch/tla-1.3.5.tar.gz
+
+build \
+    tar xzf tla-1.3.5.tar.gz
+    cd tla-1.3.5
+    cd src
+    mkdir =build
+    cd =build
+    ../configure --prefix=/usr --destdir=$BPM_ROOT --with-cc='gcc -Os -s -static'
+    perl -pi -le 's/-lm/-lm -lbind/' tla/tla/Makefile
+    make
+    make test
+    make install

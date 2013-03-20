@@ -1,0 +1,12 @@
+pkg bzip2-1.0.4
+
+url http://www.bzip.org/1.0.4/bzip2-1.0.4.tar.gz
+
+build \
+    tar xzf bzip2-1.0.4.tar.gz
+    cd bzip2-1.0.4
+    make CC="gcc $CFLAGS $LDFLAGS"
+    make PREFIX=$BPM_ROOT/usr install
+    mkdir -p $BPM_ROOT/usr/share
+    mv $BPM_ROOT/usr/man $BPM_ROOT/usr/share/
+

@@ -1,0 +1,337 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Contents</TITLE>
+<META NAME="description" CONTENT="Contents">
+<META NAME="keywords" CONTENT="darcs">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="darcs.css">
+
+<LINK REL="next" HREF="node2.html">
+<LINK REL="previous" HREF="darcs.html">
+<LINK REL="up" HREF="darcs.html">
+<LINK REL="next" HREF="node2.html">
+</HEAD>
+
+<BODY >
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html151"
+  HREF="node2.html">
+<IMG WIDTH="22" HEIGHT="22" title="Next"  ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="./next.png"></A> 
+<A NAME="tex2html149"
+  HREF="darcs.html">
+<IMG WIDTH="22" HEIGHT="22" title="Up"  ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="./up.png"></A> 
+<A NAME="tex2html143"
+  HREF="darcs.html">
+<IMG WIDTH="22" HEIGHT="22" title="Previous"  ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="./prev.png"></A>   
+<BR>
+<B> Next:</B> <A NAME="tex2html152"
+  HREF="node2.html">Introduction</A>
+<B> Up:</B> <A NAME="tex2html150"
+  HREF="darcs.html">Darcs 1.0.7 (release) Darcs</A>
+<B> Previous:</B> <A NAME="tex2html144"
+  HREF="darcs.html">Darcs 1.0.7 (release) Darcs</A>
+<BR>
+<BR></DIV>
+<!--End of Navigation Panel-->
+<BR>
+
+<H2><A NAME="SECTION00100000000000000000">
+Contents</A>
+</H2>
+<!--Table of Contents-->
+
+<UL CLASS="TofC">
+<LI><A NAME="tex2html153"
+  HREF="node2.html">Introduction</A>
+<UL>
+<LI><A NAME="tex2html154"
+  HREF="node2.html#SECTION00210000000000000000">Features</A>
+<LI><A NAME="tex2html155"
+  HREF="node2.html#SECTION00220000000000000000">Switching from CVS</A>
+<LI><A NAME="tex2html156"
+  HREF="node2.html#SECTION00230000000000000000">Switching from arch</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html157"
+  HREF="node3.html">Building darcs</A>
+<UL>
+<LI><A NAME="tex2html158"
+  HREF="node3.html#SECTION00310000000000000000">Prerequisites</A>
+<LI><A NAME="tex2html159"
+  HREF="node3.html#SECTION00320000000000000000">Building on Mac&nbsp;OS&nbsp;X</A>
+<LI><A NAME="tex2html160"
+  HREF="node3.html#SECTION00330000000000000000">Building on Microsoft Windows</A>
+<LI><A NAME="tex2html161"
+  HREF="node3.html#SECTION00340000000000000000">Building from tarball</A>
+<LI><A NAME="tex2html162"
+  HREF="node3.html#SECTION00350000000000000000">Building darcs from the repository</A>
+<LI><A NAME="tex2html163"
+  HREF="node3.html#SECTION00360000000000000000">Building darcs with git</A>
+<LI><A NAME="tex2html164"
+  HREF="node3.html#SECTION00370000000000000000">Submitting patches to darcs</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html165"
+  HREF="node4.html">Getting started</A>
+<UL>
+<LI><A NAME="tex2html166"
+  HREF="node4.html#SECTION00410000000000000000">Creating your repository</A>
+<LI><A NAME="tex2html167"
+  HREF="node4.html#SECTION00420000000000000000">Making changes</A>
+<LI><A NAME="tex2html168"
+  HREF="node4.html#SECTION00430000000000000000">Making your repository visible to others</A>
+<LI><A NAME="tex2html169"
+  HREF="node4.html#SECTION00440000000000000000">Getting changes made to another repository</A>
+<LI><A NAME="tex2html170"
+  HREF="node4.html#SECTION00450000000000000000">Moving patches from one repository to another</A>
+<UL>
+<LI><A NAME="tex2html171"
+  HREF="node4.html#SECTION00451000000000000000">All pulls</A>
+<LI><A NAME="tex2html172"
+  HREF="node4.html#SECTION00452000000000000000">Send and apply manually</A>
+<LI><A NAME="tex2html173"
+  HREF="node4.html#SECTION00453000000000000000">Push</A>
+<LI><A NAME="tex2html174"
+  HREF="node4.html#SECTION00454000000000000000">Push --apply-as</A>
+<LI><A NAME="tex2html175"
+  HREF="node4.html#SECTION00455000000000000000">Sending signed patches by email</A>
+</UL>
+<LI><A NAME="tex2html176"
+  HREF="node4.html#SECTION00460000000000000000">Reducing disk space usage</A>
+<UL>
+<LI><A NAME="tex2html177"
+  HREF="node4.html#SECTION00461000000000000000">Linking between repositories</A>
+<LI><A NAME="tex2html178"
+  HREF="node4.html#SECTION00462000000000000000">Alternate formats for the pristine tree</A>
+</UL>
+</UL>
+<BR>
+<LI><A NAME="tex2html179"
+  HREF="node5.html">Configuring darcs</A>
+<UL>
+<LI><A NAME="tex2html180"
+  HREF="node5.html#SECTION00510000000000000000">prefs</A>
+<LI><A NAME="tex2html181"
+  HREF="node5.html#SECTION00520000000000000000">Environment variables</A>
+<LI><A NAME="tex2html182"
+  HREF="node5.html#SECTION00530000000000000000">Highlighted output</A>
+<LI><A NAME="tex2html183"
+  HREF="node5.html#SECTION00540000000000000000">Character escaping and non-ASCII character encodings</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html184"
+  HREF="node6.html">Best practices</A>
+<UL>
+<LI><A NAME="tex2html185"
+  HREF="node6.html#SECTION00610000000000000000">Introduction</A>
+<LI><A NAME="tex2html186"
+  HREF="node6.html#SECTION00620000000000000000">Creating patches</A>
+<UL>
+<LI><A NAME="tex2html187"
+  HREF="node6.html#SECTION00621000000000000000">Changes</A>
+<LI><A NAME="tex2html188"
+  HREF="node6.html#SECTION00622000000000000000">Keeping or discarding changes</A>
+<LI><A NAME="tex2html189"
+  HREF="node6.html#SECTION00623000000000000000">Unrecording changes</A>
+<LI><A NAME="tex2html190"
+  HREF="node6.html#SECTION00624000000000000000">Special patches and pending</A>
+</UL>
+<LI><A NAME="tex2html191"
+  HREF="node6.html#SECTION00630000000000000000">Using patches</A>
+<UL>
+<LI><A NAME="tex2html192"
+  HREF="node6.html#SECTION00631000000000000000">Dependencies</A>
+<LI><A NAME="tex2html193"
+  HREF="node6.html#SECTION00632000000000000000">Branches: just normal repositories</A>
+<LI><A NAME="tex2html194"
+  HREF="node6.html#SECTION00633000000000000000">Moving patches around--no versions</A>
+<LI><A NAME="tex2html195"
+  HREF="node6.html#SECTION00634000000000000000">Tags--versions</A>
+<LI><A NAME="tex2html196"
+  HREF="node6.html#SECTION00635000000000000000">Conflicts</A>
+<LI><A NAME="tex2html197"
+  HREF="node6.html#SECTION00636000000000000000">Resolving conflicts</A>
+</UL>
+<LI><A NAME="tex2html198"
+  HREF="node6.html#SECTION00640000000000000000">Distributed development with one primary developer</A>
+<LI><A NAME="tex2html199"
+  HREF="node6.html#SECTION00650000000000000000">Development by a small group of developers in one office</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html200"
+  HREF="node7.html">Darcs commands</A>
+<UL>
+<LI><A NAME="tex2html201"
+  HREF="node7.html#SECTION00710000000000000000">Common options to darcs commands</A>
+<LI><A NAME="tex2html202"
+  HREF="node7.html#SECTION00720000000000000000">Options apart from darcs commands</A>
+<LI><A NAME="tex2html203"
+  HREF="node7.html#SECTION00730000000000000000">Getting help</A>
+<UL>
+<LI><A NAME="tex2html204"
+  HREF="node7.html#SECTION00731000000000000000">darcs help</A>
+</UL>
+<LI><A NAME="tex2html205"
+  HREF="node7.html#SECTION00740000000000000000">Creating repositories</A>
+<UL>
+<LI><A NAME="tex2html206"
+  HREF="node7.html#SECTION00741000000000000000">darcs initialize</A>
+<LI><A NAME="tex2html207"
+  HREF="node7.html#SECTION00742000000000000000">darcs get</A>
+<LI><A NAME="tex2html208"
+  HREF="node7.html#SECTION00743000000000000000">darcs put</A>
+</UL>
+<LI><A NAME="tex2html209"
+  HREF="node7.html#SECTION00750000000000000000">Modifying the contents of a repository</A>
+<UL>
+<LI><A NAME="tex2html210"
+  HREF="node7.html#SECTION00751000000000000000">darcs add</A>
+<LI><A NAME="tex2html211"
+  HREF="node7.html#SECTION00752000000000000000">darcs remove</A>
+<LI><A NAME="tex2html212"
+  HREF="node7.html#SECTION00753000000000000000">darcs mv</A>
+<LI><A NAME="tex2html213"
+  HREF="node7.html#SECTION00754000000000000000">darcs replace</A>
+</UL>
+<LI><A NAME="tex2html214"
+  HREF="node7.html#SECTION00760000000000000000">Working with changes</A>
+<UL>
+<LI><A NAME="tex2html215"
+  HREF="node7.html#SECTION00761000000000000000">darcs record</A>
+<LI><A NAME="tex2html216"
+  HREF="node7.html#SECTION00762000000000000000">darcs pull</A>
+<LI><A NAME="tex2html217"
+  HREF="node7.html#SECTION00763000000000000000">darcs push</A>
+<LI><A NAME="tex2html218"
+  HREF="node7.html#SECTION00764000000000000000">darcs send</A>
+<LI><A NAME="tex2html219"
+  HREF="node7.html#SECTION00765000000000000000">darcs apply</A>
+</UL>
+<LI><A NAME="tex2html220"
+  HREF="node7.html#SECTION00770000000000000000">Seeing what you've done</A>
+<UL>
+<LI><A NAME="tex2html221"
+  HREF="node7.html#SECTION00771000000000000000">darcs whatsnew</A>
+<LI><A NAME="tex2html222"
+  HREF="node7.html#SECTION00772000000000000000">darcs changes</A>
+</UL>
+<LI><A NAME="tex2html223"
+  HREF="node7.html#SECTION00780000000000000000">More advanced commands</A>
+<UL>
+<LI><A NAME="tex2html224"
+  HREF="node7.html#SECTION00781000000000000000">darcs tag</A>
+<LI><A NAME="tex2html225"
+  HREF="node7.html#SECTION00782000000000000000">darcs setpref</A>
+<LI><A NAME="tex2html226"
+  HREF="node7.html#SECTION00783000000000000000">darcs check</A>
+<LI><A NAME="tex2html227"
+  HREF="node7.html#SECTION00784000000000000000">darcs optimize</A>
+</UL>
+<LI><A NAME="tex2html228"
+  HREF="node7.html#SECTION00790000000000000000">Undoing, redoing and running in circles</A>
+<UL>
+<LI><A NAME="tex2html229"
+  HREF="node7.html#SECTION00791000000000000000">darcs amend-record</A>
+<LI><A NAME="tex2html230"
+  HREF="node7.html#SECTION00792000000000000000">darcs rollback</A>
+<LI><A NAME="tex2html231"
+  HREF="node7.html#SECTION00793000000000000000">darcs unrecord</A>
+<LI><A NAME="tex2html232"
+  HREF="node7.html#SECTION00794000000000000000">darcs unpull</A>
+<LI><A NAME="tex2html233"
+  HREF="node7.html#SECTION00795000000000000000">darcs obliterate</A>
+<LI><A NAME="tex2html234"
+  HREF="node7.html#SECTION00796000000000000000">darcs revert</A>
+<LI><A NAME="tex2html235"
+  HREF="node7.html#SECTION00797000000000000000">darcs unrevert</A>
+</UL>
+<LI><A NAME="tex2html236"
+  HREF="node7.html#SECTION007100000000000000000">Advanced examination of the repository</A>
+<UL>
+<LI><A NAME="tex2html237"
+  HREF="node7.html#SECTION007101000000000000000">darcs diff</A>
+<LI><A NAME="tex2html238"
+  HREF="node7.html#SECTION007102000000000000000">darcs annotate</A>
+</UL>
+<LI><A NAME="tex2html239"
+  HREF="node7.html#SECTION007110000000000000000">Rarely needed and obscure commands</A>
+<UL>
+<LI><A NAME="tex2html240"
+  HREF="node7.html#SECTION007111000000000000000">darcs resolve</A>
+<LI><A NAME="tex2html241"
+  HREF="node7.html#SECTION007112000000000000000">darcs dist</A>
+<LI><A NAME="tex2html242"
+  HREF="node7.html#SECTION007113000000000000000">darcs trackdown</A>
+<LI><A NAME="tex2html243"
+  HREF="node7.html#SECTION007114000000000000000">darcs repair</A>
+</UL>
+</UL>
+<BR>
+<LI><A NAME="tex2html244"
+  HREF="node8.html">Theory of patches</A>
+<UL>
+<LI><A NAME="tex2html245"
+  HREF="node8.html#SECTION00810000000000000000">Background</A>
+<LI><A NAME="tex2html246"
+  HREF="node8.html#SECTION00820000000000000000">Introduction</A>
+<LI><A NAME="tex2html247"
+  HREF="node8.html#SECTION00830000000000000000">Applying patches</A>
+<UL>
+<LI><A NAME="tex2html248"
+  HREF="node8.html#SECTION00831000000000000000">Hunk patches</A>
+<LI><A NAME="tex2html249"
+  HREF="node8.html#SECTION00832000000000000000">Token replace patches</A>
+</UL>
+<LI><A NAME="tex2html250"
+  HREF="node8.html#SECTION00840000000000000000">Patch relationships</A>
+<LI><A NAME="tex2html251"
+  HREF="node8.html#SECTION00850000000000000000">Commuting patches</A>
+<UL>
+<LI><A NAME="tex2html252"
+  HREF="node8.html#SECTION00851000000000000000">Composite patches</A>
+<LI><A NAME="tex2html253"
+  HREF="node8.html#SECTION00852000000000000000">How merges are actually performed</A>
+<LI><A NAME="tex2html254"
+  HREF="node8.html#SECTION00853000000000000000">File patches</A>
+<LI><A NAME="tex2html255"
+  HREF="node8.html#SECTION00854000000000000000">Hunks</A>
+</UL>
+<LI><A NAME="tex2html256"
+  HREF="node8.html#SECTION00860000000000000000">Conflicts</A>
+<LI><A NAME="tex2html257"
+  HREF="node8.html#SECTION00870000000000000000">Patch string formatting</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html258"
+  HREF="node9.html">DarcsRepo format</A>
+<LI><A NAME="tex2html259"
+  HREF="node10.html">The GNU General Public License</A>
+<UL>
+<LI><A NAME="tex2html260"
+  HREF="node10.html#SECTION001030000000000000000">Appendix: How to Apply These Terms to Your New Programs</A>
+</UL></UL>
+<!--End of Table of Contents-->
+<P>
+<BR><HR>
+<ADDRESS>
+Tommy Pettersson
+2006-05-13
+</ADDRESS>
+</BODY>
+</HTML>

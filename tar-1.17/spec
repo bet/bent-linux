@@ -1,0 +1,13 @@
+pkg tar-1.17
+
+url http://ftp.gnu.org/gnu/tar/tar-1.17.tar.bz2
+    http://ftp.gnu.org/gnu/tar/tar-1.17.tar.bz2.sig
+
+build \
+    tar xjf tar-1.17.tar.bz2
+    cd tar-1.17
+    ./configure --prefix=/usr --infodir=/usr/share/info --mandir=/usr/share/man \
+        --disable-nls
+    make
+    make DESTDIR=$BPM_ROOT install
+    rm $BPM_ROOT/usr/share/info/dir

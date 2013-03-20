@@ -1,0 +1,13 @@
+pkg libowfat-0.24
+
+url http://dl.fefe.de/libowfat-0.24.tar.bz2
+    http://dl.fefe.de/libowfat-0.24.tar.bz2.sig
+
+build \
+    tar xf libowfat-0.24.tar.bz2
+    cd libowfat-0.24
+    make
+    make prefix=$BPM_ROOT/usr LIBDIR=$BPM_ROOT/usr/lib install
+    mv $BPM_ROOT/usr/include $BPM_ROOT/usr/libowfat
+    mkdir $BPM_ROOT/usr/include
+    mv $BPM_ROOT/usr/libowfat $BPM_ROOT/usr/include

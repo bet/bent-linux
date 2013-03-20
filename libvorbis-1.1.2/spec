@@ -1,0 +1,11 @@
+pkg libvorbis-1.1.2
+
+url http://downloads.xiph.org/releases/vorbis/libvorbis-1.1.2.tar.gz
+
+build \
+    tar xf libvorbis-1.1.2.tar.gz
+    cd libvorbis-1.1.2
+    CFLAGS=-Os LDFLAGS=-s ./configure --prefix=/usr --mandir=/usr/share/man \
+        --disable-shared --enable-static
+    make
+    make DESTDIR=$BPM_ROOT install

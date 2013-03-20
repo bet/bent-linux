@@ -1,0 +1,6 @@
+pkg fhs-2.2
+
+url
+
+build \
+    syntax error fhs bpm cannot be built with bpmbuild, since it installs only dirs

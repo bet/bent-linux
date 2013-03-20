@@ -1,0 +1,13 @@
+pkg ipmitool-1.6.0
+
+url http://download.sourceforge.net/ipmitool/ipmitool-1.6.0.tar.bz2
+    ipmitool-1.6.0-sol-patch
+
+build \
+    tar xf ipmitool-1.6.0.tar.bz2
+    cd ipmitool-1.6.0
+    patch -p1 <../ipmitool-1.6.0-sol-patch
+    CFLAGS=-Os LDFLAGS=-s ./configure --prefix=/usr --mandir=/usr/share/man \
+        --disable-shared
+    make 'LIBS=-lcrypto -lreadline -lcurses'
+    make DESTDIR=$BPM_ROOT install

@@ -1,0 +1,6 @@
+pkg bent-dev-1.2
+
+url MAKEDEV
+
+build \
+    syntax error, a bpm that bpmbuild cannot build, since it installs dev inodes

@@ -1,0 +1,11 @@
+pkg lame-3.97
+
+url http://superb-east.dl.sourceforge.net/sourceforge/lame/lame-3.97.tar.gz
+
+build \
+    tar xzf lame-3.97.tar.gz
+    cd lame-3.97
+    ./configure --prefix=/usr --mandir=/usr/share/man --infodir=/usr/share/info --disable-shared
+    make
+    (cd frontend; gcc -Wall -pipe -Os -s -static -o lame main.o get_audio.o lametime.o parse.o portableio.o timestatus.o brhist.o  ../libmp3lame/.libs/libmp3lame.a -lncurses -lm)
+    make DESTDIR=$BPM_ROOT install

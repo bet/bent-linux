@@ -1,0 +1,13 @@
+pkg procmail-3.22
+
+url http://www.procmail.org/procmail-3.22.tar.gz
+    procmail_3.22-8.debian.patch
+
+build \
+    tar xzf procmail-3.22.tar.gz
+    cd procmail-3.22
+    patch -p1 <../procmail_3.22-8.debian.patch
+    perl -pi -le 's/^\/\*\s*// if /^\/\*\s*#define\s+GROUP_PER_USER/' config.h
+    make MANDIR=/usr/share/man CFLAGS0="$CFLAGS" LDFLAGS0="$LDFLAGS"
+    make BASENAME=$BPM_ROOT/usr MANDIR=$BPM_ROOT/usr/share/man install
+    

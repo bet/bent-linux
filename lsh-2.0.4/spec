@@ -1,0 +1,14 @@
+pkg lsh-2.0.4
+
+url http://www.lysator.liu.se/~nisse/archive/lsh-2.0.4.tar.gz
+    http://www.lysator.liu.se/~nisse/archive/lsh-2.0.4.tar.gz.asc
+
+build \
+    tar xzf lsh-2.0.4.tar.gz
+    cd lsh-2.0.4
+    LDFLAGS=-s CFLAGS=-Os ./configure --prefix=/usr --mandir=/usr/share/man --infodir=/usr/share/info --sysconfdir=/etc \
+        --disable-srp --disable-gss --disable-kerberos --disable-pam --enable-initgroups-workaround \
+        --disable-x11-forward --disable-agent-forward --disable-ipv6
+    make 'LIBS=-lutil -lcrypt -lz -loop -lgmp -lbind -lreadline -lncurses'
+    make DESTDIR=$BPM_ROOT install
+    rm -f $BPM_ROOT/usr/share/info/dir

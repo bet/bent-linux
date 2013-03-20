@@ -1,0 +1,1141 @@
+#!/bin/sh
+# This is a shell archive (produced by GNU sharutils 4.2.1).
+# To extract the files from this archive, save it to some FILE, remove
+# everything before the `!/bin/sh' line above, then type `sh FILE'.
+#
+# Made on 2005-03-17 17:20 PST by <lm@work>.
+# Source directory was `/home/lm'.
+#
+# Existing files will *not* be overwritten unless `-c' is specified.
+#
+# This shar contains:
+# length mode       name
+# ------ ---------- ------------------------------------------
+#   1057 -r--r--r-- bk_client-1.1/demo.sh
+#    411 -rw-rw-r-- bk_client-1.1/Makefile
+#   3865 -r--r--r-- bk_client-1.1/update.c
+#   4509 -r--r--r-- bk_client-1.1/sfioball.c
+#   8065 -r--r--r-- bk_client-1.1/sfio.c
+#   1640 -r--r--r-- bk_client-1.1/system.h
+#
+save_IFS="${IFS}"
+IFS="${IFS}:"
+gettext_dir=FAILED
+locale_dir=FAILED
+first_param="$1"
+for dir in $PATH
+do
+  if test "$gettext_dir" = FAILED && test -f $dir/gettext \
+     && ($dir/gettext --version >/dev/null 2>&1)
+  then
+    set `$dir/gettext --version 2>&1`
+    if test "$3" = GNU
+    then
+      gettext_dir=$dir
+    fi
+  fi
+  if test "$locale_dir" = FAILED && test -f $dir/shar \
+     && ($dir/shar --print-text-domain-dir >/dev/null 2>&1)
+  then
+    locale_dir=`$dir/shar --print-text-domain-dir`
+  fi
+done
+IFS="$save_IFS"
+if test "$locale_dir" = FAILED || test "$gettext_dir" = FAILED
+then
+  echo=echo
+else
+  TEXTDOMAINDIR=$locale_dir
+  export TEXTDOMAINDIR
+  TEXTDOMAIN=sharutils
+  export TEXTDOMAIN
+  echo="$gettext_dir/gettext -s"
+fi
+if touch -am -t 200112312359.59 $$.touch >/dev/null 2>&1 && test ! -f 200112312359.59 -a -f $$.touch; then
+  shar_touch='touch -am -t $1$2$3$4$5$6.$7 "$8"'
+elif touch -am 123123592001.59 $$.touch >/dev/null 2>&1 && test ! -f 123123592001.59 -a ! -f 123123592001.5 -a -f $$.touch; then
+  shar_touch='touch -am $3$4$5$6$1$2.$7 "$8"'
+elif touch -am 1231235901 $$.touch >/dev/null 2>&1 && test ! -f 1231235901 -a -f $$.touch; then
+  shar_touch='touch -am $3$4$5$6$2 "$8"'
+else
+  shar_touch=:
+  echo
+  $echo 'WARNING: not restoring timestamps.  Consider getting and'
+  $echo "installing GNU \`touch', distributed in GNU File Utilities..."
+  echo
+fi
+rm -f 200112312359.59 123123592001.59 123123592001.5 1231235901 $$.touch
+#
+if mkdir _sh27459; then
+  $echo 'x -' 'creating lock directory'
+else
+  $echo 'failed to create lock directory'
+  exit 1
+fi
+# ============= bk_client-1.1/demo.sh ==============
+if test ! -d 'bk_client-1.1'; then
+  $echo 'x -' 'creating directory' 'bk_client-1.1'
+  mkdir 'bk_client-1.1'
+fi
+if test -f 'bk_client-1.1/demo.sh' && test "$first_param" != -c; then
+  $echo 'x -' SKIPPING 'bk_client-1.1/demo.sh' '(file already exists)'
+else
+  $echo 'x -' extracting 'bk_client-1.1/demo.sh' '(text)'
+  sed 's/^X//' << 'SHAR_EOF' > 'bk_client-1.1/demo.sh' &&
+#!/bin/sh
+X
+PATH=$PWD:$PATH
+test -d sandbox && /bin/rm -rf sandbox
+echo =========================================================================
+echo -n 'Press return to get the audiofile repo as of cset 1.100 '
+read x
+sfioball -r1.100 bk://audiofile.bkbits.net/audiofile/ sandbox
+echo =========================================================================
+echo -n 'Press return to see the most recent changelog '
+read x
+head sandbox/BK/ChangeLog
+echo =========================================================================
+echo -n 'Press return to update to the the most recent audiofile repo '
+read x
+update bk://audiofile.bkbits.net/audiofile/ sandbox
+echo =========================================================================
+echo -n 'Press return to see the most recent changelog '
+read x
+head sandbox/BK/ChangeLog
+echo =========================================================================
+echo Data is in ./sandbox
+echo ChangeLog is in ./sandbox/BK/ChangeLog
+echo =========================================================================
+SHAR_EOF
+  (set 20 05 03 09 11 56 41 'bk_client-1.1/demo.sh'; eval "$shar_touch") &&
+  chmod 0444 'bk_client-1.1/demo.sh' ||
+  $echo 'restore of' 'bk_client-1.1/demo.sh' 'failed'
+  if ( md5sum --help 2>&1 | grep 'sage: md5sum \[' ) >/dev/null 2>&1 \
+  && ( md5sum --version 2>&1 | grep -v 'textutils 1.12' ) >/dev/null; then
+    md5sum -c << SHAR_EOF >/dev/null 2>&1 \
+    || $echo 'bk_client-1.1/demo.sh:' 'MD5 check failed'
+dc273d8df9b934aa1cbe4188f5360848  bk_client-1.1/demo.sh
+SHAR_EOF
+  else
+    shar_count="`LC_ALL= LC_CTYPE= LANG= wc -c < 'bk_client-1.1/demo.sh'`"
+    test 1057 -eq "$shar_count" ||
+    $echo 'bk_client-1.1/demo.sh:' 'original size' '1057,' 'current size' "$shar_count!"
+  fi
+fi
+# ============= bk_client-1.1/Makefile ==============
+if test -f 'bk_client-1.1/Makefile' && test "$first_param" != -c; then
+  $echo 'x -' SKIPPING 'bk_client-1.1/Makefile' '(file already exists)'
+else
+  $echo 'x -' extracting 'bk_client-1.1/Makefile' '(text)'
+  sed 's/^X//' << 'SHAR_EOF' > 'bk_client-1.1/Makefile' &&
+CFLAGS=-O2
+SRCS=sfio.c system.h sfioball.c update.c demo.sh Makefile
+X
+all: sfio sfioball update
+X
+sfio: sfio.c system.h
+X	$(CC) $(CFLAGS) -o sfio -lz sfio.c
+X
+clean clobber distclean:
+X	rm -f sfio sfioball update a.out *.o
+X	bk clean
+X
+demo: sfio sfioball update demo.sh
+X	sh demo.sh
+X
+shar: $(SRCS)
+X	rm -rf bk_client-1.0
+X	mkdir bk_client-1.0
+X	ln $(SRCS) bk_client-1.0
+X	shar bk_client-1.0 > SHAR
+X	rm -rf bk_client-1.0
+X
+SHAR_EOF
+  (set 20 05 03 09 11 58 37 'bk_client-1.1/Makefile'; eval "$shar_touch") &&
+  chmod 0664 'bk_client-1.1/Makefile' ||
+  $echo 'restore of' 'bk_client-1.1/Makefile' 'failed'
+  if ( md5sum --help 2>&1 | grep 'sage: md5sum \[' ) >/dev/null 2>&1 \
+  && ( md5sum --version 2>&1 | grep -v 'textutils 1.12' ) >/dev/null; then
+    md5sum -c << SHAR_EOF >/dev/null 2>&1 \
+    || $echo 'bk_client-1.1/Makefile:' 'MD5 check failed'
+dfbded2af71ddbcc23a32f476f412087  bk_client-1.1/Makefile
+SHAR_EOF
+  else
+    shar_count="`LC_ALL= LC_CTYPE= LANG= wc -c < 'bk_client-1.1/Makefile'`"
+    test 411 -eq "$shar_count" ||
+    $echo 'bk_client-1.1/Makefile:' 'original size' '411,' 'current size' "$shar_count!"
+  fi
+fi
+# ============= bk_client-1.1/update.c ==============
+if test -f 'bk_client-1.1/update.c' && test "$first_param" != -c; then
+  $echo 'x -' SKIPPING 'bk_client-1.1/update.c' '(file already exists)'
+else
+  $echo 'x -' extracting 'bk_client-1.1/update.c' '(text)'
+  sed 's/^X//' << 'SHAR_EOF' > 'bk_client-1.1/update.c' &&
+/*
+X * Copyright (c) 2005 BitMover, Inc.
+X *
+X * Licensed under the NWL - No Whining License.
+X *
+X * You may use this, modify this, redistribute this provided you agree to:
+X * - not whine about it;
+X * - the fact that there is no warranty of any kind.
+X * - retain this copyright in full.
+X */
+X
+#include <ctype.h>
+#include <errno.h>
+#include <zlib.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <netdb.h>
+#include <arpa/inet.h>
+X
+#define	min(x, y)	((x) < (y) ? (x) : (y))
+#define	unless(x)	if (!(x))
+#define	streq(a, b)	!strcmp(a, b)
+X
+/*
+X * Connect to the TCP socket advertised as "port" on "host" and
+X * return the connected socket.
+X */
+int
+tcp_connect(char *host, int port)
+{
+X	struct	hostent *h;
+X	struct	sockaddr_in s;
+X	int	sock;
+X
+X	if ((sock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP)) < 0) {
+X		perror("socket");
+X		return (-1);
+X	}
+X	unless (h = gethostbyname(host)) return (-2);
+X	memset((void *) &s, 0, sizeof(s));
+X	s.sin_family = AF_INET;
+X	memmove((void *)&s.sin_addr, (void*)h->h_addr, h->h_length);
+X	s.sin_port = htons(port);
+X	if (connect(sock, (struct sockaddr*)&s, sizeof(s)) < 0) {
+X		return (-3);
+X	}
+X	return (sock);
+}
+X
+typedef	struct {
+X	int	port;
+X	char	host[500];
+X	char	repo[1024];
+} url;
+X
+int
+scanurl(url *u, char *p)
+{
+X	char	*t;
+X
+X	if (strncmp("bk://", p, 5)) return (1);
+X	u->repo[0] = 0;
+X	p += 5;
+X	unless (*p) return (1);
+X
+X	/* bk://hostname:port[/path] */
+X	if (t = strchr(p, ':')) {
+X		*t++ = 0;
+X		strcpy(u->host, p);
+X		u->port = atoi(t);
+X		for (p = t; isdigit(*p); p++);
+X		if (*p == '/') strcpy(u->repo, p+1);
+X		t[-1] = ':';
+X		return (0);
+X	}
+X	u->port = 0x3962;
+X	if (t = strchr(p, '/')) {
+X		*t++ = 0;
+X		strcpy(u->host, p);
+X		strcpy(u->repo, t);
+X		t[-1] = '/';
+X		return (0);
+X    	}
+X	strcpy(u->host, p);
+X	return (0);
+}
+X
+/*
+X * Get the patch and unpack it.
+X */
+int
+main(int ac, char **av)
+{
+X	int	sock, n, left, want, i;
+X	FILE	*f;
+X	char	buf[BUFSIZ];
+X	url	u;
+X
+X	if ((ac < 2) || scanurl(&u, av[1])) {
+X		fprintf(stderr,
+X		    "usage: update bk://host[:port][/path_to_repo] [dest]\n");
+X		exit(1);
+X	}
+X
+X	if (ac == 3) {
+X		if (chdir(av[2])) {
+X			perror(av[2]);
+X			exit(1);
+X		}
+X	}
+X	unless (f = fopen("BK/keys", "r")) exit(1);
+X	unless ((sock = tcp_connect(u.host, u.port)) >= 0) {
+X		perror(av[1]);
+X		exit(1);
+X	}
+X	sprintf(buf, "putenv BK_VHOST=%s\n", u.host);
+X	if (write(sock, buf, strlen(buf)) != strlen(buf)) exit(1);
+X	if (u.repo[0]) {
+X		unless (write(sock, "cd ", 3) == 3) exit(1);
+X		unless (write(sock, u.repo, strlen(u.repo)) == strlen(u.repo)) {
+X			exit(1);
+X		}
+X		unless (write(sock, "\n", 1) == 1) exit(1);
+X	}
+X	unless (write(sock, "update\n", 7) == 7) exit(1);
+X	while (fgets(buf, sizeof(buf), f)) {
+X		if (write(sock, buf, strlen(buf)) != strlen(buf)) exit(1);
+X	}
+X	fclose(f);
+line:	for (i = 0; ; i++) {
+X		unless (read(sock, &buf[i], 1) == 1) exit(1);
+X		if (buf[i] == '\n') {
+X			buf[i+1] = 0;
+X			break;
+X		}
+X	}
+X	switch (buf[0]) {
+X	    case 'I':
+X		fprintf(stderr, "%s", buf);
+X		if (streq("INFO-nothing to send.\n", buf)) exit(0);
+X		goto line;
+X	    case 'E':
+X		fprintf(stderr, "%s", buf);
+X		exit(1);
+X	    case 'O':
+X		fprintf(stderr, "%s", buf);
+X		/* Might be CD command OK line */
+X		unless (sscanf(buf, "OK-patch coming, %u bytes", &left)== 1){
+X			goto line;
+X		}
+X		break;
+X	    default:
+X	    	exit(1);
+X	}
+X	want = min(sizeof(buf), left);
+X	unless (want > 0) exit(0);
+X	unless (f = popen("gunzip | patch -p1", "w")) exit(1);
+X	unlink("BK/keys");
+X	while ((n = read(sock, buf, want)) > 0) {
+X		fwrite(buf, 1, n, f);
+X		left -= n;
+X		if (left <= 0) break;
+X		want = min(sizeof(buf), left);
+X	}
+X	pclose(f);
+X	while (read(sock, buf, 1) == 1) write(2, buf, 1);
+X	system("cat BK/ChangeLog >> BitKeeper/tmp/ChangeLog");
+X	unlink("BK/ChangeLog");
+X	rename("BitKeeper/tmp/ChangeLog", "BK/ChangeLog");
+X	system("/bin/rm -rf BitKeeper > /dev/null 2>&1");
+X	return (0);
+}
+SHAR_EOF
+  (set 20 05 03 17 17 19 34 'bk_client-1.1/update.c'; eval "$shar_touch") &&
+  chmod 0444 'bk_client-1.1/update.c' ||
+  $echo 'restore of' 'bk_client-1.1/update.c' 'failed'
+  if ( md5sum --help 2>&1 | grep 'sage: md5sum \[' ) >/dev/null 2>&1 \
+  && ( md5sum --version 2>&1 | grep -v 'textutils 1.12' ) >/dev/null; then
+    md5sum -c << SHAR_EOF >/dev/null 2>&1 \
+    || $echo 'bk_client-1.1/update.c:' 'MD5 check failed'
+fb4bd680af122df8f273e2a7f7e2e6f7  bk_client-1.1/update.c
+SHAR_EOF
+  else
+    shar_count="`LC_ALL= LC_CTYPE= LANG= wc -c < 'bk_client-1.1/update.c'`"
+    test 3865 -eq "$shar_count" ||
+    $echo 'bk_client-1.1/update.c:' 'original size' '3865,' 'current size' "$shar_count!"
+  fi
+fi
+# ============= bk_client-1.1/sfioball.c ==============
+if test -f 'bk_client-1.1/sfioball.c' && test "$first_param" != -c; then
+  $echo 'x -' SKIPPING 'bk_client-1.1/sfioball.c' '(file already exists)'
+else
+  $echo 'x -' extracting 'bk_client-1.1/sfioball.c' '(text)'
+  sed 's/^X//' << 'SHAR_EOF' > 'bk_client-1.1/sfioball.c' &&
+/*
+X * Copyright (c) 2005 BitMover, Inc.
+X *
+X * Licensed under the NWL - No Whining License.
+X *
+X * You may use this, modify this, redistribute this provided you agree to:
+X * - not whine about it;
+X * - the fact that there is no warranty of any kind.
+X * - retain this copyright in full.
+X */
+X
+#include <ctype.h>
+#include <errno.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <netdb.h>
+#include <arpa/inet.h>
+X
+#define	min(x, y)	((x) < (y) ? (x) : (y))
+#define	unless(x)	if (!(x))
+X
+/*
+X * Connect to the TCP socket advertised as "port" on "host" and
+X * return the connected socket.
+X */
+int
+tcp_connect(char *host, int port)
+{
+X	struct	hostent *h;
+X	struct	sockaddr_in s;
+X	int	sock;
+X
+X	if ((sock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP)) < 0) {
+X		perror("socket");
+X		return (-1);
+X	}
+X	unless (h = gethostbyname(host)) return (-2);
+X	memset((void *) &s, 0, sizeof(s));
+X	s.sin_family = AF_INET;
+X	memmove((void *)&s.sin_addr, (void*)h->h_addr, h->h_length);
+X	s.sin_port = htons(port);
+X	if (connect(sock, (struct sockaddr*)&s, sizeof(s)) < 0) {
+X		return (-3);
+X	}
+X	return (sock);
+}
+X
+typedef	struct {
+X	int	port;
+X	char	host[500];
+X	char	repo[1024];
+} url;
+X
+int
+scanurl(url *u, char *p)
+{
+X	char	*t;
+X
+X	if (strncmp("bk://", p, 5)) return (1);
+X	u->repo[0] = 0;
+X	p += 5;
+X	unless (*p) return (1);
+X
+X	/* bk://hostname:port[/path] */
+X	if (t = strchr(p, ':')) {
+X		*t++ = 0;
+X		strcpy(u->host, p);
+X		u->port = atoi(t);
+X		for (p = t; isdigit(*p); p++);
+X		if (*p == '/') strcpy(u->repo, p+1);
+X		t[-1] = ':';
+X		return (0);
+X	}
+X	u->port = 0x3962;
+X	if (t = strchr(p, '/')) {
+X		*t++ = 0;
+X		strcpy(u->host, p);
+X		strcpy(u->repo, t);
+X		t[-1] = '/';
+X		return (0);
+X    	}
+X	strcpy(u->host, p);
+X	return (0);
+}
+X
+/* XXX - will buffer overflow with rogue input */
+void
+getline(int sock, char *buf)
+{
+X	int	i;
+X
+X	for (i = 0; ; i++) {
+X		unless (read(sock, &buf[i], 1) == 1) exit(1);
+X		if (buf[i] == '\n') {
+X			buf[i+1] = 0;
+X			break;
+X		}
+X	}
+}
+X
+void
+usage()
+{
+X	fprintf(stderr,
+X	    "usage: sfioball [-r<rev>] bk://host[:port][/path_to_repo] dest\n");
+X	exit(1);
+}
+X
+/*
+X * Get the sfioball and unpack it.
+X */
+int
+main(int ac, char **av)
+{
+X	int	sock, n, left, want, i, bytes;
+X	FILE	*f;
+X	char	buf[BUFSIZ];
+X	char	root[50], tip[50];
+X	url	u;
+X	int	c;
+X	char	*repo, *dst, *rev = "+";
+X
+X	while ((c = getopt(ac, av, "r:")) != -1) {
+X		switch (c) {
+X		    case 'r': rev = optarg; break;
+X		    default: usage();
+X		}
+X	}
+X
+X	unless ((ac - optind) == 2) usage();
+X
+X	repo = av[optind++];
+X	dst = av[optind];
+X
+X	if (scanurl(&u, repo) != 0) {
+X		fprintf(stderr, "Bad URL\n");
+X		exit(1);
+X	}
+X
+X	if (mkdir(dst, 0775)) {
+X		perror(dst);
+X		exit(1);
+X	}
+X	chdir(dst);
+X	unless ((sock = tcp_connect(u.host, u.port)) >= 0) {
+X		perror(repo);
+X		exit(1);
+X	}
+X	sprintf(buf, "putenv BK_VHOST=%s\n", u.host);
+X	if (write(sock, buf, strlen(buf)) != strlen(buf)) exit(1);
+X	if (u.repo[0]) {
+X		unless (write(sock, "cd ", 3) == 3) exit(1);
+X		unless (write(sock, u.repo, strlen(u.repo)) == strlen(u.repo)) {
+X			exit(1);
+X		}
+X		unless (write(sock, "\n", 1) == 1) exit(1);
+X	}
+X	sprintf(buf, "export -r%s\n", rev);
+X	unless (write(sock, buf, strlen(buf)) == strlen(buf)) exit(1);
+X	root[0] = tip[0] = 0;
+line:	getline(sock, buf);
+X	switch (buf[0]) {
+X	    case 'I':
+X		if (sscanf(buf, "INFO-ROOTKEY=%s\n", root) == 1) goto line;
+X		if (sscanf(buf, "INFO-TIPKEY=%s\n", tip) == 1) goto line;
+X		fprintf(stderr, "%s", buf);
+X		goto line;
+X	    case 'E':
+X		fprintf(stderr, "%s", buf);
+X		exit(1);
+X	    case 'O':
+X		fprintf(stderr, "%s", buf);
+X		goto line;
+X	    case '@': break;	/* @BLOCK ... */
+X	    default:
+X	    	exit(1);
+X	}
+X	unless (root[0] && tip[0]) {
+X		fprintf(stderr, "No keys?!?\n");
+X		exit(1);
+X	}
+X	unless (f = popen("gunzip | sfio", "w")) exit(1);
+X	while (sscanf(buf, "@BLOCK=%u@", &bytes) == 1) {
+X		do {
+X			switch (i = read(sock, buf, min(bytes, sizeof(buf)))) {
+X			    case 0: sleep(1); break;    // ???
+X			    case -1: perror("read"); break;
+X			    default:
+X				fwrite(buf, i, 1, f);
+X				bytes -= i;
+X				break;
+X			}
+X		} while (bytes > 0);
+X		getline(sock, buf);
+X	}
+X	pclose(f);
+X	if (buf[0] == 'O') {
+X		fprintf(stderr, "%s", buf);
+X		mkdir("BK", 0775);
+X		f = fopen("BK/keys", "w");
+X		fprintf(f, "ROOTKEY=%s\n", root);
+X		fprintf(f, "TIPKEY=%s\n", tip);
+X		fclose(f);
+X		rename("BitKeeper/tmp/ChangeLog", "BK/ChangeLog");
+X		rmdir("BitKeeper/tmp");
+X		rmdir("BitKeeper");
+X		while (read(sock, buf, 1) == 1) write(2, buf, 1);
+X		return (0);
+X	} else {
+X		fprintf(stderr, "Failed.\n");
+X		return (1);
+X	}
+}
+SHAR_EOF
+  (set 20 05 03 17 17 19 18 'bk_client-1.1/sfioball.c'; eval "$shar_touch") &&
+  chmod 0444 'bk_client-1.1/sfioball.c' ||
+  $echo 'restore of' 'bk_client-1.1/sfioball.c' 'failed'
+  if ( md5sum --help 2>&1 | grep 'sage: md5sum \[' ) >/dev/null 2>&1 \
+  && ( md5sum --version 2>&1 | grep -v 'textutils 1.12' ) >/dev/null; then
+    md5sum -c << SHAR_EOF >/dev/null 2>&1 \
+    || $echo 'bk_client-1.1/sfioball.c:' 'MD5 check failed'
+3382bfa63698548c994fee0cfbd5ca70  bk_client-1.1/sfioball.c
+SHAR_EOF
+  else
+    shar_count="`LC_ALL= LC_CTYPE= LANG= wc -c < 'bk_client-1.1/sfioball.c'`"
+    test 4509 -eq "$shar_count" ||
+    $echo 'bk_client-1.1/sfioball.c:' 'original size' '4509,' 'current size' "$shar_count!"
+  fi
+fi
+# ============= bk_client-1.1/sfio.c ==============
+if test -f 'bk_client-1.1/sfio.c' && test "$first_param" != -c; then
+  $echo 'x -' SKIPPING 'bk_client-1.1/sfio.c' '(file already exists)'
+else
+  $echo 'x -' extracting 'bk_client-1.1/sfio.c' '(text)'
+  sed 's/^X//' << 'SHAR_EOF' > 'bk_client-1.1/sfio.c' &&
+/*
+X * Copyright (c) 2005 BitMover, Inc.
+X *
+X * Licensed under the NWL - No Whining License.
+X *
+X * You may use this, modify this, redistribute this provided you agree to:
+X * - not whine about it;
+X * - the fact that there is no warranty of any kind;
+X * - retain this copyright in full.
+X *
+X * sfio - SCCS file transfer, kind of like cpio
+X *
+X * This:
+X *	bk sfiles | bk sfio -o | (cd /some/place/else && sfio -i)
+X * will move a bunch of files.  When it is done, all the sfiles are owned
+X * by uid/gid of the caller, and are 0444 mode.
+X *
+X * File format is
+X *	char	vers[10];
+X *	char	pathlen[4];
+X *	char	path[atoi(pathlen)];
+X *	char	datalen[10];
+X *	char	data[atoi(datalen)];
+X *	char	adler32[10];
+X *	char	mode[3];
+X * repeats, except for the version number.
+X *
+X * This is a stripped down version of the bk sfio command, does output only.
+X */
+#include "system.h"
+X
+#undef	unlink		/* I know the files are writable, I created them */
+X
+#define	SFIO_BSIZ	4096
+#define	SFIO_VERS	"SFIO vm1.4"	/* must be 10 bytes exactly */
+X
+char	*basenm(char *s);
+int	mkdirf(char *file);
+int	mkdirp(char *dir);
+int	mkfile(char *file);
+int	readn(int from, char *buf, int size);
+int	reserved(char *file);
+int	sfio_in(void);
+int	writen(int to, char *buf, int size);
+int	in_link(char *file, int pathlen);
+int	in_file(char *file, int todo);
+off_t	size(char *s);
+X
+X
+int	quiet;
+X
+int
+main(int ac, char **av)
+{
+X	int	c;
+X
+#ifdef	O_BINARY
+X	setmode(0, O_BINARY);
+#endif
+X
+X	if (ac == 2 && streq(av[1], "--help")) {
+X		system("bk help sfio");
+X		return (0);
+X	}
+X	while ((c = getopt(ac, av, "q")) != -1) {
+X		switch (c) {
+X		    case 'q': quiet = 1; break; 		/* doc 2.0 */
+X		    default: goto usage;
+X		}
+X	}
+X	return (sfio_in());
+X
+usage:	system("bk help -s sfio");
+X	return (1);
+}
+X
+/*
+X * sfio -i - produce a tree from an sfio on stdin
+X */
+int
+sfio_in(void)
+{
+X	char	buf[MAXPATH];
+X	char	datalen[11];
+X	int	len;
+X	int	n;
+X	off_t	byte_count = 0;
+X
+X	bzero(buf, sizeof(buf));
+X	if (readn(0, buf, 10) != 10) {
+X		perror("read");
+X		return (1);
+X	}
+X	unless (strneq(buf, SFIO_VERS, 10)) {
+X		fprintf(stderr,
+X		    "Version mismatch [%s]<>[%s]\n", buf, SFIO_VERS);
+X		return (1);
+X	}
+X	for (;;) {
+X		n = readn(0, buf, 4);
+X		if (n == 0) return (0);
+X		if (n != 4) {
+X			perror("read");
+X			return (1);
+X		}
+X		byte_count += n;
+X		buf[5] = 0;
+X		len = 0;
+X		sscanf(buf, "%04d", &len);
+X		if(len == 0) return (0); /* we got a EOF */
+X		if (len <= 0 || len >= MAXPATH) {
+X			fprintf(stderr, "Bad length in sfio\n");
+X			return (1);
+X		}
+X		if (readn(0, buf, len) != len) {
+X			perror("read");
+X			return (1);
+X		}
+X		byte_count += len;
+X		buf[len] = 0;
+X		if (readn(0, datalen, 10) != 10) {
+X			perror("read");
+X			return (1);
+X		}
+X		datalen[10] = 0;
+X		len = 0;
+X		if (strneq("SLNK00", datalen, 6)) {
+X			sscanf(&datalen[6], "%04d", &len);
+X			if (in_link(buf, len)) return (1);
+X		} else {
+X			sscanf(datalen, "%010d", &len);
+X			if (in_file(buf, len)) return (1);
+X		}
+X	}
+}
+X
+int
+in_link(char *file, int pathlen)
+{
+X	char	buf[MAXPATH];
+X	mode_t	mode = 0;
+X	u32	sum = 0, sum2 = 0;
+X	unsigned int imode;  /* mode_t might be a short */
+X
+X	unless (pathlen) {
+X		fprintf(stderr, "symlink with 0 length?\n");
+X		return (1);
+X	}
+X	if (readn(0, buf, pathlen) != pathlen) return (1);
+X	buf[pathlen] = 0;
+X	sum = adler32(0, buf, pathlen);
+X	if (symlink(buf, file)) {
+X		mkdirf(file);
+X		if (symlink(buf, file)) {
+X			perror(file);
+X			return (1);
+X		}
+X	}
+X	if (readn(0, buf, 10) != 10) {
+X		perror("chksum read");
+X		goto err;
+X	}
+X	sscanf(buf, "%010u", &sum2);
+X	if (sum != sum2) {
+X		fprintf(stderr,
+X		    "Checksum mismatch %u:%u for %s\n", sum, sum2, file);
+X		goto err;
+X	}
+X	if (readn(0, buf, 3) != 3) {
+X		perror("mode read");
+X		goto err;
+X	}
+X	sscanf(buf, "%03o", &imode);
+X	mode = imode;
+X	unless (quiet) fprintf(stderr, "%s\n", file);
+X	return (0);
+X
+err:	
+X	unlink(file);
+X	return (1);
+}
+X
+int
+in_file(char *file, int todo)
+{
+X	char	buf[SFIO_BSIZ];
+X	int	n;
+X	int	fd = -1;
+X	int	exists = 0;
+X	mode_t	mode = 0;
+X	u32	sum = 0, sum2 = 0;
+X
+X	fd = mkfile(file);
+X	/* do NOT jump to err, it unlinks and the file may exist */
+X	if (fd == -1) {
+X		if ((errno != EEXIST) || (size(file) != todo)) {
+X			perror(file);
+X			return (1);
+X		}
+X		exists = 1;
+X	}
+X	/* Don't try to read zero bytes.  */
+X	unless (todo) goto done;
+X	while ((n = readn(0, buf, min(todo, sizeof(buf)))) > 0) {
+X		todo -= n;
+X		sum = adler32(sum, buf, n);
+X		if (exists) continue;
+X		if (writen(fd, buf, n) != n) {
+X			perror(file);
+X			goto err;
+X		}
+X	}
+X	if (todo) {
+X		fprintf(stderr, "Premature EOF on %s\n", file);
+X		goto err;
+X	}
+done:	if (readn(0, buf, 10) != 10) {
+X		perror("chksum read");
+X		goto err;
+X	}
+X	sscanf(buf, "%010u", &sum2);
+X	if (sum != sum2) {
+X		fprintf(stderr,
+X		    "Checksum mismatch %u:%u for %s\n", sum, sum2, file);
+X		goto err;
+X	}
+X	if (1) {
+X		unsigned int imode;  /* mode_t might be a short */
+X		if (readn(0, buf, 3) != 3) {
+X			perror("mode read");
+X			goto err;
+X		}
+X		sscanf(buf, "%03o", &imode);
+X		mode = imode;
+X	}
+X	if (exists) {
+X		fprintf(stderr, "%s already exists.\n", file);
+X		return (1);
+X	} else {
+X		close(fd);
+X		chmod(file, mode & 0777);
+X	}
+X	unless (quiet) fprintf(stderr, "%s\n", file);
+X	return (0);
+X
+err:	
+X	close(fd);
+X	unlink(file);
+X	return (1);
+}
+X
+int
+mkfile(char *file)
+{
+X	int	fd;
+X	int	first = 1;
+X
+X	if (reserved(basenm(file))) {
+bad_name:	fprintf(stderr, "%s: reserved name\n", file);
+X		errno = EINVAL;
+X		return (-1);
+X	}
+X
+#ifdef WIN32
+X	/*
+X	 * Check trailing dot, this only happen when we clone
+X	 * from Unix to Windows
+X	 */
+X	if (file[strlen(file) -1 ] == '.') {
+X		fprintf(stderr, "%s: trailing dots are not allowed\n", file);
+X		errno = EINVAL;
+X		return (-1);
+X	}
+#endif
+X
+X	if (access(file, F_OK) == 0) return (-1);
+again:	fd = open(file, O_CREAT|O_EXCL|O_WRONLY, 0666);
+#ifdef	O_BINARY
+X	setmode(fd, O_BINARY);
+#endif
+X	if (fd != -1) return (fd);
+X	if (errno == EINVAL) goto bad_name;
+X	if (errno == EEXIST) {
+X		perror(file);
+X		return (-1);
+X	}
+X	if (first) {
+X		if (mkdirf(file)) {
+X			fputs("\n", stderr);
+X			perror(file);
+X			if (errno == EINVAL) goto bad_name;
+X		
+X		}
+X		first = 0;
+X		goto again;
+X	}
+X	return (-1);
+}
+X
+int
+writen(int to, char *buf, int size)
+{
+X        int     done;
+X        int     n;
+X
+X        for (done = 0; done < size; ) {
+X                n = write(to, buf + done, size - done);
+X                if (n <= 0) {
+X                        break;
+X                }
+X                done += n;
+X        }
+X        return (done);
+}
+X
+int
+readn(int from, char *buf, int size)
+{
+X        int     done;
+X        int     n;
+X
+X        for (done = 0; done < size; ) {
+X                n = read(from, buf + done, size - done);
+X                if (n <= 0) {
+X                        break;
+X                }
+X                done += n;
+X        }
+X        return (done);
+}
+X
+int
+isdir(char *s)
+{
+X	struct  stat sbuf;
+X
+X	if (lstat(s, &sbuf)) return (0);
+X	return (S_ISDIR(sbuf.st_mode));
+}
+X
+off_t
+size(char *s)
+{
+X	struct  stat sbuf;
+X
+X	if (lstat(s, &sbuf)) return (0);
+X	unless (S_ISREG(sbuf.st_mode)) return (0);
+X	return (sbuf.st_size);
+}
+X
+/*
+X * given a pathname, create the dirname if it doesn't exist.
+X */
+int
+mkdirf(char *file)
+{
+X        char    *s;
+X        int     ret;
+X
+X        unless (s = strrchr(file, '/')) return (0);
+X        *s = 0;
+X        if (isdir(file)) {
+X                *s = '/';
+X                return (0);
+X        }
+X        ret = mkdirp(file);
+X        *s = '/';
+X        return (ret);
+}
+X
+/*
+X * Given a pathname, make the directory.
+X */
+int
+mkdirp(char *dir)
+{
+X        char    *t;
+X        int     ret;
+X
+X	/* No absolute paths */
+X	assert(*dir && (*dir != '/'));
+X
+X        if (mkdir(dir, 0777) == 0) return (0);
+X        for (t = dir; *t; t++) {
+X		unless (*t == '/') continue;
+X                *t = 0;
+X		unless (isdir(dir)) {
+X                	if (ret = mkdir(dir, 0777)) {
+X                        	*t = '/';
+X                        	return (ret);
+X                	}
+X		}
+X                *t = '/';
+X        }
+X        return (mkdir(dir, 0777));
+}
+X
+char    *
+basenm(char *s)
+{
+X        char    *t;
+X
+X        for (t = s; *t; t++);
+X        do {
+X                t--;
+X        } while (*t != '/' && t > s);
+X        if (*t == '/') t++;
+X        return (t);
+}
+X
+int
+reserved(char *file)
+{
+#ifdef	WIN32
+X	Put whatever you need here for the reserved file crud
+#endif
+X	return (0);
+}
+SHAR_EOF
+  (set 20 05 03 17 17 19 05 'bk_client-1.1/sfio.c'; eval "$shar_touch") &&
+  chmod 0444 'bk_client-1.1/sfio.c' ||
+  $echo 'restore of' 'bk_client-1.1/sfio.c' 'failed'
+  if ( md5sum --help 2>&1 | grep 'sage: md5sum \[' ) >/dev/null 2>&1 \
+  && ( md5sum --version 2>&1 | grep -v 'textutils 1.12' ) >/dev/null; then
+    md5sum -c << SHAR_EOF >/dev/null 2>&1 \
+    || $echo 'bk_client-1.1/sfio.c:' 'MD5 check failed'
+b076afb571fdddbc7f80a9dff82aa3a5  bk_client-1.1/sfio.c
+SHAR_EOF
+  else
+    shar_count="`LC_ALL= LC_CTYPE= LANG= wc -c < 'bk_client-1.1/sfio.c'`"
+    test 8065 -eq "$shar_count" ||
+    $echo 'bk_client-1.1/sfio.c:' 'original size' '8065,' 'current size' "$shar_count!"
+  fi
+fi
+# ============= bk_client-1.1/system.h ==============
+if test -f 'bk_client-1.1/system.h' && test "$first_param" != -c; then
+  $echo 'x -' SKIPPING 'bk_client-1.1/system.h' '(file already exists)'
+else
+  $echo 'x -' extracting 'bk_client-1.1/system.h' '(text)'
+  sed 's/^X//' << 'SHAR_EOF' > 'bk_client-1.1/system.h' &&
+/*
+X * Copyright (c) 2005 BitMover, Inc.
+X *
+X * Licensed under the NWL - No Whining License.
+X *
+X * You may use this, modify this, redistribute this provided you agree to:
+X * - not whine about this product or any other products from BitMover, Inc.
+X * - the fact that there is no warranty of any kind.
+X * - retain this copyright in full.
+X */
+#ifndef _BK_SYSTEM_H
+#define _BK_SYSTEM_H
+X
+#include <stddef.h>
+#include <stdarg.h>
+#include <sys/types.h>
+#include <assert.h>
+#include <ctype.h>
+#include <errno.h>
+#include <setjmp.h>
+#include <signal.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <time.h>
+#include <fcntl.h>
+#include <sys/stat.h>
+#include <unistd.h>
+#include <zlib.h>
+X
+#define	private	static
+X
+#ifndef	isascii
+#define	isascii(x)	(((x) & ~0x7f) == 0)
+#endif
+X
+#ifndef	INT_MAX
+#define	INT_MAX	0x7fffffff
+#endif
+X
+#define	MAXLINE	2048
+#ifndef MAXPATH
+#define	MAXPATH	1024
+#endif
+#define	MAXKEY	(MAXPATH + 512)
+X
+#define BIG_PIPE 4096	/* 16K pipe buffer for win32, ingored on unix */
+X
+#define	max(a,b)	((a)>(b)?(a):(b))
+#define	min(a,b)	((a)<(b)?(a):(b))
+#define	bcopy(s,d,l)	memmove(d,s,l)
+#define	bcmp(a,b,l)	memcmp(a,b,l)
+#define	bzero(s,l)	memset(s,0,l)
+#undef creat
+#define creat(p,m)	open(p,O_CREAT|O_WRONLY|O_TRUNC,m)
+#define	streq(a,b)	(!strcmp(a,b))
+#define	strneq(a,b,n)	(!strncmp(a,b,n))
+#define setlinebuf(f)	setvbuf(f, NULL, _IOLBF, 0)
+#define	notnull(s)	((s) ? (s) : "")
+#define	unless(e)	if (!(e))
+#define fnext(buf, in)  fgets(buf, sizeof(buf), in)
+#define	executable(p)	(access(p, X_OK) == 0)
+X
+typedef	unsigned int	u32;
+typedef	unsigned short	u16;
+typedef	unsigned char	u8;
+X
+#endif /* _BK_SYSTEM_H */
+SHAR_EOF
+  (set 20 05 03 09 11 56 41 'bk_client-1.1/system.h'; eval "$shar_touch") &&
+  chmod 0444 'bk_client-1.1/system.h' ||
+  $echo 'restore of' 'bk_client-1.1/system.h' 'failed'
+  if ( md5sum --help 2>&1 | grep 'sage: md5sum \[' ) >/dev/null 2>&1 \
+  && ( md5sum --version 2>&1 | grep -v 'textutils 1.12' ) >/dev/null; then
+    md5sum -c << SHAR_EOF >/dev/null 2>&1 \
+    || $echo 'bk_client-1.1/system.h:' 'MD5 check failed'
+bd75baf088908a532b4847d670bb0dd4  bk_client-1.1/system.h
+SHAR_EOF
+  else
+    shar_count="`LC_ALL= LC_CTYPE= LANG= wc -c < 'bk_client-1.1/system.h'`"
+    test 1640 -eq "$shar_count" ||
+    $echo 'bk_client-1.1/system.h:' 'original size' '1640,' 'current size' "$shar_count!"
+  fi
+fi
+rm -fr _sh27459
+exit 0

@@ -1,0 +1,12 @@
+pkg SDL-1.2.7
+
+url http://www.libsdl.org/release/SDL-1.2.7.tar.gz
+
+build \
+    tar xzf SDL-1.2.7.tar.gz
+    cd SDL-1.2.7
+    ./configure --prefix=/usr --infodir=/usr/share/info --mandir=/usr/share/man \
+        --disable-shared --disable-esdtest --disable-esd-shared --disable-arts-shared --disable-video-x11 \
+        --disable-pth --disable-pthreads --disable-sdl-dlopen --without-x
+    make
+    make DESTDIR=$BPM_ROOT install

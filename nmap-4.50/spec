@@ -1,0 +1,12 @@
+pkg nmap-4.50
+
+url http://download.insecure.org/nmap/dist/nmap-4.50.tar.bz2
+    http://www.insecure.org/nmap/dist/sigs/nmap-4.50.tar.bz2.gpg.txt
+
+build \
+    tar xf nmap-4.50.tar.bz2
+    cd nmap-4.50
+    ./configure --prefix=/usr --mandir=/usr/share/man --without-nmapfe
+    perl -pi -le 's/$/ -lssl -lcrypto/ if /^LIBS/' Makefile
+    make
+    make prefix=$BPM_ROOT/usr mandir=$BPM_ROOT/usr/share/man install

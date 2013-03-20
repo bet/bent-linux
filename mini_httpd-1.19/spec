@@ -1,0 +1,10 @@
+pkg mini_httpd-1.19
+
+url http://www.acme.com/software/mini_httpd/mini_httpd-1.19.tar.gz
+
+build \
+    tar xf mini_httpd-1.19.tar.gz
+    cd mini_httpd-1.19
+    make SSL_TREE=/usr SSL_DEFS=-DUSE_SSL SSL_INC=/usr/include SSL_LIBS='-L/usr/lib -lssl -lcrypto' \
+        BINDIR=/usr/sbin MANDIR=/usr/share/man CFLAGS='-Os -DUSE_SSL' SYSV_LIBS=-lbind
+    make BINDIR=$BPM_ROOT/usr/sbin MANDIR=$BPM_ROOT/usr/share/man install

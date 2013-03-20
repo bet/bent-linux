@@ -1,0 +1,12 @@
+pkg dmidecode-2.9
+
+url http://download.savannah.gnu.org/releases/dmidecode/dmidecode-2.9.tar.bz2
+    http://download.savannah.gnu.org/releases/dmidecode/dmidecode-2.9.tar.bz2.sig
+
+build \
+    tar xf dmidecode-2.9.tar.bz2
+    cd dmidecode-2.9
+    make prefix=/usr
+    make prefix=/usr strip
+    make prefix=/usr DESTDIR=$BPM_ROOT install
+    rm -f $BPM_ROOT/usr/share/info/dir

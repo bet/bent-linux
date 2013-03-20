@@ -1,0 +1,11 @@
+pkg libedit-20070831-2.10
+
+url http://www.thrysoee.dk/editline/libedit-20070831-2.10.tar.gz
+
+build \
+    tar xzf libedit-20070831-2.10.tar.gz
+    cd libedit-20070831-2.10
+    ./configure --prefix=/usr --mandir=/usr/share/man --infodir=/usr/share/info
+    make
+    make DESTDIR=$BPM_ROOT install
+    rm -f $BPM_ROOT/usr/lib/libedit.so* $BPM_ROOT/usr/lib/libedit.la

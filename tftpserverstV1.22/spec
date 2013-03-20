@@ -1,0 +1,12 @@
+pkg tftpserverstV1.22
+
+url http://internap.dl.sourceforge.net/sourceforge/tftp-server/tftpserverstV1.22.tar.gz
+
+build \
+    tar xf tftpserverstV1.22.tar.gz
+    cd tftpserverst
+    g++ -Os -s --static tftpserver.cpp getServers.cpp -otftpserver -lpthread
+    mkdir -p $BPM_ROOT/usr/sbin
+    mv tftpserver $BPM_ROOT/usr/sbin/
+    mkdir -p $BPM_ROOT/usr/share/doc/tftpserverstV1.22
+    mv Licence.txt README tftpserver.ini $BPM_ROOT/usr/share/doc/tftpserverstV1.22/

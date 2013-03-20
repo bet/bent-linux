@@ -1,0 +1,20 @@
+pkg tinyscheme-1.35
+
+url http://tinyscheme.sourceforge.net/tinyscheme-1.35.tar.gz
+    tinyscheme-1.35.patch
+
+build \
+    tar xf tinyscheme-1.35.tar.gz
+    cd tinyscheme-1.35
+    patch -p1 <../tinyscheme-1.35.patch
+    make
+    mkdir -p $BPM_ROOT/usr/bin
+    install -s scheme $BPM_ROOT/usr/bin
+    mkdir -p $BPM_ROOT/usr/share/tinyscheme
+    cp init.scm $BPM_ROOT/usr/share/tinyscheme
+    mkdir -p $BPM_ROOT/usr/lib
+    cp libtinyscheme.a $BPM_ROOT/usr/lib/
+    mkdir -p $BPM_ROOT/usr/include
+    cp scheme.h $BPM_ROOT/usr/include/
+    mkdir -p $BPM_ROOT/usr/share/doc/tinyscheme-1.35
+    cp building changes copying hack.txt manual.txt $BPM_ROOT/usr/share/doc/tinyscheme-1.35/

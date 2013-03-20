@@ -1,0 +1,13 @@
+pkg socat-1.6.0.0
+
+url http://www.dest-unreach.org/socat/download/socat-1.6.0.0.tar.bz2
+    http://www.dest-unreach.org/socat/download.md5sum.asc
+
+build \
+    tar xjf socat-1.6.0.0.tar.bz2
+    cd socat-1.6.0.0
+    CFLAGS=-Os LDFLAGS=-s ./configure --prefix=/usr --mandir=/usr/share/man
+    make 'LIBS=-lutil -lreadline -lcurses -lssl -lcrypto -lbind'
+    mkdir -p $BPM_ROOT/usr/bin $BPM_ROOT/usr/share/man/man1
+    make DESTDIR=$BPM_ROOT install
+    strip $BPM_ROOT/usr/bin/*

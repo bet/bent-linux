@@ -1,0 +1,7 @@
+pkg replay
+
+url http://egbok.com/sudoscript/replay
+
+build \
+    mkdir -p $BPM_ROOT/usr/bin
+    install -m 0755 replay $BPM_ROOT/usr/bin/

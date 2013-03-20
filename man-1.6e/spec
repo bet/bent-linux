@@ -1,0 +1,14 @@
+pkg man-1.6e
+
+url http://primates.ximian.com/~flucifredi/man/man-1.6e.tar.gz 
+
+build \
+    tar xf man-1.6e.tar.gz
+    cd man-1.6e
+    ./configure -d +lang none
+    make
+    cd src
+    rm man
+    make -n|sed 's/$/ -static/'|sh -x
+    cd ..
+    make DESTDIR=$BPM_ROOT install

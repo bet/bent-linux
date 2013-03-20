@@ -1,0 +1,12 @@
+diff -ru git-1.5.1.2.orig/Makefile git-1.5.1.2/Makefile
+--- git-1.5.1.2.orig/Makefile	2007-04-22 05:37:24.000000000 +0000
++++ git-1.5.1.2/Makefile	2007-04-25 14:27:00.000000000 +0000
+@@ -467,7 +467,7 @@
+ 		BASIC_CFLAGS += -I$(CURLDIR)/include
+ 		CURL_LIBCURL = -L$(CURLDIR)/lib $(CC_LD_DYNPATH)$(CURLDIR)/lib -lcurl
+ 	else
+-		CURL_LIBCURL = -lcurl
++		CURL_LIBCURL = -lcurl -lssl -lcrypto
+ 	endif
+ 	PROGRAMS += git-http-fetch$X
+ 	curl_check := $(shell (echo 070908; curl-config --vernum) | sort -r | sed -ne 2p)

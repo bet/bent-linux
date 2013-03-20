@@ -1,0 +1,14 @@
+pkg dietlibc-0.30
+
+url http://www.kernel.org/pub/linux/libs/dietlibc/dietlibc-0.30.tar.bz2
+    http://www.kernel.org/pub/linux/libs/dietlibc/dietlibc-0.30.tar.bz2.sign
+
+build \
+    tar xjf dietlibc-0.30.tar.bz2
+    cd dietlibc-0.30
+    make prefix=/usr/diet
+    make prefix=$BPM_ROOT/usr/diet install
+    mkdir $BPM_ROOT/usr/share
+    mv $BPM_ROOT/usr/diet/man $BPM_ROOT/usr/share/
+    mkdir -p $BPM_ROOT/usr/bin
+    ln -s /usr/diet/bin/diet $BPM_ROOT/usr/bin/

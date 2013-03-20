@@ -1,0 +1,12 @@
+pkg pfqueue-0.5.6
+
+url http://superb-east.dl.sourceforge.net/sourceforge/pfqueue/pfqueue-0.5.6.tar.gz
+
+build \
+    tar xf pfqueue-0.5.6.tar.gz
+    cd pfqueue-0.5.6
+    CFLAGS=-Os LDFLAGS=-s ./configure --prefix=/usr --mandir=/usr/share/man \
+        --enable-static --disable-shared
+    make
+    make DESTDIR=$BPM_ROOT install
+    rm -r $BPM_ROOT/usr/lib

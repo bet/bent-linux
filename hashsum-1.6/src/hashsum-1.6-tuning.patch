@@ -1,0 +1,36 @@
+diff -ru hashsum.orig/Makefile hashsum/Makefile
+--- hashsum.orig/Makefile	2004-01-08 23:16:28.000000000 +0000
++++ hashsum/Makefile	2005-02-17 21:10:41.000000000 +0000
+@@ -1,11 +1,11 @@
+ CCC		=gcc
+ FLAGS		=-DLINUX32
+ FLAGS		+=-DHASHCOM_BASIC_API
+-#FLAGS		+=-DHASHCOM_SMALL
+-FLAGS		+=-DHASHCOM_REASONABLE
++FLAGS		+=-DHASHCOM_SMALL
++#FLAGS		+=-DHASHCOM_REASONABLE
+ #FLAGS		+=-DHASHCOM_LARGE
+ WARNINGS	=-Wall -Werror -ansi
+-OPTS		=-O3 -s
++OPTS		=-Os -s
+ INCLUDE		=
+ HASH_OBJS	=hasher/hashcom.o hasher/hasher.o hasher/md5.o hasher/sha1.o hasher/sha256.o hasher/sha384.o hasher/sha512.o hasher/ripemd160.o
+ 
+diff -ru hashsum.orig/hasher/Makefile hashsum/hasher/Makefile
+--- hashsum.orig/hasher/Makefile	2004-01-08 23:04:42.000000000 +0000
++++ hashsum/hasher/Makefile	2005-02-17 21:11:28.000000000 +0000
+@@ -1,11 +1,11 @@
+ CCC		=gcc
+ FLAGS		=-DLINUX32
+ FLAGS		+=-DHASHCOM_BASIC_API
+-#FLAGS		+=-DHASHCOM_SMALL
+-FLAGS		+=-DHASHCOM_REASONABLE
++FLAGS		+=-DHASHCOM_SMALL
++#FLAGS		+=-DHASHCOM_REASONABLE
+ #FLAGS		+=-DHASHCOM_LARGE
+ WARNINGS	=-Wall -Werror -ansi
+-OPTS		=-O3 -s
++OPTS		=-Os -s
+ INCLUDE		=
+ HASH_OBJS	=hashcom.o hasher.o md5.o sha1.o sha256.o sha384.o sha512.o ripemd160.o
+ HASH_APPS	=md5_test sha1_test sha256_test sha384_test sha512_test ripemd160_test hasher_test

@@ -1,0 +1,14 @@
+pkg femail-0.97
+
+url http://unduli.bsws.de/femail/femail-0.97.tgz
+
+build \
+    tar xf femail-0.97.tgz
+    cd femail-0.97
+    perl -pi -le 's/^/#/ if /HAS_FGETLN/' Makefile
+    make 'CFLAGS=--include /usr/include/signal.h -Os'
+    strip femail
+    mkdir -p $BPM_ROOT/usr/bin
+    mv femail $BPM_ROOT/usr/bin/
+    mkdir -p $BPM_ROOT/usr/share/man/man8
+    : mv femail.8 $BPM_ROOT/usr/share/man/man8/

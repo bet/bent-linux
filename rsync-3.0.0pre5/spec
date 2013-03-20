@@ -1,0 +1,12 @@
+pkg rsync-3.0.0pre5
+
+url http://rsync.samba.org/ftp/rsync/rsync-3.0.0pre5.tar.gz
+    http://rsync.samba.org/ftp/rsync/rsync-3.0.0pre5.tar.gz.asc
+
+build \
+    tar xzf rsync-3.0.0pre5.tar.gz
+    cd rsync-3.0.0pre5
+    ./configure --prefix=/usr --sysconfdir=/etc --infodir=/usr/share/info \
+        --mandir=/usr/share/man
+    make 'LIBS=-lresolv -lbind'
+    make DESTDIR=$BPM_ROOT install

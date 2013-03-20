@@ -1,0 +1,12 @@
+pkg lynx-2.8.7dev.7
+
+url http://lynx.isc.org/current/lynx2.8.7dev.7.tar.bz2
+
+build \
+    tar xf lynx2.8.7dev.7.tar.bz2
+    cd lynx2-8-7
+    ./configure --prefix=/usr --infodir=/usr/share/info --mandir=/usr/share/man \
+        --disable-nls --with-ssl --with-screen=slang
+    make
+    make DESTDIR=$BPM_ROOT install install-help install-doc
+    rm -f $BPM_ROOT/usr/share/info/dir

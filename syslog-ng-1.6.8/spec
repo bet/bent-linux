@@ -1,0 +1,22 @@
+pkg syslog-ng-1.6.8
+
+url http://www.balabit.com/downloads/syslog-ng/1.6/src/syslog-ng-1.6.8.tar.gz
+    http://www.balabit.com/downloads/libol/0.3/libol-0.3.16.tar.gz
+
+build \
+    tar xzf libol-0.3.16.tar.gz
+    cd libol-0.3.16
+    ./configure --disable-shared
+    make
+    cd ..
+    tar xzf syslog-ng-1.6.8.tar.gz
+    cd syslog-ng-1.6.8
+    ./configure --with-libol=`pwd`/../libol-0.3.16 --prefix=/usr --mandir=/usr/share/man
+    find . -name Makefile | xargs perl -pi -le 's/$/ -lbind/ if /^LIBS\s*=/'
+    make
+    make DESTDIR=$BPM_ROOT install
+    tar xzf doc/sgml/syslog-ng.html.tar.gz
+    mkdir -p $BPM_ROOT/usr/share/doc/syslog-ng-1.6.8/html
+    cp syslog-ng.html/* $BPM_ROOT/usr/share/doc/syslog-ng-1.6.8/html/
+    cp doc/sgml/syslog-ng.txt $BPM_ROOT/usr/share/doc/syslog-ng-1.6.8/
+    cp doc/stresstest.sh doc/syslog-ng.conf.* doc/syslog-ng.old.txt $BPM_ROOT/usr/share/doc/syslog-ng-1.6.8/

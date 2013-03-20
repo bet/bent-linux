@@ -1,0 +1,12 @@
+pkg cpio-2.4.2
+
+url http://ftp.gnu.org/gnu/cpio/cpio-2.4.2.tar.gz
+    cpio-2.4.2-uclibc.patch
+build \
+    tar xf cpio-2.4.2.tar.gz
+    cd cpio-2.4.2
+    patch -p1 <../cpio-2.4.2-uclibc.patch
+    CFLAGS=-Os LDFLAGS=-s ./configure --prefix=/usr --mandir=/usr/share/man --infodir=/usr/share/info
+    make
+    make prefix=$BPM_ROOT/usr infodir=$BPM_ROOT/usr/share/info mandir=$BPM_ROOT/usr/share/man/man1 install
+    rm -f $BPM_ROOT/usr/share/info/dir

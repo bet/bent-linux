@@ -1,0 +1,13 @@
+pkg socketpipe-1.7
+
+url http://www.spinellis.gr/sw/unix/socketpipe/socketpipe-1.7.tar.gz
+
+build \
+    tar xf socketpipe-1.7.tar.gz
+    cd socketpipe-1.7
+    make '-s'
+    mkdir -p $BPM_ROOT/usr/bin
+    mv socketpipe $BPM_ROOT/usr/bin/
+    mkdir -p $BPM_ROOT/usr/share/man/man1
+    cp socketpipe.1 $BPM_ROOT/usr/share/man/man1/
+    strip $BPM_ROOT/usr/bin/socketpipe

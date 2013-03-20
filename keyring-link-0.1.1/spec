@@ -1,0 +1,14 @@
+pkg keyring-link-0.1.1
+
+url http://cogent.dl.sourceforge.net/sourceforge/gnukeyring/keyring-link-0.1.1.tar.gz
+    keyring-link-0.1.1-bent.patch
+
+build \
+    tar xf keyring-link-0.1.1.tar.gz
+    cd keyring-link-0.1.1
+    rm keyring-link
+    patch -p1 <../keyring-link-0.1.1-bent.patch
+    make
+    mkdir -p $BPM_ROOT/usr/bin
+    make DESTDIR=$BPM_ROOT install
+    strip $BPM_ROOT/usr/bin/*

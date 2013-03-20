@@ -1,0 +1,8 @@
+pkg man-pages-1.60
+
+url ftp://ftp.kernel.org/pub/linux/docs/manpages/man-pages-1.60.tar.bz2
+
+build \
+    tar xjf man-pages-1.60.tar.bz2
+    cd man-pages-1.60
+    make prefix=$BPM_ROOT install

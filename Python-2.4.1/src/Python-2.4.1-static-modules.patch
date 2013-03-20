@@ -1,0 +1,223 @@
+diff -ru Python-2.4.1.orig/Modules/Setup Python-2.4.1/Modules/Setup
+--- Python-2.4.1.orig/Modules/Setup	2005-03-31 17:08:05.000000000 +0000
++++ Python-2.4.1/Modules/Setup	2005-03-31 17:05:27.000000000 +0000
+@@ -157,69 +157,69 @@
+ # it, depending on your system -- see the GNU readline instructions.
+ # It's okay for this to be a shared library, too.
+ 
+-#readline readline.c -lreadline -ltermcap
++readline readline.c -lreadline -ltermcap
+ 
+ 
+ # Modules that should always be present (non UNIX dependent):
+ 
+-#array arraymodule.c	# array objects
+-#cmath cmathmodule.c # -lm # complex math library functions
+-#math mathmodule.c # -lm # math library functions, e.g. sin()
+-#struct structmodule.c	# binary structure packing/unpacking
+-#time timemodule.c # -lm # time operations and variables
+-#operator operator.c	# operator.add() and similar goodies
+-#_weakref _weakref.c	# basic weak reference support
+-#_testcapi _testcapimodule.c    # Python C API test module
+-#_random _randommodule.c	# Random number generator
+-#collections collectionsmodule.c # Container types
+-#itertools itertoolsmodule.c	# Functions creating iterators for efficient looping 
+-#strop stropmodule.c		# String manipulations
++array arraymodule.c	# array objects
++cmath cmathmodule.c # -lm # complex math library functions
++math mathmodule.c # -lm # math library functions, e.g. sin()
++struct structmodule.c	# binary structure packing/unpacking
++time timemodule.c # -lm # time operations and variables
++operator operator.c	# operator.add() and similar goodies
++_weakref _weakref.c	# basic weak reference support
++_testcapi _testcapimodule.c    # Python C API test module
++_random _randommodule.c	# Random number generator
++collections collectionsmodule.c # Container types
++itertools itertoolsmodule.c	# Functions creating iterators for efficient looping 
++strop stropmodule.c		# String manipulations
+ 
+-#unicodedata unicodedata.c    # static Unicode character database
++unicodedata unicodedata.c    # static Unicode character database
+ 
+ # access to ISO C locale support
+-#_locale _localemodule.c  # -lintl
++_locale _localemodule.c -lintl -liconv
+ 
+ 
+ # Modules with some UNIX dependencies -- on by default:
+ # (If you have a really backward UNIX, select and socket may not be
+ # supported...)
+ 
+-#fcntl fcntlmodule.c	# fcntl(2) and ioctl(2)
+-#pwd pwdmodule.c		# pwd(3) 
+-#grp grpmodule.c		# grp(3)
+-#select selectmodule.c	# select(2); not on ancient System V
++fcntl fcntlmodule.c	# fcntl(2) and ioctl(2)
++pwd pwdmodule.c		# pwd(3) 
++grp grpmodule.c		# grp(3)
++select selectmodule.c	# select(2); not on ancient System V
+ 
+ # Memory-mapped files (also works on Win32).
+-#mmap mmapmodule.c
++mmap mmapmodule.c
+ 
+ # CSV file helper
+-#_csv _csv.c
++_csv _csv.c
+ 
+ # Socket module helper for socket(2)
+-#_socket socketmodule.c
++_socket socketmodule.c
+ 
+ # Socket module helper for SSL support; you must comment out the other
+ # socket line above, and possibly edit the SSL variable:
+-#SSL=/usr/local/ssl
+-#_ssl _ssl.c \
+-#	-DUSE_SSL -I$(SSL)/include -I$(SSL)/include/openssl \
+-#	-L$(SSL)/lib -lssl -lcrypto
++SSL=/usr
++_ssl _ssl.c \
++	-DUSE_SSL -I$(SSL)/include -I$(SSL)/include/openssl \
++	-L$(SSL)/lib -lssl -lcrypto
+ 
+ # The crypt module is now disabled by default because it breaks builds
+ # on many systems (where -lcrypt is needed), e.g. Linux (I believe).
+ #
+ # First, look at Setup.config; configure may have set this for you.
+ 
+-#crypt cryptmodule.c # -lcrypt	# crypt(3); needs -lcrypt on some systems
++crypt cryptmodule.c # -lcrypt	# crypt(3); needs -lcrypt on some systems
+ 
+ 
+ # Some more UNIX dependent modules -- off by default, since these
+ # are not supported by all UNIX systems:
+ 
+ #nis nismodule.c -lnsl	# Sun yellow pages -- not everywhere
+-#termios termios.c	# Steen Lumholt's termios module
+-#resource resource.c	# Jeremy Hylton's rlimit interface
++termios termios.c	# Steen Lumholt's termios module
++resource resource.c	# Jeremy Hylton's rlimit interface
+ 
+ 
+ # Multimedia modules -- off by default.
+@@ -227,21 +227,21 @@
+ # #993173 says audioop works on 64-bit platforms, though.
+ # These represent audio samples or images as strings:
+ 
+-#audioop audioop.c	# Operations on audio samples
+-#imageop imageop.c	# Operations on images
+-#rgbimg rgbimgmodule.c	# Read SGI RGB image files (but coded portably)
++audioop audioop.c	# Operations on audio samples
++imageop imageop.c	# Operations on images
++rgbimg rgbimgmodule.c	# Read SGI RGB image files (but coded portably)
+ 
+ 
+ # The md5 module implements the RSA Data Security, Inc. MD5
+ # Message-Digest Algorithm, described in RFC 1321.  The necessary files
+ # md5c.c and md5.h are included here.
+ 
+-#md5 md5module.c md5c.c
++md5 md5module.c md5c.c
+ 
+ 
+ # The sha module implements the SHA checksum algorithm.
+ # (NIST's Secure Hash Algorithm.)
+-#sha shamodule.c
++sha shamodule.c
+ 
+ 
+ # SGI IRIX specific modules -- off by default.
+@@ -288,12 +288,12 @@
+ # A Linux specific module -- off by default; this may also work on 
+ # some *BSDs.
+ 
+-#linuxaudiodev linuxaudiodev.c
++linuxaudiodev linuxaudiodev.c
+ 
+ 
+ # George Neville-Neil's timing module:
+ 
+-#timing timingmodule.c
++timing timingmodule.c
+ 
+ 
+ # The _tkinter module.
+@@ -340,7 +340,7 @@
+ #	-lX11
+ 
+ # Lance Ellinghaus's syslog module
+-#syslog syslogmodule.c		# syslog daemon interface
++syslog syslogmodule.c		# syslog daemon interface
+ 
+ 
+ # Curses support, requring the System V version of curses, often
+@@ -349,9 +349,9 @@
+ #
+ # First, look at Setup.config; configure may have set this for you.
+ 
+-#_curses _cursesmodule.c -lcurses -ltermcap
++_curses _cursesmodule.c -lncurses
+ # Wrapper for the panel library that's part of ncurses and SYSV curses.
+-#_curses_panel _curses_panel.c -lpanel -lncurses 
++_curses_panel _curses_panel.c -lpanel -lncurses 
+ 
+ 
+ # Generic (SunOS / SVR4) dynamic loading module.
+@@ -382,7 +382,7 @@
+ #
+ # First, look at Setup.config; configure may have set this for you.
+ 
+-#gdbm gdbmmodule.c -I/usr/local/include -L/usr/local/lib -lgdbm
++gdbm gdbmmodule.c -lgdbm
+ 
+ 
+ # Sleepycat Berkeley DB interface.
+@@ -416,14 +416,14 @@
+ 
+ 
+ # Helper module for various ascii-encoders
+-#binascii binascii.c
++binascii binascii.c
+ 
+ # Fred Drake's interface to the Python parser
+-#parser parsermodule.c
++parser parsermodule.c
+ 
+ # cStringIO and cPickle
+-#cStringIO cStringIO.c
+-#cPickle cPickle.c
++cStringIO cStringIO.c
++cPickle cPickle.c
+ 
+ 
+ # Lee Busby's SIGFPE modules.
+@@ -438,15 +438,15 @@
+ #fpectl fpectlmodule.c -R/opt/SUNWspro/lib -lsunmath -lm
+ 
+ # For other systems: see instructions in fpectlmodule.c.
+-#fpectl fpectlmodule.c ...
++fpectl fpectlmodule.c
+ 
+ # Test module for fpectl.  No extra libraries needed.
+-#fpetest fpetestmodule.c
++fpetest fpetestmodule.c
+ 
+ # Andrew Kuchling's zlib module.
+ # This require zlib 1.1.3 (or later).
+ # See http://www.gzip.org/zlib/
+-#zlib zlibmodule.c -I$(prefix)/include -L$(exec_prefix)/lib -lz
++zlib zlibmodule.c -lz
+ 
+ # Interface to the Expat XML parser
+ #
+@@ -459,8 +459,8 @@
+ #
+ # More information on Expat can be found at www.libexpat.org.
+ #
+-#EXPAT_DIR=/usr/local/src/expat-1.95.2
+-#pyexpat pyexpat.c -DHAVE_EXPAT_H -I$(EXPAT_DIR)/lib -L$(EXPAT_DIR) -lexpat
++EXPAT_DIR=/usr
++pyexpat pyexpat.c -DHAVE_EXPAT_H -I$(EXPAT_DIR)/lib -L$(EXPAT_DIR) -lexpat
+ 
+ 
+ # Hye-Shik Chang's CJKCodecs

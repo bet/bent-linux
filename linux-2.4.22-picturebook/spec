@@ -1,0 +1,27 @@
+pkg linux-2.4.22-picturebook
+
+url http://www.us.kernel.org/pub/linux/kernel/v2.4/linux-2.4.22.tar.bz2
+    linux-2.4.22-picturebook-config
+    vaio-20030825.diff.bz2
+
+build \
+    tar xjf linux-2.4.22.tar.bz2
+    cd linux-2.4.22
+    bzip2 -d <../vaio-20030825.diff.bz2|patch -p1
+    make mrproper
+    cp ../linux-2.4.22-picturebook-config .config
+    yes '' | make oldconfig
+    make dep
+    make bzImage modules
+    mkdir -p $BPM_ROOT/boot
+    cp arch/i386/boot/bzImage $BPM_ROOT/boot/vmlinuz-2.4.22
+    cp System.map $BPM_ROOT/boot/System.map-2.4.22
+    mkdir -p $BPM_ROOT/lib/modules
+    make INSTALL_MOD_PATH=$BPM_ROOT modules_install || true
+    mkdir -p $BPM_ROOT/usr/share/doc/linux-2.4.22
+    cp -R Documentation/* $BPM_ROOT/usr/share/doc/linux-2.4.22
+    make clean
+    mkdir -p $BPM_ROOT/usr/src/linux-2.4.22
+    find . -depth|cpio -pdl $BPM_ROOT/usr/src/linux-2.4.22/
+    ln -s linux-2.4.22 $BPM_ROOT/usr/src/linux
+

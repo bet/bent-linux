@@ -1,0 +1,7 @@
+pkg bpf-hdr
+
+url bpf.h
+
+build \
+    mkdir -p $BPM_ROOT/usr/include/net
+    mv bpf.h $BPM_ROOT/usr/include/net/

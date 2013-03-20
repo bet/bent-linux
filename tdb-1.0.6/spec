@@ -1,0 +1,11 @@
+pkg tdb-1.0.6
+
+url http://download.sf.net/tdb/tdb-1.0.6.tar.gz
+    tdb-1.0.6-patch
+build \
+    tar xzf tdb-1.0.6.tar.gz
+    cd tdb-1.0.6
+    patch -p1 <../tdb-1.0.6-patch
+    ./configure --prefix=/usr --mandir=/usr/share/man --disable-shared
+    make TDBTEST=
+    make TDBTEST= DESTDIR=$BPM_ROOT install

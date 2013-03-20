@@ -1,0 +1,16 @@
+pkg elinks-0.11.3
+
+url http://elinks.or.cz/download/elinks-0.11.3.tar.bz2
+
+build \
+    tar xjf elinks-0.11.3.tar.bz2
+    cd elinks-0.11.3
+    LDFLAGS='-static' CFLAGS=-g ./configure --prefix=/usr \
+        --mandir=/usr/share/man --without-gpm --without-lua --disable-ipv6 \
+        --disable-nls --enable-debug
+    make 'LDFLAGS=-static' 'LIBS=-lssl -lcrypto  -lz -lbz2 -lexpat -lbind'
+    mkdir -p $BPM_ROOT/usr/bin $BPM_ROOT/usr/share/man/man1 $BPM_ROOT/usr/share/man/man5
+    make DESTDIR=$BPM_ROOT 'LDFLAGS=-static' 'LIBS=-lssl -lcrypto  -lz -lbz2 -lexpat -lbind' install
+    mkdir -p $BPM_ROOT/usr/share/doc/elinks-0.11.3
+    cp doc/*.txt doc/html/*.html $BPM_ROOT/usr/share/doc/elinks-0.11.3/
+    strip $BPM_ROOT/usr/bin/elinks

@@ -1,0 +1,661 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Configuring darcs</TITLE>
+<META NAME="description" CONTENT="Configuring darcs">
+<META NAME="keywords" CONTENT="darcs">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="darcs.css">
+
+<LINK REL="next" HREF="node6.html">
+<LINK REL="previous" HREF="node4.html">
+<LINK REL="up" HREF="darcs.html">
+<LINK REL="next" HREF="node6.html">
+</HEAD>
+
+<BODY >
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html356"
+  HREF="node6.html">
+<IMG WIDTH="22" HEIGHT="22" title="Next"  ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="./next.png"></A> 
+<A NAME="tex2html352"
+  HREF="darcs.html">
+<IMG WIDTH="22" HEIGHT="22" title="Up"  ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="./up.png"></A> 
+<A NAME="tex2html346"
+  HREF="node4.html">
+<IMG WIDTH="22" HEIGHT="22" title="Previous"  ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="./prev.png"></A> 
+<A NAME="tex2html354"
+  HREF="node1.html">
+<IMG WIDTH="22" HEIGHT="22" title="Contents"  ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="./contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html357"
+  HREF="node6.html">Best practices</A>
+<B> Up:</B> <A NAME="tex2html353"
+  HREF="darcs.html">Darcs 1.0.7 (release) Darcs</A>
+<B> Previous:</B> <A NAME="tex2html347"
+  HREF="node4.html">Getting started</A>
+ &nbsp; <B>  <A NAME="tex2html355"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR></DIV>
+<!--End of Navigation Panel-->
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL CLASS="ChildLinks">
+<LI><A NAME="tex2html358"
+  HREF="node5.html#SECTION00510000000000000000">prefs</A>
+<UL>
+<LI><A NAME="tex2html359"
+  HREF="node5.html#SECTION00510010000000000000">defaults</A>
+<LI><A NAME="tex2html360"
+  HREF="node5.html#SECTION00510020000000000000">repos</A>
+<LI><A NAME="tex2html361"
+  HREF="node5.html#SECTION00510030000000000000">author</A>
+<LI><A NAME="tex2html362"
+  HREF="node5.html#SECTION00510040000000000000">boring</A>
+<LI><A NAME="tex2html363"
+  HREF="node5.html#SECTION00510050000000000000">binaries</A>
+<LI><A NAME="tex2html364"
+  HREF="node5.html#SECTION00510060000000000000">email</A>
+<LI><A NAME="tex2html365"
+  HREF="node5.html#SECTION00510070000000000000">motd</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html366"
+  HREF="node5.html#SECTION00520000000000000000">Environment variables</A>
+<UL>
+<LI><A NAME="tex2html367"
+  HREF="node5.html#SECTION00520010000000000000">DARCS_EMAIL</A>
+<LI><A NAME="tex2html368"
+  HREF="node5.html#SECTION00520020000000000000">DARCS_EDITOR</A>
+<LI><A NAME="tex2html369"
+  HREF="node5.html#SECTION00520030000000000000">DARCS_TMPDIR</A>
+<LI><A NAME="tex2html370"
+  HREF="node5.html#SECTION00520040000000000000">HOME</A>
+<LI><A NAME="tex2html371"
+  HREF="node5.html#SECTION00520050000000000000">TERM</A>
+<LI><A NAME="tex2html372"
+  HREF="node5.html#SECTION00520060000000000000">SSH_PORT</A>
+<LI><A NAME="tex2html373"
+  HREF="node5.html#SECTION00520070000000000000">DARCS_SSH</A>
+<LI><A NAME="tex2html374"
+  HREF="node5.html#SECTION00520080000000000000">DARCS_SCP and DARCS_SFTP</A>
+<LI><A NAME="tex2html375"
+  HREF="node5.html#SECTION00520090000000000000">DARCS_PROXYUSERPWD</A>
+<LI><A NAME="tex2html376"
+  HREF="node5.html#SECTION005200100000000000000">DARCS_GET_FOO, DARCS_MGET_FOO and DARCS_APPLY_FOO</A>
+<LI><A NAME="tex2html377"
+  HREF="node5.html#SECTION005200110000000000000">DARCS_MGETMAX</A>
+<LI><A NAME="tex2html378"
+  HREF="node5.html#SECTION005200120000000000000">DARCS_WGET</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html379"
+  HREF="node5.html#SECTION00530000000000000000">Highlighted output</A>
+<LI><A NAME="tex2html380"
+  HREF="node5.html#SECTION00540000000000000000">Character escaping and non-ASCII character encodings</A>
+</UL>
+<!--End of Table of Child-Links-->
+<HR>
+
+<H1><A NAME="SECTION00500000000000000000"></A><A NAME="configuring"></A>
+<BR>
+Configuring darcs
+</H1>
+
+<P>
+There are several ways you can adjust darcs' behavior to suit your needs.
+The first is to edit files in the <code>_darcs/prefs/</code> directory of a
+repository.  Such configuration only applies when working with that
+repository.  To configure darcs on a per-user rather than per-repository
+basis (but with essentially the same methods), you can edit (or create)
+files in the <code>~/.darcs/</code> directory.  Finally, the behavior of some
+darcs commands can be modified by setting appropriate environment
+variables.
+
+<P>
+
+<H1><A NAME="SECTION00510000000000000000">
+prefs</A>
+</H1>
+
+<P>
+The <code>_darcs</code> directory contains a <code>prefs</code>  directory.  This
+directory exists simply to hold user configuration settings specific to
+this repository.  The contents of this directory are intended to be
+modifiable by the user, although in some cases a mistake in such a
+modification may cause darcs to behave strangely.
+
+<P>
+
+<H4><A NAME="SECTION00510010000000000000"></A><A NAME="defaults"></A>
+<BR>
+defaults
+</H4>
+
+<P>
+Default values for darcs commands can be configured on a per-repository
+basis by editing (and possibly creating) the <code>_darcs/prefs/defaults</code>
+file.  Each line of this file has the following form:
+<PRE>
+COMMAND FLAG VALUE
+</PRE>
+where <code>COMMAND</code> is either the name of the command to which the default
+applies, or <code>ALL</code> to indicate that the default applies to all commands
+accepting that flag.  The <code>FLAG</code> term is the name of the long argument
+option without the ``<code>--</code>'', i.e. <code>verbose</code> rather than
+<code>--verbose</code>.  Finally, the <code>VALUE</code> option can be omitted if the
+flag is one such as <code>verbose</code> that doesn't involve a value.
+Each line only takes one flag.  To set multiple defaults for the same
+command (or for <code>ALL</code> commands), use multiple lines.
+
+<P>
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT"><TT><code>~/.darcs/defaults</code></TT></TD>
+<TD ALIGN="LEFT">provides defaults for this user account</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT><code>repo/_darcs/prefs/defaults</code></TT></TD>
+<TD ALIGN="LEFT">provides defaults for one project,</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">overrules changes per user</TD>
+</TR>
+</TABLE>
+
+<P>
+For example, if your system clock is bizarre, you could instruct darcs to
+always ignore the file modification times by adding the following line to
+your <code>_darcs/prefs/defaults</code> file.  (Note that this would have to be
+done for each repository!)
+<PRE>
+ALL ignore-times
+</PRE>
+
+<P>
+If you never want to run a test when recording to a particular repository
+(but still want to do so when running
+<code>check</code> on that repository), and like to name
+all your patches ``Stupid patch'', you could use the following:
+<PRE>
+record no-test
+record patch-name Stupid patch
+</PRE>
+
+<P>
+If you would like a command to be run every time patches are recorded
+in a particular repository (for example if you have one central
+repository, that all developers contribute to), then you can set apply
+to always run a command when apply is successful.  For example, if you
+need to make sure that the files in the repository have the correct
+access rights you might use the following.  There are two things
+to note about using darcs this way:
+
+<UL>
+<LI>Without the second line you will get errors, because the sub
+      process that runs apply cannot prompt interactively.
+</LI>
+<LI>Whatever script is run by the post apply command should not be
+      be added to the repository with <code>darcs add</code>; doing so would
+      allow people to modify that file and then run arbitrary scripts on
+      your main repository, possibly damaging or violating security.
+</LI>
+</UL>
+<PRE>
+apply posthook chmod -R a+r *
+apply run-posthook
+</PRE> 
+
+<P>
+There are some options which are meant specifically for use in
+<code>_darcs/prefs/defaults</code>. One of them is <code>--disable</code>. As the name
+suggests, this option will disable every command that got it as argument. So,
+if you are afraid that you could damage your repositories by inadvertent use of
+a command like amend-record, add the following line to
+<code>_darcs/prefs/defaults</code>:
+<PRE>
+amend-record disable
+</PRE>
+
+<P>
+Also, a global preferences file can be created with the name
+<code>.darcs/defaults</code> in your home directory. Options present there will
+be added to the repository-specific preferences.
+If they conflict with repository-specific options, the repository-specific
+ones will take precedence.
+
+<P>
+
+<H4><A NAME="SECTION00510020000000000000">
+repos</A>
+</H4>
+The <code>_darcs/prefs/repos</code> file contains a list of repositories you have
+pulled from or pushed to, and is used for autocompletion of pull and push
+commands in bash.  Feel free to delete any lines from this list that might
+get in there, or to delete the file as a whole.
+
+<P>
+
+<H4><A NAME="SECTION00510030000000000000"></A><A NAME="author_prefs"></A>
+<BR>
+author
+</H4>
+The <code>_darcs/prefs/author</code> file contains the email address (or name) to
+be used as the author when patches are recorded in this repository,
+e.g. <code>David Roundy &lt;droundy@abridgegame.org&gt;</code>.  This
+file overrides the contents of the environment variables
+<code>$DARCS_EMAIL</code> and <code>$EMAIL</code>.
+
+<P>
+
+<H4><A NAME="SECTION00510040000000000000"></A><A NAME="boring"></A>
+<BR>
+boring
+</H4>
+The <code>_darcs/prefs/boring</code> file may contain a list of regular
+expressions describing files, such as object files, that you do not expect
+to add to your project.  As an example, the boring file that I use with
+my darcs repository is:
+<PRE>
+\.hi$
+\.o$
+^\.[^/]
+^_
+~$
+(^|/)CVS($|/)
+</PRE>
+A newly created repository has a longer boring file that
+includes many common source control, backup, temporary, and compiled files.
+
+<P>
+You may want to have the boring file under version
+control.  To do this you can use darcs setpref to set the value
+``boringfile'' to the name of your desired boring file
+(e.g. <code>darcs setpref boringfile .boring</code>, where <code>.boring</code>
+is the repository path of a file
+that has been
+darcs added to your repository).  The boringfile preference overrides
+<code>_darcs/prefs/boring</code>, so be sure to copy that file to the boringfile.
+
+<P>
+You can also set up a ``boring'' regexps
+file in your home directory, named <code>~/.darcs/boring</code>, which will be
+used with all of your darcs repositories.
+
+<P>
+Any file whose repository path (such as <code>manual/index.html</code>) matches any of
+the boring regular expressions is considered boring.  The boring file is
+used to filter the files provided to darcs add, to allow you to use a
+simple <code>darcs add newdir newdir/*</code>
+without accidentally adding a bunch of
+object files.  It is also used when the <code>--look-for-adds</code> flag is
+given to whatsnew or record.
+
+<P>
+
+<H4><A NAME="SECTION00510050000000000000">
+binaries</A>
+</H4>
+The <code>_darcs/prefs/binaries</code> file may contain a list of regular
+expressions describing files that should be treated as binary files rather
+than text files.  You probably will want to have the binaries file under
+version control.  To do this you can use darcs setpref to set the value
+``binariesfile'' to the name of your desired binaries file
+(e.g. <code>darcs setpref binariesfile ./.binaries</code>, where
+<code>.binaries</code> is a file that has been
+darcs added to your repository).  As with the boring file, you can also set
+up a <code>~/.darcs/binaries</code> file if you like.
+
+<P>
+
+<H4><A NAME="SECTION00510060000000000000">
+email</A>
+</H4>
+The <code>_darcs/prefs/email</code> file is used to provide the e-mail address for your  
+repository that others will use when they <code>darcs send</code> a patch back to you.
+The contents of the file should simply be an e-mail address.
+
+<P>
+
+<H4><A NAME="SECTION00510070000000000000"></A><A NAME="motd"></A>
+<BR>
+motd
+</H4>
+The <code>_darcs/prefs/motd</code> file may contain a ``message of the day''
+which will be displayed to users who get or pull from the repository without the
+<code>--quiet</code> option.
+
+<P>
+
+<H1><A NAME="SECTION00520000000000000000">
+Environment variables</A>
+</H1>
+
+<P>
+There are a few environment variables whose contents affect darcs'
+behavior.
+
+<P>
+
+<H4><A NAME="SECTION00520010000000000000">
+DARCS_EMAIL</A>
+</H4>
+The DARCS_EMAIL environment variable determines the ``author'' name used
+by darcs when recording if no <code>_darcs/prefs/author</code> exists.  If
+DARCS_EMAIL is undefined, the contents of the EMAIL environment variable
+are used.
+
+<P>
+
+<H4><A NAME="SECTION00520020000000000000">
+DARCS_EDITOR</A>
+</H4>
+When pulling up an editor (for example, when adding a long comment in
+record), darcs uses the contents of DARCS_EDITOR if it is defined.  If
+not, it tries the contents of VISUAL, and if that isn't defined (or fails
+for some reason), it tries EDITOR.  If none of those environment variables
+are defined, darcs tries <code>vi</code>, <code>emacs</code>, <code>emacs -nw</code> and
+<code>nano</code> in that order.
+
+<P>
+
+<H4><A NAME="SECTION00520030000000000000">
+DARCS_TMPDIR</A>
+</H4>
+If the environment variable DARCS_TMPDIR is defined, darcs will use that
+directory for its temporaries.  Otherwise it will use TMPDIR, if that is
+defined, and if not that then <code>/tmp</code> and if <code>/tmp</code> doesn't exist,
+it'll put the temporaries in <code>_darcs</code>.
+
+<P>
+This is very helpful, for example, when recording with a test suite that
+uses MPI, in which case using <code>/tmp</code> to hold the test copy is no good,
+as <code>/tmp</code> isn't shared over NFS and thus the <code>mpirun</code> call will
+fail, since the binary isn't present on the compute nodes.
+
+<P>
+
+<H4><A NAME="SECTION00520040000000000000">
+HOME</A>
+</H4>
+HOME is used to find the per-user prefs directory, which is located at
+<code>$HOME/.darcs</code>.
+
+<P>
+
+<H4><A NAME="SECTION00520050000000000000">
+TERM</A>
+</H4>
+If darcs is compiled with libcurses support and support for color output,
+it uses the environment variable TERM to decide whether or not color is
+supported on the output terminal.
+
+<P>
+
+<H4><A NAME="SECTION00520060000000000000">
+SSH_PORT</A>
+</H4>
+When using ssh, if the SSH_PORT environment variable is defined, darcs will
+use that port rather than the default ssh port (which is 22).
+
+<P>
+
+<H4><A NAME="SECTION00520070000000000000"></A>
+<A NAME="darcsssh"></A>
+<BR>
+DARCS_SSH
+</H4>
+The DARCS_SSH environment variable defines the command that darcs will use
+when asked to run ssh.  This command is <SPAN  CLASS="textit">not</SPAN> interpreted by a shell,
+so you cannot use shell metacharacters, and the first word in the command
+must be the name of an executable located in your path.
+
+<P>
+
+<H4><A NAME="SECTION00520080000000000000">
+DARCS_SCP and DARCS_SFTP</A>
+</H4>
+The DARCS_SCP and DARCS_SFTP environment variables define the
+commands that darcs will use when asked to run scp or sftp.  Darcs uses
+scp and sftp to access repositories whose address is of the
+form <code>user@foo.org:foo</code> or <code>foo.org:foo</code>.  Darcs will use
+scp to copy single files (e.g. repository meta-information), and sftp
+to copy multiple files in batches (e.g. patches).  These commands are
+<SPAN  CLASS="textit">not</SPAN> interpreted by a shell, so you cannot use shell
+metacharacters, and the first word in the command must be the name of
+an executable located in your path.  By default, <code>scp</code> and <code>sftp</code>
+are used.  When you can use sftp, but not scp (e.g. some ISP web sites), it
+works to set DARCS_SCP to `sftp'.  The other way around does not work, i.e. 
+DARCS_FTP must reference an sftp program, not scp.
+
+<P>
+
+<H4><A NAME="SECTION00520090000000000000">
+DARCS_PROXYUSERPWD</A>
+</H4>
+This environment variable allows DARCS and libcurl to access remote repositories
+via a password-protected HTTP proxy. The proxy itself is specified with the standard
+environment variable for this purpose, namely 'http_proxy'. The DARCS_PROXYUSERPWD
+environment variable specifies the proxy username and password. It must be given in 
+the form <SPAN  CLASS="textit">username:password</SPAN>.
+
+<P>
+
+<H4><A NAME="SECTION005200100000000000000">
+DARCS_GET_FOO, DARCS_MGET_FOO and DARCS_APPLY_FOO</A>
+</H4>
+When trying to access a repository with a URL beginning foo://,
+darcs will invoke the program specified by the DARCS_GET_FOO
+environment variable (if defined) to download each file, and the
+command specified by the DARCS_APPLY_FOO environment variable (if
+defined) when pushing to a foo:// URL.  
+
+<P>
+This method overrides all other ways of getting <code>foo://xxx</code> URLs.
+
+<P>
+Note that each command should be constructed so that it sends the downloaded
+content to STDOUT, and the next argument to it should be the URL.  Here are some
+examples that should work for DARCS_GET_HTTP:
+
+<P>
+<PRE>
+fetch -q -o -  
+curl -s -f
+lynx -source 
+wget -q -O -
+</PRE>
+
+<P>
+If set, DARCS_MGET_FOO
+will be used to fetch many files from a single repository simultaneously.
+Replace FOO and foo as appropriate to handle other URL schemes.
+These commands are <SPAN  CLASS="textit">not</SPAN> interpreted by a shell, so you cannot
+use shell metacharacters, and the first word in the command must
+be the name of an executable located in your path. The GET command
+will be called with a URL for each file.  The MGET command will be
+invoked with a number of URLs and is expected to download the files
+to the current directory, preserving the file name but not the path.
+The APPLY command will be called with a darcs patchfile piped into
+its standard input. Example:
+
+<P>
+<PRE>
+wget -q
+</PRE>
+
+<P>
+
+<H4><A NAME="SECTION005200110000000000000">
+DARCS_MGETMAX</A>
+</H4>
+When invoking a DARCS_MGET_FOO command, darcs will limit the
+number of URLs presented to the command to the value of this variable,
+if set, or 200.
+
+<P>
+
+<H4><A NAME="SECTION005200120000000000000">
+DARCS_WGET</A>
+</H4>
+This is a very old option that is only used if libcurl is not compiled
+in and one of the DARCS_GET_FOO is not used. Using one of those
+is recommended instead.
+
+<P>
+The DARCS_WGET environment variable defines the command that darcs
+will use to fetch all URLs for remote repositories.  The first word in
+the command must be the name of an executable located in your path.
+Extra arguments can be included as well, such as:
+
+<P>
+<PRE>
+wget -q
+</PRE>
+
+<P>
+Darcs will append <code>-i</code> to the argument list, which it uses to provide a
+list of URLS to download. This allows wget to download multiple patches at the
+same time. It's possible to use another command besides <code>wget</code> with this
+environment variable, but it must support the <code>-i</code> option in the same way. 
+
+<P>
+These commands are <SPAN  CLASS="textit">not</SPAN> interpreted by a shell, so you cannot use shell
+meta-characters.
+
+<P>
+
+<H1><A NAME="SECTION00530000000000000000">
+Highlighted output</A>
+</H1>
+
+<P>
+If the terminal understands ANSI color escape sequences,
+darcs will highlight certain keywords and delimiters when printing patches.
+This can be turned off by setting the environment variable DARCS_DONT_COLOR to 1.
+If you use a pager that happens to understand ANSI colors, like <code>less -R</code>,
+darcs can be forced always to highlight the output
+by setting DARCS_ALWAYS_COLOR to 1.
+If you can't see colors you can set DARCS_ALTERNATIVE_COLOR to 1,
+and darcs will use ANSI codes for bold and reverse video instead of colors.
+
+<P>
+By default darcs will escape (by highlighting if possible) any kind of spaces at the end of lines
+when showing patch contents.
+If you don't want this you can turn it off by setting
+DARCS_DONT_ESCAPE_TRAILING_SPACES to 1.
+A special case exists for only carriage returns:
+DARCS_DONT_ESCAPE_TRAILING_CR.
+
+<P>
+
+<H1><A NAME="SECTION00540000000000000000">
+Character escaping and non-ASCII character encodings</A>
+</H1>
+
+<P>
+Darcs needs to escape certain characters when printing patch contents to a terminal.
+Characters like <SPAN  CLASS="textit">backspace</SPAN> can otherwise hide patch content from the user,
+and other character sequences can even in some cases redirect commands to the shell
+if the terminal allows it.
+
+<P>
+By default darcs will only allow printable 7-bit ASCII characters (including space),
+and the two control characters <SPAN  CLASS="textit">tab</SPAN> and <SPAN  CLASS="textit">newline</SPAN>.
+(See the last paragraph in this section for a way to tailor this behavior.)
+All other octets are printed in quoted form (as <code>^&lt;control letter&gt;</code> or <code>\<hex code&gt;</code>).
+
+<P>
+Darcs has some limited support for locales.
+If the system's locale is a single-byte character encoding,
+like the Latin encodings,
+you can set the environment variable DARCS_DONT_ESCAPE_ISPRINT to 1
+and darcs will display all the printables in the current system locale
+instead of just the ASCII ones.
+NOTE: This curently does not work on some architectures if darcs is
+compiled with GHC&nbsp;6.4. Some non-ASCII control characters might be printed
+and can possibly spoof the terminal.
+
+<P>
+For multi-byte character encodings things are less smooth.
+UTF-8 will work if you set DARCS_DONT_ESCAPE_8BIT to 1,
+but non-printables outside the 7-bit ASCII range are no longer escaped.
+E.g., the extra control characters from Latin-1
+might leave your terminal at the mercy of the patch contents.
+Space characters outside the 7-bit ASCII range are no longer recognized
+and will not be properly escaped at line endings.
+
+<P>
+As a last resort you can set DARCS_DONT_ESCAPE_ANYTHING to 1.
+Then everything that doesn't flip code sets should work,
+and so will all the bells and whistles in your terminal.
+This environment variable can also be handy
+if you pipe the output to a pager or external filter
+that knows better than darcs how to handle your encoding.
+Note that <SPAN  CLASS="textit">all</SPAN> escaping,
+including the special escaping of any line ending spaces,
+will be turned off by this setting.
+
+<P>
+There are two environment variables you can set
+to explicitly tell darcs to not escape or escape octets.
+They are
+DARCS_DONT_ESCAPE_EXTRA and DARCS_ESCAPE_EXTRA.
+Their values should be strings consisting of the verbatim octets in question.
+The do-escapes take precedence over the dont-escapes.
+Space characters are still escaped at line endings though.
+The special environment variable DARCS_DONT_ESCAPE_TRAILING_CR
+turns off escaping of carriage return last on the line (DOS style).
+
+<P>
+
+<DIV CLASS="navigation"><HR>
+<!--Navigation Panel-->
+<A NAME="tex2html356"
+  HREF="node6.html">
+<IMG WIDTH="22" HEIGHT="22" title="Next"  ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="./next.png"></A> 
+<A NAME="tex2html352"
+  HREF="darcs.html">
+<IMG WIDTH="22" HEIGHT="22" title="Up"  ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="./up.png"></A> 
+<A NAME="tex2html346"
+  HREF="node4.html">
+<IMG WIDTH="22" HEIGHT="22" title="Previous"  ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="./prev.png"></A> 
+<A NAME="tex2html354"
+  HREF="node1.html">
+<IMG WIDTH="22" HEIGHT="22" title="Contents"  ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="./contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html357"
+  HREF="node6.html">Best practices</A>
+<B> Up:</B> <A NAME="tex2html353"
+  HREF="darcs.html">Darcs 1.0.7 (release) Darcs</A>
+<B> Previous:</B> <A NAME="tex2html347"
+  HREF="node4.html">Getting started</A>
+ &nbsp; <B>  <A NAME="tex2html355"
+  HREF="node1.html">Contents</A></B> </DIV>
+<!--End of Navigation Panel-->
+<ADDRESS>
+Tommy Pettersson
+2006-05-13
+</ADDRESS>
+</BODY>
+</HTML>

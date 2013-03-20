@@ -1,0 +1,10 @@
+pkg bentrip-1.6
+
+url bentrip
+    bentrip,v
+    chopin-ax
+    freedb2txt
+
+build \
+    mkdir -p $BPM_ROOT/usr/bin
+    cp bentrip freedb2txt $BPM_ROOT/usr/bin/

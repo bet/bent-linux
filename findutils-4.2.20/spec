@@ -1,0 +1,15 @@
+pkg findutils-4.2.20
+
+url ftp://ftp.gnu.org/gnu/findutils/findutils-4.2.20.tar.gz
+
+build \
+    tar xzf findutils-4.2.20.tar.gz
+    cd findutils-4.2.20
+    CPPFLAGS="-Dre_max_failures=re_max_failures2" \
+        ./configure --prefix=/usr
+    make localstatedir=/var/lib/misc libexecdir=/usr/bin
+    make localstatedir=$BPM_ROOT/var/lib/misc libexecdir=$BPM_ROOT/usr/bin \
+        prefix=$BPM_ROOT/usr mandir=$BPM_ROOT/usr/share/man \
+        infodir=$BPM_ROOT/usr/share/info install
+    rm -f $BPM_ROOT/usr/share/info/dir
+

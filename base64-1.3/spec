@@ -1,0 +1,10 @@
+pkg base64-1.3
+
+url http://josefsson.org/base64/releases/base64-1.3.tar.gz
+
+build \
+    tar xf base64-1.3.tar.gz
+    cd base64-1.3
+    ./configure --prefix=/usr --mandir=/usr/share/man --disable-nls
+    make
+    make DESTDIR=$BPM_ROOT install

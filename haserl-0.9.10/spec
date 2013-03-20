@@ -1,0 +1,10 @@
+pkg haserl-0.9.10
+
+url http://download.sourceforge.net/haserl/haserl-0.9.10.tar.gz
+
+build \
+    tar xf haserl-0.9.10.tar.gz
+    cd haserl-0.9.10
+    ./configure --prefix=/usr --mandir=/usr/share/man
+    make
+    make DESTDIR=$BPM_ROOT install

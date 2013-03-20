@@ -1,0 +1,11 @@
+pkg cdparanoia-III-alpha9.8
+
+url http://www.xiph.org/paranoia/download/cdparanoia-III-alpha9.8.src.tgz
+
+build \
+    tar xzf cdparanoia-III-alpha9.8.src.tgz
+    cd cdparanoia-III-alpha9.8
+    ./configure --prefix=/usr --mandir=/usr/share/man
+    make all STATIC=TRUE
+    make prefix=$BPM_ROOT/usr MANDIR=$BPM_ROOT/usr/share/man install
+    rm $BPM_ROOT/usr/lib/lib*.so*

@@ -1,0 +1,18 @@
+pkg lilo-22.5.7.2
+
+url http://home.san.rr.com/johninsd/pub/linux/lilo/lilo-22.5.7.2.tar.gz
+
+build \
+    tar xzf lilo-22.5.7.2.tar.gz
+    cd lilo-22.5.7.2
+    make spotless
+    make
+    rm lilo
+    make -n|sed 1q|sed 's/$/ -static/'|sh -x
+    mkdir -p $BPM_ROOT/sbin
+    mkdir -p $BPM_ROOT/etc
+    mkdir -p $BPM_ROOT/boot
+    mkdir -p $BPM_ROOT/usr/sbin
+    mkdir -p $BPM_ROOT/usr/share/man/man5
+    mkdir -p $BPM_ROOT/usr/share/man/man8
+    make ROOT=$BPM_ROOT install

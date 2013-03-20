@@ -1,0 +1,13 @@
+pkg nasm-0.98.37
+
+url http://aleron.dl.sourceforge.net/sourceforge/nasm/nasm-0.98.37.tar.bz2
+
+build \
+    tar xjf nasm-0.98.37.tar.bz2
+    cd nasm-0.98.37
+    ./configure --prefix=/usr --mandir=/usr/share/man
+    make
+    make strip
+    mkdir -p $BPM_ROOT/usr/bin
+    mkdir -p $BPM_ROOT/usr/share/man/man1
+    make prefix=$BPM_ROOT/usr mandir=$BPM_ROOT/usr/share/man install

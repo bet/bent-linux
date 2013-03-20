@@ -1,0 +1,10 @@
+pkg mailx-12.2
+
+url http://superb-east.dl.sourceforge.net/sourceforge/heirloom/mailx-12.2.tar.bz2
+
+build \
+    tar xf mailx-12.2.tar.bz2
+    cd mailx-12.2
+    cp /dev/null getopt.c
+    make PREFIX=/usr MAILSPOOL=/var/spool/mail SENDMAIL=/usr/sbin/sendmail LIBS=-lbind
+    make PREFIX=/usr MAILSPOOL=/var/spool/mail SENDMAIL=/usr/sbin/sendmail LIBS=-lbind DESTDIR=$BPM_ROOT install UCBINSTALL=/usr/bin/install

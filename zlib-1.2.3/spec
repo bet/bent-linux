@@ -1,0 +1,15 @@
+pkg zlib-1.2.3
+
+url http://www.zlib.net/zlib-1.2.3.tar.bz2
+
+build \
+    tar xjf zlib-1.2.3.tar.bz2
+    cd zlib-1.2.3
+    ./configure --prefix=/usr
+    make LIBS=libz.a
+    mkdir -p $BPM_ROOT/usr/include
+    mkdir -p $BPM_ROOT/usr/lib
+    make LIBS=libz.a prefix=$BPM_ROOT/usr install
+    mkdir -p $BPM_ROOT/usr/share/man/man3
+    cp zlib.3 $BPM_ROOT/usr/share/man/man3/
+

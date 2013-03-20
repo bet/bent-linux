@@ -1,0 +1,18 @@
+pkg bent-termdb-1.0
+
+url ecma+color
+    screen
+    termcap
+    vt100
+    vt102
+
+build \
+    mkdir -p $BPM_ROOT/etc
+    cp termcap $BPM_ROOT/etc/
+    mkdir -p $BPM_ROOT/usr/share/terminfo/e
+    cp ecma+color $BPM_ROOT/usr/share/terminfo/e/
+    mkdir -p $BPM_ROOT/usr/share/terminfo/s
+    cp screen $BPM_ROOT/usr/share/terminfo/s/
+    mkdir -p $BPM_ROOT/usr/share/terminfo/v
+    cp vt100 vt102 $BPM_ROOT/usr/share/terminfo/v/
+

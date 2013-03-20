@@ -1,0 +1,27 @@
+pkg clockspeed-0.62
+
+url http://cr.yp.to/clockspeed/clockspeed-0.62.tar.gz
+    leapsecs.dat
+    leapsecs.email
+
+build \
+    tar xf clockspeed-0.62.tar.gz
+    mv leapsecs.dat clockspeed-0.62/
+    cd clockspeed-0.62/
+    echo /usr >conf-home
+    echo gcc -Os --include /usr/include/errno.h --include /usr/include/time.h > conf-cc
+    echo gcc -s -static >conf-ld
+    PATH=.:$PATH make
+    mkdir -p $BPM_ROOT/usr/bin
+    mkdir -p $BPM_ROOT/usr/man/man1
+    mkdir -p $BPM_ROOT/usr/man/man3
+    rm install instcheck auto_home.[co] hier.o
+    echo $BPM_ROOT/usr >conf-home
+    perl -ni -le 'print unless /leapsecs\.dat/' hier.c
+    mkdir -p $BPM_ROOT/etc
+    cp leapsecs.dat $BPM_ROOT/etc/
+    make install instcheck
+    ./install
+    ./instcheck
+    mkdir -p $BPM_ROOT/usr/share/doc/clockspeed-0.62
+    cp -r [A-Z]* conf-* $BPM_ROOT/usr/share/doc/clockspeed-0.62/

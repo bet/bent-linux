@@ -1,0 +1,10 @@
+pkg txt2html-2.44
+
+url http://easynews.dl.sourceforge.net/sourceforge/txt2html/txt2html-2.44.tar.gz
+
+build \
+    tar xf txt2html-2.44.tar.gz
+    cd txt2html-2.44
+    perl Build.PL
+    ./Build
+    ./Build install destdir=$BPM_ROOT

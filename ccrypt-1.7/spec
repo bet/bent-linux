@@ -1,0 +1,10 @@
+pkg ccrypt-1.7
+
+url http://download.sourceforge.net/ccrypt/ccrypt-1.7.tar.gz
+
+build \
+    tar xf ccrypt-1.7.tar.gz
+    cd ccrypt-1.7
+    ./configure --prefix=/usr --mandir=/usr/share/man
+    make
+    make DESTDIR=$BPM_ROOT install

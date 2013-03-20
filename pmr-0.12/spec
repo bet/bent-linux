@@ -1,0 +1,13 @@
+pkg pmr-0.12
+
+url http://www.iki.fi/shd/foss/pmr/pmr-0.12.tar.bz2
+
+build \
+    tar xf pmr-0.12.tar.bz2
+    cd pmr-0.12
+    ./configure --prefix=/usr --package-prefix=$BPM_ROOT
+    make '-s'
+    make install
+    mkdir -p $BPM_ROOT/usr/share
+    mv $BPM_ROOT/usr/man $BPM_ROOT/usr/share
+    strip $BPM_ROOT/usr/*bin/* || true

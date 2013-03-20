@@ -1,0 +1,11 @@
+--- 01-psyslogd.c.orig	2005-02-07 16:46:38.000000000 +0000
++++ 01-psyslogd.c	2005-02-07 16:54:03.000000000 +0000
+@@ -54,6 +54,8 @@
+ #include <dmalloc.h>
+ #endif
+ 
++#include <time.h>
++
+ /* IP packet header */
+ struct iphdr {
+     int offset;

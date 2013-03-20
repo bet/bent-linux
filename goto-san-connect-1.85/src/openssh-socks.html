@@ -1,0 +1,238 @@
+<!DOCTYPE html PUBLIC "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+                                                    
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+                               
+  <meta name="keywords"
+ content="SOCKS, socks, socks4, socks5, ssh, openssh, runsocks, dante, socksd, linux, BSD, firewall">
+  <title>Using OpenSSH through a SOCKS compatible firewall on your LAN</title>
+</head>
+  <body>
+                          
+<h3> Using OpenSSH through a SOCKS compatible PROXY on your LAN</h3>
+             This guide has been written by <b>J. Grant</b>. 2002-04-15 <b>
+ Version   0.9</b> Copyleft J. Grant. <br>
+      Including this in any other documents is permitted  under  the GNU
+Free Documentation Licence,   providing my name is given next to the section. 
+Distributing  this any other   way is permitted providing it is complete and
+contains this  message.<br>
+            <br>
+     New versions can be found on the page hosted by Goto-san: <a
+ class="moz-txt-link-freetext"
+ href="http://www.imasy.or.jp/%7Egotoh/ssh/openssh-socks.html">http://www.imasy.or.jp/~gotoh/ssh/openssh-socks.html</a><br>
+  <br>
+  This guide has been featured on the Mandrake website:<br>
+  <a class="moz-txt-link-freetext"
+ href="http://www.mandrakesecure.net/en/docs/openssh-socks.php">http://www.mandrakesecure.net/en/docs/openssh-socks.php</a><br>
+     <br>
+            Tested on Linux Mandrake 8.1, this will not affect you providing
+  you   have  RPM support. This guide applys to other internet applications
+ as well.             
+<h3> Introduction</h3>
+             The SOCKS firewall protocol was fostered by NEC, they currently
+  <b>DO  NOT</b>   support a free version of their tools for UNIX (free as 
+ in freedom, not beer). Many applications   directly  support  the SOCKS 4/5
+ protocols, Netscape, Opera etc. The NEC  software was previously available 
+  at <a href="ftp://ftp.nec.com/pub/socks/socks5"> ftp://ftp.nec.com/pub/socks/socks5</a>
+         before, now it is not. However there are other free solutions available
+    now, which means you have choices. (The way of UNIX)<br>
+            <br>
+            There are 5 solutions covered in this SSH through a SOCKS PROXY 
+ guide.<br>
+            <br>
+            Currently I use Goto-san's connect.c and the wrapper "runsocks" 
+ for   other   applications, read this whole FAQ before making your decision! 
+             
+<h4> 1) Using the old NEC software</h4>
+             The packages NEC previously made available on Linux were rpm/tgz 
+  packages     that implemented the server, <br>
+            client programs and a wrapper program (for programs without compiled
+    in  SOCKS support). <br>
+            <a
+ href="http://rpmfind.net/linux/rpm2html/search.php?query=socks"> http://rpmfind.net/linux/rpm2html/search.php?query=socks</a><br>
+            <br>
+            I installed runsocks-1.0r11-3.i386.rpm successfully.<br>
+            rpm -ivh<br>
+         <br>
+            I have also rpm --rebuild the src.rpm to make the whole packages
+  and   installed   those as well. <br>
+            <br>
+            i rebuilt the source downloaded from<br>
+           <a
+ href="ftp://rpmfind.net/linux/falsehope/home/gomez/socks5/">  ftp://rpmfind.net/linux/falsehope/home/gomez/socks5/</a><br>
+            (sometimes this site not available, try later and it might work,
+  anyone    know why?)<br><a href="http://plf.zarb.org/rpm/8.2/i586/">http://plf.zarb.org/rpm/8.2/i586/</a> is another link.
+            <br>
+            Do this in your shell <br>
+            $ export SOCKS4_SERVER = mysocks4server<br>
+         <br>
+         Or you can specify it in the conf file as follows.<br>
+         <br>
+            Create this file /etc/libsocks5.conf<br>
+            <br>
+            $ cat /etc/libsocks5.conf <br>
+            socks4 - - - - mysocks4server <br>
+            <br>
+            There are problems with this<br>
+           <br>
+            You have to be root to use runsocks ssh -l myusername &lt;host&gt;
+   or  you will get the  <br>
+            following error: <br>
+           <br>
+           $ runsocks ssh -l myuser myhost.com <br>
+            ssh: error while loading shared libraries: libsocks5_sh.so: cannot
+   open   <br>
+            shared object file: No such file or directory <br>
+           <br>
+           DNS does not work, you get this error from ssh <br>
+            $ su <br>
+           <br>
+           $ runsocks ssh -l youruser yourhost.com <br>
+            ssh: yourhost.com: Temporary failure in name resolution <br>
+           <br>
+           The only way to connect is to be root and also use the IP. I can 
+ connect,     its just not good practice to have to be root and use the IP 
+ address! Also you need to change the suid bit on the /usr/bin/ssh, type chmod
+755. Wrapping suid is not allowed as a cracker could then get root on your
+system!<br>
+           <br>
+           Read the man pages for libsocks5.conf and runsocks for further 
+information.       <br>
+           <br>
+           These are the versions I have, I do not have ftp space to host 
+them,    if  anyone  has perminant ftp space for them please contact me. (I
+believe    we  are allowed to distribute them under the licence) I download 
+them from    places  such as <a
+ href="ftp://rpmfind.net/linux/falsehope/home/gomez/socks5/">  ftp://rpmfind.net/linux/falsehope/home/gomez/socks5/</a><br>
+           <br>
+           runsocks-1.0r11-3.i386.rpm<br>
+          socks-4.3.beta2-2.i386.rpm<br>
+           socks-4.3.beta2-2.src.rpm<br>
+           socks5-1.0r11-3.i386.rpm<br>
+           socks5-1.0r11-3.src.rpm<br>
+           socks5-clients-1.0r11-3.i386.rpm<br>
+           socks5-devel-1.0r11-3.i386.rpm<br>
+           export.socks.4.3.beta2.tar.gz<br>
+           export.socks.cstc.4.2.2.tar.gz<br>
+           socks.cstc.4.2.2.tar.gz             
+<h4> 2) Use Goto-san's connect.c (works transparently)</h4>
+             OpenSSH SOCKS support was removed from the OpenSSH implementation
+   on  2000-02-07,   using SSH through SOCKS firewalls is now ONLY supported
+   using  a ProxyCommand   from within the SSH configuration files.<br>
+           <br>
+           I found how to use OpenSSH through socks.  <br>
+           <br>
+           a) Download and compile this URL's source code. And put the binary 
+  in  your   path.  <br>
+          <a href="http://www.imasy.or.jp/%7Egotoh/connect.c"> http://www.imasy.or.jp/~gotoh/connect.c</a><br>
+           <br>
+        $ su<br>
+           $ gcc -o sconnect connect.c <br>
+            $ cp sconnect /usr/local/bin  <br>
+           <br>
+           b) Add the following line in your ssh_config, this is for a SOCKS4 
+  server.  Read his source for futher infomation.<br>
+         <br>
+         ProxyCommand /usr/local/bin/sconnect -4 -S your-socks-server:1080
+ %h  %p   <br>
+           <br>
+           That's it! Everything should work now  <br>
+           <br>
+           This is the <i>best</i> solution IMO.  <br>
+            <br>
+                     
+<h4>  3) Use the proprietary SSH.com trial version</h4>
+             Only possible for non-commercial 30 day use, supports the SOCKS
+  protocol.                
+<p>export SSH_SOCKS_SERVER=socks://youruser@socks-server:1080/x.x.x.0/24 </p>
+                       
+<p>I gave up on proprietary solutions so I have not tested futher. SSH.com 
+    is not open source, thus I would only use it in "legacy" systems that 
+required    it.</p>
+                       
+<h4> 4) Dante OSS version</h4>
+             This has not been tested, but i have received good feedback
+about    it. See <a href="http://www.inet.no/dante/">http://www.inet.no/dante/</a>
+      for  further information or <a
+ href="http://rpmfind.net/linux/rpm2html/search.php?query=dante">     http://rpmfind.net/linux/rpm2html/search.php?query=dante</a><br>
+      <br>
+           
+<h4>5) Using LD_PRELOAD</h4>
+      This is another option. Developed by Chris Maison at <a
+ href="http://www.r00t3d.org.uk/">http://www.r00t3d.org.uk/</a> Linux SocksCap
+   v0.1.1 <a
+ href="http://www.r00t3d.org.uk/bin/sockscap-0.1.1-linux.tar.gz">sockscap-0.1.1-linux.tar.gz</a><br>
+      <br>
+      Extract the sockscap.so library and place somewhere on your system. 
+ It  does  not really matter where you put it, but /usr/local/lib is usually 
+ a  good starting place. Load up a Socks 5 server or run a Bouncer running
+in Socks 5 mode or  alternatively   have a Socks 5 server running on another
+machine. You will need to type the following two commands in to enable it:<br>
+      <br>
+      export LD_PRELOAD=/usr/local/lib/sockscap.so (Different if you placed 
+ it  elsewhere)<br>
+      export SOCKS_PROXY="127.0.0.1:1080" (Or your alternative Socks 5 server)<br>
+      <br>
+       Then (hopefully) all connections you make will go through the Socks
+ 5  server.   To see which connections are being sent to the Socks 5 server
+ then  check  syslog as it will output a single line status message on success.
+ To enable  it for an application just make sure you export the two symbols
+ beforehand.   BUT.. DO NOT export the symbols before loading the Socks 5
+server otherwise  it will get stuck in a loop.  To disable it run the following
+command:<br>
+      <br>
+      unset LD_PRELOAD<br>
+      <br>
+      Suid binaries will not run with LD_PRELOAD which means they will not
+ get  sent through the proxy, unless you export LD_PRELOAD as root and run
+ the suid binary as root.  This is because LD_PRELOAD could be used to create 
+ a wrapper for the open() call and use that as a backdoor to gain root on 
+the machine. ??Also, static built binaries will not evaluate LD_PRELOAD  either 
+ as they will not attempt to dynamically load libraries and that defeats 
+the object of static.<br>
+      <br>
+      This looks very promising despite the low version number. Some infomation
+  quoted from Chris Maison's site.<br>
+     <br>
+                 
+<h4> Misc.</h4>
+             NEC never replied to any of my emails so I think it is best
+to  not   bother    them anymore, there are enough solutions now anyway.<br>
+          If you really want to contact them try, steve@syl.dl.nec.com and
+ socks5-comments@socks.nec.com<br>
+          <br>
+                   
+<h4>Links</h4>
+             <a
+ href="http://www.funet.fi/pub/unix/security/firewalls/socks/socks4/">   
+http://www.funet.fi/pub/unix/security/firewalls/socks/socks4/</a>   <br>
+          <a href="ftp://rpmfind.net/linux/falsehope/home/gomez/socks5/"> 
+ftp://rpmfind.net/linux/falsehope/home/gomez/socks5/</a><br>
+     <a href="http://www.imasy.or.jp/%7Egotoh/connect.c"> http://www.imasy.or.jp/~gotoh/connect.c</a><a
+ href="http://www.inet.no/dante/"><br>
+    http://www.inet.no/dante/</a><a href="http://www.r00t3d.org.uk/"><br>
+    http://www.r00t3d.org.uk/</a><br>
+          <br>
+                   
+<h4>Greetings</h4>
+          Thank you to the following people who helped me during my SOCKS 
+with   SSH   investigations:<br>
+           (Ordered alphabetically by first name)<br>
+          <br>
+            Avi Alkalay<br>
+            Alex Feinberg (alex@freethinkers.net), author of "Using SOCKS 
+Proxy    Firewalls   on Linux". Introduction is based on his.<br>
+            David Knight French<br>
+            OpenSSH.com - You have a great application, thank you to all
+the   team.<br>
+            Satoru Takeuchi &lt;- Testing and general info<br>
+          Shun-ichi Goto &lt;- connect.c and hosting this guide!<br>
+           <br>
+            Also, thank you to the other people who replied to my emails
+about    these   problems and offered sugestions.<br>
+          <br>
+                  <br>
+ <br>
+</body>
+</html>

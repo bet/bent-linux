@@ -1,0 +1,141 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>DarcsRepo format</TITLE>
+<META NAME="description" CONTENT="DarcsRepo format">
+<META NAME="keywords" CONTENT="darcs">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="darcs.css">
+
+<LINK REL="next" HREF="node10.html">
+<LINK REL="previous" HREF="node8.html">
+<LINK REL="up" HREF="darcs.html">
+<LINK REL="next" HREF="node10.html">
+</HEAD>
+
+<BODY >
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html518"
+  HREF="node10.html">
+<IMG WIDTH="22" HEIGHT="22" title="Next"  ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="./next.png"></A> 
+<A NAME="tex2html514"
+  HREF="darcs.html">
+<IMG WIDTH="22" HEIGHT="22" title="Up"  ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="./up.png"></A> 
+<A NAME="tex2html508"
+  HREF="node8.html">
+<IMG WIDTH="22" HEIGHT="22" title="Previous"  ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="./prev.png"></A> 
+<A NAME="tex2html516"
+  HREF="node1.html">
+<IMG WIDTH="22" HEIGHT="22" title="Contents"  ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="./contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html519"
+  HREF="node10.html">The GNU General Public</A>
+<B> Up:</B> <A NAME="tex2html515"
+  HREF="darcs.html">Darcs 1.0.7 (release) Darcs</A>
+<B> Previous:</B> <A NAME="tex2html509"
+  HREF="node8.html">Theory of patches</A>
+ &nbsp; <B>  <A NAME="tex2html517"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR></DIV>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION00900000000000000000"></A>
+<A NAME="repository_format"></A>
+<BR>
+DarcsRepo format
+</H1>
+
+<P>
+A repository consists of a working directory, which has within it a
+directory called <code>_darcs</code>. There must also be subdirectories
+within <code>_darcs</code> named <code>current</code> and <code>patches</code>. The
+<code>current</code>  directory, called the <SPAN  CLASS="textit">pristine tree</SPAN>, contains
+the version of the tree which has been recorded, while <code>patches</code>
+contains the actual patches which are in the repository.
+
+<P>
+<SPAN  CLASS="textit">WARNING!</SPAN> Viewing files in current is perfectly acceptable, but if
+you view them with an editor (e.g. vi or Emacs), that editor may create
+temporary files in the pristine tree (<code>_darcs/pristine/</code> or
+<code>_darcs/current/</code>), which will
+temporarily cause your repository to be inconsistent.  So <SPAN  CLASS="textit">don't
+record any patches while viewing files in _darcs/current with an editor!</SPAN>
+A better plan would be to restrict yourself to viewing these files with a
+pager such as more or less.
+
+<P>
+Also within <code>_darcs</code> is the <code>inventory</code> file, which lists all the
+patches that are in the repository. Moreover, it also gives the order of the
+representation of the patches as they are stored. Given a source of patches,
+i.e. any other set of repositories which have between them all the patches
+contained in a given repository, that repository can be reproduced based on only the
+information in the <code>inventory</code> file. Under those circumstances, the
+order of the patches specified in the <code>inventory</code> file would be
+unimportant, as this order is only needed to provide context for the
+interpretation of the stored patches in this repository.
+
+<P>
+There is a very special patch which may be stored in <code>patches</code> which
+is called `pending'.  This patch describes any changes which have not yet
+been recorded, and cannot be determined by a simple diff.  For example, file
+additions or renames are placed in pending until they are recorded.
+Similarly, token replaces are stored in pending until they are recorded.
+
+<P>
+The <code>_darcs</code> directory also contains a directory called
+``<code>prefs</code>'', which is described in Chapter&nbsp;<A HREF="node5.html#configuring"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="./crossref.png"></A>.
+
+<P>
+
+<DIV CLASS="navigation"><HR>
+<!--Navigation Panel-->
+<A NAME="tex2html518"
+  HREF="node10.html">
+<IMG WIDTH="22" HEIGHT="22" title="Next"  ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="./next.png"></A> 
+<A NAME="tex2html514"
+  HREF="darcs.html">
+<IMG WIDTH="22" HEIGHT="22" title="Up"  ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="./up.png"></A> 
+<A NAME="tex2html508"
+  HREF="node8.html">
+<IMG WIDTH="22" HEIGHT="22" title="Previous"  ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="./prev.png"></A> 
+<A NAME="tex2html516"
+  HREF="node1.html">
+<IMG WIDTH="22" HEIGHT="22" title="Contents"  ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="./contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html519"
+  HREF="node10.html">The GNU General Public</A>
+<B> Up:</B> <A NAME="tex2html515"
+  HREF="darcs.html">Darcs 1.0.7 (release) Darcs</A>
+<B> Previous:</B> <A NAME="tex2html509"
+  HREF="node8.html">Theory of patches</A>
+ &nbsp; <B>  <A NAME="tex2html517"
+  HREF="node1.html">Contents</A></B> </DIV>
+<!--End of Navigation Panel-->
+<ADDRESS>
+Tommy Pettersson
+2006-05-13
+</ADDRESS>
+</BODY>
+</HTML>

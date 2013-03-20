@@ -1,0 +1,10 @@
+pkg multitail-5.0.5
+
+url http://www.vanheusden.com/multitail/multitail-5.0.5.tgz
+
+build \
+    tar xf multitail-5.0.5.tgz
+    cd multitail-5.0.5
+    mkdir -p $BPM_ROOT/usr/bin $BPM_ROOT/usr/share/man/man1 $BPM_ROOT/etc
+    make DESTDIR=$BPM_ROOT install
+    strip $BPM_ROOT/usr/bin/*

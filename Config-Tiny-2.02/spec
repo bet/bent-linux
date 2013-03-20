@@ -1,0 +1,18 @@
+pkg Config-Tiny-2.02
+
+url http://cpan.org/authors/id/A/AD/ADAMK/Config-Tiny-2.02.tar.gz
+
+build \
+    tar xf Config-Tiny-2.02.tar.gz
+    cd Config-Tiny-2.02
+    set -- `perl -MConfig -le 'print $Config{$_} for qw(sitearch sitelib man1dir man3dir)'`
+    sitearch="$1"; sitelib="$2"; man1dir="$3"; man3dir="$4"
+    perl Makefile.PL PREFIX=$BPM_ROOT/usr && make
+    mkdir -p $BPM_ROOT/$sitearch $BPM_ROOT/usr/bin $BPM_ROOT$man1dir $BPMROOT$man3dir
+    make PREFIX=$BPM_ROOT/usr \
+        INSTALLSITELIB=$BPM_ROOT$sitelib \
+        INSTALLSITEARCH=$BPM_ROOT$sitearch \
+        INSTALLMAN1DIR=$BPM_ROOT$man1dir \
+        INSTALLMAN3DIR=$BPM_ROOT$man3dir \
+        install
+    find $BPM_ROOT -name perllocal.pod | perl -lne unlink

@@ -1,0 +1,10 @@
+pkg tesseract-1.01
+
+url http://superb-east.dl.sourceforge.net/sourceforge/tesseract-ocr/tesseract-1.01.tar.gz
+
+build \
+    tar xf tesseract-1.01.tar.gz
+    cd tesseract-1.01
+    ./configure --prefix=/usr --mandir=/usr/share/man --infodir=/usr/share/info
+    make
+    make DESTDIR=$BPM_ROOT install

@@ -1,0 +1,20 @@
+pkg git-1.5.3.7
+
+url http://www.kernel.org/pub/software/scm/git/git-1.5.3.7.tar.bz2
+    http://www.kernel.org/pub/software/scm/git/git-1.5.3.7.tar.bz2.sign
+    http://www.kernel.org/pub/software/scm/git/git-htmldocs-1.5.3.7.tar.bz2
+    http://www.kernel.org/pub/software/scm/git/git-htmldocs-1.5.3.7.tar.bz2.sign
+    http://www.kernel.org/pub/software/scm/git/git-manpages-1.5.3.7.tar.bz2
+    http://www.kernel.org/pub/software/scm/git/git-manpages-1.5.3.7.tar.bz2.sign
+    git-1.5.1.2-liborder.patch
+
+build \
+    tar xf git-1.5.3.7.tar.bz2
+    cd git-1.5.3.7
+    patch -p1 <../git-1.5.1.2-liborder.patch
+    make prefix=/usr NEEDS_LIBICONV=YesPlease
+    make prefix=/usr DESTDIR=$BPM_ROOT install
+    find $BPM_ROOT -type f|xargs file|awk -F: '/not stripped/{print $1}'|xargs strip
+    mkdir -p $BPM_ROOT/usr/share/doc/git-1.5.3.7 $BPM_ROOT/usr/share/man
+    bzip2 -d <../git-htmldocs-1.5.3.7.tar.bz2 | (cd $BPM_ROOT/usr/share/doc/git-1.5.3.7 && tar xf -)
+    bzip2 -d <../git-manpages-1.5.3.7.tar.bz2 | (cd $BPM_ROOT/usr/share/man && tar xf -)

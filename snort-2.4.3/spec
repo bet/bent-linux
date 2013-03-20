@@ -1,0 +1,11 @@
+pkg snort-2.4.3
+
+url http://www.snort.org/dl/current/snort-2.4.3.tar.gz
+    http://www.snort.org/dl/current/snort-2.4.3.tar.gz.sig
+
+build \
+    tar xf snort-2.4.3.tar.gz
+    cd snort-2.4.3
+    ./configure --prefix=/usr --mandir=/usr/share/man
+    make 'LIBS=-lpcre -lpcap -lm -lnsl -lbind'
+    make prefix=$BPM_ROOT/usr mandir=$BPM_ROOT/usr/share/man install

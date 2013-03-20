@@ -1,0 +1,12 @@
+pkg gdbm-1.8.3
+
+url http://mirrors.kernel.org/gnu/gdbm/gdbm-1.8.3.tar.gz
+
+build \
+    tar xzf gdbm-1.8.3.tar.gz
+    cd gdbm-1.8.3
+    ./configure --prefix=/usr --mandir=/usr/share/man --infodir=/usr/share/info --disable-shared
+    make
+    perl -pi -le 's/-o \$\(BINOWN\) -g \$\(BINGRP\) //' Makefile
+    make prefix=$BPM_ROOT/usr man3dir=$BPM_ROOT/usr/share/man/man3 infodir=$BPM_ROOT/usr/share/info install
+    rm -rf $BPM_ROOT/usr/lib/lib*.so* $BPM_ROOT/usr/lib/lib*.la

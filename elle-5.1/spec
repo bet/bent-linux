@@ -1,0 +1,18 @@
+pkg elle-5.1
+
+url elle-5.1.tar.bz2
+    elle-5.1-linux-patches
+
+build \
+    mkdir elle-5.1
+    tar xjf elle-5.1.tar.bz2
+    cd elle-5.1
+    patch -p1 <../elle-5.1-linux-patches
+    make 'CCLD=cc -static -Os' 'CFLAGS=-c -Os' linux
+    mkdir -p $BPM_ROOT/usr/bin
+    install -s elle ellec $BPM_ROOT/usr/bin/
+    mkdir -p $BPM_ROOT/usr/share/doc/elle-5.1
+    cp *.doc aaread.me *.e $BPM_ROOT/usr/share/doc/elle-5.1/
+
+isa editor
+    emacs

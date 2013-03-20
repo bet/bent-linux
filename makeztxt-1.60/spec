@@ -1,0 +1,11 @@
+pkg makeztxt-1.60
+
+url http://twtelecom.dl.sourceforge.net/sourceforge/gutenpalm/makeztxt-1.60-src.tar.gz
+
+build \
+    tar xzf makeztxt-1.60-src.tar.gz
+    cd makeztxt-1.60
+    perl -pi -le 's/-O2/-Os/ if /^CFLAGS\s*=/; s/-o/-static -o/' Makefile
+    make
+    mkdir -p $BPM_ROOT/usr/bin
+    install -s makeztxt $BPM_ROOT/usr/bin/

@@ -1,0 +1,1013 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Theory of patches</TITLE>
+<META NAME="description" CONTENT="Theory of patches">
+<META NAME="keywords" CONTENT="darcs">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="darcs.css">
+
+<LINK REL="next" HREF="node9.html">
+<LINK REL="previous" HREF="node7.html">
+<LINK REL="up" HREF="darcs.html">
+<LINK REL="next" HREF="node9.html">
+</HEAD>
+
+<BODY >
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html478"
+  HREF="node9.html">
+<IMG WIDTH="22" HEIGHT="22" title="Next"  ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="./next.png"></A> 
+<A NAME="tex2html474"
+  HREF="darcs.html">
+<IMG WIDTH="22" HEIGHT="22" title="Up"  ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="./up.png"></A> 
+<A NAME="tex2html468"
+  HREF="node7.html">
+<IMG WIDTH="22" HEIGHT="22" title="Previous"  ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="./prev.png"></A> 
+<A NAME="tex2html476"
+  HREF="node1.html">
+<IMG WIDTH="22" HEIGHT="22" title="Contents"  ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="./contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html479"
+  HREF="node9.html">DarcsRepo format</A>
+<B> Up:</B> <A NAME="tex2html475"
+  HREF="darcs.html">Darcs 1.0.7 (release) Darcs</A>
+<B> Previous:</B> <A NAME="tex2html469"
+  HREF="node7.html">Darcs commands</A>
+ &nbsp; <B>  <A NAME="tex2html477"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR></DIV>
+<!--End of Navigation Panel-->
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL CLASS="ChildLinks">
+<LI><A NAME="tex2html480"
+  HREF="node8.html#SECTION00810000000000000000">Background</A>
+<LI><A NAME="tex2html481"
+  HREF="node8.html#SECTION00820000000000000000">Introduction</A>
+<LI><A NAME="tex2html482"
+  HREF="node8.html#SECTION00830000000000000000">Applying patches</A>
+<UL>
+<LI><A NAME="tex2html483"
+  HREF="node8.html#SECTION00831000000000000000">Hunk patches</A>
+<LI><A NAME="tex2html484"
+  HREF="node8.html#SECTION00832000000000000000">Token replace patches</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html485"
+  HREF="node8.html#SECTION00840000000000000000">Patch relationships</A>
+<LI><A NAME="tex2html486"
+  HREF="node8.html#SECTION00850000000000000000">Commuting patches</A>
+<UL>
+<LI><A NAME="tex2html487"
+  HREF="node8.html#SECTION00851000000000000000">Composite patches</A>
+<UL>
+<LI><A NAME="tex2html488"
+  HREF="node8.html#SECTION00851010000000000000">Merge</A>
+</UL>
+<LI><A NAME="tex2html489"
+  HREF="node8.html#SECTION00852000000000000000">How merges are actually performed</A>
+<LI><A NAME="tex2html490"
+  HREF="node8.html#SECTION00853000000000000000">File patches</A>
+<LI><A NAME="tex2html491"
+  HREF="node8.html#SECTION00854000000000000000">Hunks</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html492"
+  HREF="node8.html#SECTION00860000000000000000">Conflicts</A>
+<LI><A NAME="tex2html493"
+  HREF="node8.html#SECTION00870000000000000000">Patch string formatting</A>
+<UL>
+<LI><A NAME="tex2html494"
+  HREF="node8.html#SECTION00870010000000000000">Composite patch</A>
+<LI><A NAME="tex2html495"
+  HREF="node8.html#SECTION00870020000000000000">Split patch</A>
+<LI><A NAME="tex2html496"
+  HREF="node8.html#SECTION00870030000000000000">Hunk</A>
+<LI><A NAME="tex2html497"
+  HREF="node8.html#SECTION00870040000000000000">Token replace</A>
+<LI><A NAME="tex2html498"
+  HREF="node8.html#SECTION00870050000000000000">Binary file modification</A>
+<LI><A NAME="tex2html499"
+  HREF="node8.html#SECTION00870060000000000000">Add file</A>
+<LI><A NAME="tex2html500"
+  HREF="node8.html#SECTION00870070000000000000">Remove file</A>
+<LI><A NAME="tex2html501"
+  HREF="node8.html#SECTION00870080000000000000">Move</A>
+<LI><A NAME="tex2html502"
+  HREF="node8.html#SECTION00870090000000000000">Change Pref</A>
+<LI><A NAME="tex2html503"
+  HREF="node8.html#SECTION008700100000000000000">Add dir</A>
+<LI><A NAME="tex2html504"
+  HREF="node8.html#SECTION008700110000000000000">Remove dir</A>
+<LI><A NAME="tex2html505"
+  HREF="node8.html#SECTION008700120000000000000">Merger patches</A>
+<LI><A NAME="tex2html506"
+  HREF="node8.html#SECTION008700130000000000000">Conflictor patches</A>
+<LI><A NAME="tex2html507"
+  HREF="node8.html#SECTION008700140000000000000">Named patches</A>
+</UL></UL>
+<!--End of Table of Child-Links-->
+<HR>
+
+<H1><A NAME="SECTION00800000000000000000"></A>
+<A NAME="Patch"></A>
+<BR>
+Theory of patches
+</H1>
+
+<P>
+  
+<P>
+
+<H1><A NAME="SECTION00810000000000000000">
+Background</A>
+</H1>
+
+<P>
+I think a little background on the author is in order.  I am a physicist,
+and think like a physicist.  The proofs and theorems given here are what I
+would call ``physicist'' proofs and theorems, which is to say that while
+the proofs may not be rigorous, they are practical, and the theorems are
+intended to give physical insight.  It would be great to have a
+mathematician work on this, but I am not a mathematician, and don't care
+for math.
+
+<P>
+From the beginning of this theory, which originated as the result of a
+series of email discussions with Tom Lord, I have looked at patches as
+being analogous to the operators of quantum mechanics.  I include in this
+appendix footnotes explaining the theory of patches in terms of the theory
+of quantum mechanics.  I know that for most people this won't help at all,
+but many of my friends (and as I write this all three of darcs' users) are
+physicists, and this will be helpful to them.  To non-physicists, perhaps it
+will provide some insight into how at least this physicist thinks.
+
+<P>
+
+<H1><A NAME="SECTION00820000000000000000">
+Introduction</A>
+</H1>
+
+<P>
+A patch describes a change to the tree.  It could be either a primitive
+patch (such as a file add/remove, a directory rename, or a hunk replacement
+within a file), or a composite patch describing many such changes.  Every
+patch type must satisfy the conditions described in this appendix.  The
+theory of patches is independent of the data which the patches manipulate,
+which is what makes it both powerful and useful, as it provides a framework
+upon which one can build a revision control system in a sane manner.
+
+<P>
+Although in a sense, the defining property of any patch is that it can be
+applied to a certain tree, and thus make a certain change, this change does
+not wholly define the patch.  A patch is defined by a
+<SPAN  CLASS="textit">representation</SPAN>, together with a set of rules for how it behaves
+(which it has in common with its patch type).  The <SPAN  CLASS="textit">representation</SPAN> of
+a patch defines what change that particular patch makes, and must be
+defined in the context of a specific tree.  The theory of patches is a
+theory of the many ways one can change the representation of a patch to
+place it in the context of a different tree.  The patch itself is not
+changed, since it describes a single change, which must be the same
+regardless of its representation<A NAME="tex2html21"
+  HREF="footnode.html#foot2047"><SUP>A.<SPAN CLASS="arabic">1</SPAN></SUP></A>.
+
+<P>
+So how does one define a tree, or the context of a patch? The simplest way
+to define a tree is as the result of a series of patches applied to the
+empty tree<A NAME="tex2html22"
+  HREF="footnode.html#foot1880"><SUP>A.<SPAN CLASS="arabic">2</SPAN></SUP></A>.  Thus, the
+context of a patch consists of the set of patches that precede it.
+
+<P>
+
+<H1><A NAME="SECTION00830000000000000000">
+Applying patches</A>
+</H1>
+
+<P>
+
+<H2><A NAME="SECTION00831000000000000000">
+Hunk patches</A>
+</H2>
+
+<P>
+Hunks are an example of a complex filepatch.  A hunk is a set of lines of a
+text file to be replaced by a different set of lines.  Either of these sets
+may be empty, which would mean a deletion or insertion of lines.
+
+<P>
+
+<H2><A NAME="SECTION00832000000000000000"></A><A NAME="token_replace"></A>
+<BR>
+Token replace patches
+</H2>
+
+<P>
+Although most filepatches will be hunks, darcs is clever enough to support
+other types of changes as well.  A ``token replace'' patch replaces all
+instances of a given token with some other version.  A token, here, is
+defined by a regular expression, which must be of the simple [a-z...] type,
+indicating which characters are allowed in a token, with all other
+characters acting as delimiters.  For example, a C identifier would be a
+token with the flag <code>[A-Za-z_0-9]</code>.
+
+<P>
+What makes the token replace patch special is the fact that a token replace
+can be merged with almost any ordinary hunk, giving exactly what you would
+want.  For example, you might want to change the patch type <TT>TokReplace</TT> to <TT>TokenReplace</TT> (if you decided that saving two
+characters of space was stupid).  If you did this using hunks, it would
+modify every line where <TT>TokReplace</TT> occurred, and quite likely provoke
+a conflict with another patch modifying those lines.  On the other hand, if
+you did this using a token replace patch, the only change that it could
+conflict with would be if someone else had used the token ``<TT>TokenReplace</TT>'' in their patch rather than TokReplace--and that actually
+would be a real conflict!
+
+<P>
+
+<H1><A NAME="SECTION00840000000000000000">
+Patch relationships</A>
+</H1>
+
+<P>
+The simplest relationship between two patches is that of ``sequential''
+patches, which means that the context of the second patch (the one on the
+left) consists of the first patch (on the right) plus the context of the
+first patch.  The composition of two patches (which is also a patch) refers
+to the patch which is formed by first applying one and then the other.  The
+composition of two patches, <SPAN CLASS="MATH"><IMG
+ WIDTH="21" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img4.png"
+ ALT="$P_1$"></SPAN> and <SPAN CLASS="MATH"><IMG
+ WIDTH="21" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img5.png"
+ ALT="$P_2$"></SPAN> is represented as <SPAN CLASS="MATH"><IMG
+ WIDTH="39" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img6.png"
+ ALT="$P_2P_1$"></SPAN>,
+where <SPAN CLASS="MATH"><IMG
+ WIDTH="21" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img4.png"
+ ALT="$P_1$"></SPAN> is to be applied first, then <SPAN CLASS="MATH"><IMG
+ WIDTH="21" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img5.png"
+ ALT="$P_2$"></SPAN><A NAME="tex2html23"
+  HREF="footnode.html#foot1890"><SUP>A.<SPAN CLASS="arabic">3</SPAN></SUP></A>
+<P>
+There is one other very useful relationship that two patches can have,
+which is to be parallel patches, which means that the two patches have an
+identical context (i.e. their representation applies to identical trees).
+This is represented by <!-- MATH
+ $P_1\parallel P_2$
+ -->
+<SPAN CLASS="MATH"><IMG
+ WIDTH="56" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img7.png"
+ ALT="$P_1\parallel P_2$"></SPAN>.  Of course, two patches may also
+have no simple relationship to one another.  In that case, if you want to
+do something with them, you'll have to manipulate them with respect to
+other patches until they are either in sequence or in parallel.
+
+<P>
+The most fundamental and simple property of patches is that they must be
+invertible.  The inverse of a patch is described by: <SPAN CLASS="MATH"><IMG
+ WIDTH="34" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img8.png"
+ ALT="$P^{ -1}$"></SPAN>.  In the
+darcs implementation, the inverse is required to be computable from
+knowledge of the patch only, without knowledge of its context, but that
+(although convenient) is not required by the theory of patches.
+<P>
+<DIV><B>Definition  <SPAN CLASS="arabic">1</SPAN></B> &nbsp; 
+<I>The inverse of patch <SPAN CLASS="MATH"><IMG
+ WIDTH="16" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img9.png"
+ ALT="$P$"></SPAN> is <SPAN CLASS="MATH"><IMG
+ WIDTH="34" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img8.png"
+ ALT="$P^{ -1}$"></SPAN>, which is the ``simplest'' patch for
+which the composition <SPAN CLASS="MATH"><IMG
+ WIDTH="46" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img10.png"
+ ALT="\( P^{ -1} P \)"></SPAN> makes no changes to the tree.</I></DIV><P></P>
+Using this definition, it is trivial to prove the following theorem
+relating to the inverse of a composition of two patches.
+<P>
+<DIV><B>Theorem  <SPAN CLASS="arabic">1</SPAN></B> &nbsp; 
+<I>The inverse of the composition of two patches is
+</I>
+<BR><P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay">
+<!-- MATH
+ \begin{displaymath}
+(P_2 P_1)^{ -1} = P_1^{ -1} P_2^{ -1}.
+\end{displaymath}
+ -->
+
+<IMG
+ WIDTH="148" HEIGHT="28" BORDER="0"
+ SRC="img11.png"
+ ALT="\begin{displaymath}(P_2 P_1)^{ -1} = P_1^{ -1} P_2^{ -1}. \end{displaymath}">
+</DIV>
+<BR CLEAR="ALL">
+<P></P></DIV><P></P>
+Moreover, it is possible to show that the right inverse of a patch is equal
+to its left inverse.  In this respect, patches continue to be analogous to
+square matrices, and indeed the proofs relating to these properties of the
+inverse are entirely analogous to the proofs in the case of matrix
+multiplication.  The compositions proofs can also readily be extended to
+the composition of more than two patches.
+
+<P>
+
+<H1><A NAME="SECTION00850000000000000000">
+Commuting patches</A>
+</H1>
+
+<P>
+
+<H2><A NAME="SECTION00851000000000000000">
+Composite patches</A>
+</H2>
+
+<P>
+Composite patches are made up of a series of patches intended to be applied
+sequentially.  They are represented by a list of patches, with the first
+patch in the list being applied first.
+
+<P>
+
+<P>
+The first way (of only two) to change the context of a patch is by
+commutation, which is the process of changing the order of two sequential
+patches.
+<P>
+<DIV><B>Definition  <SPAN CLASS="arabic">2</SPAN></B> &nbsp; 
+<I>The commutation of patches <SPAN CLASS="MATH"><IMG
+ WIDTH="21" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img4.png"
+ ALT="$P_1$"></SPAN> and <SPAN CLASS="MATH"><IMG
+ WIDTH="21" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img5.png"
+ ALT="$P_2$"></SPAN> is represented by
+</I>
+<BR><P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay">
+<!-- MATH
+ \begin{displaymath}
+P_2 P_1 \longleftrightarrow {P_1}' {P_2}'.
+\end{displaymath}
+ -->
+
+<IMG
+ WIDTH="121" HEIGHT="27" BORDER="0"
+ SRC="img12.png"
+ ALT="\begin{displaymath}P_2 P_1 \longleftrightarrow {P_1}' {P_2}'. \end{displaymath}">
+</DIV>
+<BR CLEAR="ALL">
+<P></P><I>
+Here <SPAN CLASS="MATH"><IMG
+ WIDTH="21" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img13.png"
+ ALT="$P_1'$"></SPAN> is intended to describe the same change as <SPAN CLASS="MATH"><IMG
+ WIDTH="21" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img4.png"
+ ALT="$P_1$"></SPAN>, with the
+only difference being that <SPAN CLASS="MATH"><IMG
+ WIDTH="21" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img13.png"
+ ALT="$P_1'$"></SPAN> is applied after <SPAN CLASS="MATH"><IMG
+ WIDTH="21" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img14.png"
+ ALT="$P_2'$"></SPAN> rather than
+before <SPAN CLASS="MATH"><IMG
+ WIDTH="21" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img5.png"
+ ALT="$P_2$"></SPAN>.</I></DIV><P></P>
+The above definition is obviously rather vague, the reason being that what
+is the ``same change'' has not been defined, and we simply assume (and
+hope) that the code's view of what is the ``same change'' will match those
+of its human users.  The `<!-- MATH
+ $\longleftrightarrow$
+ -->
+<SPAN CLASS="MATH"><IMG
+ WIDTH="33" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img15.png"
+ ALT="$\longleftrightarrow $"></SPAN>' operator should be read as something
+like the <SPAN CLASS="MATH"><IMG
+ WIDTH="29" HEIGHT="12" ALIGN="BOTTOM" BORDER="0"
+ SRC="img16.png"
+ ALT="$==$"></SPAN> operator in C, indicating that the right hand side performs
+identical changes to the left hand side, but the two patches are in
+reversed order.  When read in this manner, it is clear that commutation
+must be a reversible process, and indeed this means that commutation
+<SPAN  CLASS="textit">can</SPAN> fail, and must fail in certain cases.  For example, the creation
+and deletion of the same file cannot be commuted.  When two patches fail to
+commute, it is said that the second patch depends on the first, meaning
+that it must have the first patch in its context (remembering that the
+context of a patch is a set of patches, which is how we represent a tree).
+<A NAME="tex2html24"
+  HREF="footnode.html#foot1912"><SUP>A.<SPAN CLASS="arabic">4</SPAN></SUP></A>
+<P>
+
+<H4><A NAME="SECTION00851010000000000000">
+Merge</A>
+</H4>
+ 
+The second way one can change the context of a patch is by a <B>merge</B>
+operation.  A merge is an operation that takes two parallel patches and
+gives a pair of sequential patches.  The merge operation is represented by
+the arrow ``<!-- MATH
+ $\Longrightarrow$
+ -->
+<SPAN CLASS="MATH"><IMG
+ WIDTH="30" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img18.png"
+ ALT="\( \Longrightarrow \)"></SPAN>''.
+<P>
+<DIV><A NAME="merge_dfn"><B>Definition  <SPAN CLASS="arabic">3</SPAN></B></A> &nbsp; 
+<I>The result of a merge of two patches, <SPAN CLASS="MATH"><IMG
+ WIDTH="21" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img4.png"
+ ALT="$P_1$"></SPAN> and <SPAN CLASS="MATH"><IMG
+ WIDTH="21" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img5.png"
+ ALT="$P_2$"></SPAN> is one of two patches,
+<SPAN CLASS="MATH"><IMG
+ WIDTH="21" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img13.png"
+ ALT="$P_1'$"></SPAN> and <SPAN CLASS="MATH"><IMG
+ WIDTH="21" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img14.png"
+ ALT="$P_2'$"></SPAN>, which satisfy the relationship:
+</I>
+<BR><P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay">
+<!-- MATH
+ \begin{displaymath}
+P_2 \parallel P_1 \Longrightarrow {P_2}' P_1 \longleftrightarrow {P_1}' P_2.
+\end{displaymath}
+ -->
+
+<IMG
+ WIDTH="206" HEIGHT="28" BORDER="0"
+ SRC="img19.png"
+ ALT="\begin{displaymath}P_2 \parallel P_1 \Longrightarrow {P_2}' P_1 \longleftrightarrow {P_1}' P_2. \end{displaymath}">
+</DIV>
+<BR CLEAR="ALL">
+<P></P></DIV><P></P>
+Note that the sequential patches resulting from a merge are <SPAN  CLASS="textit">required</SPAN>
+to commute.  This is an important consideration, as without it most of the
+manipulations we would like to perform would not be possible.  The other
+important fact is that a merge <SPAN  CLASS="textit">cannot fail</SPAN>.  Naively, those two
+requirements seem contradictory.  In reality, what it means is that the
+result of a merge may be a patch which is much more complex than any we
+have yet considered<A NAME="tex2html25"
+  HREF="footnode.html#foot2048"><SUP>A.<SPAN CLASS="arabic">5</SPAN></SUP></A>.
+
+<P>
+
+<H2><A NAME="SECTION00852000000000000000">
+How merges are actually performed</A>
+</H2>
+
+<P>
+The constraint that any two compatible patches (patches which can
+successfully be applied to the same tree) can be merged is actually quite
+difficult to apply.  The above merge constraints also imply that the result
+of a series of merges must be independent of the order of the merges.  So
+I'm putting a whole section here for the interested to see what algorithms
+I use to actually perform the merges (as this is pretty close to being the
+most difficult part of the code).
+
+<P>
+The first case is that in which the two merges don't actually conflict, but
+don't trivially merge either (e.g. hunk patches on the same file, where the
+line number has to be shifted as they are merged).  This kind of merge can
+actually be very elegantly dealt with using only commutation and inversion.
+
+<P>
+There is a handy little theorem which is immensely useful when trying to
+merge two patches.
+<P>
+<DIV><A NAME="merge_thm"><B>Theorem  <SPAN CLASS="arabic">2</SPAN></B></A> &nbsp; 
+<I><!-- MATH
+ $P_2' P_1 \longleftrightarrow P_1' P_2$
+ -->
+<SPAN CLASS="MATH"><IMG
+ WIDTH="112" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img20.png"
+ ALT="$ P_2' P_1 \longleftrightarrow P_1' P_2 $"></SPAN> if and only if <!-- MATH
+ $P_1'^{ -1}
+P_2' \longleftrightarrow P_2 P_1^{ -1}$
+ -->
+<SPAN CLASS="MATH"><IMG
+ WIDTH="140" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img21.png"
+ ALT="$ P_1'^{ -1}
+P_2' \longleftrightarrow P_2 P_1^{ -1} $"></SPAN>, provided both commutations succeed.  If
+either commute fails, this theorem does not apply.</I></DIV><P></P>
+This can easily be proven by multiplying both sides of the first
+commutation by <SPAN CLASS="MATH"><IMG
+ WIDTH="37" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img22.png"
+ ALT="$P_1'^{ -1}$"></SPAN> on the left, and by <SPAN CLASS="MATH"><IMG
+ WIDTH="34" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img23.png"
+ ALT="$P_1^{ -1}$"></SPAN> on the right.
+Besides being used in merging, this theorem is also useful in the recursive
+commutations of mergers.  From Theorem&nbsp;<A HREF="#merge_thm"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="./crossref.png"></A>, we see that the
+merge of <SPAN CLASS="MATH"><IMG
+ WIDTH="21" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img4.png"
+ ALT="$P_1$"></SPAN> and <SPAN CLASS="MATH"><IMG
+ WIDTH="21" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img14.png"
+ ALT="$P_2'$"></SPAN> is simply the commutation of <SPAN CLASS="MATH"><IMG
+ WIDTH="21" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img5.png"
+ ALT="$P_2$"></SPAN> with <SPAN CLASS="MATH"><IMG
+ WIDTH="34" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img23.png"
+ ALT="$P_1^{ -1}$"></SPAN> (making sure to do the commutation the right way).  Of course, if this
+commutation fails, the patches conflict.  Moreover, one must check that the
+merged result actually commutes with <SPAN CLASS="MATH"><IMG
+ WIDTH="21" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img4.png"
+ ALT="$P_1$"></SPAN>, as the theorem applies only
+when <SPAN  CLASS="textit">both</SPAN> commutations are successful.
+
+<P>
+Of course, there are patches that actually conflict, meaning a merge where
+the two patches truly cannot both be applied (e.g. trying to create a file
+and a directory with the same name).  We deal with this case by creating a
+special kind of patch to support the merge, which we will call a
+``merger''.  Basically, a merger is a patch that contains the two patches
+that conflicted, and instructs darcs basically to resolve the conflict.  By
+construction a merger will satisfy the commutation property (see
+Definition&nbsp;<A HREF="#merge_dfn"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="./crossref.png"></A>) that characterizes all merges.  Moreover the
+merger's properties are what makes the order of merges unimportant (which
+is a rather critical property for darcs as a whole).
+
+<P>
+The job of a merger is basically to undo the two conflicting patches, and
+then apply some sort of a ``resolution'' of the two instead.  In the case
+of two conflicting hunks, this will look much like what CVS does, where it
+inserts both versions into the file.  In general, of course, the two
+conflicting patches may both be mergers themselves, in which case the
+situation is considerably more complicated.
+
+<P>
+Much of the merger code depends on a routine which recreates from a single
+merger the entire sequence of patches which led up to that merger (this is,
+of course, assuming that this is the complicated general case of a merger
+of mergers of mergers).  This ``unwind'' procedure is rather complicated,
+but absolutely critical to the merger code, as without it we wouldn't even
+be able to undo the effects of the patches involved in the merger, since we
+wouldn't know what patches were all involved in it.
+
+<P>
+Basically, unwind takes a merger such as
+<PRE>
+M( M(A,B), M(A,M(C,D)))
+</PRE>
+From which it recreates a merge history:
+<PRE>
+C
+A
+M(A,B)
+M( M(A,B), M(A,M(C,D)))
+</PRE>
+(For the curious, yes I can easily unwind this merger in my head [and on
+paper can unwind insanely more complex mergers]--that's what comes of
+working for a few months on an algorithm.)  Let's start with a simple
+unwinding.  The merger <code>M(A,B)</code> simply means that two patches
+(<code>A</code> and <code>B</code>) conflicted, and of the two of them <code>A</code> is
+first in the history.  The last two patches in the unwinding of any merger
+are always just this easy.  So this unwinds to:
+<PRE>
+A
+M(A,B)
+</PRE>
+What about a merger of mergers? How about <code>M(A,M(C,D))</code>.  In this case
+we know the two most recent patches are:
+<PRE>
+A
+M(A,M(C,D))
+</PRE>
+But obviously the unwinding isn't complete, since we don't yet see where
+<code>C</code> and <code>D</code> came from.  In this case we take the unwinding of
+<code>M(C,D)</code> and drop its latest patch (which is <code>M(C,D)</code> itself) and
+place that at the beginning of our patch train:
+<PRE>
+C
+A
+M(A,M(C,D))
+</PRE>
+As we look at <code>M( M(A,B), M(A,M(C,D)))</code>, we consider the unwindings of
+each of its subpatches:
+<PRE>
+          C
+A         A
+M(A,B)    M(A,M(C,D))
+</PRE>
+As we did with <code>M(A,M(C,D))</code>, we'll drop the first patch on the
+right and insert the first patch on the left.  That moves us up to the two
+<code>A</code>'s.  Since these agree, we can use just one of them (they
+``should'' agree).  That leaves us with the <code>C</code> which goes first.
+
+<P>
+The catch is that things don't always turn out this easily.  There is no
+guarantee that the two <code>A</code>'s would come out at the same time, and if
+they didn't, we'd have to rearrange things until they did.  Or if there was
+no way to rearrange things so that they would agree, we have to go on to
+plan B, which I will explain now.
+
+<P>
+Consider the case of <code>M( M(A,B), M(C,D))</code>.  We can easily unwind the
+two subpatches
+<PRE>
+A         C
+M(A,B)    M(C,D)
+</PRE>
+Now we need to reconcile the <code>A</code> and <code>C</code>.  How do we do this?
+Well, as usual, the solution is to use the most wonderful
+Theorem&nbsp;<A HREF="#merge_thm"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="./crossref.png"></A>.  In this case we have to use it in the reverse of
+how we used it when merging, since we know that <code>A</code> and <code>C</code> could
+either one be the <SPAN  CLASS="textit">last</SPAN> patch applied before <code>M(A,B)</code> or
+<code>M(C,D)</code>.  So we can find <code>C'</code> using
+<BR><P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay">
+<!-- MATH
+ \begin{displaymath}
+A^{ -1} C \longleftrightarrow C' A'^{ -1}
+\end{displaymath}
+ -->
+
+<IMG
+ WIDTH="127" HEIGHT="24" BORDER="0"
+ SRC="img24.png"
+ ALT="\begin{displaymath}
+A^{ -1} C \longleftrightarrow C' A'^{ -1}
+\end{displaymath}">
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+Giving an unwinding of
+<PRE>
+C'
+A
+M(A,B)
+M( M(A,B), M(C,D) )
+</PRE>
+There is a bit more complexity to the unwinding process (mostly having to
+do with cases where you have deeper nesting), but I think the general
+principles that are followed are pretty much included in the above
+discussion.
+
+<P>
+It can sometimes be handy to have a canonical representation of a given
+patch.  We achieve this by defining a canonical form for each patch type,
+and a function ``<TT>canonize</TT>'' which takes a patch and puts it into
+canonical form.  This routine is used by the diff function to create an
+optimal patch (based on an LCS algorithm) from a simple hunk describing the
+old and new version of a file.
+Note that canonization may fail, if the patch is internally inconsistent.
+
+<P>
+A simpler, faster (and more generally useful) cousin of canonize is the
+coalescing function.  This takes two sequential patches, and tries to turn
+them into one patch.  This function is used to deal with ``split'' patches,
+which are created when the commutation of a primitive patch can only be
+represented by a composite patch.  In this case the resulting composite
+patch must return to the original primitive patch when the commutation is
+reversed, which a split patch accomplishes by trying to coalesce its
+contents each time it is commuted.
+
+<P>
+
+<H2><A NAME="SECTION00853000000000000000">
+File patches</A>
+</H2>
+
+<P>
+A file patch is a patch which only modifies a single
+file.  There are some rules which can be made about file patches in
+general, which makes them a handy class.
+For example, commutation of two filepatches is trivial if they modify
+different files.  There is an exception when one of the files has a name
+ending with ``-conflict'', in which case it may not commute with a file
+having the same name, but without the ``-conflict.''  If they happen to
+modify the same file, we'll have to check whether or not they commute.
+
+<P>
+There is another handy function, which primarily affects file patches
+(although it can also affect other patches, such as rename patches or dir
+add/remove patches), which is the submerge-in-directory function.  This
+function changes the patch to act on a patch within a subdirectory rather
+than in the current directory, and is useful when performing the recursive
+diff.
+
+<P>
+
+<H2><A NAME="SECTION00854000000000000000">
+Hunks</A>
+</H2>
+
+<P>
+The hunk is the simplest patch that has a commuting pattern in which the
+commuted patches differ from the originals (rather than simple success or
+failure).  This makes commuting or merging two hunks a tad tedious.
+Hunks, of course, can be coalesced if they have any overlap.  Note that
+coalesce code doesn't check if the two patches are conflicting.  If you are
+coalescing two conflicting hunks, you've already got a bug somewhere.
+
+<P>
+One of the most important pieces of code is the canonization of a hunk,
+which is where the ``diff'' algorithm is performed.  This algorithm begins
+with chopping off the identical beginnings and endings of the old and new
+hunks.  This isn't strictly necessary, but is a good idea, since this
+process is <SPAN CLASS="MATH"><IMG
+ WIDTH="39" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img25.png"
+ ALT="$O(n)$"></SPAN>, while the primary diff algorithm is something
+considerably more painful than that... actually the head would be dealt
+with all right, but with more space complexity.  I think it's more
+efficient to just chop the head and tail off first.
+
+<P>
+
+<H1><A NAME="SECTION00860000000000000000">
+Conflicts</A>
+</H1>
+
+<P>
+There are a couple of simple constraints on the routine which determines
+how to resolve two conflicting patches (which is called `glump').  These
+must be satisfied in order that the result of a series of merges is always
+independent of their order.  Firstly, the output of glump cannot change
+when the order of the two conflicting patches is switched.  If it did, then
+commuting the merger could change the resulting patch, which would be bad.
+Secondly, the result of the merge of three (or more) conflicting patches
+cannot depend on the order in which the merges are performed.
+
+<P>
+The conflict resolution code (glump) begins by ``unravelling'' the merger
+into a set of sequences of patches.  Each sequence of patches corresponds
+to one non-conflicted patch that got merged together with the others.  The
+result of the unravelling of a series of merges must obviously be
+independent of the order in which those merges are performed.  This
+unravelling code (which uses the unwind code mentioned above) uses probably
+the second most complicated algorithm.  Fortunately, if we can successfully
+unravel the merger, almost any function of the unravelled merger satisfies
+the two constraints mentioned above that the conflict resolution code must
+satisfy.
+
+<P>
+
+<H1><A NAME="SECTION00870000000000000000">
+Patch string formatting</A>
+</H1>
+
+<P>
+Of course, in order to store our patches in a file, we'll have to save them
+as some sort of strings.  The convention is that each patch string will end
+with a newline, but on parsing we skip any amount of whitespace between
+patches.
+
+<P>
+
+<H4><A NAME="SECTION00870010000000000000">
+Composite patch</A>
+</H4>
+A patch made up of a few other patches.
+<PRE>
+{
+  &lt;put patches here&gt; (indented two)
+}
+</PRE>
+
+<P>
+
+<H4><A NAME="SECTION00870020000000000000">
+Split patch</A>
+</H4>
+A split patch is similar to a composite patch (identical in how it's
+stored), but rather than being composed of several patches grouped
+together, it is created from one patch that has been split apart, typically
+through a merge or commutation.
+<PRE>
+(
+  &lt;put patches here&gt; (indented two)
+)
+</PRE>
+
+<P>
+
+<H4><A NAME="SECTION00870030000000000000">
+Hunk</A>
+</H4>
+Replace a hunk (set of contiguous lines) of text with a new
+hunk.
+<PRE>
+hunk FILE LINE#
+-LINE
+...
++LINE
+...
+</PRE>
+
+<P>
+
+<H4><A NAME="SECTION00870040000000000000">
+Token replace</A>
+</H4>
+
+<P>
+Replace a token with a new token.  Note that this format means that the
+white space must not be allowed within a token.  If you know of a practical
+application of whitespace within a token, let me know and I may change
+this.
+<PRE>
+replace FILENAME [REGEX] OLD NEW
+</PRE>
+
+<P>
+
+<H4><A NAME="SECTION00870050000000000000">
+Binary file modification</A>
+</H4>
+
+<P>
+Modify a binary file
+<PRE>
+binary FILENAME
+oldhex
+*HEXHEXHEX
+...
+newhex
+*HEXHEXHEX
+...
+</PRE>
+
+<P>
+
+<H4><A NAME="SECTION00870060000000000000">
+Add file</A>
+</H4>
+Add an empty file to the tree.
+
+<P>
+<code>addfile filename</code>
+
+<P>
+
+<H4><A NAME="SECTION00870070000000000000">
+Remove file</A>
+</H4>
+Delete a file from the tree.
+
+<P>
+<code>rmfile filename</code>
+
+<P>
+
+<H4><A NAME="SECTION00870080000000000000">
+Move</A>
+</H4>
+Rename a file or directory.
+
+<P>
+<code>move oldname newname</code>
+
+<P>
+
+<H4><A NAME="SECTION00870090000000000000">
+Change Pref</A>
+</H4>
+Change one of the preference settings.  Darcs stores a number of simple
+string settings.  Among these are the name of the test script and the name
+of the script that must be called prior to packing in a make dist.
+<PRE>
+changepref prefname
+oldval
+newval
+</PRE>
+
+<P>
+
+<H4><A NAME="SECTION008700100000000000000">
+Add dir</A>
+</H4>
+Add an empty directory to the tree.
+
+<P>
+<code>adddir filename</code>
+
+<P>
+
+<H4><A NAME="SECTION008700110000000000000">
+Remove dir</A>
+</H4>
+Delete a directory from the tree.
+
+<P>
+<code>rmdir filename</code>
+
+<P>
+
+<H4><A NAME="SECTION008700120000000000000">
+Merger patches</A>
+</H4>
+Merge two patches.  The MERGERVERSION is included to allow some degree of
+backwards compatibility if the merger algorithm needs to be changed.
+<PRE>
+merger MERGERVERSION
+&lt;first patch&gt;
+&lt;second patch&gt;
+</PRE>
+
+<P>
+
+<H4><A NAME="SECTION008700130000000000000">
+Conflictor patches</A>
+</H4>
+The conflictor patch type is the replacement for the old merger patch
+type.  FIXME: More explanation should be added here.
+<PRE>
+conflict
+&lt;CONFLICTING PATCH SEQUENCE&gt;
+with
+&lt;OLDER PATCH SEQUENCE&gt;
+tcilfnoc
+</PRE>
+
+<P>
+
+<H4><A NAME="SECTION008700140000000000000">
+Named patches</A>
+</H4>
+
+<P>
+Named patches are displayed as a ``patch id'' which is in square brackets,
+followed by a patch.  Optionally, after the patch id (but before the patch
+itself) can come a list of dependencies surrounded by angle brackets.  Each
+dependency consists of a patch id.
+
+<P>
+
+<DIV CLASS="navigation"><HR>
+<!--Navigation Panel-->
+<A NAME="tex2html478"
+  HREF="node9.html">
+<IMG WIDTH="22" HEIGHT="22" title="Next"  ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="./next.png"></A> 
+<A NAME="tex2html474"
+  HREF="darcs.html">
+<IMG WIDTH="22" HEIGHT="22" title="Up"  ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="./up.png"></A> 
+<A NAME="tex2html468"
+  HREF="node7.html">
+<IMG WIDTH="22" HEIGHT="22" title="Previous"  ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="./prev.png"></A> 
+<A NAME="tex2html476"
+  HREF="node1.html">
+<IMG WIDTH="22" HEIGHT="22" title="Contents"  ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="./contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html479"
+  HREF="node9.html">DarcsRepo format</A>
+<B> Up:</B> <A NAME="tex2html475"
+  HREF="darcs.html">Darcs 1.0.7 (release) Darcs</A>
+<B> Previous:</B> <A NAME="tex2html469"
+  HREF="node7.html">Darcs commands</A>
+ &nbsp; <B>  <A NAME="tex2html477"
+  HREF="node1.html">Contents</A></B> </DIV>
+<!--End of Navigation Panel-->
+<ADDRESS>
+Tommy Pettersson
+2006-05-13
+</ADDRESS>
+</BODY>
+</HTML>

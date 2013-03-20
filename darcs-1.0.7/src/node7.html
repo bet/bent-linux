@@ -1,0 +1,5997 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Darcs commands</TITLE>
+<META NAME="description" CONTENT="Darcs commands">
+<META NAME="keywords" CONTENT="darcs">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="darcs.css">
+
+<LINK REL="next" HREF="node8.html">
+<LINK REL="previous" HREF="node6.html">
+<LINK REL="up" HREF="darcs.html">
+<LINK REL="next" HREF="node8.html">
+</HEAD>
+
+<BODY >
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html418"
+  HREF="node8.html">
+<IMG WIDTH="22" HEIGHT="22" title="Next"  ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="./next.png"></A> 
+<A NAME="tex2html414"
+  HREF="darcs.html">
+<IMG WIDTH="22" HEIGHT="22" title="Up"  ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="./up.png"></A> 
+<A NAME="tex2html408"
+  HREF="node6.html">
+<IMG WIDTH="22" HEIGHT="22" title="Previous"  ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="./prev.png"></A> 
+<A NAME="tex2html416"
+  HREF="node1.html">
+<IMG WIDTH="22" HEIGHT="22" title="Contents"  ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="./contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html419"
+  HREF="node8.html">Theory of patches</A>
+<B> Up:</B> <A NAME="tex2html415"
+  HREF="darcs.html">Darcs 1.0.7 (release) Darcs</A>
+<B> Previous:</B> <A NAME="tex2html409"
+  HREF="node6.html">Best practices</A>
+ &nbsp; <B>  <A NAME="tex2html417"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR></DIV>
+<!--End of Navigation Panel-->
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL CLASS="ChildLinks">
+<LI><UL>
+<LI><UL>
+<LI><UL>
+<LI><A NAME="tex2html420"
+  HREF="node7.html#SECTION00700010000000000000">Command overview</A>
+</UL>
+</UL>
+</UL>
+<BR>
+<LI><A NAME="tex2html421"
+  HREF="node7.html#SECTION00710000000000000000">Common options to darcs commands</A>
+<UL>
+<LI><A NAME="tex2html422"
+  HREF="node7.html#SECTION00710010000000000000">Selecting patches</A>
+<LI><A NAME="tex2html423"
+  HREF="node7.html#SECTION00710020000000000000">Match</A>
+<LI><A NAME="tex2html424"
+  HREF="node7.html#SECTION00710030000000000000">Resolution of conflicts</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html425"
+  HREF="node7.html#SECTION00720000000000000000">Options apart from darcs commands</A>
+<LI><A NAME="tex2html426"
+  HREF="node7.html#SECTION00730000000000000000">Getting help</A>
+<UL>
+<LI><A NAME="tex2html427"
+  HREF="node7.html#SECTION00731000000000000000">darcs help</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html428"
+  HREF="node7.html#SECTION00740000000000000000">Creating repositories</A>
+<UL>
+<LI><A NAME="tex2html429"
+  HREF="node7.html#SECTION00741000000000000000">darcs initialize</A>
+<LI><A NAME="tex2html430"
+  HREF="node7.html#SECTION00742000000000000000">darcs get</A>
+<LI><A NAME="tex2html431"
+  HREF="node7.html#SECTION00743000000000000000">darcs put</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html432"
+  HREF="node7.html#SECTION00750000000000000000">Modifying the contents of a repository</A>
+<UL>
+<LI><A NAME="tex2html433"
+  HREF="node7.html#SECTION00751000000000000000">darcs add</A>
+<LI><A NAME="tex2html434"
+  HREF="node7.html#SECTION00752000000000000000">darcs remove</A>
+<LI><A NAME="tex2html435"
+  HREF="node7.html#SECTION00753000000000000000">darcs mv</A>
+<LI><A NAME="tex2html436"
+  HREF="node7.html#SECTION00754000000000000000">darcs replace</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html437"
+  HREF="node7.html#SECTION00760000000000000000">Working with changes</A>
+<UL>
+<LI><A NAME="tex2html438"
+  HREF="node7.html#SECTION00761000000000000000">darcs record</A>
+<LI><A NAME="tex2html439"
+  HREF="node7.html#SECTION00762000000000000000">darcs pull</A>
+<LI><A NAME="tex2html440"
+  HREF="node7.html#SECTION00763000000000000000">darcs push</A>
+<LI><A NAME="tex2html441"
+  HREF="node7.html#SECTION00764000000000000000">darcs send</A>
+<LI><A NAME="tex2html442"
+  HREF="node7.html#SECTION00765000000000000000">darcs apply</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html443"
+  HREF="node7.html#SECTION00770000000000000000">Seeing what you've done</A>
+<UL>
+<LI><A NAME="tex2html444"
+  HREF="node7.html#SECTION00771000000000000000">darcs whatsnew</A>
+<LI><A NAME="tex2html445"
+  HREF="node7.html#SECTION00772000000000000000">darcs changes</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html446"
+  HREF="node7.html#SECTION00780000000000000000">More advanced commands</A>
+<UL>
+<LI><A NAME="tex2html447"
+  HREF="node7.html#SECTION00781000000000000000">darcs tag</A>
+<LI><A NAME="tex2html448"
+  HREF="node7.html#SECTION00782000000000000000">darcs setpref</A>
+<LI><A NAME="tex2html449"
+  HREF="node7.html#SECTION00783000000000000000">darcs check</A>
+<LI><A NAME="tex2html450"
+  HREF="node7.html#SECTION00784000000000000000">darcs optimize</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html451"
+  HREF="node7.html#SECTION00790000000000000000">Undoing, redoing and running in circles</A>
+<UL>
+<LI><A NAME="tex2html452"
+  HREF="node7.html#SECTION00791000000000000000">darcs amend-record</A>
+<LI><A NAME="tex2html453"
+  HREF="node7.html#SECTION00792000000000000000">darcs rollback</A>
+<LI><A NAME="tex2html454"
+  HREF="node7.html#SECTION00793000000000000000">darcs unrecord</A>
+<LI><A NAME="tex2html455"
+  HREF="node7.html#SECTION00794000000000000000">darcs unpull</A>
+<LI><A NAME="tex2html456"
+  HREF="node7.html#SECTION00795000000000000000">darcs obliterate</A>
+<LI><A NAME="tex2html457"
+  HREF="node7.html#SECTION00796000000000000000">darcs revert</A>
+<LI><A NAME="tex2html458"
+  HREF="node7.html#SECTION00797000000000000000">darcs unrevert</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html459"
+  HREF="node7.html#SECTION007100000000000000000">Advanced examination of the repository</A>
+<UL>
+<LI><A NAME="tex2html460"
+  HREF="node7.html#SECTION007101000000000000000">darcs diff</A>
+<LI><A NAME="tex2html461"
+  HREF="node7.html#SECTION007102000000000000000">darcs annotate</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html462"
+  HREF="node7.html#SECTION007110000000000000000">Rarely needed and obscure commands</A>
+<UL>
+<LI><A NAME="tex2html463"
+  HREF="node7.html#SECTION007111000000000000000">darcs resolve</A>
+<LI><A NAME="tex2html464"
+  HREF="node7.html#SECTION007112000000000000000">darcs dist</A>
+<LI><A NAME="tex2html465"
+  HREF="node7.html#SECTION007113000000000000000">darcs trackdown</A>
+<UL>
+<LI><A NAME="tex2html466"
+  HREF="node7.html#SECTION007113100000000000000">Example usage</A>
+</UL>
+<LI><A NAME="tex2html467"
+  HREF="node7.html#SECTION007114000000000000000">darcs repair</A>
+</UL></UL>
+<!--End of Table of Child-Links-->
+<HR>
+
+<H1><A NAME="SECTION00700000000000000000">
+Darcs commands</A>
+</H1>
+
+<P>
+The general format of a darcs command is
+<PRE>
+% darcs COMMAND OPTIONS ARGUMENTS ...
+</PRE>
+Here <code>COMMAND</code> is a command such as <code>add</code> or <code>record</code>, which of
+course may have one or more arguments.  Options have the form
+<code>--option</code> or <code>-o</code>, while arguments vary from command to
+command.  There are many options which are common to a number of different
+commands, which will be summarized here.
+
+<P>
+If you wish, you may use any unambiguous beginning of a command name as a
+shortcut: for <code>darcs record</code>, you could type <code>darcs recor</code> or
+<code>darcs rec</code>, but not <code>darcs re</code> since that could be confused with
+<code>darcs replace</code>, <code>darcs revert</code> and <code>darcs remove</code>.
+
+<P>
+In some cases, <code>COMMAND</code> actually consists of two words, a
+super-command and a subcommand.  For example, the ``display the
+manifest'' command has the form <code>darcs query manifest</code>.
+
+<P>
+
+<H4><A NAME="SECTION00700010000000000000">
+Command overview</A>
+</H4>
+
+<P>
+Not all commands modify the ``patches'' of your repository (that
+is, the named patches which other users can pull); some commands only
+affect the copy of the source tree you're working on (your ``working
+directory''), and some affect both. This table summarizes what you should
+expect from each one and will hopefully serve as guide when you're having
+doubts about which command to use.
+
+<P>
+<DIV ALIGN="CENTER">
+
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="CENTER">affects</TD>
+<TD ALIGN="CENTER">patches</TD>
+<TD ALIGN="CENTER">working directory</TD>
+</TR>
+<TR><TD ALIGN="CENTER">record</TD>
+<TD ALIGN="CENTER">yes</TD>
+<TD ALIGN="CENTER">no</TD>
+</TR>
+<TR><TD ALIGN="CENTER">unrecord</TD>
+<TD ALIGN="CENTER">yes</TD>
+<TD ALIGN="CENTER">no</TD>
+</TR>
+<TR><TD ALIGN="CENTER">rollback</TD>
+<TD ALIGN="CENTER">yes</TD>
+<TD ALIGN="CENTER">no</TD>
+</TR>
+<TR><TD ALIGN="CENTER">revert</TD>
+<TD ALIGN="CENTER">no</TD>
+<TD ALIGN="CENTER">yes</TD>
+</TR>
+<TR><TD ALIGN="CENTER">unrevert</TD>
+<TD ALIGN="CENTER">no</TD>
+<TD ALIGN="CENTER">yes</TD>
+</TR>
+<TR><TD ALIGN="CENTER">pull</TD>
+<TD ALIGN="CENTER">yes</TD>
+<TD ALIGN="CENTER">yes</TD>
+</TR>
+<TR><TD ALIGN="CENTER">unpull</TD>
+<TD ALIGN="CENTER">yes</TD>
+<TD ALIGN="CENTER">yes</TD>
+</TR>
+<TR><TD ALIGN="CENTER">apply</TD>
+<TD ALIGN="CENTER">yes</TD>
+<TD ALIGN="CENTER">yes</TD>
+</TR>
+<TR><TD ALIGN="CENTER">push<A NAME="tex2html16"
+  HREF="footnode.html#foot459"><SUP><SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">1</SPAN></SUP></A></TD>
+<TD ALIGN="CENTER">no</TD>
+<TD ALIGN="CENTER">no</TD>
+</TR>
+<TR><TD ALIGN="CENTER">send<A NAME="tex2html17"
+  HREF="footnode.html#foot460"><SUP><SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">2</SPAN></SUP></A></TD>
+<TD ALIGN="CENTER">no</TD>
+<TD ALIGN="CENTER">no</TD>
+</TR>
+<TR><TD ALIGN="CENTER">put<A NAME="tex2html18"
+  HREF="footnode.html#foot461"><SUP><SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">3</SPAN></SUP></A></TD>
+<TD ALIGN="CENTER">no</TD>
+<TD ALIGN="CENTER">no</TD>
+</TR>
+</TABLE>
+</DIV>
+
+<P>
+
+<H1><A NAME="SECTION00710000000000000000">
+Common options to darcs commands</A>
+</H1>
+
+<P>
+
+<div class="cmd-opt-hdr">
+--help
+</div>
+Every <code>COMMAND</code> accepts <code>--help</code> as an argument, which tells it to
+provide a bit of help.  Among other things, this help always provides an
+accurate listing of the options available with that command, and is
+guaranteed never to be out of sync with the version of darcs you actually
+have installed (unlike this manual, which could be for an entirely
+different version of darcs).
+<PRE>
+% darcs COMMAND --help
+</PRE>
+
+<P>
+
+<div class="cmd-opt-hdr">
+--disable
+</div>
+Every <TT>COMMAND</TT> accepts the <code>--disable</code> option, which can be used in
+<code>_darcs/prefs/defaults</code> to disable some commands in the repository. This
+can be helpful if you want to protect the repository from accidental use of
+advanced commands like unpull, unrecord or amend-record.
+
+<P>
+
+<div class="cmd-opt-hdr">
+--verbose
+</div>
+Most commands also accept the <code>--verbose</code> option, which tells darcs to
+provide additional output.  The amount of verbosity varies from command to
+command.
+
+<P>
+
+<div class="cmd-opt-hdr">
+--repodir
+</div>
+Another common option is the <code>--repodir</code> option, which allows you to
+specify the directory of the repository in which to perform the command.
+This option is used with commands, such as whatsnew, that ordinarily would
+be performed within a repository directory, and allows you to use those
+commands without actually being in the repository directory when calling the
+command.  This is useful when running darcs in a pipe, as might be the case
+when running <code>apply</code> from a mailer.
+
+<P>
+
+<H4><A NAME="SECTION00710010000000000000"></A><A NAME="selecting"></A>
+<BR>
+Selecting patches
+</H4>
+
+<P>
+Many commands operate on a patch or patches that have already been recorded.
+There are a number of options that specify which patches are selected for
+these operations: <code>--patch</code>, <code>--match</code>, <code>--tag</code>, and variants
+on these, which for <code>--patch</code> are <code>--patches</code>,
+<code>--from-patch</code>, and <code>--to-patch</code>.  The <code>--patch</code> and
+<code>--tag</code> forms simply take (POSIX extended, aka <code>egrep</code>) regular
+expressions and match them against tag and patch names.  <code>--match</code>,
+described below, allows more powerful patterns.
+
+<P>
+The plural forms of these options select all matching patches.  The singular
+forms select the last matching patch.  The range (from and to) forms select
+patches after or up to (both inclusive) the last matching patch.
+
+<P>
+These options use the current order of patches in the repository.  darcs may
+reorder patches, so this is not necessarily the order of creation or the
+order in which patches were applied.  However, as long as you are just
+recording patches in your own repository, they will remain in order.
+
+<P>
+
+<H4><A NAME="SECTION00710020000000000000">
+Match</A>
+</H4>
+
+<P>
+Currently <code>--match</code> accepts five primitive match types, although
+there are plans to expand it to match more patterns.  Also, note that the
+syntax is still preliminary and subject to change.
+
+<P>
+The first match type accepts a literal string which is checked against
+the patch name.  The syntax is
+<PRE>
+darcs annotate --summary --match 'exact foo+bar'
+</PRE>
+This is useful for situations where a patch name contains characters that
+could be considered special for regular expressions.
+
+<P>
+The second match type accepts a regular expression which is checked against
+the patch name.  The syntax is
+<PRE>
+darcs annotate --summary --match 'name foo'
+</PRE>
+If you want to include spaces in the regular expression, it must be
+enclosed in double quotes (<code>"</code>), and currently there is no provision for
+escaping a double quote, so you have to choose between matching double
+quotes and matching spaces.
+
+<P>
+The third match type matches the darcs hash for each patch:
+<PRE>
+darcs annotate --summary --match \
+  'hash 20040403105958-53a90-c719567e92c3b0ab9eddd5290b705712b8b918ef'
+</PRE>
+This is intended to be used, for example, by programs allowing you to view
+darcs repositories (e.g. CGI scripts like viewCVS).
+
+<P>
+The fourth match type accepts a regular expression which is checked against
+the patch author.  The syntax is
+<PRE>
+darcs annotate --summary --match 'author foo'
+</PRE>
+
+<P>
+There is also support for matching by date.  This is done using commands such as
+<PRE>
+darcs annotate --summary --match 'date "last week"'
+darcs annotate --summary --match 'date yesterday'
+darcs annotate --summary --match 'date "today 14:00"'
+darcs annotate --summary --match 'date "tea time yesterday"'
+darcs annotate --summary --match 'date "3 days before last year at 17:00"'
+darcs changes --from-match 'date "Sat Jun  30 11:31:30 EDT 2004"'
+</PRE>
+
+<P>
+Note that you may also specify intervals, either in a small subset of English or
+of the ISO 8601 format.  If you use the ISO format, note that durations, when
+specified alone, are interpreted as being relative to the current date and time.
+<PRE>
+darcs annotate --summary --match 'date "between 2004-03-12 and last week"'
+darcs annotate --summary --match 'date "after 2005"'
+darcs annotate --summary --match 'date "in the last 3 weeks"'
+darcs annotate --summary --match 'date "P3M/2006-03-17"'
+darcs annotate --summary --match 'date "2004-01-02/2006-03-17"'
+darcs annotate --summary --match 'date "P2M6D"'
+</PRE>
+
+<P>
+You may also prefer to combine date matching with a more specific pattern.
+<PRE>
+darcs annotate --summary --match 'date "last week" &amp;&amp; name foo'
+</PRE>
+
+<P>
+The <code>--match</code> pattern can include the logical operators <code>&amp;&amp;</code>,
+<code>||</code> and <code>not</code>, as well as grouping of patterns with parentheses.
+For example
+<PRE>
+darcs annotate --summary --match 'name record &amp;&amp; not name overrode'
+</PRE>
+
+<P>
+
+<div class="cmd-opt-hdr">
+--ignore-times
+</div>
+Darcs optimizes its operations by keeping track of the modification times
+of your files.  This dramatically speeds up commands such as
+<code>whatsnew</code> and <code>record</code> which would otherwise require reading
+every file in the repository and comparing it with a reference version.  However,
+there are times when this can cause problems, such as when running a series
+of darcs commands from a script, in which case often a file will be
+modified twice in the same second, which can lead to the second
+modification going unnoticed.  The solution to such predicaments is the
+<code>--ignore-times</code> option, which instructs darcs not to trust the file
+modification times, but instead to check each file's contents explicitly.
+
+<P>
+
+<div class="cmd-opt-hdr">
+--author
+</div>
+Several commands need to be able to identify you.  Conventionally, you
+provide an email address for this purpose, which can include comments,
+e.g. <code>David Roundy &lt;droundy@abridgegame.org&gt;</code>.  The easiest way to do
+this is
+to define an environment variable <code>EMAIL</code> or <code>DARCS_EMAIL</code> (with
+the latter overriding the former).  You can also override this using the
+<code>--author</code> flag to any command.  Alternatively, you could set your
+email address on a per-repository basis using the ``defaults'' mechanism
+for ``ALL'' commands, as described in Appendix&nbsp;<A HREF="node9.html#repository_format"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="./crossref.png"></A>.
+Or, you could specify the author on a per-repository basis using the
+<code>_darcs/prefs/author</code> file as described in section&nbsp;<A HREF="node5.html#author_prefs"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="./crossref.png"></A>.
+
+<P>
+Also, a global author file can be created in your home directory with the name
+<code>.darcs/author</code>.  This file overrides the
+contents of the environment variables, but a repository-specific author
+file overrides the global author file.
+
+<P>
+
+<div class="cmd-opt-hdr">
+--dont-compress, --compress
+</div>
+By default, darcs commands that write patches to disk will compress the
+patch files.  If you don't want this, you can choose the
+<code>--dont-compress</code> option, which causes darcs not to compress the patch
+file.
+
+<P>
+
+<div class="cmd-opt-hdr">
+--gui
+</div>
+Certain commands may have an optional graphical user interface.  If such
+commands are supported, you can activate the graphical user interface by
+calling darcs with the <code>--gui</code> flag.
+
+<P>
+NOTE: The GUI is not currently functional, but is expected to re-appear 
+in a future release. 
+
+<P>
+
+<div class="cmd-opt-hdr">
+--dry-run
+</div>
+The <code>--dry-run</code> option will cause darcs not to actually take the specified
+action, but only print what would have happened.  Not all commands accept
+<code>--dry-run</code>, but those that do should accept the <code>--summary</code>  option.
+
+<P>
+
+<div class="cmd-opt-hdr">
+--summary, --no-summary
+</div>
+The <code>--summary</code> option shows a summary of the patches that would have been
+pulled/pushed/whatever. The format is similar to the output format of
+<code>cvs update</code> and looks like this:
+
+<P>
+<PRE>
+A  ./added_but_not_recorded.c
+A! ./added_but_not_recorded_conflicts.c
+a  ./would_be_added_if_look_for_adds_option_was_used.h
+
+M  ./modified.t -1 +1
+M! ./modified_conflicts.t -1 +1
+
+R  ./removed_but_not_recorded.c
+R! ./removed_but_not_recorded_conflicts.c
+</PRE>
+
+<P>
+You can probably guess what the flags mean from the clever file names.
+<DL>
+<DT></DT>
+<DD><TT>A</TT> is for files that have been added but not recorded yet.
+</DD>
+<DT></DT>
+<DD><TT>a</TT> is for files found using the <code>--look-for-adds</code> option available for
+<code>whatsnew</code> and <code>record</code>. They have not been added yet, but would be
+added automatically if <code>--look-for-adds</code> were used with the next
+<code>record</code> command.
+
+<P>
+</DD>
+<DT></DT>
+<DD><TT>M</TT> is for files that have been modified in the working directory but not
+recorded yet. The number of added and subtracted lines is also shown.
+
+<P>
+</DD>
+<DT></DT>
+<DD><TT>R</TT>  is for files that have been removed, but the removal is not
+recorded yet.
+</DD>
+</DL>
+An exclamation mark appears next to any option that has a conflict.
+
+<P>
+
+<H4><A NAME="SECTION00710030000000000000"></A><A NAME="resolution"></A>
+<BR>
+Resolution of conflicts
+</H4>
+
+<P>
+To resolve conflicts using an external tool, you need to specify a command
+to use, e.g.
+<PRE>
+--external-merge 'opendiff %1 %2 -ancestor %a -merge %o'
+</PRE>
+The <code>%1</code> and <code>%2</code>  are replaced with the two versions to be
+merged, <code>%a</code> is replaced with the common ancestor of the two versions.
+Most importantly, <code>%o</code> is replaced with the name of the output file
+that darcs will require to be created holding the merged version.  The
+above example works with the FileMerge.app tool that comes with Apple's
+developer tools.  To use xxdiff, you would use
+<PRE>
+--external-merge 'xxdiff -m -O -M %o %1 %a %2'
+</PRE>
+To use <code>kdiff3</code>, you can use
+<PRE>
+--external-merge 'kdiff3 --output %o %a %1 %2'
+</PRE>
+To use <code>tortoiseMerge</code>, you can use
+<PRE>
+--external-merge 'tortoiseMerge /base:"%a" /mine:"%1" /theirs:"%2" /merged:"%o"'
+</PRE>
+(<code>tortoiseMerge</code> is a nice merge tool that comes with TortoiseSVN and works well
+on Windows.)
+
+<P>
+Note that the command is split into space-separated words and the first one is
+<code>exec</code>ed with the rest as arguments--it is not a shell command. In particular,
+on Windows this means that the first command path should not contain spaces and
+you should make sure the command is in your <code>PATH</code>. 
+
+<P>
+The substitution of the <code>%</code> escapes is done everywhere. If you need to prevent
+substitution you can use a double percentage sign, i.e. <code>%%a</code> is substituted with
+<code>%a</code>. Here is an example script to use the Emacs' Ediff package for merging.
+<PRE>
+ #! /bin/sh
+ # External merge command for darcs, using Emacs Ediff, via server if possible.
+ # It needs args %1 %2 %a %o, i.e. the external merge command is, say,
+ # `emerge3 %1 %2 %a %o'.
+ test $# -eq 4 || exit 1
+ form="(ediff-merge-files-with-ancestor"
+ while test $# -gt 0; do
+     count=$count.
+     if [ $count = .... ]; then
+         form=$form\ nil         # Lisp STARTUP-HOOKS arg
+     fi
+     case $1 in                  # Worry about quoting -- escape " and \
+         *[\"\\]* ) form=$form\ \"$(echo $1 | sed -e's/["\\]/\\\0/g')\" ;;
+         *) form=$form\ \"$1\" ;;
+     esac
+     shift
+ done
+ form=$form')'
+ ( emacsclient --eval "$form" || # Emacs 22 server
+   gnudoit "$form" ||            # XEmacs/Emacs 21 server
+   emacs --eval "$form" ||       # Relatively slow to start up
+   xemacs -eval "$form"          # Horribly slow to start up
+ ) 2&gt;/dev/null
+</PRE>
+It would be invoked like:
+<PRE>
+--external-merge 'emerge3 %1 %2 %a %o'
+</PRE>
+
+<P>
+If you figure out how to use darcs with another merge tool, please let me
+know what flags you used so I can mention it here.
+
+<P>
+Note that if you do use an external merge tool, most likely you will want
+to add to your defaults file
+(<code>_darcs/prefs/defaults</code> or <code>~/.darcs/prefs</code>, see <A HREF="node5.html#defaults"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="./crossref.png"></A>)
+a line such as
+<PRE>
+ALL external-merge kdiff3 --output %o %a %1 %2
+</PRE>
+or
+<PRE>
+ALL external-merge tortoiseMerge /base:"%a" /mine:"%1" /theirs:"%2" /merged:"%o"
+</PRE>
+
+<P>
+Note that the defaults file does not want quotes around the command.
+
+<P>
+
+<div class="cmd-opt-hdr">
+--posthook=COMMAND, --no-posthook
+</div>
+To provide a command that should be run whenever a darcs command completes
+successfully, use <code>--posthook</code> to specify the command.  This is useful
+for people who want to have a command run whenever a patch is applied.  Using
+<code>--no-posthook</code> will disable running the command.  
+
+<div class="cmd-opt-hdr">
+--prompt-posthook, --run-posthook
+</div>
+These options control prompting before running the posthook.  Use
+<code>--prompt-posthook</code> to force prompting before running the
+posthook command.  For security reasons, this is the default.  When
+defining a posthook for apply, you will need to use
+<code>--run-posthook</code> or else you will get an error, because the
+subprocess which runs the apply command cannot prompt the user.
+
+<P>
+
+<div class="cmd-opt-hdr">
+--disable-ssh-cm
+</div>
+
+<P>
+For commands which which invoke ssh, darcs will normally multiplex ssh
+sessions over a single connection as long as your version of ssh has
+the ControlMaster feature from OpenSSH versions 3.9 and above.  This
+option will avoid darcs trying to use this feature even if your ssh
+supports it.
+
+<P>
+
+<H1><A NAME="SECTION00720000000000000000">
+Options apart from darcs commands</A>
+</H1>
+
+<div class="cmd-opt-hdr">
+--gui
+</div>
+Calling darcs with just <code>--gui</code> launches the experimental
+standalone graphical interface.  
+<div class="cmd-opt-hdr">
+--help, --extended-help
+</div>
+Calling darcs with just <code>--help</code> as an argument gives a brief
+summary of what commands are available.
+The <code>--extended-help</code> option gives a more technical summary of
+what the commands actually <SPAN  CLASS="textit">do</SPAN>.
+
+<div class="cmd-opt-hdr">
+--version, --exact-version
+</div>
+Calling darcs with the flag <code>--version</code> tells you the version of
+darcs you are using.  Calling darcs with the flag <code>--exact-version</code>
+gives the precise version of darcs, even if that version doesn't correspond
+to a released version number.  This is helpful with bug reports, especially
+when running with a ``latest'' version of darcs.
+
+<div class="cmd-opt-hdr">
+--commands
+</div>
+Similarly calling darcs with only <code>--commands</code> gives a simple list
+of available commands.  This latter arrangement is primarily intended for
+the use of command-line autocompletion facilities, as are available in
+bash.
+
+<P>
+
+<H1><A NAME="SECTION00730000000000000000">
+Getting help</A>
+</H1>
+
+<P>
+
+<H2><A NAME="SECTION00731000000000000000"></A>
+<A NAME="help"></A>
+<BR>
+darcs help
+</H2>
+
+<P>
+You could also call <code>help</code> as a command.  This is equivalent to calling
+darcs -help.  
+The <code>--verbose</code> argument is equivalent to the darcs option 
+<code>--extended-help</code> 
+If you pass it another command as an argument, it will be equivalent to passing
+the <code>--help</code> to that command.  For example, <code>darcs help query manifest</code>
+is equivalent to <code>darcs query manifest --help</code>.
+
+<P>
+<code>Usage: darcs help [OPTION]... [&lt;DARCS_COMMAND&gt; [DARCS_SUBCOMMAND]]  </code>
+
+<P>
+Options:
+
+<P>
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT"><code>-v</code></TD>
+<TD ALIGN="LEFT"><code>--verbose</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+give verbose output</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--standard-verbosity</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+don't give verbose output</TD></TR>
+</TABLE></TD>
+</TR>
+</TABLE>
+
+<P>
+Display help for darcs or a single commands.
+help displays usage information for darcs in general or for a single
+command (for example, darcs help query manifest).
+
+<P>
+Note that -verbose prints extra help for darcs as a whole,
+but it makes no difference when getting help for a single command.
+
+<P>
+
+<H1><A NAME="SECTION00740000000000000000">
+Creating repositories</A>
+</H1>
+
+<P>
+
+<H2><A NAME="SECTION00741000000000000000">
+darcs initialize</A>
+</H2>
+
+<P>
+<code>Usage: darcs initialize [OPTION]... </code>
+
+<P>
+Options:
+
+<P>
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--plain-pristine-tree</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+Use a plain pristine tree [DEFAULT]</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--no-pristine-tree</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+Use no pristine tree</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--repodir DIRECTORY</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+specify the repository directory in which to run</TD></TR>
+</TABLE></TD>
+</TR>
+</TABLE>
+
+<P>
+Initialize a new source tree as a darcs repository.
+
+<P>
+Generally you will only call initialize once for each project you work on,
+and calling it is just about the first thing you do.  Just make sure you
+are in the main directory of the project, and initialize will set up all the
+directories and files darcs needs in order to start keeping track of
+revisions for your project.
+
+<P>
+The <code>initialize</code> follows the following procedure:
+It creates the directories <code>_darcs</code>, <code>_darcs/current</code> (or
+<code>_darcs/pristine</code>), <code>_darcs/inventories</code>,
+<code>_darcs/patches</code>, and <code>_darcs/prefs</code>,
+and then creates the
+empty files <code>_darcs/prefs/motd</code> (see Section&nbsp;<A HREF="node5.html#motd"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="./crossref.png"></A>)
+and <code>_darcs/inventory</code>.
+It then fills the contents of
+<code>boring</code> and <code>binaries</code> in the <code>_darcs/prefs</code>
+directory with useful default values as described in Sections <A HREF="node5.html#boring"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="./crossref.png"></A> <SPAN  CLASS="textit">et seq.</SPAN>
+It is strongly
+recommended that you use <code>darcs initialize</code> to do this, as this
+procedure may change in a future version of darcs.
+
+<P>
+
+<div class="cmd-opt-hdr">
+--no-pristine-tree
+</div>
+In order to save disk space, you can use <code>initialize</code> with the
+<code>--no-pristine-tree</code> flag to create a repository with no pristine
+tree.  Please see Section&nbsp;<A HREF="node4.html#disk-usage"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="./crossref.png"></A> for more information.
+
+<P>
+
+<H2><A NAME="SECTION00742000000000000000">
+darcs get</A>
+</H2>
+
+<P>
+<code>Usage: darcs get [OPTION]... &lt;REPOSITORY&gt; [&lt;DIRECTORY&gt;]</code>
+
+<P>
+Options:
+
+<P>
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--repo-name DIRECTORY</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+path of output directory</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--partial</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+get partial repository using checkpoint</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--complete</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+get a complete copy of the repository</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--to-match PATTERN</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+select changes up to a patch matching PATTERN</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--to-patch REGEXP</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+select changes up to a patch matching REGEXP</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--tag REGEXP</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+select tag matching REGEXP</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--context FILENAME</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+version specified by the context in FILENAME</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-v</code></TD>
+<TD ALIGN="LEFT"><code>--verbose</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+give verbose output</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-q</code></TD>
+<TD ALIGN="LEFT"><code>--quiet</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+suppress informational output</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--standard-verbosity</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+neither verbose nor quiet output</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--set-default</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+set default repository [DEFAULT]</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--no-set-default</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+don't set default repository</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--set-scripts-executable</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+make scripts executable</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--dont-set-scripts-executable</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+don't make scripts executable</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--plain-pristine-tree</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+Use a plain pristine tree [DEFAULT]</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--no-pristine-tree</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+Use no pristine tree</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--repodir DIRECTORY</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+specify the repository directory in which to run</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--disable-ssh-cm</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+Disable use of SSH ControlMaster feature</TD></TR>
+</TABLE></TD>
+</TR>
+</TABLE>
+
+<P>
+If the remote repository and the current directory are in the same filesystem and
+that filesystem supports hard links, get will create hard links for the
+patch files, which means that the additional storage space needed will be
+minimal.  This is <SPAN  CLASS="textit">very</SPAN> good for your disk usage (and for the speed
+of running get), so if you want multiple copies of a repository, I strongly
+recommend first running <code>darcs get</code> to get yourself one copy, and then
+running <code>darcs get</code> on that copy to make any more you like.  The only
+catch is that the first time you run <code>darcs push</code> or <code>darcs pull</code>
+from any of these second copies, by default they will access your first
+copy--which may not be what you want.
+
+<P>
+You may specify the name of the repository created by providing a second
+argument to get, which is a directory name.
+
+<P>
+
+<div class="cmd-opt-hdr">
+--context, --tag, --to-patch, --to-match
+</div>
+If you want to get a specific version of a repository, you have a few
+options.  You can either use the <code>--tag</code>, <code>--to-patch</code> or
+<code>--to-match</code> options, or you can use the <code>--context=FILENAME</code>
+option, which specifies a file containing a context generated with
+<code>darcs changes --context</code>.  This allows you (for example) to include in
+your compiled program an option to output the precise version of the
+repository from which it was generated, and then perhaps ask users to
+include this information in bug reports.
+
+<P>
+Note that when specifying <code>--to-patch</code> or <code>--to-match</code>, you may
+get a version of your code that has never before been seen, if the patches
+have gotten themselves reordered.  If you ever want to be able to precisely
+reproduce a given version, you need either to tag it or create a context
+file.
+
+<P>
+
+<H2><A NAME="SECTION00743000000000000000">
+darcs put</A>
+</H2>
+<code>Usage: darcs put [OPTION]... &lt;NEW REPOSITORY&gt;</code>
+
+<P>
+Options:
+
+<P>
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT"><code>-v</code></TD>
+<TD ALIGN="LEFT"><code>--verbose</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+give verbose output</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-q</code></TD>
+<TD ALIGN="LEFT"><code>--quiet</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+suppress informational output</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--standard-verbosity</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+neither verbose nor quiet output</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--repodir DIRECTORY</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+specify the repository directory in which to run</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--to-match PATTERN</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+select changes up to a patch matching PATTERN</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--to-patch REGEXP</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+select changes up to a patch matching REGEXP</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--tag REGEXP</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+select tag matching REGEXP</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--context FILENAME</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+version specified by the context in FILENAME</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--apply-as USERNAME</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+apply patch as another user using sudo</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--apply-as-myself</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+don't use sudo to apply as another user [DEFAULT]</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--plain-pristine-tree</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+Use a plain pristine tree [DEFAULT]</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--no-pristine-tree</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+Use no pristine tree</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--disable-ssh-cm</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+Disable use of SSH ControlMaster feature</TD></TR>
+</TABLE></TD>
+</TR>
+</TABLE>
+
+<P>
+Put is the opposite of get. Put copies the content of the current 
+repository and puts it in a newly created repository.
+
+<P>
+<SPAN  CLASS="textit">WARNING:</SPAN> Put is far less optimized than get, especially for local
+repositories.  We recommend avoiding use of put except for small
+repositories.
+
+<P>
+Put is used when you already have a repository and want to make a copy
+of it.  A typical use-case is when you want to branch your project.
+
+<P>
+Put works by first initializing a repository. If the new repository is
+not on the local file system then darcs will login to the remote host
+and run <code>darcs init</code> there. After the new repository is created
+all selected patches will be pushed just as with the command
+<code>push</code>.
+
+<P>
+
+<div class="cmd-opt-hdr">
+--apply-as
+</div>
+
+<P>
+If you give the <code>--apply-as</code> flag, darcs will use sudo to apply the
+changes as a different user.  This can be useful if you want to set up a
+system where several users can modify the same repository, but you don't
+want to allow them full write access.  This isn't secure against skilled
+malicious attackers, but at least can protect your repository from clumsy,
+inept or lazy users.
+
+<P>
+
+<div class="cmd-opt-hdr">
+--context, --tag, --to-patch, --to-match
+</div>
+If you want to put a specific version of a repository, you have a few
+options.  You can either use the <code>--tag</code>, <code>--to-patch</code> or
+<code>--to-match</code> options, or you can use the <code>--context=FILENAME</code>
+option, which specifies a file containing a context generated with
+<code>darcs changes --context</code>.  This allows you (for example) to include in
+your compiled program an option to output the precise version of the
+repository from which it was generated, and then perhaps ask users to
+include this information in bug reports.
+
+<P>
+Note that when specifying <code>--to-patch</code> or <code>--to-match</code>, you may
+get a version of your code that has never before been seen, if the patches
+have gotten themselves reordered.  If you ever want to be able to precisely
+reproduce a given version, you need either to tag it or create a context
+file.
+
+<P>
+
+<H1><A NAME="SECTION00750000000000000000">
+Modifying the contents of a repository</A>
+</H1>
+
+<P>
+
+<H2><A NAME="SECTION00751000000000000000">
+darcs add</A>
+</H2>
+
+<P>
+<code>Usage: darcs add [OPTION]... &lt;FILE or DIRECTORY&gt; ...</code>
+
+<P>
+Options:
+
+<P>
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--boring</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+don't skip boring files</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--case-ok</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+don't refuse to add files differing only in case</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-r</code></TD>
+<TD ALIGN="LEFT"><code>--recursive</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+add contents of subdirectories</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--not-recursive</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+don't add contents of subdirectories</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--date-trick</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+add files with date appended to avoid conflict. [EXPERIMENTAL] </TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--no-date-trick</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+don't use experimental date appending trick. [DEFAULT]</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-v</code></TD>
+<TD ALIGN="LEFT"><code>--verbose</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+give verbose output</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-q</code></TD>
+<TD ALIGN="LEFT"><code>--quiet</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+suppress informational output</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--standard-verbosity</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+neither verbose nor quiet output</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--repodir DIRECTORY</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+specify the repository directory in which to run</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--dry-run</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+don't actually take the action</TD></TR>
+</TABLE></TD>
+</TR>
+</TABLE>
+
+<P>
+Add needs to be called whenever you add a new file or directory to your
+project.  Of course, it also needs to be called when you first create the
+project, to let darcs know which files should be kept track of.
+
+<P>
+Darcs will refuse to add a file or directory that differs from an existing
+one only in case.  This is because the HFS+ file system used on MacOS
+treats such files as being one and the same.
+
+<P>
+You can not add symbolic links to darcs.
+If you try to do that, darcs will refuse and print an error message.
+Perhaps you want to make symbolic links <SPAN  CLASS="textit">to</SPAN> the files in darcs instead?
+
+<P>
+
+<div class="cmd-opt-hdr">
+--boring
+</div>
+
+<P>
+By default darcs will ignore all files that match any of the boring patterns.
+If you want to add such a file anyway you must use the <code>--boring</code> option.
+
+<P>
+
+<div class="cmd-opt-hdr">
+--date-trick
+</div>
+
+<P>
+The <code>--date-trick</code> option allows you to enable an experimental trick
+to make add conflicts, in which two users each add a file or directory with
+the same name, less problematic.  While this trick is completely safe, it
+is not clear to what extent it is beneficial.
+
+<P>
+
+<H2><A NAME="SECTION00752000000000000000">
+darcs remove</A>
+</H2>
+
+<P>
+<code>Usage: darcs remove [OPTION]... &lt;FILE or DIRECTORY&gt; ...</code>
+
+<P>
+Options:
+
+<P>
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT"><code>-v</code></TD>
+<TD ALIGN="LEFT"><code>--verbose</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+give verbose output</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--standard-verbosity</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+don't give verbose output</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--repodir DIRECTORY</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+specify the repository directory in which to run</TD></TR>
+</TABLE></TD>
+</TR>
+</TABLE>
+
+<P>
+Remove should be called when you want to remove a file from your project,
+but don't actually want to delete the file.  Otherwise just delete the
+file or directory, and darcs will notice that it has been removed.
+Be aware that the file WILL be deleted from any other copy of the
+repository to which you later apply the patch.
+
+<P>
+
+<H2><A NAME="SECTION00753000000000000000">
+darcs mv</A>
+</H2>
+
+<P>
+<code>Usage: darcs mv [OPTION]... [FILE or DIRECTORY]...</code>
+
+<P>
+Options:
+
+<P>
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--case-ok</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+don't refuse to add files differing only in case</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-v</code></TD>
+<TD ALIGN="LEFT"><code>--verbose</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+give verbose output</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--standard-verbosity</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+don't give verbose output</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--repodir DIRECTORY</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+specify the repository directory in which to run</TD></TR>
+</TABLE></TD>
+</TR>
+</TABLE>
+
+<P>
+Darcs mv needs to be called whenever you want to move files or
+directories. Unlike remove, mv actually performs the move itself in your
+working copy.
+ This is why ``mv'' isn't called ``move'', since it is
+really almost equivalent to the unix command ``mv''.  I could add an
+equivalent command named ``move'' for those who like vowels.
+
+<P>
+
+<div class="cmd-opt-hdr">
+--case-ok
+</div>
+
+<P>
+Darcs mv will by default refuse to rename a file if there already exists a
+file having the same name apart from case.  This is because doing so could
+create a repository that could not be used on file systems that are case
+insensitive (such as Apples HFS+).  You can override this by with the flag
+<code>--case-ok</code>.
+
+<P>
+
+<H2><A NAME="SECTION00754000000000000000">
+darcs replace</A>
+</H2>
+
+<P>
+<code>Usage: darcs replace [OPTION]... &lt;OLD&gt; &lt;NEW&gt; &lt;FILE&gt; ...</code>
+
+<P>
+Options:
+
+<P>
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--token-chars "[CHARS]"</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+define token to contain these characters</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-f</code></TD>
+<TD ALIGN="LEFT"><code>--force</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+proceed with replace even if 'new' token already exists</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--no-force</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+don't force the replace if it looks scary</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-v</code></TD>
+<TD ALIGN="LEFT"><code>--verbose</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+give verbose output</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--standard-verbosity</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+don't give verbose output</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--repodir DIRECTORY</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+specify the repository directory in which to run</TD></TR>
+</TABLE></TD>
+</TR>
+</TABLE>
+
+<P>
+Replace allows you to change a specified token wherever it
+occurs in the specified files.  The replace is encoded in a
+special patch and will merge as expected with other patches.
+Tokens here are defined by a regexp specifying the characters
+which are allowed.  By default a token corresponds to a C identifier.
+
+<P>
+The default regexp is <code>[A-Za-z_0-9]</code>), and if one of your tokens
+contains a `<code>-</code>' or `<code>.</code>', you will then (by default) get the ``filename''
+regexp, which is <code>[A-Za-z_0-9\-\.]</code>.
+
+<P>
+
+<div class="cmd-opt-hdr">
+--token-chars
+</div>
+
+<P>
+If you prefer to choose a different set of characters to define your token
+(perhaps because you are programming in some other language), you may do so
+with the <code>--token-chars</code> option.  You may prefer to define tokens in terms
+of delimiting characters instead of allowed characters using a flag such as
+<code>--token-chars '[^ \n\t]'</code>, which would define a token as being
+white-space delimited.
+
+<P>
+If you do choose a non-default token definition, I recommend using
+<code>_darcs/prefs/defaults</code> to always specify the same
+<code>--token-chars</code>, since your replace patches will be better behaved (in
+terms of commutation and merges) if they have tokens defined in the same
+way.
+
+<P>
+When using darcs replace, the ``new'' token may not already appear in the
+file--if that is the case, the replace change would not be invertible.
+This limitation holds only on the already-recorded version of the file.
+
+<P>
+There is a potentially confusing difference, however, when a replace is
+used to make another replace possible:
+<PRE>
+% darcs replace newtoken aaack ./foo.c
+% darcs replace oldtoken newtoken ./foo.c
+% darcs record
+</PRE>
+will be valid, even if <code>newtoken</code> and <code>oldtoken</code> are both present
+in the recorded version of foo.c, while the sequence
+<PRE>
+% [manually edit foo.c replacing newtoken with aaack]
+% darcs replace oldtoken newtoken ./foo.c
+</PRE>
+will fail because ``newtoken'' still exists in the recorded version of
+<code>foo.c</code>.  The reason for the difference is that when recording, a
+``replace'' patch always is recorded <SPAN  CLASS="textit">before</SPAN> any manual changes,
+which is usually what you want, since often you will introduce new
+occurrences of the ``newtoken'' in your manual changes.  In contrast,
+multiple ``replace'' changes are recorded in the order in which
+they were made.
+
+<P>
+
+<H1><A NAME="SECTION00760000000000000000">
+Working with changes</A>
+</H1>
+
+<P>
+
+<H2><A NAME="SECTION00761000000000000000">
+darcs record</A>
+</H2>
+
+<P>
+<code>Usage: darcs record [OPTION]... [FILE or DIRECTORY]...</code>
+
+<P>
+Options:
+
+<P>
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT"><code>-m</code></TD>
+<TD ALIGN="LEFT"><code>--patch-name PATCHNAME</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+name of patch</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-A</code></TD>
+<TD ALIGN="LEFT"><code>--author EMAIL</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+specify author id</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--logfile FILE</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+give patch name and comment in file</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--delete-logfile</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+delete the logfile when done</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-v</code></TD>
+<TD ALIGN="LEFT"><code>--verbose</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+give verbose output</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--standard-verbosity</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+don't give verbose output</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--no-test</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+don't run the test script</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--test</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+run the test script</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--leave-test-directory</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+don't remove the test directory</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--remove-test-directory</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+remove the test directory</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--compress</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+create compressed patches</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--dont-compress</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+don't create compressed patches</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-a</code></TD>
+<TD ALIGN="LEFT"><code>--all</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+answer yes to all patches</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--pipe</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+expect to receive input from a pipe</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-i</code></TD>
+<TD ALIGN="LEFT"><code>--interactive</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+prompt user interactively</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--ask-deps</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+ask for extra dependencies</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--no-ask-deps</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+don't ask for extra dependencies</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--edit-long-comment</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+Edit the long comment by default</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--skip-long-comment</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+Don't give a long comment</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--prompt-long-comment</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+Prompt for whether to edit the long comment</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--ignore-times</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+don't trust the file modification times</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-l</code></TD>
+<TD ALIGN="LEFT"><code>--look-for-adds</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+In addition to modifications, look for files that are not boring, and thus are potentially pending addition</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--dont-look-for-adds</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+Don't look for any files or directories that could be added, and don't add them automatically</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--repodir DIRECTORY</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+specify the repository directory in which to run</TD></TR>
+</TABLE></TD>
+</TR>
+</TABLE>
+
+<P>
+If you provide one or more files or directories as additional arguments
+to record, you will only be prompted to changes in those files or
+directories.
+Each patch is given a name, which typically would consist of a brief
+description of the changes.  This name is later used to describe the patch.
+The name must fit on one line (i.e. cannot have any embedded newlines).  If
+you have more to say, stick it in the log.
+The patch is also flagged with the author of the change, taken by default
+from the <code>DARCS_EMAIL</code> environment variable, and if that doesn't
+exist, from the <code>EMAIL</code> environment variable.  The date on which the
+patch was recorded is also included.  Currently there is no provision for
+keeping track of when a patch enters a given repository.
+Finally, each changeset should have a full log (which may be empty).  This
+log is for detailed notes which are too lengthy to fit in the name.  If you
+answer that you do want to create a comment file, darcs will open an editor
+so that you can enter the comment in.  The choice of editor proceeds as
+follows.  If one of the <code>$DARCS_EDITOR</code>, <code>$VISUAL</code> or
+<code>$EDITOR</code> environment variables is defined, its value is used (with
+precedence proceeding in the order listed).  If not, ``vi'', ``emacs'',
+``emacs&nbsp;-nw'' and ``nano'' are tried in that order.
+
+<P>
+
+<div class="cmd-opt-hdr">
+--logfile
+</div>
+
+<P>
+If you wish, you may specify the patch name and log using the
+<code>--logfile</code> flag.  If you do so, the first line of the specified file
+will be taken to be the patch name, and the remainder will be the ``long
+comment''.  This feature can be especially handy if you have a test that
+fails several times on the record (thus aborting the record), so you don't
+have to type in the long comment multiple times. The file's contents will
+override the <code>--patch-name</code> option.
+
+<P>
+
+<div class="cmd-opt-hdr">
+--ask-deps
+</div>
+
+<P>
+Each patch may depend on any number of previous patches.  If you choose to
+make your patch depend on a previous patch, that patch is required to be
+applied before your patch can be applied to a repository.  This can be used, for
+example, if a piece of code requires a function to be defined, which was
+defined in an earlier patch.
+
+<P>
+If you want to manually define any dependencies for your patch, you can use
+the <code>--ask-deps</code> flag, and darcs will ask you for the patch's
+dependencies.
+
+<P>
+
+<div class="cmd-opt-hdr">
+--no-test,  --test
+</div>
+
+<P>
+If you configure darcs to run a test suite, darcs will run this test on the
+recorded repository to make sure it is valid.  Darcs first creates a pristine
+copy of the source tree (in a temporary directory), then it runs the test,
+using its return value to decide if the record is valid.  If it is not valid,
+the record will be aborted.  This is a handy way to avoid making stupid
+mistakes like forgetting to `darcs add' a new file.  It also can be
+tediously slow, so there is an option (<code>--no-test</code>) to skip the test.
+
+<P>
+
+<div class="cmd-opt-hdr">
+--pipe
+</div>
+
+<P>
+If you run record with the <code>--pipe</code> option, you will be prompted for
+the patch date, the author, the patch name, and the long comment.
+The long comment will
+extend until the end of file of stdin is reached (ctrl-D on Unixy systems,
+ctrl-Z on systems running a Microsoft OS).
+This interface is intended for scripting darcs, in particular for writing
+repository conversion scripts.  The prompts are intended mostly as a useful
+guide (since scripts won't need them), to help you understand the format in
+which to provide the input.
+
+<P>
+
+<div class="cmd-opt-hdr">
+--interactive
+</div>
+
+<P>
+By default, <code>record</code> works interactively. Probably the only thing you need
+to know about using this is that you can press <code>?</code> at the prompt to be
+shown a list of the rest of the options and what they do. The rest should be
+clear from there. Here's a
+``screenshot'' to demonstrate:
+
+<P>
+<PRE>
+hunk ./hello.pl +2
++#!/usr/bin/perl
++print "Hello World!\n";
+Shall I record this patch? (2/2) [ynWsfqadjk], or ? for help: ?
+How to use record...
+y: record this patch
+n: don't record it
+w: wait and decide later, defaulting to no
+
+s: don't record the rest of the changes to this file
+f: record the rest of the changes to this file
+
+d: record selected patches
+a: record all the remaining patches
+q: cancel record
+
+j: skip to next patch
+k: back up to previous patch
+h or ?: show this help
+
+&lt;Space&gt;: accept the current default (which is capitalized)
+</PRE>
+What you can't see in that ``screenshot'' is that <code>darcs</code> will also try to use
+color in your terminal to make the output even easier to read.
+
+<P>
+
+<H2><A NAME="SECTION00762000000000000000">
+darcs pull</A>
+</H2>
+
+<P>
+<code>Usage: darcs pull [OPTION]... [REPOSITORY]</code>
+
+<P>
+Options:
+
+<P>
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--matches PATTERN</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+select patches matching PATTERN</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-p</code></TD>
+<TD ALIGN="LEFT"><code>--patches REGEXP</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+select patches matching REGEXP</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-t</code></TD>
+<TD ALIGN="LEFT"><code>--tags REGEXP</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+select tags matching REGEXP</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-a</code></TD>
+<TD ALIGN="LEFT"><code>--all</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+answer yes to all patches</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-i</code></TD>
+<TD ALIGN="LEFT"><code>--interactive</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+prompt user interactively</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--intersection</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+take intersection of all repositories</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--union</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+take union of all repositories [default]</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--external-merge COMMAND</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+Use external tool to merge conflicts</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--compress</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+create compressed patches</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--dont-compress</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+don't create compressed patches</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--test</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+run the test script</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--no-test</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+don't run the test script</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--dry-run</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+don't actually take the action</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-s</code></TD>
+<TD ALIGN="LEFT"><code>--summary</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+summarize changes</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--no-summary</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+don't summarize changes</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-v</code></TD>
+<TD ALIGN="LEFT"><code>--verbose</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+give verbose output</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-q</code></TD>
+<TD ALIGN="LEFT"><code>--quiet</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+suppress informational output</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--standard-verbosity</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+neither verbose nor quiet output</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--ignore-times</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+don't trust the file modification times</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--no-deps</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+don't automatically fulfill dependencies</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--set-default</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+set default repository [DEFAULT]</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--no-set-default</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+don't set default repository</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--repodir DIRECTORY</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+specify the repository directory in which to run</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--set-scripts-executable</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+make scripts executable</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--dont-set-scripts-executable</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+don't make scripts executable</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--disable-ssh-cm</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+Disable use of SSH ControlMaster feature</TD></TR>
+</TABLE></TD>
+</TR>
+</TABLE>
+
+<P>
+Pull is used to bring changes made in another repository into the current
+repository (that is, either the one in the current directory, or the one
+specified with the -repodir option). Pull allows you to bring over all or
+some of the patches that are in that repository but not in this one. Pull
+accepts arguments, which are URLs from which to pull, and when called
+without an argument, pull will use the repository from which you have most
+recently either pushed or pulled.
+
+<P>
+
+<div class="cmd-opt-hdr">
+--interactive, --union [default]
+</div>
+If you provide more than one repository as an argument to pull, darcs'
+behavior is determined by the presence of the <code>--intersection</code> flag.
+The default (<code>--union</code>) behavior is to pull any patches that are in
+any of the specified repositories.  If you instead specify the
+<code>--intersection</code> flag, darcs will only pull those patches which are
+present in all source repositories.
+
+<P>
+
+<div class="cmd-opt-hdr">
+--external-merge
+</div>
+
+<P>
+You can use an external interactive merge tool to resolve conflicts with the
+flag <code>--external-merge</code>.  For more details see
+subsection&nbsp;<A HREF="#resolution"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="./crossref.png"></A>.
+
+<P>
+
+<div class="cmd-opt-hdr">
+--matches, --no-deps, --patches, --tags
+</div>
+
+<P>
+The <code>--patches</code>, <code>--matches</code>, and <code>--tags</code> options can be
+used to select which patches to pull, as described in
+subsection&nbsp;<A HREF="#selecting"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="./crossref.png"></A>.  darcs will silently pull along any other patches
+upon which the selected patches depend.  So <code>--patches bugfix</code> means
+``pull all the patches with `bugfix' in their name, along with any patches
+they require.''  If you really only want the patches with `bugfix' in their
+name, you should use the <code>--no-deps</code> option, which makes darcs pull in
+only the selected patches which have no dependencies (apart from other
+selected patches).
+
+<P>
+
+<div class="cmd-opt-hdr">
+--no-test, --test
+</div>
+
+<P>
+If you specify the <code>--test</code> option, pull will run the test (if a test
+exists) on a scratch copy of the repository contents prior to actually performing
+the pull.  If the test fails, the pull will be aborted.
+
+<P>
+
+<div class="cmd-opt-hdr">
+--verbose
+</div>
+
+<P>
+Adding the <code>--verbose</code> option causes another section to appear in the
+output which also displays a summary of patches that you have and the remote
+repository lacks. Thus, the following syntax can be used to show you all the patch
+differences between two repositories:
+
+<P>
+<PRE>
+darcs pull --dry-run --verbose
+</PRE>
+
+<P>
+
+<H2><A NAME="SECTION00763000000000000000">
+darcs push</A>
+</H2>
+
+<P>
+<code>Usage: darcs push [OPTION]... [REPOSITORY]</code>
+
+<P>
+Options:
+
+<P>
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT"><code>-v</code></TD>
+<TD ALIGN="LEFT"><code>--verbose</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+give verbose output</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-q</code></TD>
+<TD ALIGN="LEFT"><code>--quiet</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+suppress informational output</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--standard-verbosity</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+neither verbose nor quiet output</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--matches PATTERN</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+select patches matching PATTERN</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-p</code></TD>
+<TD ALIGN="LEFT"><code>--patches REGEXP</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+select patches matching REGEXP</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-t</code></TD>
+<TD ALIGN="LEFT"><code>--tags REGEXP</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+select tags matching REGEXP</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-a</code></TD>
+<TD ALIGN="LEFT"><code>--all</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+answer yes to all patches</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-i</code></TD>
+<TD ALIGN="LEFT"><code>--interactive</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+prompt user interactively</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--apply-as USERNAME</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+apply patch as another user using sudo</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--apply-as-myself</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+don't use sudo to apply as another user [DEFAULT]</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--sign</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+sign the patch with your gpg key</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--sign-as KEYID</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+sign the patch with a given keyid</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--sign-ssl IDFILE</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+sign the patch using openssl with a given private key</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--dont-sign</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+do not sign the patch</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--dry-run</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+don't actually take the action</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-s</code></TD>
+<TD ALIGN="LEFT"><code>--summary</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+summarize changes</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--no-summary</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+don't summarize changes</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--repodir DIRECTORY</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+specify the repository directory in which to run</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--disable-ssh-cm</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+Disable use of SSH ControlMaster feature</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--set-default</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+set default repository [DEFAULT]</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--no-set-default</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+don't set default repository</TD></TR>
+</TABLE></TD>
+</TR>
+</TABLE>
+
+<P>
+Push is the opposite of pull.  Push allows you to copy changes from the
+current repository into another repository.
+
+<P>
+For obvious reasons, you can only push to repositories to which you have
+write access.  In addition, you can only push to repos that you access
+either on the local file system or with ssh.  In order to apply with ssh,
+darcs must also be installed on the remote computer.  The command invoked
+to run ssh may be configured by the <code>DARCS_SSH</code> environment variable
+(see subsection&nbsp;<A HREF="node5.html#darcsssh"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="./crossref.png"></A>).  The command invoked via ssh is always
+<code>darcs</code>, i.e. the darcs executable must be in the default path on
+the remote machine.
+
+<P>
+Push works by creating a patch bundle, and then running darcs apply in the
+target repository using that patch bundle.  This means that the default
+options for <SPAN  CLASS="textit">apply</SPAN> in the <SPAN  CLASS="textit">target</SPAN> repository (such as, for
+example, <code>--test</code>) will affect the behavior of push.  This also means
+that push is somewhat less efficient than pull.
+
+<P>
+When you receive an error message such as
+<PRE>
+bash: darcs: command not found
+</PRE>
+then this means that the darcs on the remote machine could
+not be started.  Make sure that the darcs executable is called
+<code>darcs</code> and is found in the default path.  The default path can
+be different in interactive and in non-interactive shells.  Say
+<PRE>
+ssh login@remote.machine darcs
+</PRE>
+to try whether the remote darcs can be found, or
+<PRE>
+ssh login@remote.machine 'echo $PATH'
+</PRE>
+(note the single quotes) to check the default path.
+
+<P>
+
+<div class="cmd-opt-hdr">
+--apply-as
+</div>
+
+<P>
+If you give the <code>--apply-as</code> flag, darcs will use sudo to apply the
+changes as a different user.  This can be useful if you want to set up a
+system where several users can modify the same repository, but you don't
+want to allow them full write access.  This isn't secure against skilled
+malicious attackers, but at least can protect your repository from clumsy,
+inept or lazy users.
+
+<P>
+
+<div class="cmd-opt-hdr">
+--matches, --patches, --tags
+</div>
+
+<P>
+The <code>--patches</code>, <code>--matches</code>, and <code>--tags</code> options can be
+used to select which patches to push, as described in
+subsection&nbsp;<A HREF="#selecting"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="./crossref.png"></A>.  darcs will silently push along any other patches
+upon which the selected patches depend.
+
+<P>
+When there are conflicts, the behavior of push is determined by the default
+flags to <code>apply</code> in the <SPAN  CLASS="textit">target</SPAN> repository.  Most commonly, for
+pushed-to repositories, you'd like to have <code>--dont-allow-conflicts</code> as
+a default option to apply (by default, it is already the default...).  If
+this is the case, when there are conflicts on push, darcs will fail with an
+error message.  You can then resolve by pulling the conflicting patch,
+recording a resolution and then pushing the resolution together with the
+conflicting patch.
+
+<P>
+Darcs does not have an explicit way to tell you which patch conflicted, only the
+file name. You may want to pull all the patches from the remote repository just
+to be sure. If you don't want to do this in your working directory,
+you can create another darcs working directory for this purpose.
+
+<P>
+If you want, you could set the target repository to use <code>--allow-conflicts</code>.
+In this case conflicting patches will be applied, but the conflicts will
+not be marked in the working directory.
+
+<P>
+If, on the other hand, you have <code>--mark-conflicts</code> specified as a
+default flag for apply in the target repository, when there is a conflict,
+it will be marked in the working directory of the target repository.  In
+this case, you should resolve the conflict in the target repository itself.
+
+<P>
+
+<H2><A NAME="SECTION00764000000000000000">
+darcs send</A>
+</H2>
+
+<P>
+<code>Usage: darcs send [OPTION]... [REPOSITORY]</code>
+
+<P>
+Options:
+
+<P>
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT"><code>-v</code></TD>
+<TD ALIGN="LEFT"><code>--verbose</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+give verbose output</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-q</code></TD>
+<TD ALIGN="LEFT"><code>--quiet</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+suppress informational output</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--standard-verbosity</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+neither verbose nor quiet output</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--matches PATTERN</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+select patches matching PATTERN</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-p</code></TD>
+<TD ALIGN="LEFT"><code>--patches REGEXP</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+select patches matching REGEXP</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-t</code></TD>
+<TD ALIGN="LEFT"><code>--tags REGEXP</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+select tags matching REGEXP</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-a</code></TD>
+<TD ALIGN="LEFT"><code>--all</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+answer yes to all patches</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-i</code></TD>
+<TD ALIGN="LEFT"><code>--interactive</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+prompt user interactively</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--from EMAIL</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+specify email address</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-A</code></TD>
+<TD ALIGN="LEFT"><code>--author EMAIL</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+specify author id</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--to EMAIL</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+specify destination email</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--cc EMAIL</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+mail results to additional EMAIL(s). Requires -reply</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--subject SUBJECT</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+specify mail subject</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-o</code></TD>
+<TD ALIGN="LEFT"><code>--output FILE</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+specify output filename</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--sign</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+sign the patch with your gpg key</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--sign-as KEYID</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+sign the patch with a given keyid</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--sign-ssl IDFILE</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+sign the patch using openssl with a given private key</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--dont-sign</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+do not sign the patch</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-u</code></TD>
+<TD ALIGN="LEFT"><code>--unified</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+output patch in a darcs-specific format similar to diff -u</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--dry-run</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+don't actually take the action</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-s</code></TD>
+<TD ALIGN="LEFT"><code>--summary</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+summarize changes</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--no-summary</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+don't summarize changes</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--context FILENAME</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+send to context stored in FILENAME</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--edit-description</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+edit the patch bundle description</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--dont-edit-description</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+don't edit the patch bundle description</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--logfile FILE</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+give patch name and comment in file</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--delete-logfile</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+delete the logfile when done</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--set-default</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+set default repository [DEFAULT]</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--no-set-default</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+don't set default repository</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--repodir DIRECTORY</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+specify the repository directory in which to run</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--sendmail-command COMMAND</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+specify sendmail command</TD></TR>
+</TABLE></TD>
+</TR>
+</TABLE>
+
+<P>
+Send is used to prepare a bundle of patches that can be applied to a target
+repository.  Send accepts the URL of the repository as an argument.  When
+called without an argument, send will use the most recent repository that
+was either pushed to, pulled from or sent to.  By default, the patch bundle
+is sent by email, although you may save it to a file.
+
+<P>
+
+<div class="cmd-opt-hdr">
+--unified
+</div>
+
+<P>
+If you want to create patches having context, you can use the
+<code>--unified</code> option, which create output vaguely reminiscent of
+<code>diff -u</code>. This format is still darcs-specific and should not
+be expected to apply cleanly by <code>patch</code>.
+
+<P>
+
+<div class="cmd-opt-hdr">
+--output, --to, --cc
+</div>
+
+<P>
+The <code>--output</code> and <code>--to</code> flags determine what darcs does with
+the patch bundle after creating it.  If you provide an <code>--output</code>
+argument, the patch bundle is saved to that file.  If you give one or more
+<code>--to</code> arguments, the bundle of patches is emailed to those addresses.
+
+<P>
+If you don't provide either a <code>--output</code> or a <code>--to</code> flag, darcs
+will look at the contents of the <code>_darcs/prefs/email</code> file in the
+target repository (if it exists), and send the patch by email to that
+address.  In this case, you may use the <code>--cc</code> option to specify
+additional recipients without overriding the default repository email
+address.
+
+<P>
+If there is no email address associated with the repository, darcs will
+prompt you for an email address.
+
+<P>
+
+<div class="cmd-opt-hdr">
+--subject
+</div>
+
+<P>
+Use the <code>--subject</code> flag to set the subject of the e-mail to be sent.
+If you don't provide a subject on the command line, darcs will make one up
+based on names of the patches in the patch bundle.
+
+<P>
+
+<div class="cmd-opt-hdr">
+--matches, --patches, --tags
+</div>
+
+<P>
+The <code>--patches</code>, <code>--matches</code>, and <code>--tags</code> options can be
+used to select which patches to send, as described in
+subsection&nbsp;<A HREF="#selecting"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="./crossref.png"></A>.  darcs will silently send along any other patches
+upon which the selected patches depend.
+
+<P>
+
+<div class="cmd-opt-hdr">
+--edit-description
+</div>
+
+<P>
+If you want to include a description or explanation along with the bundle
+of patches, you need to specify the <code>--edit-description</code> flag, which
+will cause darcs to open up an editor with which you can compose a message
+to go along with your patches.
+
+<P>
+
+<div class="cmd-opt-hdr">
+--sendmail-command
+</div>
+
+<P>
+If you want to use a command different from the default one for sending email,
+you need to specify a command line with the <code>--sendmail-command</code> option. The
+command line can contain some format specifiers which are replaced by the actual
+values. Accepted format specifiers are <code>%s</code> for subject, <code>%t</code> for to,
+<code>%c</code> for cc, <code>%b</code> for the body of the mail, <code>%f</code> for from, <code>%a</code>
+for the patch bundle and the same specifiers in uppercase for the URL-encoded values.
+Additionally you can add <code>%&lt;</code> to the end of the command line if the command
+expects the complete email message on standard input. E.g. the command lines for evolution
+and msmtp look like this:
+
+<P>
+<PRE>
+evolution "mailto:%T?subject=%S&amp;attach=%A&amp;cc=%C&amp;body=%B"
+msmtp %t %&lt;
+</PRE>
+
+<P>
+
+<H2><A NAME="SECTION00765000000000000000">
+darcs apply</A>
+</H2>
+
+<P>
+<code>Usage: darcs apply [OPTION]... &lt;PATCHFILE&gt;</code>
+
+<P>
+Options:
+
+<P>
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--verify PUBRING</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+verify that the patch was signed by a key in PUBRING</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--verify-ssl KEYS</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+verify using openSSL with authorized keys from file KEYS</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--no-verify</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+don't verify patch signature</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--reply FROM</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+reply to email-based patch using FROM address</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--cc EMAIL</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+mail results to additional EMAIL(s). Requires -reply</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-v</code></TD>
+<TD ALIGN="LEFT"><code>--verbose</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+give verbose output</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--standard-verbosity</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+don't give verbose output</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--ignore-times</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+don't trust the file modification times</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--compress</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+create compressed patches</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--dont-compress</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+don't create compressed patches</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-a</code></TD>
+<TD ALIGN="LEFT"><code>--all</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+answer yes to all patches</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-i</code></TD>
+<TD ALIGN="LEFT"><code>--interactive</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+prompt user interactively</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--mark-conflicts</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+mark conflicts</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--allow-conflicts</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+allow conflicts, but don't mark them</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--external-merge COMMAND</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+use external tool to merge conflicts</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--no-resolve-conflicts</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+equivalent to -dont-allow-conflicts, for backwards compatibility</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--dont-allow-conflicts</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+fail on patches that create conflicts [DEFAULT]</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--no-test</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+don't run the test script</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--test</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+run the test script</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--happy-forwarding</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+forward unsigned messages without extra header</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--leave-test-directory</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+don't remove the test directory</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--remove-test-directory</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+remove the test directory</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--repodir DIRECTORY</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+specify the repository directory in which to run</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--sendmail-command COMMAND</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+specify sendmail command</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--set-scripts-executable</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+make scripts executable</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--dont-set-scripts-executable</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+don't make scripts executable</TD></TR>
+</TABLE></TD>
+</TR>
+</TABLE>
+
+<P>
+Apply is used to apply a bundle of patches to this repository.
+Such a bundle may be created using send.
+
+<P>
+Darcs apply accepts a single argument, which is the name of the patch file
+to be applied.  If you omit this argument, the patch is read from standard
+input.<A NAME="tex2html19"
+  HREF="footnode.html#foot1171"><SUP><SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">4</SPAN></SUP></A>  This
+allows you to use apply with a pipe from your email program, for example.
+
+<P>
+
+<div class="cmd-opt-hdr">
+--verify
+</div>
+
+<P>
+If you specify the <code>--verify PUBRING</code> option, darcs will check that
+the patch was GPG-signed by a key which is in <code>PUBRING</code> and will
+refuse to apply the patch otherwise.
+
+<P>
+
+<div class="cmd-opt-hdr">
+--cc, --reply
+</div>
+
+<P>
+If you give the <code>--reply FROM</code> option to <code>darcs apply</code>, it will send the
+results of the application to the sender of the patch.  This only works if
+the patch is in the form of email with its headers intact, so that darcs
+can actually know the origin of the patch.  The reply email will indicate
+whether or not the patch was successfully applied.  The <code>FROM</code> flag is
+the email address that will be used as the ``from'' address when replying.
+If the darcs apply is being done automatically, it is important that this
+address not be the same as the address at which the patch was received, in
+order to avoid automatic email loops.
+
+<P>
+If you want to also send the apply email to another address (for example,
+to create something like a ``commits'' mailing list), you can use the
+<code>--cc</code> option to specify additional recipients.  Note that the
+<code>--cc</code> option <SPAN  CLASS="textit">requires</SPAN> the <code>--reply</code> option, which
+provides the ``From'' address.
+
+<P>
+The <code>--reply</code> feature of apply is intended primarily for two uses.
+When used by itself, it is handy for when you want to apply patches sent to
+you by other developers so that they will know when their patch has been
+applied.  For example, in my <code>.muttrc</code> (the config file for my mailer)
+I have:
+<PRE>
+macro pager A "&lt;pipe-entry&gt;darcs apply --verbose \
+        --reply droundy@abridgegame.org --repodir ~/darcs
+</PRE>
+which allows me to apply a patch to darcs directly from my mailer, with the
+originator of that patch being sent a confirmation when the patch is
+successfully applied.  NOTE: In an attempt to make sure no one else
+can read your email, mutt seems to set the umask
+such that patches created with the above macro are not world-readable, so
+use it with care.
+
+<P>
+When used in combination with the <code>--verify</code> option, the
+<code>--reply</code> option allows for a nice pushable repository.  When these
+two options are used together, any patches that don't pass the verify will
+be forwarded to the <code>FROM</code> address of the <code>--reply</code> option.  This
+allows you to set up a repository so that anyone who is authorized can push
+to it and have it automatically applied, but if a stranger pushes to it,
+the patch will be forwarded to you.  Please (for your own sake!) be certain
+that the <code>--reply FROM</code> address is different from the one used to send
+patches to a pushable repository, since otherwise an unsigned patch will be
+forwarded to the repository in an infinite loop.
+
+<P>
+If you use <code>darcs apply --verify PUBRING --reply</code> to create a
+pushable repository by applying patches automatically as they are received by
+email, you will also want to use the <code>--dont-allow-conflicts</code> option.
+
+<P>
+
+<div class="cmd-opt-hdr">
+--dont-allow-conflicts
+</div>
+The <code>--dont-allow-conflicts</code> flag causes apply to fail when applying a
+patch would cause conflicts.  This flag is recommended on repositories
+which will be pushed to or sent to.
+
+<P>
+
+<div class="cmd-opt-hdr">
+--allow-conflicts
+</div>
+
+<P>
+<code>--allow-conflicts</code> will allow conflicts, but will keep the local and
+recorded versions in sync on the repository.  This means the conflict will exist
+in both locations until it is resolved.
+
+<P>
+
+<div class="cmd-opt-hdr">
+--mark-conflicts
+</div>
+
+<P>
+<code>--mark-conflicts</code> will add conflict markers to illustrate the the
+conflict.
+
+<P>
+
+<div class="cmd-opt-hdr">
+--external-merge
+</div>
+
+<P>
+You can use an external interactive merge tool to resolve conflicts with the
+flag <code>--external-merge</code>.  For more details see
+subsection&nbsp;<A HREF="#resolution"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="./crossref.png"></A>.
+
+<P>
+
+<div class="cmd-opt-hdr">
+--all, --gui, --interactive
+</div>
+
+<P>
+If you provide the <code>--interactive</code> or <code>--gui</code> flag, darcs will
+ask you for each change in the patch bundle whether or not you wish to
+apply that change.  The opposite is the <code>--all</code> flag, which can be
+used to override an <code>interactive</code> or <code>gui</code> which might be set in your
+``defaults'' file.
+
+<P>
+NOTE: The GUI is not currently functional, but is expected to re-appear 
+in a future release. 
+
+<P>
+
+<div class="cmd-opt-hdr">
+--sendmail-command
+</div>
+
+<P>
+If you want to use a command different from the default one for sending mail,
+you need to specify a command line with the <code>--sendmail-command</code> option.
+The command line can contain the format specifier <code>%t</code> for to
+and you can add <code>%&lt;</code> to the end of the command line if the command
+expects the complete mail on standard input. For example, the command line for
+msmtp looks like this:
+
+<P>
+<PRE>
+msmtp %t %&lt;
+</PRE>
+
+<P>
+
+<div class="cmd-opt-hdr">
+--no-test, --test
+</div>
+
+<P>
+If you specify the <code>--test</code> option, apply will run the test (if a test
+exists) prior to applying the patch.  If the test fails, the patch is not
+applied.  In this case, if the <code>--reply</code> option was used, the results
+of the test are sent in the reply email.  You can also specify the
+<code>--no-test</code> option, which will override the <code>--test</code> option, and
+prevent the test from being run.  This is helpful when setting up a
+pushable repository, to keep users from running code.
+
+<P>
+
+<H1><A NAME="SECTION00770000000000000000">
+Seeing what you've done</A>
+</H1>
+
+<P>
+
+<H2><A NAME="SECTION00771000000000000000"></A>
+<A NAME="whatsnew"></A>
+<BR>
+darcs whatsnew
+</H2>
+
+<P>
+<code>Usage: darcs whatsnew [OPTION]... [FILE or DIRECTORY]...</code>
+
+<P>
+Options:
+
+<P>
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT"><code>-v</code></TD>
+<TD ALIGN="LEFT"><code>--verbose</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+give verbose output</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--standard-verbosity</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+don't give verbose output</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-s</code></TD>
+<TD ALIGN="LEFT"><code>--summary</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+summarize changes</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--no-summary</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+don't summarize changes</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-u</code></TD>
+<TD ALIGN="LEFT"><code>--unified</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+output patch in a darcs-specific format similar to diff -u</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--ignore-times</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+don't trust the file modification times</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-l</code></TD>
+<TD ALIGN="LEFT"><code>--look-for-adds</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+In addition to modifications, look for files that are not boring, and thus are potentially pending addition</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--dont-look-for-adds</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+Don't look for any files or directories that could be added, and don't add them automatically</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--boring</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+don't skip boring files</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--repodir DIRECTORY</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+specify the repository directory in which to run</TD></TR>
+</TABLE></TD>
+</TR>
+</TABLE>
+
+<P>
+Display unrecorded changes in the working copy.
+whatsnew gives you a view of what changes you've made in your working
+copy that haven't yet been recorded.  The changes are displayed in
+darcs patch format. Note that -look-for-adds implies -summary usage.
+ <code>darcs whatsnew</code> will return a non-zero value if
+there are no changes, which can be useful if you just want to see in a
+script if anything has been modified.  If you want to see some context
+around your changes, you can use the <code>-u</code> option, to get output
+similar to the unidiff format.
+
+<P>
+If you give one or more file or directory names as an argument to
+<code>whatsnew</code>, darcs will output only changes to those files or to files in
+those directories.
+
+<P>
+
+<H2><A NAME="SECTION00772000000000000000">
+darcs changes</A>
+</H2>
+
+<P>
+<code>Usage: darcs changes [OPTION]... [FILE or DIRECTORY]...</code>
+
+<P>
+Options:
+
+<P>
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--to-match PATTERN</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+select changes up to a patch matching PATTERN</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--to-patch REGEXP</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+select changes up to a patch matching REGEXP</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--to-tag REGEXP</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+select changes up to a tag matching REGEXP</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--from-match PATTERN</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+select changes starting with a patch matching PATTERN</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--from-patch REGEXP</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+select changes starting with a patch matching REGEXP</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--from-tag REGEXP</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+select changes starting with a tag matching REGEXP</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--last NUMBER</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+select the last NUMBER patches</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--matches PATTERN</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+select patches matching PATTERN</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-p</code></TD>
+<TD ALIGN="LEFT"><code>--patches REGEXP</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+select patches matching REGEXP</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-t</code></TD>
+<TD ALIGN="LEFT"><code>--tags REGEXP</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+select tags matching REGEXP</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--context</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+give output suitable for get -context</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--xml-output</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+generate XML formatted output</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--human-readable</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+give human-readable output</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-s</code></TD>
+<TD ALIGN="LEFT"><code>--summary</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+summarize changes</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--no-summary</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+don't summarize changes</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-v</code></TD>
+<TD ALIGN="LEFT"><code>--verbose</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+give verbose output</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-q</code></TD>
+<TD ALIGN="LEFT"><code>--quiet</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+suppress informational output</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--standard-verbosity</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+neither verbose nor quiet output</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--reverse</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+show changes in reverse order</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--repo URL</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+specify the repository URL</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--repodir DIRECTORY</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+specify the repository directory in which to run</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-a</code></TD>
+<TD ALIGN="LEFT"><code>--all</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+answer yes to all patches</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-i</code></TD>
+<TD ALIGN="LEFT"><code>--interactive</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+prompt user interactively</TD></TR>
+</TABLE></TD>
+</TR>
+</TABLE>
+
+<P>
+Changes gives a changelog-style summary of the repository history,
+including options for altering how the patches are selected and displayed.
+
+<P>
+When given one or more files or directories as an argument, changes lists only
+those patches which affect those files or the contents of those directories or,
+of course, the directories themselves. This includes changes that happened to
+files before they were moved or renamed.
+
+<P>
+
+<div class="cmd-opt-hdr">
+--from-match, --from-patch, --from-tag
+</div>
+
+<P>
+If changes is given a <code>--from-patch</code>, <code>--from-match</code>, or
+<code>--from-tag</code> option, it outputs only those changes since that tag or
+patch.
+
+<P>
+Without any options to limit the scope of the changes, history will be displayed
+going back as far as possible.
+
+<P>
+
+<div class="cmd-opt-hdr">
+--context, --human-readable, --xml-output
+</div>
+
+<P>
+When given the <code>--context</code> flag, darcs changes outputs sufficient
+information to allow the current state of the repository to be
+recreated at a later date.  This information should generally be piped to a
+file, and then can be used later in conjunction with
+<code>darcs get --context</code> to recreate the current version.  Note that
+while the <code>--context</code> flag may be used in conjunction with
+<code>--xml-output</code> or <code>--human-readable</code>, in neither case will darcs
+get be able to read the output.  On the other hand, sufficient information
+<SPAN  CLASS="textit">will</SPAN> be output for a knowledgeable human to recreate the current
+state of the repository.
+
+<P>
+
+<H1><A NAME="SECTION00780000000000000000">
+More advanced commands</A>
+</H1>
+
+<P>
+
+<H2><A NAME="SECTION00781000000000000000">
+darcs tag</A>
+</H2>
+
+<P>
+<code>Usage: darcs tag [OPTION]... [TAGNAME]</code>
+
+<P>
+Options:
+
+<P>
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT"><code>-m</code></TD>
+<TD ALIGN="LEFT"><code>--patch-name PATCHNAME</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+name of patch</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-A</code></TD>
+<TD ALIGN="LEFT"><code>--author EMAIL</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+specify author id</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--checkpoint</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+create a checkpoint file</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--compress</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+create compressed patches</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--dont-compress</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+don't create compressed patches</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--pipe</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+expect to receive input from a pipe</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-i</code></TD>
+<TD ALIGN="LEFT"><code>--interactive</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+prompt user interactively</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-v</code></TD>
+<TD ALIGN="LEFT"><code>--verbose</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+give verbose output</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--standard-verbosity</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+don't give verbose output</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--repodir DIRECTORY</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+specify the repository directory in which to run</TD></TR>
+</TABLE></TD>
+</TR>
+</TABLE>
+
+<P>
+Tag is used to name a version of this repository (i.e. the whole tree).
+ Tag differs from record in that it doesn't record any
+new changes, and it always depends on all patches residing in the
+repository when it is tagged.  This means that one can later reproduce this
+version of the repository by calling, for example:
+<PRE>
+% darcs get --tag "darcs 3.14" REPOLOCATION
+</PRE>
+
+<P>
+Each tagged version has a version name.
+The version is also flagged with the person who tagged it (taken by default
+from the `DARCS_EMAIL' or `EMAIL' environment variable).  The date is also
+included in the version information.
+
+<P>
+A tagged version automatically depends on all patches in the repository.  This
+allows you to later reproduce precisely that version.  The tag does this by
+depending on all patches in the repository, except for those which are depended
+upon by other tags already in the repository.  In the common case of a sequential
+series of tags, this means that the tag depends on all patches since the
+last tag, plus that tag itself.
+
+<P>
+
+<div class="cmd-opt-hdr">
+--checkpoint
+</div>
+The <code>--checkpoint</code> option allows the tag be used later with the
+<code>--partial</code> flag to <code>get</code> or <code>check</code>.
+
+<P>
+A partial repository only contains patches from after the checkpoint.  A
+partial repository works just like a normal repository, but any command that
+needs to look at the contents of a missing patch will complain and abort.
+
+<P>
+
+<div class="cmd-opt-hdr">
+--pipe
+</div>
+
+<P>
+If you run tag with the <code>--pipe</code> option, you will be prompted for the
+tag name and date.  This interface is intended for scripting darcs, in
+particular for writing repository conversion scripts.  The prompts are
+intended mostly as useful guide (since scripts won't need them), to help
+you understand the format in which to provide the input. Here's an example
+of what the <code>--pipe</code> prompts looks like:
+
+<P>
+<PRE>
+ What is the date? Mon Nov 15 13:38:01 EST 2004
+ Who is the author? David Roundy
+ What is the version name? 3.0
+ Finished tagging patch 'TAG 3.0'
+</PRE>
+
+<P>
+Using <code>tag</code> creates an entry in the repository history just like <code>record</code>.
+It will show up with <code>darcs changes</code> appearing in the format:
+
+<P>
+<PRE>
+ tagged My Tag Name
+</PRE>
+
+<P>
+Because the word `tagged' is always prepended to the tag name, you can search
+for tag names by simply passing the output of <code>darcs changes</code> through <code>grep</code>:
+
+<P>
+<PRE>
+ darcs changes | grep tagged
+</PRE>
+
+<P>
+The above example would display all the tag names in use in the repository.
+
+<P>
+
+<H2><A NAME="SECTION00782000000000000000">
+darcs setpref</A>
+</H2>
+
+<P>
+<code>Usage: darcs setpref [OPTION]... &lt;PREF&gt; &lt;VALUE&gt;</code>
+
+<P>
+Options:
+
+<P>
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--repodir DIRECTORY</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+specify the repository directory in which to run</TD></TR>
+</TABLE></TD>
+</TR>
+</TABLE>
+
+<P>
+Usage example:
+<PRE>
+% darcs setpref test "echo I am not really testing anything."
+</PRE>
+
+<P>
+Setpref allows you to set a preference value in a way that will
+propagate to other repositories.
+
+<P>
+Valid preferences are: test predist boringfile binariesfile.
+ If you just want to set the pref value in your
+repository only, you can just edit ``<code>_darcs/prefs/prefs</code>''.  Changes
+you make in that file will be preserved.
+
+<P>
+The ``<code>_darcs/prefs/prefs</code>'' holds the only preferences information
+that can propagate between repositories by pushes and pulls, and the only
+way this happens is when the setprefs command is used.  Note that although
+prefs settings are included in patches, they are <SPAN  CLASS="textit">not</SPAN> fully version
+controlled.  In particular, depending on the order in which a series of
+merges is performed, you may end up with a different final prefs
+configuration.  In practice I don't expect this to be a problem, as the
+prefs usually won't be changed very often.
+
+<P>
+The following values are valid preferences options which can be configured
+using setpref:
+
+<UL>
+<LI>``test'' -- the command to run as a test script.
+</LI>
+<LI>``predist'' -- a command to run prior to tarring up a distribution
+  tarball.  Typically this would consist of autoconf and/or automake.
+</LI>
+<LI>``boringfile'' -- the name of a file to read instead of the
+  ``boring'' prefs file.
+</LI>
+<LI>``binariesfile'' -- the name of a file to read instead of the
+  ``binaries'' prefs file.
+</LI>
+</UL>
+
+<P>
+
+<H2><A NAME="SECTION00783000000000000000">
+darcs check</A>
+</H2>
+
+<P>
+<code>Usage: darcs check [OPTION]... </code>
+
+<P>
+Options:
+
+<P>
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--complete</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+check the entire repository</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--partial</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+check patches since latest checkpoint</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-v</code></TD>
+<TD ALIGN="LEFT"><code>--verbose</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+give verbose output</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-q</code></TD>
+<TD ALIGN="LEFT"><code>--quiet</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+suppress informational output</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--standard-verbosity</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+neither verbose nor quiet output</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--no-test</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+don't run the test script</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--test</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+run the test script</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--leave-test-directory</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+don't remove the test directory</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--remove-test-directory</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+remove the test directory</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--repodir DIRECTORY</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+specify the repository directory in which to run</TD></TR>
+</TABLE></TD>
+</TR>
+</TABLE>
+
+<P>
+Check the repository for consistency.
+Check verifies that the patches stored in the repository, when successively
+applied to an empty tree, properly recreate the stored pristine tree.
+
+<P>
+
+<div class="cmd-opt-hdr">
+--complete, --partial
+</div>
+
+<P>
+If you have a checkpoint of the repository (as is the case if you got the
+repository originally using <code>darcs get --partial</code>), by default
+<code>darcs check</code>
+will only verify the contents since the most recent checkpoint.  You can
+change this behavior using the <code>--complete</code> flag.
+
+<P>
+If you like, you can configure your repository to be able to run a test
+suite of some sort.  You can do this by using ``setpref'' to set the
+``test'' value to be a command to run, e.g.
+<PRE>
+% darcs setpref test "sh configure &amp;&amp; make &amp;&amp; make test"
+</PRE>
+Or, if you want to define a test specific to one copy of the repository,
+you could do this by editing the file <code>_darcs/prefs/prefs</code>.
+
+<P>
+
+<div class="cmd-opt-hdr">
+--leave-test-directory, --remove-test-directory
+</div>
+
+<P>
+Normally darcs deletes the directory in which the test was run afterwards.
+Sometimes (especially when the test fails) you'd prefer to be able to be
+able to examine the test directory after the test is run.  You can do this
+by specifying the <code>--leave-test-directory</code> flag.  Alas, there is no
+way to make darcs leave the test directory only if the test fails.  The
+opposite of <code>--leave-test-directory</code> is
+<code>--remove-test-directory</code>, which could come in handy if you choose to
+make <code>--leave-test-directory</code> the default (see
+section&nbsp;<A HREF="node5.html#defaults"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="./crossref.png"></A>).
+
+<P>
+
+<div class="cmd-opt-hdr">
+--no-test
+</div>
+
+<P>
+If you just want to check the consistency of your repository without
+running the test, you can call darcs check with the <code>--no-test</code>
+option.
+
+<P>
+
+<H2><A NAME="SECTION00784000000000000000">
+darcs optimize</A>
+</H2>
+
+<P>
+<code>Usage: darcs optimize [OPTION]... </code>
+
+<P>
+Options:
+
+<P>
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--checkpoint</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+create a checkpoint file</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--compress</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+create compressed patches</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--dont-compress</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+don't create compressed patches</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--uncompress</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+uncompress patches</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-t</code></TD>
+<TD ALIGN="LEFT"><code>--tag TAGNAME</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+name of version to checkpoint</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-v</code></TD>
+<TD ALIGN="LEFT"><code>--verbose</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+give verbose output</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--standard-verbosity</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+don't give verbose output</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--repodir DIRECTORY</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+specify the repository directory in which to run</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--modernize-patches</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+rewrite all patches in current darcs format</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--reorder-patches</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+reorder the patches in the repository</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--sibling URL</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+specify a sibling directory</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--relink</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+relink random internal data to a sibling</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--relink-pristine</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+relink pristine tree (not recommended)</TD></TR>
+</TABLE></TD>
+</TR>
+</TABLE>
+
+<P>
+Optimize can help to improve the performance of your repository in a number of cases.
+
+<P>
+Optimize always writes out a fresh copy of the inventory that minimizes
+the amount of inventory that need be downloaded when people pull from the
+repository.
+
+<P>
+Specifically, it breaks up the inventory on the most recent tag.  This speeds
+up most commands when run remotely, both because a smaller file needs to be
+transfered (only the most recent inventory).  It also gives a
+guarantee that all the patches prior to a given tag are included in that tag,
+so less commutation and history traversal is needed.  This latter issue can
+become very important in large repositories.
+
+<P>
+
+<div class="cmd-opt-hdr">
+--checkpoint, --tag
+</div>
+
+<P>
+If you use the <code>--checkpoint</code> option, optimize creates a checkpoint patch
+for a tag.  You can specify the tag with the <code>--tag</code> option, or
+just let darcs choose the most recent tag.  Note that optimize
+<code>--checkpoint</code> will fail when used on a ``partial'' repository.  Also,
+the tag that is to be checkpointed must not be preceded by any patches
+that are not included in that tag.  If that is the case, no checkpointing
+is done.
+
+<P>
+The created checkpoint is used by the <code>--partial</code> flag to 
+<code>get</code> and <code>check</code>. This allows for users to retrieve
+a working repository with limited history with a savings of disk
+space and bandwidth. 
+
+<P>
+
+<div class="cmd-opt-hdr">
+--compress, --dont-compress, --uncompress
+</div>
+
+<P>
+Some compression options are available, and are independent of the
+<code>--checkpoint</code> option.
+
+<P>
+By default the patches in the repository are compressed. These use less
+disk space, which translates into less bandwidth if the repository is accessed
+remotely.  Note that patches will always have the ``.gz'' extension whether
+they are compressed or not.
+
+<P>
+You may want to uncompress the patches when you've got enough disk space but
+are running out of physical memory.
+
+<P>
+If you give the <code>--compress</code> option, optimize will compress all the
+patches in the repository.  Similarly, if you give the <code>--uncompress</code>,
+optimize will decompress all the patches in the repository.
+<code>--dont-compress</code>  means ``don't compress, but don't uncompress
+either''. It would be useful if one of the compression options was provided
+as a default and you wanted to override it.
+
+<P>
+
+<div class="cmd-opt-hdr">
+--modernize-patches
+</div>
+
+<P>
+If you provide the <code>--modernize-patches</code> argument, darcs will convert
+obsolete patches into the current darcs format.  This affects both the
+patch contents and the patch formatting.
+
+<P>
+Older versions of darcs formatted the long comments slightly differently,
+which can cause trouble with third-party tools that wish to parse the darcs
+patches, although darcs itself still reads the older patches fine.
+<code>--modernize-patches</code>  standardizes the formatting of all patches.
+
+<P>
+In addition, <SPAN  CLASS="textit">very</SPAN> old versions of darcs created the ``merger 0.9''
+patch type when there were conflicts.  This patch type inherently had bugs
+which could lead to corruption, which is why it was phased out.
+<code>--modernize-patches</code> will convert old ``merger 0.9'' patches into
+an equivalent change (which will, however, commute differently).
+
+<P>
+
+<div class="cmd-opt-hdr">
+--relink
+</div>
+
+<P>
+The <code>--relink</code> and <code>--relink-pristine</code> options cause Darcs
+to relink files from a sibling.  See Section <A HREF="node4.html#disk-usage"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="./crossref.png"></A>.
+
+<P>
+
+<div class="cmd-opt-hdr">
+--reorder-patches
+</div>
+
+<P>
+The <code>--reorder-patches</code> option causes Darcs to create an optimal
+ordering of its internal patch inventory. This may help to produce shorter
+`context' lists when sending patches, and may improve performance for some
+other operations as well.  You should not run <code>--reorder-patches</code> on a
+repository from which someone may be simultaneously pulling or getting, as
+this could lead to repository corruption.
+
+<P>
+
+<H1><A NAME="SECTION00790000000000000000">
+Undoing, redoing and running in circles</A>
+</H1>
+
+<P>
+
+<H2><A NAME="SECTION00791000000000000000">
+darcs amend-record</A>
+</H2>
+
+<P>
+<code>Usage: darcs amend-record [OPTION]... [FILE or DIRECTORY]...</code>
+
+<P>
+Options:
+
+<P>
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--match PATTERN</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+select patch matching PATTERN</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-p</code></TD>
+<TD ALIGN="LEFT"><code>--patch REGEXP</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+select patch matching REGEXP</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-v</code></TD>
+<TD ALIGN="LEFT"><code>--verbose</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+give verbose output</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--standard-verbosity</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+don't give verbose output</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--no-test</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+don't run the test script</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--test</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+run the test script</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--leave-test-directory</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+don't remove the test directory</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--remove-test-directory</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+remove the test directory</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--compress</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+create compressed patches</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--dont-compress</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+don't create compressed patches</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-a</code></TD>
+<TD ALIGN="LEFT"><code>--all</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+answer yes to all patches</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-i</code></TD>
+<TD ALIGN="LEFT"><code>--interactive</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+prompt user interactively</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--ignore-times</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+don't trust the file modification times</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-l</code></TD>
+<TD ALIGN="LEFT"><code>--look-for-adds</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+In addition to modifications, look for files that are not boring, and thus are potentially pending addition</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--dont-look-for-adds</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+Don't look for any files or directories that could be added, and don't add them automatically</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--repodir DIRECTORY</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+specify the repository directory in which to run</TD></TR>
+</TABLE></TD>
+</TR>
+</TABLE>
+
+<P>
+Amend-record is used to replace a patch with a newer version with additional
+changes.
+
+<P>
+WARNINGS: You should ONLY use amend-record on patches which only exist in a
+single repository! Also, running amend-record while another user is pulling
+from the same repository may cause repository corruption.
+
+<P>
+If you provide one or more files or directories as additional arguments to
+amend-record, you will only be prompted to changes in those files or
+directories.
+
+<P>
+The old version of the patch is lost and the new patch will include both the
+old and the new changes.  This is mostly the same as unrecording the old patch,
+fixing the changes and recording a new patch with the same name and
+description.
+
+<P>
+<code>amend-record</code> will modify the date of the recorded patch.  
+
+<P>
+If you configure darcs to run a test suite, darcs will run this test on the
+amended repository to make sure it is valid.  Darcs first creates a pristine
+copy of the source tree (in a temporary directory), then it runs the test,
+using its return value to decide if the amended change is valid.
+
+<P>
+
+<H2><A NAME="SECTION00792000000000000000">
+darcs rollback</A>
+</H2>
+
+<P>
+<code>Usage: darcs rollback [OPTION]... </code>
+
+<P>
+Options:
+
+<P>
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--match PATTERN</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+select patch matching PATTERN</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-p</code></TD>
+<TD ALIGN="LEFT"><code>--patch REGEXP</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+select patch matching REGEXP</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--compress</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+create compressed patches</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--dont-compress</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+don't create compressed patches</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-v</code></TD>
+<TD ALIGN="LEFT"><code>--verbose</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+give verbose output</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--standard-verbosity</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+don't give verbose output</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--repodir DIRECTORY</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+specify the repository directory in which to run</TD></TR>
+</TABLE></TD>
+</TR>
+</TABLE>
+
+<P>
+Rollback is used to undo the effects of a single patch without actually
+deleting that patch.  Instead, it applies the inverse patch as a new patch.
+Unlike unpull and unrecord (which accomplish a similar goal) rollback is
+perfectly safe, since it leaves in the repository a record of the patch it
+is removing.
+ If you decide you didn't want to roll back a patch
+after all, you probably should use unrecord to undo the rollback, since
+like rollback, unrecord doesn't affect the working directory.
+
+<P>
+
+<H2><A NAME="SECTION00793000000000000000">
+darcs unrecord</A>
+</H2>
+
+<P>
+<code>Usage: darcs unrecord [OPTION]... </code>
+
+<P>
+Options:
+
+<P>
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--from-match PATTERN</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+select changes starting with a patch matching PATTERN</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--from-patch REGEXP</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+select changes starting with a patch matching REGEXP</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--from-tag REGEXP</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+select changes starting with a tag matching REGEXP</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--last NUMBER</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+select the last NUMBER patches</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--matches PATTERN</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+select patches matching PATTERN</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-p</code></TD>
+<TD ALIGN="LEFT"><code>--patches REGEXP</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+select patches matching REGEXP</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-t</code></TD>
+<TD ALIGN="LEFT"><code>--tags REGEXP</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+select tags matching REGEXP</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-v</code></TD>
+<TD ALIGN="LEFT"><code>--verbose</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+give verbose output</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--standard-verbosity</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+don't give verbose output</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--compress</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+create compressed patches</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--dont-compress</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+don't create compressed patches</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--repodir DIRECTORY</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+specify the repository directory in which to run</TD></TR>
+</TABLE></TD>
+</TR>
+</TABLE>
+
+<P>
+Unrecord does the opposite of record in that it makes the changes from
+patches active changes again which you may record or revert later.  The
+working copy itself will not change.
+
+<P>
+Unrecord can be thought of as undo-record.
+If a record is followed by an unrecord, everything looks like before
+the record; all the previously unrecorded changes are back, and can be
+recorded again in a new patch. The unrecorded patch however is actually
+removed from your repository, so there is no way to record it again to get
+it back.<A NAME="tex2html20"
+  HREF="footnode.html#foot1543"><SUP><SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">5</SPAN></SUP></A>.
+
+<P>
+If you want to remove
+the changes from the working copy too (where they otherwise will show
+up as unrecorded changes again), you'll also need to <code>darcs revert</code>.
+To do unrecord and revert in one go, you can use <code>darcs unpull</code>.
+
+<P>
+If you don't revert after unrecording, then the changes made by the
+unrecorded patches are left in your working tree.  If these patches are
+actually from another repository, interaction (either pushes or pulls) with
+that repository may be massively slowed down, as darcs tries to cope with
+the fact that you appear to have made a large number of changes that
+conflict with those present in the other repository.  So if you really want
+to undo the result of a <SPAN  CLASS="textit">pull</SPAN> operation, use unpull! Unrecord is
+primarily intended for when you record a patch, realize it needs just one
+more change, but would rather not have a separate patch for just that one
+change.
+
+<P>
+
+<P>
+
+<SPAN  CLASS="textbf">WARNING:</SPAN> Unrecord should not be run when there is a possibility
+that another user may be pulling from the same repository.  Attempting to do so
+may cause repository corruption.
+
+<P>
+
+<div class="cmd-opt-hdr">
+--from-match, --from-patch, --from-tag, --last
+</div>
+
+<P>
+Usually you only want to unrecord the latest changes,
+and almost never would you want to unrecord changes before a tag--you
+would have to have unrecorded the tag as well to do that.
+Therefore, and for efficiency, darcs only prompts you for the latest patches,
+after some optimal tag.
+
+<P>
+If you do want to unrecord more patches in one go,
+there are the <code>--from</code> and <code>--last</code> options
+to set the earliest patch selectable to unrecord.
+
+<P>
+
+<div class="cmd-opt-hdr">
+--matches, --patches, --tags
+</div>
+
+<P>
+With these options you can specify
+what patch or patches to be prompted for by unrecord.
+This is especially useful when you want to unrecord patches with dependencies,
+since all the dependent patches (but no others) will be included in the choices.
+
+<P>
+These options can be slow if the list of patches to match is long,
+which can happen if <code>--from</code> or <code>--last</code> is used.
+The latter options can of course be used to <SPAN  CLASS="textit">shorten</SPAN> the list too,
+if it is long by default.
+
+<P>
+
+<H2><A NAME="SECTION00794000000000000000">
+darcs unpull</A>
+</H2>
+
+<P>
+<code>Usage: darcs unpull [OPTION]... </code>
+
+<P>
+Options:
+
+<P>
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--from-match PATTERN</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+select changes starting with a patch matching PATTERN</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--from-patch REGEXP</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+select changes starting with a patch matching REGEXP</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--from-tag REGEXP</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+select changes starting with a tag matching REGEXP</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--last NUMBER</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+select the last NUMBER patches</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--matches PATTERN</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+select patches matching PATTERN</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-p</code></TD>
+<TD ALIGN="LEFT"><code>--patches REGEXP</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+select patches matching REGEXP</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-t</code></TD>
+<TD ALIGN="LEFT"><code>--tags REGEXP</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+select tags matching REGEXP</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-v</code></TD>
+<TD ALIGN="LEFT"><code>--verbose</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+give verbose output</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--standard-verbosity</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+don't give verbose output</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--compress</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+create compressed patches</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--dont-compress</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+don't create compressed patches</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--ignore-times</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+don't trust the file modification times</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--repodir DIRECTORY</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+specify the repository directory in which to run</TD></TR>
+</TABLE></TD>
+</TR>
+</TABLE>
+
+<P>
+Unpull completely removes recorded patches from your local repository.
+The changes will be undone in your working copy and the patches will not be
+shown in your changes list anymore.
+Beware that if the patches are not still present in another repository you
+will lose precious code by unpulling!
+
+<P>
+Unlike unrecord, unpull does not just delete the patch from the repository,
+it actually applies an inverse patch to the repository.  This makes
+unpull a particularly dangerous command, as it not only deletes the patch
+from the repository, but also removes the changes from the working directory.  It
+is equivalent to an unrecord followed by a revert, except that revert can
+be unreverted.
+
+<P>
+
+<SPAN  CLASS="textbf">WARNING:</SPAN> Unpull should not be run when there is a possibility
+that another user may be pulling from the same repository.  Attempting to do so
+may cause repository corruption.
+
+<P>
+Contrary to what its name suggests, there is nothing in unpull that
+requires that the ``unpulled'' patch originate from a different repository.
+The name was chosen simply to suggest a situation in which it is ``safe''
+to use unpull.  If the patch was originally from another repository, then
+unpulling is safe, because you can always pull the patch again if you
+decide you want it after all.  If you unpull a locally recorded patch, all
+record of that change is lost, which is what makes this a ``dangerous''
+command, and thus deserving of an obscure name which is more suggestive of
+when it is safe to use than precisely what it does.
+
+<P>
+
+<div class="cmd-opt-hdr">
+--from-match, --from-patch, --from-tag, --last
+</div>
+
+<P>
+For efficiency, darcs only prompts you for the latest patches,
+after some optimal tag.
+If you do want to unpull more patches in one go,
+there are the <code>--from</code> and <code>--last</code> options
+to set the earliest patch selectable to unpull.
+
+<P>
+
+<div class="cmd-opt-hdr">
+--matches, --patches, --tags
+</div>
+
+<P>
+With these options you can specify
+what patch or patches to be prompted for by unpull.
+This is especially useful when you want to unpull patches with dependencies,
+since all the dependent patches (but no others) will be included in the choices.
+
+<P>
+In the case of tags, what you are unpulling is the tag itself, not any other patches.
+
+<P>
+These options can be slow if the list of patches to match with is long,
+which can happen if <code>--from</code> or <code>--last</code> is used.
+The latter options can of course be used to <SPAN  CLASS="textit">shorten</SPAN> the list too,
+if it is long by default.
+
+<P>
+
+<H2><A NAME="SECTION00795000000000000000">
+darcs obliterate</A>
+</H2>
+
+<P>
+<code>Usage: darcs obliterate [OPTION]... </code>
+
+<P>
+Options:
+
+<P>
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--from-match PATTERN</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+select changes starting with a patch matching PATTERN</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--from-patch REGEXP</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+select changes starting with a patch matching REGEXP</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--from-tag REGEXP</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+select changes starting with a tag matching REGEXP</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--last NUMBER</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+select the last NUMBER patches</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--matches PATTERN</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+select patches matching PATTERN</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-p</code></TD>
+<TD ALIGN="LEFT"><code>--patches REGEXP</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+select patches matching REGEXP</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-t</code></TD>
+<TD ALIGN="LEFT"><code>--tags REGEXP</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+select tags matching REGEXP</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-v</code></TD>
+<TD ALIGN="LEFT"><code>--verbose</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+give verbose output</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--standard-verbosity</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+don't give verbose output</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--compress</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+create compressed patches</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--dont-compress</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+don't create compressed patches</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--ignore-times</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+don't trust the file modification times</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--repodir DIRECTORY</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+specify the repository directory in which to run</TD></TR>
+</TABLE></TD>
+</TR>
+</TABLE>
+
+<P>
+Obliterate completely removes recorded patches from your local repository.
+The changes will be undone in your working copy and the patches will not be
+shown in your changes list anymore.
+Beware that you can lose precious code by obliterating!
+
+<P>
+Obliterate deletes a patch from the repository <SPAN  CLASS="textit">and</SPAN> removes those
+changes from the working directory.  It is therefore a <SPAN  CLASS="textit">very
+dangerous</SPAN> command.  When there are no local changes, obliterate is
+equivalent to an unrecord followed by a revert, except that revert can be
+unreverted.  In the case of tags, obliterate removes the tag itself, not
+any other patches.
+
+<P>
+Note that obliterate is currently an alias for unpull.
+
+<P>
+
+<SPAN  CLASS="textbf">WARNING:</SPAN> Obliterate should not be run when there is a possibility
+that another user may be pulling from the same repository.  Attempting to do so
+may cause repository corruption.
+
+<P>
+
+<div class="cmd-opt-hdr">
+--from-match, --from-patch, --from-tag, --last
+</div>
+
+<P>
+For efficiency, darcs only prompts you for the latest patches, after some
+optimal tag.  If you do want to unpull more patches in one go, there are
+the <code>--from</code> and <code>--last</code> options to set the earliest patch
+selectable to unpull.
+
+<P>
+
+<div class="cmd-opt-hdr">
+--matches, --patches, --tags
+</div>
+
+<P>
+With these options you can specify what patch or patches to be prompted for
+by unpull.  This is especially useful when you want to unpull patches with
+dependencies, since all the dependent patches (but no others) will be
+included in the choices.
+
+<P>
+
+<H2><A NAME="SECTION00796000000000000000">
+darcs revert</A>
+</H2>
+
+<P>
+<code>Usage: darcs revert [OPTION]... [FILE or DIRECTORY]...</code>
+
+<P>
+Options:
+
+<P>
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT"><code>-v</code></TD>
+<TD ALIGN="LEFT"><code>--verbose</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+give verbose output</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--standard-verbosity</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+don't give verbose output</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--ignore-times</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+don't trust the file modification times</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-a</code></TD>
+<TD ALIGN="LEFT"><code>--all</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+answer yes to all patches</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-i</code></TD>
+<TD ALIGN="LEFT"><code>--interactive</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+prompt user interactively</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--repodir DIRECTORY</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+specify the repository directory in which to run</TD></TR>
+</TABLE></TD>
+</TR>
+</TABLE>
+
+<P>
+Revert is used to undo changes made to the working copy which have
+not yet been recorded.  You will be prompted for which changes you
+wish to undo. The last revert can be undone safely using the unrevert
+command if the working copy was not modified in the meantime.
+ The actions of a revert may be reversed using the
+unrevert command (see subsection&nbsp;<A HREF="#unrevert"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="./crossref.png"></A>).  However, if you've made
+changes since the revert your mileage may vary, so please be careful.
+
+<P>
+You can give revert optional arguments indicating files or directories.  If
+you do so it will only prompt you to revert changes in those files or in
+files in those directories.
+
+<P>
+
+<H2><A NAME="SECTION00797000000000000000"></A><A NAME="unrevert"></A>
+<BR>
+darcs unrevert
+</H2>
+
+<P>
+<code>Usage: darcs unrevert [OPTION]... </code>
+
+<P>
+Options:
+
+<P>
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT"><code>-v</code></TD>
+<TD ALIGN="LEFT"><code>--verbose</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+give verbose output</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--standard-verbosity</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+don't give verbose output</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--ignore-times</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+don't trust the file modification times</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-a</code></TD>
+<TD ALIGN="LEFT"><code>--all</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+answer yes to all patches</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-i</code></TD>
+<TD ALIGN="LEFT"><code>--interactive</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+prompt user interactively</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--repodir DIRECTORY</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+specify the repository directory in which to run</TD></TR>
+</TABLE></TD>
+</TR>
+</TABLE>
+
+<P>
+Unrevert is used to undo the results of a revert command. It is only
+guaranteed to work properly if you haven't made any changes since the
+revert was performed.
+
+<P>
+The command makes a best effort to merge the unreversion with any changes
+you have since made.  In fact, unrevert should even work if you've recorded
+changes since reverting.
+
+<P>
+
+<H1><A NAME="SECTION007100000000000000000">
+Advanced examination of the repository</A>
+</H1>
+
+<P>
+
+<H2><A NAME="SECTION007101000000000000000">
+darcs diff</A>
+</H2>
+
+<P>
+<code>Usage: darcs diff [OPTION]... [FILE or DIRECTORY]...</code>
+
+<P>
+Options:
+
+<P>
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--to-match PATTERN</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+select changes up to a patch matching PATTERN</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--to-patch REGEXP</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+select changes up to a patch matching REGEXP</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--to-tag REGEXP</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+select changes up to a tag matching REGEXP</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--from-match PATTERN</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+select changes starting with a patch matching PATTERN</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--from-patch REGEXP</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+select changes starting with a patch matching REGEXP</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--from-tag REGEXP</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+select changes starting with a tag matching REGEXP</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--match PATTERN</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+select a single patch matching PATTERN</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-p</code></TD>
+<TD ALIGN="LEFT"><code>--patch REGEXP</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+select a single patch matching REGEXP</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--last NUMBER</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+select the last NUMBER patches</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--diff-command COMMAND</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+specify diff command (ignores -diff-opts)</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--diff-opts OPTIONS</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+options to pass to diff</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-u</code></TD>
+<TD ALIGN="LEFT"><code>--unified</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+pass -u option to diff</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--repodir DIRECTORY</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+specify the repository directory in which to run</TD></TR>
+</TABLE></TD>
+</TR>
+</TABLE>
+
+<P>
+Diff can be used to create a diff between two versions which are in your
+repository.  Specifying just -from-patch will get you a diff against
+your working copy.  If you give diff no version arguments, it gives
+you the same information as whatsnew except that the patch is
+formatted as the output of a diff command
+
+<P>
+
+<div class="cmd-opt-hdr">
+--diff-opts
+</div>
+
+<P>
+Diff calls an external ``diff'' command to do the actual work, and passes
+any unrecognized flags to this diff command.  Thus you can call
+<PRE>
+% darcs diff -t 0.9.8 -t 0.9.10 -- -u
+</PRE>
+to get a diff in the unified format.  Actually, thanks to the wonders of
+getopt you need the ``<code>--</code>'' shown above before any arguments to diff.
+You can also specify additional arguments to diff using the
+<code>--diff-opts</code> flag.  The above command would look like this:
+<PRE>
+% darcs diff --diff-opts -u -t 0.9.8 -t 0.9.10
+</PRE>
+This may not seem like an improvement, but it really pays off when you want
+to always give diff the same options.  You can do this by adding
+<PRE>
+% diff diff-opts -udp
+</PRE>
+to your <code>_darcs/prefs/defaults</code> file.
+
+<P>
+If you want to view only the differences to one or more files, you can do
+so with a command such as
+<PRE>
+% darcs diff foo.c bar.c baz/
+</PRE>
+
+<P>
+
+<div class="cmd-opt-hdr">
+--diff-command
+</div>
+
+<P>
+You can use a different program to view differences by including
+the flag <code>--diff-command</code>, e.g.
+<PRE>
+--diff-command 'opendiff %1 %2'.
+</PRE>
+The <code>%1</code> and <code>%2</code>  are replaced with the two versions to be
+merged.  The above example works with the FileMerge.app tool that comes with
+Apple's developer tools.  To use xxdiff, you would use
+<PRE>
+--diff-command 'xxdiff %1 %2'
+</PRE>
+To use <code>kdiff3</code>, you can use
+<PRE>
+--diff-command 'kdiff3 %1 %2'
+</PRE>
+
+<P>
+Note that the command is split into space-separated words and the first one is
+<code>exec</code>ed with the rest as arguments--it is not a shell command.  Also
+the substitution of the <code>%</code> escapes is only done on complete words.
+See <A HREF="#resolution"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="./crossref.png"></A> for how you might work around this fact, for example,
+with Emacs' Ediff package.
+
+<P>
+Note also that the <code>--diff-opts</code> flag is ignored if you use this option.
+
+<P>
+
+<H2><A NAME="SECTION007102000000000000000"></A>
+<A NAME="annotate"></A>
+<BR>
+darcs annotate
+</H2>
+
+<P>
+<code>Usage: darcs annotate [OPTION]... [FILE or DIRECTORY]...</code>
+
+<P>
+Options:
+
+<P>
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT"><code>-v</code></TD>
+<TD ALIGN="LEFT"><code>--verbose</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+give verbose output</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--standard-verbosity</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+don't give verbose output</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-s</code></TD>
+<TD ALIGN="LEFT"><code>--summary</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+summarize changes</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--no-summary</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+don't summarize changes</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-u</code></TD>
+<TD ALIGN="LEFT"><code>--unified</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+output patch in a darcs-specific format similar to diff -u</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--human-readable</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+give human-readable output</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--xml-output</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+generate XML formatted output</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--match PATTERN</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+select patch matching PATTERN</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-p</code></TD>
+<TD ALIGN="LEFT"><code>--patch REGEXP</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+select patch matching REGEXP</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-t</code></TD>
+<TD ALIGN="LEFT"><code>--tag REGEXP</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+select tag matching REGEXP</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--creator-hash HASH</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+specify hash of creator patch (see docs)</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--repodir DIRECTORY</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+specify the repository directory in which to run</TD></TR>
+</TABLE></TD>
+</TR>
+</TABLE>
+
+<P>
+Display which patch last modified something.
+Annotate displays which patches created or last modified a directory
+file or line. It can also display the contents of a particular patch
+in darcs format.
+
+<P>
+
+<div class="cmd-opt-hdr">
+--human-readable, --summary, --unified, --xml--output
+</div>
+
+<P>
+When called with just a patch name, annotate outputs the patch in darcs format,
+which is the same as <code>--human-readable</code>.
+
+<P>
+<code>--xml-output</code> is the alternative to <code>--human-readable</code>.
+
+<P>
+<code>--summary</code> can be used with either the <code>--xml-output</code> or the  
+<code>--human-readable</code> options to alter the results. It is documented
+fully in the `common options' portion of the manual. 
+
+<P>
+Giving the <code>--unified</code> flag implies <code>--human-readable</code>, and causes
+the output to remain in a darcs-specific format that is similar to that produced
+by <code>diff --unified</code>.
+
+<P>
+If a directory name is given, annotate will output details of the last
+modifying patch for each file in the directory and the directory itself. The
+details look like this:
+
+<P>
+<PRE>
+ # Created by [bounce handling patch
+ # mark**20040526202216]  as ./test/m7/bounce_handling.pl
+    bounce_handling.pl
+</PRE>
+
+<P>
+If a patch name and a directory are given, these details are output for the time after
+that patch was applied.  If a directory and a tag name are given, the
+details of the patches involved in the specified tagged version will be output.
+
+<P>
+If a file name is given, the last modifying patch details of that file will be output, along
+with markup indicating patch details when each line was last (and perhaps next) modified.
+
+<P>
+
+<div class="cmd-opt-hdr">
+--creator-hash HASH
+</div>
+
+<P>
+The <code>--creator-hash</code> option should only be used in combination with a
+file or directory to be annotated.  In this case, the name of that file or
+directory is interpreted to be its name <SPAN  CLASS="textit">at the time it was created</SPAN>,
+and the hash given along with <code>--creator-hash</code> indicates the patch
+that created the file or directory.  This allows you to (relatively) easily
+examine a file even if it has been renamed multiple times.
+
+<P>
+
+<H1><A NAME="SECTION007110000000000000000">
+Rarely needed and obscure commands</A>
+</H1>
+
+<P>
+
+<H2><A NAME="SECTION007111000000000000000">
+darcs resolve</A>
+</H2>
+
+<P>
+<code>Usage: darcs resolve [OPTION]... </code>
+
+<P>
+Options:
+
+<P>
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT"><code>-v</code></TD>
+<TD ALIGN="LEFT"><code>--verbose</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+give verbose output</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--standard-verbosity</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+don't give verbose output</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--ignore-times</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+don't trust the file modification times</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--repodir DIRECTORY</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+specify the repository directory in which to run</TD></TR>
+</TABLE></TD>
+</TR>
+</TABLE>
+
+<P>
+Resolve is used to mark and resolve any conflicts that may exist in a
+repository.  Note that this trashes any unrecorded changes in the working
+copy.
+
+<P>
+
+<H2><A NAME="SECTION007112000000000000000">
+darcs dist</A>
+</H2>
+
+<P>
+<code>Usage: darcs dist [OPTION]... </code>
+
+<P>
+Options:
+
+<P>
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT"><code>-d</code></TD>
+<TD ALIGN="LEFT"><code>--dist-name DISTNAME</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+name of version</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-v</code></TD>
+<TD ALIGN="LEFT"><code>--verbose</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+give verbose output</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--standard-verbosity</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+don't give verbose output</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--repodir DIRECTORY</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+specify the repository directory in which to run</TD></TR>
+</TABLE></TD>
+</TR>
+</TABLE>
+
+<P>
+Create a distribution tarball.
+
+<P>
+Dist is a handy tool for implementing a "make dist" target in your
+makefile.  It creates a tarball of the recorded edition of your tree.
+ Basically, you will typically use it in a makefile
+rule such as
+<PRE>
+dist:
+    darcs dist --dist-name darcs-`./darcs --version`
+</PRE>
+<code>darcs dist</code> then simply creates a clean copy of the source tree,
+which it then tars and gzips.  If you use programs such as autoconf or
+automake, you really should run them on the clean tree before tarring it up
+and distributing it.  You can do this using the pref value ``predist'',
+which is a shell command that is run prior to tarring up the distribution:
+<PRE>
+% darcs setpref predist "autoconf &amp;&amp; automake"
+</PRE>
+
+<P>
+
+<H2><A NAME="SECTION007113000000000000000">
+darcs trackdown</A>
+</H2>
+
+<P>
+<code>Usage: darcs trackdown [OPTION]... [[INITIALIZATION] COMMAND]</code>
+
+<P>
+Options:
+
+<P>
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT"><code>-v</code></TD>
+<TD ALIGN="LEFT"><code>--verbose</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+give verbose output</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--standard-verbosity</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+don't give verbose output</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--repodir DIRECTORY</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+specify the repository directory in which to run</TD></TR>
+</TABLE></TD>
+</TR>
+</TABLE>
+
+<P>
+Trackdown tries to find the most recent version in the repository which
+passes a test.  Given no arguments, it uses the default repository test.
+Given one argument, it treats it as a test command.  Given two arguments,
+the first is an initialization command with is run only once, and the
+second is the test command.
+
+<P>
+Trackdown is helpful for locating when something was broken.  It creates
+a temporary directory with the latest repository content in it and cd to it.
+First, and only once, it runs the initialization command if any,
+for example
+<PRE>
+'autoconf; ./configure &gt;/dev/null'
+</PRE>
+Then it runs the test command, for example
+<PRE>
+'make &amp;&amp; cd tests &amp;&amp; sh /tmp/test.sh'
+</PRE>
+While the test command exits with an error return code, darcs
+``unapplies'' one patch from the version controlled files to retrieve
+an earlier version, and repeats the test command.  If the test command
+finally succeeds, the name of the hunted down patch is found in the
+output before the last test run.
+
+<P>
+FIXME: It is
+still rather primitive.  Currently it just goes back over the history in
+reverse order trying each version.  I'd like for it to explore different
+patch combinations, to try to find the minimum number of patches that you
+would need to unpull in order to make the test succeed.
+
+<P>
+FIXME: I also would like to add an interface by which you can tell it which
+patches it should consider not including.  Without such a feature, the
+following command:
+<PRE>
+% darcs trackdown 'make &amp;&amp; false'
+</PRE>
+would result in compiling every version in the repository-which is a
+rather tedious prospect.
+
+<P>
+
+<H3><A NAME="SECTION007113100000000000000">
+Example usage</A>
+</H3>
+If you want to find the last version of darcs that had a FIXME note in the
+file Record.lhs, you could run
+<PRE>
+% darcs trackdown 'grep FIXME Record.lhs'
+</PRE>
+
+<P>
+To find the latest version that compiles, you can run
+<PRE>
+% darcs trackdown 'autoconf' './configure &amp;&amp; make'
+</PRE>
+
+<P>
+Trackdown can also be used to see how other features of the code changed
+with time.  For example
+<PRE>
+% darcs trackdown 'autoconf; ./configure' \
+   "make darcs &gt; /dev/null &amp;&amp; cd ~/darcs &amp;&amp; time darcs check &amp;&amp; false"
+</PRE>
+would let you see how long `darcs check' takes to run on each previous
+version of darcs that will actually compile.  The ``<code>&amp;&amp; false</code>''
+ensures that trackdown keeps going.
+
+<P>
+
+<H2><A NAME="SECTION007114000000000000000">
+darcs repair</A>
+</H2>
+
+<P>
+<code>Usage: darcs repair [OPTION]... </code>
+
+<P>
+Options:
+
+<P>
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT"><code>-v</code></TD>
+<TD ALIGN="LEFT"><code>--verbose</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+give verbose output</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-q</code></TD>
+<TD ALIGN="LEFT"><code>--quiet</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+suppress informational output</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--standard-verbosity</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+neither verbose nor quiet output</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><code>--repodir DIRECTORY</code></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="317">
+<TR><TD>
+
+specify the repository directory in which to run</TD></TR>
+</TABLE></TD>
+</TR>
+</TABLE>
+
+<P>
+Repair attempts to fix corruption that may have entered your
+repository.
+
+<P>
+Repair currently will only repair damage to the pristine tree.
+Fortunately this is just the sort of corruption that is most
+likely to happen.
+
+<P>
+
+<P>
+
+<DIV CLASS="navigation"><HR>
+<!--Navigation Panel-->
+<A NAME="tex2html418"
+  HREF="node8.html">
+<IMG WIDTH="22" HEIGHT="22" title="Next"  ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="./next.png"></A> 
+<A NAME="tex2html414"
+  HREF="darcs.html">
+<IMG WIDTH="22" HEIGHT="22" title="Up"  ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="./up.png"></A> 
+<A NAME="tex2html408"
+  HREF="node6.html">
+<IMG WIDTH="22" HEIGHT="22" title="Previous"  ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="./prev.png"></A> 
+<A NAME="tex2html416"
+  HREF="node1.html">
+<IMG WIDTH="22" HEIGHT="22" title="Contents"  ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="./contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html419"
+  HREF="node8.html">Theory of patches</A>
+<B> Up:</B> <A NAME="tex2html415"
+  HREF="darcs.html">Darcs 1.0.7 (release) Darcs</A>
+<B> Previous:</B> <A NAME="tex2html409"
+  HREF="node6.html">Best practices</A>
+ &nbsp; <B>  <A NAME="tex2html417"
+  HREF="node1.html">Contents</A></B> </DIV>
+<!--End of Navigation Panel-->
+<ADDRESS>
+Tommy Pettersson
+2006-05-13
+</ADDRESS>
+</BODY>
+</HTML>

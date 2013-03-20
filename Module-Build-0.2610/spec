@@ -1,0 +1,10 @@
+pkg Module-Build-0.2610
+
+url http://cpan.org/authors/id/K/KW/KWILLIAMS/Module-Build-0.2610.tar.gz
+
+build \
+    tar xf Module-Build-0.2610.tar.gz
+    cd Module-Build-0.2610
+    perl Build.PL
+    ./Build
+    ./Build install destdir=$BPM_ROOT

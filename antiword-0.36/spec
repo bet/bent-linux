@@ -1,0 +1,20 @@
+pkg antiword-0.36
+
+url http://www.winfield.demon.nl/linux/antiword-0.36.tar.gz
+
+build \
+    tar xzf antiword-0.36.tar.gz
+    cd antiword-0.36
+    make CFLAGS="$CFLAGS -Wall -pedantic -DNDEBUG -D__STDC_ISO_10646__"
+    mkdir -p $BPM_ROOT/usr/bin
+    cp antiword kantiword $BPM_ROOT/usr/bin/
+    chmod 755 $BPM_ROOT/usr/bin/*
+    mkdir -p $BPM_ROOT/usr/share/antiword
+    cp Resources/*.txt Resources/fontnames $BPM_ROOT/usr/share/antiword/
+    chmod 644 $BPM_ROOT/usr/share/antiword/*
+    mkdir -p $BPM_ROOT/usr/share/doc/antiword-0.36
+    mv Docs/* $BPM_ROOT/usr/share/doc/antiword-0.36/
+    chmod 644 $BPM_ROOT/usr/share/doc/antiword-0.36/*
+    mkdir -p $BPM_ROOT/usr/share/man/man1
+    mv $BPM_ROOT/usr/share/doc/antiword-0.36/antiword.1 $BPM_ROOT/usr/share/man/man1/
+    strip $BPM_ROOT/usr/bin/* || true

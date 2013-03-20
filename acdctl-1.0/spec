@@ -1,0 +1,11 @@
+pkg acdctl-1.0
+
+url http://www.technocage.com/~caskey/acdctl/download/acdctl-1.0.tar.bz2
+
+build \
+    tar xf acdctl-1.0.tar.bz2
+    cd acdctl-1.0
+    cc -Os -s acdctl.c -o acdctl -lusb
+    mkdir -p $BPM_ROOT/usr/bin
+    cp acdctl $BPM_ROOT/usr/bin/
+    

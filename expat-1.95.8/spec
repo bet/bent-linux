@@ -1,0 +1,11 @@
+pkg expat-1.95.8
+
+url http://aleron.dl.sourceforge.net/sourceforge/expat/expat-1.95.8.tar.gz
+
+build \
+    tar xf expat-1.95.8.tar.gz
+    cd expat-1.95.8
+    ./configure --prefix=/usr --mandir=/usr/share/man \
+        --disable-shared
+    make
+    make prefix=$BPM_ROOT/usr man1dir=$BPM_ROOT/usr/share/man/man1 install

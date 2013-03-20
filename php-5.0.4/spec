@@ -1,0 +1,12 @@
+pkg php-5.0.4
+
+url http://us3.php.net/distributions/php-5.0.4.tar.bz2
+
+build \
+    tar xf php-5.0.4.tar.bz2
+    cd php-5.0.4
+    CFLAGS=-Os LDFLAGS=-s ./configure --prefix=/usr --mandir=/usr/share/man \
+        --with-exec-dir=/usr/php/bin --disable-shared --disable-all
+    make
+    make INSTALL_ROOT=$BPM_ROOT install
+    strip $BPM_ROOT/usr/bin/php

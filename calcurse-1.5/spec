@@ -1,0 +1,12 @@
+pkg calcurse-1.5
+
+# http://culot.org/cgi-bin/get.cgi?calcurse-1.5.tar.gz
+url calcurse-1.5.tar.gz
+
+build \
+    tar xf calcurse-1.5.tar.gz
+    cd calcurse-1.5
+    ./configure --prefix=/usr --mandir=/usr/share/man --infodir=/usr/share/info --disable-nls
+    make
+    make DESTDIR=$BPM_ROOT install
+    rm -f $BPM_ROOT/usr/share/info/dir

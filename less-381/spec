@@ -1,0 +1,14 @@
+pkg less-381
+
+url http://mirrors.kernel.org/gnu/less/less-381.tar.gz
+
+build \
+    tar xzf less-381.tar.gz
+    cd less-381
+    ./configure --prefix=/usr --mandir=/usr/share/man
+    make
+    mkdir -p $BPM_ROOT/usr/bin
+    mkdir -p $BPM_ROOT/usr/share/man/man1
+    make bindir=$BPM_ROOT/usr/bin mandir=$BPM_ROOT/usr/share/man install
+    strip $BPM_ROOT/usr/bin/*
+

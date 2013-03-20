@@ -1,0 +1,11 @@
+pkg sane-backends-1.0.15
+
+url http://alioth.debian.org/download.php/817/sane-backends-1.0.15.tar.gz
+
+build \
+    tar xzf sane-backends-1.0.15.tar.gz
+    cd sane-backends-1.0.15
+    ./configure --prefix=/usr --mandir=/usr/share/man \
+        --disable-shared --disable-translations
+    make
+    make DESTDIR=$BPM_ROOT install

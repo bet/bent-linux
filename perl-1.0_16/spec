@@ -1,0 +1,14 @@
+pkg perl-1.0_16
+
+url http://unixbeard.net/~richardc/perl-1.0_16.tar.gz
+
+build \
+    tar xzf perl-1.0_16.tar.gz
+    cd perl-1.0_16
+    ./Configure -des
+    make
+    mkdir -p $BPM_ROOT/usr/bin
+    install -s perl $BPM_ROOT/usr/bin/perl1
+    make perl.man
+    mkdir -p $BPM_ROOT/usr/share/man/man1
+    install perl.man $BPM_ROOT/usr/share/man/man1/perl1.1

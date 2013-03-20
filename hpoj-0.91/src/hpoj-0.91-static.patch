@@ -1,0 +1,103 @@
+diff -ru hpoj-0.91.orig/apps/cmdline/Makefile.in hpoj-0.91/apps/cmdline/Makefile.in
+--- hpoj-0.91.orig/apps/cmdline/Makefile.in	2002-06-14 01:49:49.000000000 +0000
++++ hpoj-0.91/apps/cmdline/Makefile.in	2004-12-12 21:11:14.000000000 +0000
+@@ -10,10 +10,10 @@
+ all:		$(GOALS)
+ 
+ ptal-%:		ptal-%.c $(INCLUDES)
+-		$(CC) $(CFLAGS) -lptal -o $@ $<
++		$(CC) $(CFLAGS) -o $@ $< -lptal -lbind -lm
+ 
+ hpojip-%:	hpojip-%.c $(INCLUDES)
+-		$(CC) $(CFLAGS) -lhpojip -o $@ $<
++		$(CC) $(CFLAGS) -o $@ $< -lhpojip -lbind -lm
+ 
+ ptal-print:	ptal-connect
+ 		ln -sf ptal-connect ptal-print
+diff -ru hpoj-0.91.orig/lib/hpojip/Makefile.in hpoj-0.91/lib/hpojip/Makefile.in
+--- hpoj-0.91.orig/lib/hpojip/Makefile.in	2002-01-08 01:24:19.000000000 +0000
++++ hpoj-0.91/lib/hpojip/Makefile.in	2004-12-12 21:11:38.000000000 +0000
+@@ -16,7 +16,7 @@
+ SOCOMPS=$(addsuffix .shared.o,$(LIBCOMPS))
+ STCOMPS=$(addsuffix .static.o,$(LIBCOMPS))
+ 
+-GOALS=$(SOLONG)
++GOALS=libhpojip.a
+ CLEANS=*.o *.o-shared *.so* $(GOALS)
+ DISTCLEANS=Makefile
+ INCLUDEDIR=../../include
+@@ -32,7 +32,7 @@
+ 		$(CC) $(CFLAGS) -DHPOJIP_INTERNAL -fPIC -c -o $@ $<
+ 
+ %.static.o:	%.c $(INCLUDES)
+-		$(CC) $(CFLAGS) -c -o $@ $<
++		$(CC) $(CFLAGS) -DHPOJIP_INTERNAL -c -o $@ $<
+ 
+ all:		$(GOALS)
+ clean:
+@@ -40,6 +40,11 @@
+ distclean:	clean
+ 		rm -f $(DISTCLEANS)
+ 
++
++libhpojip.a:	$(STCOMPS)
++		ar cr libhpojip.a $(STCOMPS)
++
++
+ $(SOLONG):	$(SOCOMPS)
+ 		$(CC) $(CFLAGS) -shared -Wl,-soname,$(SOSHORT) -o $(SOLONG) $(SOCOMPS) -lc -lm
+ 		ln -sf $(SOLONG) $(SOSHORT)
+diff -ru hpoj-0.91.orig/lib/ptal/Makefile.in hpoj-0.91/lib/ptal/Makefile.in
+--- hpoj-0.91.orig/lib/ptal/Makefile.in	2002-10-15 23:34:28.000000000 +0000
++++ hpoj-0.91/lib/ptal/Makefile.in	2004-12-12 21:11:14.000000000 +0000
+@@ -10,7 +10,7 @@
+ SOCOMPS=$(addsuffix .shared.o,$(LIBCOMPS))
+ STCOMPS=$(addsuffix .static.o,$(LIBCOMPS))
+ 
+-GOALS=$(SOLONG)		# ptal.a
++GOALS=libptal.a
+ CLEANS=*.o *.o-shared *.a *.so* $(GOALS)
+ DISTCLEANS=Makefile
+ INCLUDEDIR=../../include
+@@ -36,8 +36,8 @@
+ 		ln -sf $(SOLONG) $(SOSHORT)
+ 		ln -sf $(SOLONG) $(SONOVER)
+ 
+-ptal.a:		$(STCOMPS)
+-		ar cr ptal.a $(STCOMPS)
++libptal.a:		$(STCOMPS)
++		ar cr libptal.a $(STCOMPS)
+ 
+ dump:
+ 		@echo SOCOMPS = $(SOCOMPS)
+diff -ru hpoj-0.91.orig/lib/sane/Makefile.in hpoj-0.91/lib/sane/Makefile.in
+--- hpoj-0.91.orig/lib/sane/Makefile.in	2002-07-10 01:13:39.000000000 +0000
++++ hpoj-0.91/lib/sane/Makefile.in	2004-12-12 21:11:14.000000000 +0000
+@@ -10,7 +10,7 @@
+ SOCOMPS=$(addsuffix .shared.o,$(LIBCOMPS))
+ STCOMPS=$(addsuffix .static.o,$(LIBCOMPS))
+ 
+-GOALS=$(SOLONG)
++GOALS=libsane-hpoj.a
+ CLEANS=*.o *.o-shared *.a *.so* $(GOALS)
+ DISTCLEANS=Makefile
+ INCLUDEDIR=../../include
+@@ -34,3 +34,6 @@
+ 		$(CC) $(CFLAGS) -lptal -lhpojip -shared -Wl,-soname,$(SOSHORT) -o $(SOLONG) $(SOCOMPS) -lc
+ 		ln -sf $(SOLONG) $(SOSHORT)
+ 		ln -sf $(SOLONG) $(SONOVER)
++
++libsane-hpoj.a: $(STCOMPS)
++		ar cr libsane-hpoj.a $(STCOMPS)
+diff -ru hpoj-0.91.orig/mlcd/Makefile.in hpoj-0.91/mlcd/Makefile.in
+--- hpoj-0.91.orig/mlcd/Makefile.in	2003-04-30 02:39:31.000000000 +0000
++++ hpoj-0.91/mlcd/Makefile.in	2004-12-12 21:11:14.000000000 +0000
+@@ -31,7 +31,7 @@
+ all:		$(GOAL)
+ 
+ $(GOAL):	$(OBJS)
+-		$(CXX) $(LFLAGS) -o $(GOAL) $(OBJS)
++		$(CXX) -o $(GOAL) $(OBJS) $(LFLAGS)
+ 
+ clean:
+ 		rm -f $(OBJS) $(GOAL)

@@ -1,0 +1,10 @@
+pkg cdargs-1.31
+
+url http://www.skamphausen.de/software/cdargs/cdargs-1.31.tar.gz
+
+build \
+    tar xf cdargs-1.31.tar.gz
+    cd cdargs-1.31
+    ./configure --prefix=/usr --mandir=/usr/share/man
+    make
+    make DESTDIR=$BPM_ROOT install-strip

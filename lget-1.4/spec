@@ -1,0 +1,11 @@
+pkg lget-1.4
+
+url http://puzzle.dl.sourceforge.net/sourceforge/leahhttpd/lget-1.4.tar.bz2
+
+build \
+    tar xjf lget-1.4.tar.bz2
+    cd lget-1.4
+    ./configure --prefix=/usr --mandir=/usr/share/man --infodir=/usr/share/info
+    make
+    mkdir -p $BPM_ROOT/usr/bin
+    mv src/lget $BPM_ROOT/usr/bin/

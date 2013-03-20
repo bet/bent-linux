@@ -1,0 +1,15 @@
+pkg snownews-1.5.7
+
+url http://kiza.kcore.de/software/snownews/download/snownews-1.5.7.tar.gz
+    snownews-1.5.7-nolocale.patch
+
+build \
+    tar xzf snownews-1.5.7.tar.gz
+    cd snownews-1.5.7
+    patch -p1 <../snownews-1.5.7-nolocale.patch
+    ./configure
+    make snownews-static
+    mkdir -p $BPM_ROOT/usr/bin
+    cp snownews opml2snow $BPM_ROOT/usr/bin
+    mkdir -p $BPM_ROOT/usr/share/man/man1
+    cp doc/man/*.1 $BPM_ROOT/usr/share/man/man1

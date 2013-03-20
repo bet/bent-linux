@@ -1,0 +1,12 @@
+pkg slang-1.4.9
+
+url ftp://space.mit.edu/pub/davis/slang/v1.4/slang-1.4.9.tar.bz2
+    slang-1.4.9-uclibc.patch
+
+build \
+    tar xjf slang-1.4.9.tar.bz2
+    cd slang-1.4.9
+    patch -p1 <../slang-1.4.9-uclibc.patch
+    ./configure --prefix=/usr
+    make
+    make DESTDIR=$BPM_ROOT install

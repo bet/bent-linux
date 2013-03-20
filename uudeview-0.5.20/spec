@@ -1,0 +1,12 @@
+pkg uudeview-0.5.20
+
+url http://www.fpx.de/fp/Software/UUDeview/download/uudeview-0.5.20.tar.gz
+
+build \
+    tar xzf uudeview-0.5.20.tar.gz
+    cd uudeview-0.5.20
+    ./configure --prefix=/usr \
+        --mandir=/usr/share/man --sysconfdir=/etc \
+        --disable-tcl --disable-sendmail --disable-inews --disable-minews
+    make
+    make prefix=$BPM_ROOT/usr mandir=$BPM_ROOT/usr/share/man install

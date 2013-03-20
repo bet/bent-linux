@@ -1,0 +1,11 @@
+pkg rl-0.2.6
+
+url http://ch.tudelft.nl/~arthur/rl/rl-0.2.6.tar.gz
+    http://ch.tudelft.nl/~arthur/rl/rl-0.2.6.tar.gz.sig
+
+build \
+    tar xf rl-0.2.6.tar.gz
+    cd rl-0.2.6
+    ./configure --prefix=/usr --mandir=/usr/share/man
+    make
+    make DESTDIR=$BPM_ROOT install

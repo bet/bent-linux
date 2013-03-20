@@ -1,0 +1,10 @@
+pkg unzip-5.52
+
+url http://sunsite.cnlab-switch.ch/ftp/mirror/infozip/src/unzip552.tar.gz
+
+build \
+    tar xzf unzip552.tar.gz
+    cd unzip-5.52
+    ln -s unix/Makefile Makefile
+    make unzips CC=gcc LD='gcc -s -static' CF="-Os -Wall -I."
+    make prefix=$BPM_ROOT/usr MANDIR=$BPM_ROOT/usr/share/man/man1 install LF2=""

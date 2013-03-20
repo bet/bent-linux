@@ -1,0 +1,10 @@
+pkg DateTime-TimeZone-0.36
+
+url http://cpan.org/authors/id/D/DR/DROLSKY/DateTime-TimeZone-0.36.tar.gz
+
+build \
+    tar xf DateTime-TimeZone-0.36.tar.gz
+    cd DateTime-TimeZone-0.36
+    perl Build.PL
+    ./Build
+    ./Build install destdir=$BPM_ROOT

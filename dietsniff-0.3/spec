@@ -1,0 +1,9 @@
+pkg dietsniff-0.3
+
+url http://www.ularx.de/dietsniff/dietsniff-0.3.tar.bz2
+
+build \
+    tar xf dietsniff-0.3.tar.bz2
+    cd dietsniff-0.3
+    make
+    make prefix=/usr MAN1DIR=/usr/share/man/man1 DESTDIR=$BPM_ROOT install

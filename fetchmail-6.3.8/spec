@@ -1,0 +1,12 @@
+pkg fetchmail-6.3.8
+
+url http://download.berlios.de/fetchmail/fetchmail-6.3.8.tar.bz2
+    http://download.berlios.de/fetchmail/fetchmail-6.3.8.tar.bz2.asc
+
+build \
+    tar xf fetchmail-6.3.8.tar.bz2
+    cd fetchmail-6.3.8
+    CFLAGS=-Os LDFLAGS=-s ./configure --prefix=/usr --mandir=/usr/share/man --infodir=/usr/share/info \
+        --enable-fallback=procmail --with-ssl --disable-nls --without-hesiod
+    make 'LIBS=-lcrypt -lssl -lcrypto -lfl -lbind'
+    make DESTDIR=$BPM_ROOT install

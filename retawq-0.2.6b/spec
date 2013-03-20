@@ -1,0 +1,17 @@
+pkg retawq-0.2.6b
+
+url http://download.sourceforge.net/retawq/retawq-0.2.6b.tar.gz
+
+build \
+    tar xzf retawq-0.2.6b.tar.gz
+    cd retawq-0.2.6b
+    CFLAGS=-Os LDFLAGS=-s ./configure --path-prefix=/usr --path-man=/usr/share/man --path-doc=/usr/share/doc/retawq \
+        --disable-textmodemouse --set-tls=1 --set-threading=2
+    perl -pi -le 's/-lz/-lz -lbind -lintl -liconv/' Makefile
+    make
+    mkdir -p $BPM_ROOT/usr/bin
+    install -s retawq $BPM_ROOT/usr/bin/
+    mkdir -p $BPM_ROOT/usr/share/man/man1
+    cp docu/retawq.1 $BPM_ROOT/usr/share/man/man1/
+    mkdir -p $BPM_ROOT/usr/share/doc/retawq
+    cp -r README docu/. $BPM_ROOT/usr/share/doc/retawq/

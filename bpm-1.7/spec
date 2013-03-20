@@ -1,0 +1,8 @@
+pkg bpm-1.7
+
+url http://bent.latency.net/bent/darcs/bpm-1.7/src/bpm-1.7.tar.bz2
+
+build \
+    tar xf bpm-1.7.tar.bz2
+    cd bpm-1.7
+    make DESTDIR=$BPM_ROOT install

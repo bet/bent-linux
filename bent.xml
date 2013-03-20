@@ -1,0 +1,135 @@
+<?xml version="1.0"?>
+<?xml-stylesheet title="CSS_formatting" type="text/css" href="http://www.interglacial.com/rss/rss.css"?>
+<rss version="2.0"><channel>
+<!-- Generated with Perl's XML::RSS::SimpleGen v11.11 -->
+
+<link>http://bent.latency.net/bent/git</link>
+<title>Bent Linux</title>
+<description>Distro based on uClibc, static linking, bpm packaging</description>
+<language>en</language>
+<lastBuildDate>Wed, 02 Jan 2008 14:53:17 GMT</lastBuildDate>
+<webMaster>bet@rahul.net</webMaster>
+<docs>http://www.interglacial.com/rss/about.html</docs>
+
+<item>
+  <title>linux-2.4.36</title>
+  <link>http://bent.latency.net/bent/git/linux-2.4.36</link>
+  <description>Tue Jan 1 20:13:43 2008 +0000 update from 2.4.35</description>
+</item>
+
+<item>
+  <title>nmap-4.50</title>
+  <link>http://bent.latency.net/bent/git/nmap-4.50</link>
+  <description>Mon Dec 31 19:59:01 2007 +0000 update from 4.20</description>
+</item>
+
+<item>
+  <title>libpng-1.2.24</title>
+  <link>http://bent.latency.net/bent/git/libpng-1.2.24</link>
+  <description>Mon Dec 31 19:56:29 2007 +0000 update from 1.2.23</description>
+</item>
+
+<item>
+  <title>clamav-0.92</title>
+  <link>http://bent.latency.net/bent/git/clamav-0.92</link>
+  <description>Mon Dec 31 19:54:26 2007 +0000 update from 0.92rc2</description>
+</item>
+
+<item>
+  <title>zoneinfo-2007k</title>
+  <link>http://bent.latency.net/bent/git/zoneinfo-2007k</link>
+  <description>Mon Dec 31 18:49:35 2007 +0000 update from 2007j</description>
+</item>
+
+<item>
+  <title>zoneinfo-2007j</title>
+  <link>http://bent.latency.net/bent/git/zoneinfo-2007j</link>
+  <description>Thu Dec 6 22:07:31 2007 +0000 update from 2007h</description>
+</item>
+
+<item>
+  <title>git-1.5.3.7</title>
+  <link>http://bent.latency.net/bent/git/git-1.5.3.7</link>
+  <description>Thu Dec 6 21:59:52 2007 +0000 update from 1.5.3.6</description>
+</item>
+
+<item>
+  <title>zoneinfo-2007h</title>
+  <link>http://bent.latency.net/bent/git/zoneinfo-2007h</link>
+  <description>Mon Nov 26 21:03:41 2007 +0000 update from 2007f</description>
+</item>
+
+<item>
+  <title>zile-2.2.52</title>
+  <link>http://bent.latency.net/bent/git/zile-2.2.52</link>
+  <description>Mon Nov 26 21:02:30 2007 +0000 update from 2.2.34</description>
+</item>
+
+<item>
+  <title>when-1.1.5</title>
+  <link>http://bent.latency.net/bent/git/when-1.1.5</link>
+  <description>Mon Nov 26 21:01:31 2007 +0000 update from 1.1.0</description>
+</item>
+
+<item>
+  <title>rsync-3.0.0pre5</title>
+  <link>http://bent.latency.net/bent/git/rsync-3.0.0pre5</link>
+  <description>Mon Nov 26 21:00:26 2007 +0000 update from 2.6.9</description>
+</item>
+
+<item>
+  <title>postfix-2.4.6</title>
+  <link>http://bent.latency.net/bent/git/postfix-2.4.6</link>
+  <description>Mon Nov 26 20:59:13 2007 +0000 updated from 2.4.3</description>
+</item>
+
+<item>
+  <title>pcre-7.4</title>
+  <link>http://bent.latency.net/bent/git/pcre-7.4</link>
+  <description>Mon Nov 26 20:57:23 2007 +0000 update from 7.1</description>
+</item>
+
+<item>
+  <title>openssl-0.9.8f</title>
+  <link>http://bent.latency.net/bent/git/openssl-0.9.8f</link>
+  <description>Mon Nov 26 20:56:33 2007 +0000 update from 0.9.8e</description>
+</item>
+
+<item>
+  <title>openssh-4.7p1</title>
+  <link>http://bent.latency.net/bent/git/openssh-4.7p1</link>
+  <description>Mon Nov 26 20:54:51 2007 +0000 update from 4.5p1</description>
+</item>
+
+<item>
+  <title>ocrad-0.17</title>
+  <link>http://bent.latency.net/bent/git/ocrad-0.17</link>
+  <description>Mon Nov 26 20:53:10 2007 +0000 update from 0.16</description>
+</item>
+
+<item>
+  <title>mutt-1.5.17</title>
+  <link>http://bent.latency.net/bent/git/mutt-1.5.17</link>
+  <description>Mon Nov 26 20:52:06 2007 +0000 update from 1.5.16</description>
+</item>
+
+<item>
+  <title>msmtp-1.4.13</title>
+  <link>http://bent.latency.net/bent/git/msmtp-1.4.13</link>
+  <description>Mon Nov 26 20:50:22 2007 +0000 update from 1.4.11</description>
+</item>
+
+<item>
+  <title>mlmmj-1.2.15</title>
+  <link>http://bent.latency.net/bent/git/mlmmj-1.2.15</link>
+  <description>Mon Nov 26 20:48:37 2007 +0000 update from 1.2.14</description>
+</item>
+
+<item>
+  <title>lynx-2.8.7dev.7</title>
+  <link>http://bent.latency.net/bent/git/lynx-2.8.7dev.7</link>
+  <description>Mon Nov 26 20:47:03 2007 +0000 update from 2.8.7dev.5</description>
+</item>
+
+
+</channel></rss>

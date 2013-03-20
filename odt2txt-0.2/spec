@@ -1,0 +1,10 @@
+pkg odt2txt-0.2
+
+url http://stosberg.net/odt2txt/odt2txt-0.2.tar.gz
+
+build \
+    tar xf odt2txt-0.2.tar.gz
+    cd odt2txt-0.2
+    make 'LIBS=-liconv'
+    mkdir -p $BPM_ROOT/usr/bin
+    install -s odt2txt $BPM_ROOT/usr/bin/

@@ -1,0 +1,14 @@
+pkg sudo-1.6.8p12
+
+url http://www.sudo.ws/sudo/dist/sudo-1.6.8p12.tar.gz
+    http://www.sudo.ws/sudo/dist/sudo-1.6.8p12.tar.gz.sig
+
+build \
+    tar xzf sudo-1.6.8p12.tar.gz
+    cd sudo-1.6.8p12
+    CFLAGS=-Os LDFLAGS='-s -static' ./configure --prefix=/usr --mandir=/usr/share/man --infodir=/usr/share/info \
+        --sysconfdir=/etc --with-insults --with-all-insults --without-lecture --with-env-editor \
+        --enable-noargs-shell --without-sendmail
+    make 'NET_LIBS=-lbind'
+    make DESTDIR=$BPM_ROOT install
+    false bpmbuild does not capture suid perms

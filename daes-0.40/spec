@@ -1,0 +1,10 @@
+pkg daes-0.40
+
+url http://www.dettus.net/daes/daes_0.40.tar.gz
+
+build \
+    tar xf daes_0.40.tar.gz
+    cd daes_0.40
+    gcc -Os -s daes.c -o daes
+    mkdir -p $BPM_ROOT/usr/bin
+    install daes $BPM_ROOT/usr/bin/

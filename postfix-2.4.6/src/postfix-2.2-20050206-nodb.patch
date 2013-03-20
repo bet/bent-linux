@@ -1,0 +1,73 @@
+diff -ru postfix-2.2-20050206.orig/makedefs postfix-2.2-20050206/makedefs
+--- postfix-2.2-20050206.orig/makedefs	2005-02-04 15:53:01.000000000 +0000
++++ postfix-2.2-20050206/makedefs	2005-02-07 08:54:19.000000000 +0000
+@@ -216,34 +216,8 @@
+ 		SYSLIBS="-ldb"
+ 		;;
+     Linux.2*)	SYSTYPE=LINUX2
+-		# Postfix no longer needs DB 1.85 compatibility
+-		if [ -f /usr/include/db.h ]
+-		then
+-		    : we are all set
+-		elif [ -f /usr/include/db/db.h ]
+-		then
+-		    CCARGS="$CCARGS -I/usr/include/db"
+-		else
+-		    # No, we're not going to try db1 db2 db3 etc.
+-		    # On a properly installed system, Postfix builds
+-		    # by including <db.h> and by linking with -ldb
+-		    echo "No <db.h> include file found." 1>&2
+-		    echo "Install the appropriate db*-devel package first." 1>&2
+-		    echo "See the RELEASE_NOTES file for more information." 1>&2
+-		    exit 1
+-		fi
+-		# GDBM locks the DBM .pag file after open. This breaks postmap.
+-		# if [ -f /usr/include/gdbm-ndbm.h ]
+-		# then
+-		#     CCARGS="$CCARGS -DHAS_DBM -DPATH_NDBM_H='<gdbm-ndbm.h>'"
+-		#     GDBM_LIBS=gdbm
+-		# elif [ -f /usr/include/gdbm/ndbm.h ]
+-		# then
+-		#     CCARGS="$CCARGS -DHAS_DBM -DPATH_NDBM_H='<gdbm/ndbm.h>'"
+-		#     GDBM_LIBS=gdbm
+-		# fi
+-		SYSLIBS="-ldb"
+-		for name in nsl resolv $GDBM_LIBS
++		SYSLIBS="-lbind"
++		for name in nsl resolv
+ 		do
+ 		    for lib in /usr/lib64 /lib64 /usr/lib /lib
+ 		    do
+diff -ru postfix-2.2-20050206.orig/src/util/sys_defs.h postfix-2.2-20050206/src/util/sys_defs.h
+--- postfix-2.2-20050206.orig/src/util/sys_defs.h	2005-02-04 00:07:44.000000000 +0000
++++ postfix-2.2-20050206/src/util/sys_defs.h	2005-02-07 08:54:19.000000000 +0000
+@@ -611,10 +611,10 @@
+ #define INTERNAL_LOCK	MYFLOCK_STYLE_FLOCK
+ #define DEF_MAILBOX_LOCK "fcntl, dotlock"	/* RedHat >= 4.x */
+ #define HAS_FSYNC
+-#define HAS_DB
+-#define DEF_DB_TYPE	"hash"
+-#define ALIAS_DB_MAP	"hash:/etc/aliases"
+-#define HAS_NIS
++#undef HAS_DB
++#define DEF_DB_TYPE	"cdb"
++#define ALIAS_DB_MAP	"cdb:/etc/postfix/aliases"
++#undef HAS_NIS
+ #define GETTIMEOFDAY(t)	gettimeofday(t,(struct timezone *) 0)
+ #define ROOT_PATH	"/bin:/usr/bin:/sbin:/usr/sbin"
+ #define FIONREAD_IN_TERMIOS_H
+@@ -657,10 +657,10 @@
+ #define INTERNAL_LOCK	MYFLOCK_STYLE_FLOCK
+ #define DEF_MAILBOX_LOCK "dotlock"	/* verified RedHat 3.03 */
+ #define HAS_FSYNC
+-#define HAS_DB
+-#define DEF_DB_TYPE	"hash"
+-#define ALIAS_DB_MAP	"hash:/etc/aliases"
+-#define HAS_NIS
++#undef HAS_DB
++#define DEF_DB_TYPE	"cdb"
++#define ALIAS_DB_MAP	"cdb:/etc/postfix/aliases"
++#undef HAS_NIS
+ #define GETTIMEOFDAY(t)	gettimeofday(t,(struct timezone *) 0)
+ #define ROOT_PATH	"/bin:/usr/bin:/sbin:/usr/sbin"
+ #define FIONREAD_IN_TERMIOS_H		/* maybe unnecessary */

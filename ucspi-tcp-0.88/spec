@@ -1,0 +1,28 @@
+pkg ucspi-tcp-0.88
+
+url http://cr.yp.to/software/ucspi-tcp-0.88.tar.gz
+    ftp://ftp.innominate.org/gpa/djb/ucspi-tcp-0.88-man.tar.gz
+    ucspi-tcp-docs.tar.bz2
+
+build \
+    tar xzf ucspi-tcp-0.88.tar.gz
+    cd ucspi-tcp-0.88
+    tar xzvf ../ucspi-tcp-0.88-man.tar.gz
+    mkdir docs
+    (cd docs&&tar xjf -)<../ucspi-tcp-docs.tar.bz2
+    echo /usr >conf-home
+    echo gcc -Os --include /usr/include/errno.h > conf-cc
+    echo gcc -s -static >conf-ld
+    make
+    mkdir -p $BPM_ROOT/usr/bin
+    mkdir -p $BPM_ROOT/usr/man/man1
+    rm install instcheck auto_home.[co]
+    echo $BPM_ROOT/usr >conf-home
+    make install instcheck
+    ./install
+    ./instcheck
+    cp ucspi-tcp-0.88-man/*.1 $BPM_ROOT/usr/man/man1/
+    mkdir -p $BPM_ROOT/usr/share/doc/ucspi-tcp-0.88
+    cp -r [A-Z]* docs $BPM_ROOT/usr/share/doc/ucspi-tcp-0.88/
+    mkdir -p $BPM_ROOT/usr/share/doc/ucspi-tcp-0.88/ucspi-tcp-0.88-man
+    cp ucspi-tcp-0.88-man/README $BPM_ROOT/usr/share/doc/ucspi-tcp-0.88/ucspi-tcp-0.88-man/

@@ -1,0 +1,44 @@
+Only in cpio-2.4.2: Makefile
+Only in cpio-2.4.2: argmatch.o
+Only in cpio-2.4.2: config.cache
+Only in cpio-2.4.2: config.log
+Only in cpio-2.4.2: config.status
+Only in cpio-2.4.2: copyin.o
+Only in cpio-2.4.2: copyout.o
+Only in cpio-2.4.2: copypass.o
+Only in cpio-2.4.2: cpio
+Only in cpio-2.4.2: defer.o
+Only in cpio-2.4.2: dirname.o
+Only in cpio-2.4.2: dstring.o
+Only in cpio-2.4.2: error.o
+Only in cpio-2.4.2: filemode.o
+Only in cpio-2.4.2: getopt.o
+Only in cpio-2.4.2: getopt1.o
+Only in cpio-2.4.2: global.o
+Only in cpio-2.4.2: idcache.o
+Only in cpio-2.4.2: main.o
+Only in cpio-2.4.2: makepath.o
+Only in cpio-2.4.2: mt
+Only in cpio-2.4.2: mt.o
+Only in cpio-2.4.2: rmt
+diff -ru cpio-2.4.2.old/rmt.c cpio-2.4.2/rmt.c
+--- cpio-2.4.2.old/rmt.c	1995-12-20 16:29:07.000000000 +0000
++++ cpio-2.4.2/rmt.c	2006-12-17 17:56:52.000000000 +0000
+@@ -75,7 +75,7 @@
+ char count[SSIZE], mode[SSIZE], pos[SSIZE], op[SSIZE];
+ 
+ extern errno;
+-extern char *sys_errlist[];
++
+ char resp[BUFSIZ];
+ 
+ FILE *debug;
+Only in cpio-2.4.2: rmt.o
+Only in cpio-2.4.2: rtapelib.o
+Only in cpio-2.4.2: stripslash.o
+Only in cpio-2.4.2: tar.o
+Only in cpio-2.4.2: userspec.o
+Only in cpio-2.4.2: util.o
+Only in cpio-2.4.2: version.o
+Only in cpio-2.4.2: xmalloc.o
+Only in cpio-2.4.2: xstrdup.o

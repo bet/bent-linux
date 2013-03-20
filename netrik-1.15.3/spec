@@ -1,0 +1,10 @@
+pkg netrik-1.15.3
+
+url http://internap.dl.sourceforge.net/sourceforge/netrik/netrik-1.15.3.tar.gz
+
+build \
+    tar xf netrik-1.15.3.tar.gz
+    cd netrik-1.15.3
+    ./configure --prefix=/usr --mandir=/usr/share/man
+    make 'LIBS=-lreadline -lhistory -lncurses -lbind'
+    make DESTDIR=$BPM_ROOT install

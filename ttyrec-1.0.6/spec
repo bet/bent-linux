@@ -1,0 +1,14 @@
+pkg ttyrec-1.0.6
+
+url http://namazu.org/~satoru/ttyrec/ttyrec-1.0.6.tar.gz
+
+build \
+    tar xzf ttyrec-1.0.6.tar.gz
+    cd ttyrec-1.0.6
+    make 'CFLAGS=-Os -static -s'
+    mkdir -p $BPM_ROOT/usr/bin
+    mv ttyplay ttyrec ttytime $BPM_ROOT/usr/bin/
+    mkdir -p $BPM_ROOT/usr/share/man/man1
+    mv *.1 $BPM_ROOT/usr/share/man/man1/
+    mkdir -p $BPM_ROOT/usr/share/doc/ttyrec-1.0.6
+    mv README $BPM_ROOT/usr/share/doc/ttyrec-1.0.6/

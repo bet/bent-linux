@@ -1,0 +1,23 @@
+pkg bind-8.4.6
+
+url ftp://ftp.isc.org/isc/bind/src/8.4.6/bind-src.tar.gz
+    ftp://ftp.isc.org/isc/bind/src/8.4.6/bind-doc.tar.gz
+    bind-8.4.5-pselect_uClibc.patch
+
+build \
+    tar xf bind-src.tar.gz
+    cd src
+    patch -p1 <../bind-8.4.5-pselect_uClibc.patch
+    find . -type f -print0|xargs -0 grep -l /usr/local/|xargs perl -pi -e 's#/usr/local/#/usr/#g'
+    make depend
+    make all
+    make DESTDIR=$BPM_ROOT INSTALL_LIB= install
+    (cd $BPM_ROOT/usr/bind;ls|xargs -i mkdir -p '../{}')
+    (cd $BPM_ROOT/usr/bind;for d in *;do mv $d/* ../$d/; done)
+    rmdir $BPM_ROOT/usr/bind/*
+    rmdir $BPM_ROOT/usr/bind
+    find $BPM_ROOT -type f|xargs file|awk -F: '/ ELF .*not stripped/{print $1}'|xargs strip
+    cd ..
+    tar xf bind-doc.tar.gz
+    mkdir -p $BPM_ROOT/usr/share/doc/bind-8.4.6
+    mv doc/* $BPM_ROOT/usr/share/doc/bind-8.4.6/

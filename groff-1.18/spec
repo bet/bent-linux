@@ -1,0 +1,12 @@
+pkg groff-1.18
+
+url http://mirrors.kernel.org/gnu/groff/groff-1.18.tar.gz
+
+build \
+    tar xzf groff-1.18.tar.gz
+    cd groff-1.18
+    CXXFLAGS=-Os ./configure --prefix=/usr --mandir=/usr/share/man --infodir=/usr/share/info
+    make
+    mkdir -p $BPM_ROOT/usr/bin $BPM_ROOT/usr/share/man $BPM_ROOT/usr/share/info
+    make prefix=$BPM_ROOT/usr mandir=$BPM_ROOT/usr/share/man infodir=$BPM_ROOT/usr/share/info install
+    rm -f $BPM_ROOT/usr/share/info/dir

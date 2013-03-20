@@ -1,0 +1,18 @@
+pkg snortrules
+
+url http://www.snort.org/pub-bin/downloads.cgi/Download/vrt_pr/snortrules-pr-2.4.tar.gz
+
+build \
+    tar xf snortrules-pr-2.4.tar.gz
+    mkdir -p $BPM_ROOT/usr/share
+    mv doc $BPM_ROOT/usr/share/snortrules
+    cd rules
+    
+    perl -pi.bak -le 's{^(var RULE_PATH) \.\./rules$}{$1 /etc/snort};' \
+        snort.conf
+    
+    perl -pi -le 's/^/#/ if /sid:(480|527|528|1411|1417|1923|2189);/' \
+        *.rules
+    
+    mkdir -p $BPM_ROOT/etc/snort
+    cp *     $BPM_ROOT/etc/snort

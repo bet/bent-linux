@@ -1,0 +1,347 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Building darcs</TITLE>
+<META NAME="description" CONTENT="Building darcs">
+<META NAME="keywords" CONTENT="darcs">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="darcs.css">
+
+<LINK REL="next" HREF="node4.html">
+<LINK REL="previous" HREF="node2.html">
+<LINK REL="up" HREF="darcs.html">
+<LINK REL="next" HREF="node4.html">
+</HEAD>
+
+<BODY >
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html307"
+  HREF="node4.html">
+<IMG WIDTH="22" HEIGHT="22" title="Next"  ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="./next.png"></A> 
+<A NAME="tex2html303"
+  HREF="darcs.html">
+<IMG WIDTH="22" HEIGHT="22" title="Up"  ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="./up.png"></A> 
+<A NAME="tex2html297"
+  HREF="node2.html">
+<IMG WIDTH="22" HEIGHT="22" title="Previous"  ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="./prev.png"></A> 
+<A NAME="tex2html305"
+  HREF="node1.html">
+<IMG WIDTH="22" HEIGHT="22" title="Contents"  ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="./contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html308"
+  HREF="node4.html">Getting started</A>
+<B> Up:</B> <A NAME="tex2html304"
+  HREF="darcs.html">Darcs 1.0.7 (release) Darcs</A>
+<B> Previous:</B> <A NAME="tex2html298"
+  HREF="node2.html">Introduction</A>
+ &nbsp; <B>  <A NAME="tex2html306"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR></DIV>
+<!--End of Navigation Panel-->
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL CLASS="ChildLinks">
+<LI><A NAME="tex2html309"
+  HREF="node3.html#SECTION00310000000000000000">Prerequisites</A>
+<LI><A NAME="tex2html310"
+  HREF="node3.html#SECTION00320000000000000000">Building on Mac&nbsp;OS&nbsp;X</A>
+<LI><A NAME="tex2html311"
+  HREF="node3.html#SECTION00330000000000000000">Building on Microsoft Windows</A>
+<LI><A NAME="tex2html312"
+  HREF="node3.html#SECTION00340000000000000000">Building from tarball</A>
+<LI><A NAME="tex2html313"
+  HREF="node3.html#SECTION00350000000000000000">Building darcs from the repository</A>
+<LI><A NAME="tex2html314"
+  HREF="node3.html#SECTION00360000000000000000">Building darcs with git</A>
+<LI><A NAME="tex2html315"
+  HREF="node3.html#SECTION00370000000000000000">Submitting patches to darcs</A>
+</UL>
+<!--End of Table of Child-Links-->
+<HR>
+
+<H1><A NAME="SECTION00300000000000000000">
+Building darcs</A>
+</H1>
+
+<P>
+This chapter should walk you through the steps necessary to build darcs for
+yourself.  There are in general two ways to build darcs.  One is for
+building released versions from tarballs, and the other is to build the
+latest and greatest darcs, from the darcs repo itself.
+
+<P>
+Please let me know if you have any problems building darcs, or don't have
+problems described in this chapter and think there's something obsolete
+here, so I can keep this page up-to-date.
+
+<P>
+
+<H1><A NAME="SECTION00310000000000000000">
+Prerequisites</A>
+</H1>
+To build darcs you will need to have <TT>ghc</TT>, the Glorious Glasgow
+Haskell Compiler. You should have at the very minimum version 6.2.
+
+<P>
+It is a good idea (but not required) to have a recent version of libcurl
+installed.  If not, you will at least need to have either <TT>wget</TT> or
+<TT>curl</TT> installed if you want to be able to grab repos remotely over
+normal network protocols (ftp or http).  You also might want to have scp
+available if you want to grab your repos over ssh...
+
+<P>
+To send patches, you will also need to have a working
+<code>/usr/sbin/sendmail</code> or <code>/usr/lib/sendmail</code>, which is provided
+by most mail transport agents, and is generally available on linux and
+BSD systems.  It's also there on Mac&nbsp;OS&nbsp;X. However, if you don't have this,
+it won't stop you from building darcs.
+
+<P>
+To use the <code>diff</code> command of darcs, a <code>diff</code> program supporting
+options <code>-r</code> (recursive diff) and <code>-N</code> (show new files as
+differences against an empty file) is required. The <code>configure</code>
+script will look for <code>gdiff</code>, <code>gnudiff</code> and <code>diff</code> in this
+order. You can force the use of another program by setting the <code>DIFF</code>
+environment variable before running <code>configure</code>.
+
+<P>
+To rebuild the documentation (which should not be necessary since it is
+included in html form with the tarballs), you will need to have latex
+installed, as well as latex2html if you want to build it in html form.
+
+<P>
+
+<H1><A NAME="SECTION00320000000000000000">
+Building on Mac&nbsp;OS&nbsp;X</A>
+</H1>
+To build on Mac&nbsp;OS&nbsp;X, you will need the Apple Developer Tools and the ghc
+6.4 package installed.
+
+<P>
+
+<H1><A NAME="SECTION00330000000000000000">
+Building on Microsoft Windows</A>
+</H1>
+To build on Microsoft Windows, you will need:
+
+<P>
+
+<UL>
+<LI><A NAME="tex2html3"
+  HREF="http://www.mingw.org/">MinGW</A>
+which provides the GCC
+  toolchain for win32.
+</LI>
+<LI><A NAME="tex2html4"
+  HREF="http://www.mingw.org/msys.shtml">MSYS</A>
+which provides
+  a unix build environment for win32.  Be sure to download the separate
+  msysDTK, autoconf and automake.
+</LI>
+<LI><A NAME="tex2html5"
+  HREF="http://www.gzip.org/zlib/">zlib-1.2.1+</A>
+library
+  and headers.
+</LI>
+<LI><A NAME="tex2html6"
+  HREF="http://curl.haxx.se/">curl-7.12.2+</A>
+library
+  and headers.
+</LI>
+<LI>If building with an SSL enabled curl you will need the OpenSSL
+  libraries, unofficial builds are available at
+<BR>  <A NAME="tex2html7"
+  HREF="http://www.slproweb.com/products/Win32OpenSSL.html">http://www.slproweb.com/products/Win32OpenSSL.html</A>.
+</LI>
+</UL>
+
+<P>
+Copy the zlib and curl libraries and headers to both GHC and MinGW.  GHC
+stores C headers in <code>&lt;ghc-dir&gt;/gcc-lib/include</code> and libraries in
+<code>&lt;ghc-dir&gt;/gcc-lib</code>.  MinGW stores headers in
+<code>&lt;mingw-dir&gt;/include</code> and libraries in <code>&lt;mingw-dir&gt;/lib</code>.
+
+<P>
+Set PATH to include the <code>&lt;msys-dir&gt;/bin</code>, <code>&lt;mingw-dir&gt;/bin</code>,
+<code>&lt;curl-dir&gt;</code>, and a directory containing a pre-built darcs.exe if you
+want the build's patch context stored for `<code>darcs --exact-version</code>'.
+
+<P>
+<PRE>
+C:\darcs&gt; cd &lt;darcs-source-dir&gt;
+C:\darcs&gt; sh
+
+$ export GHC=/c/&lt;ghc-dir&gt;/bin/ghc.exe
+$ autoconf
+$ ./configure --disable-mmap --target=mingw
+$ make
+</PRE>
+
+<P>
+
+<H1><A NAME="SECTION00340000000000000000">
+Building from tarball</A>
+</H1>
+If you get darcs from a tarball, the procedure (after unpacking the tarball
+itself) is as follows:
+<PRE>
+% ./configure
+% make
+# Optional, but recommended
+% make test
+% make install
+</PRE>
+
+<P>
+There are options to configure that you may want to check out with
+<PRE>
+% ./configure --help
+</PRE>
+
+<P>
+If your header files are installed in a non-standard location, you may need
+to define the <code>CFLAGS</code> and <code>CPPFLAGS</code> environment variables to
+include the path to the headers.  e.g. on NetBSD, you may need to run
+<PRE>
+% CFLAGS=-I/usr/pkg/include CPPFLAGS=-I/usr/pkg/include ./configure
+</PRE>
+
+<P>
+
+<H1><A NAME="SECTION00350000000000000000">
+Building darcs from the repository</A>
+</H1>
+To build the latest darcs from its repository, you will first need a
+working copy of darcs. You can get darcs using:
+<PRE>
+% darcs get -v http://abridgegame.org/repos/darcs
+</PRE>
+and once you have the darcs repository you can bring it up to date with a
+<PRE>
+% darcs pull
+</PRE>
+
+<P>
+The repository doesn't hold automatically generated files, which include
+the configure script and the HTML documentation, so you need to run
+<code>autoconf</code> first. 
+
+<P>
+You'll need <code>autoconf</code> 2.50 or higher. Some systems have more than one
+version of <code>autoconf</code> installed. For example, <code>autoconf</code> may point to
+version 2.13, while <code>autoconf259</code>  runs version 2.59. 
+
+<P>
+Also note that <code>make</code> is really "GNU make". On some systems, such as
+the *BSDs, you may need to type <code>gmake</code> instead of make for this to work.
+
+<P>
+If you want to create readable documentation you'll need to have latex installed.
+<PRE>
+% autoconf
+% ./configure
+% make
+% make install
+</PRE>
+
+<P>
+If you want to tweak the configure options, you'll need to run <TT>  ./configure</TT> yourself after the make, and then run make again.
+
+<P>
+
+<H1><A NAME="SECTION00360000000000000000">
+Building darcs with git</A>
+</H1>
+
+<P>
+To enable git support, you first need to grab a copy of the git
+source code; since darcs doesn't yet have the capability of accessing
+remote git repositories, you'll have to either download a tarball or use
+git itself to clone a git repository.  Compile git (no need to
+install); this will create a file ``<code>libgit.a</code>''.  Then create a
+symlink to the git source directory named ``<code>git</code>'' in your darcs
+source directory, configure darcs using the ``<code>--enable-git</code>''
+option, and build darcs as usual.
+
+<P>
+
+<H1><A NAME="SECTION00370000000000000000">
+Submitting patches to darcs</A>
+</H1>
+I know, this doesn't really belong in this chapter, but if you're using the
+repository version of darcs it's really easy to submit patches to me using
+darcs. In fact, even if you don't know any Haskell, you could submit fixes
+or additions to this document (by editing <code>building_darcs.tex</code>) based
+on your experience building darcs...
+
+<P>
+To do so, just record your changes (which you made in the darcs repository)
+<PRE>
+% darcs record --no-test
+</PRE>
+making sure to give the patch a nice descriptive name.  The
+<code>--no-test</code> options keeps darcs from trying to run the unit tests,
+which can be rather time-consuming.  Then you can send the patch to the
+darcs-devel mailing list by email by
+<PRE>
+% darcs send -u
+</PRE>
+The darcs repository stores the email address to which patches should be
+sent by default.  The email address you see is actually my own, but when
+darcs notices that you haven't signed the patch with my GPG key, it will
+forward the message to darcs-devel.
+
+<P>
+
+<DIV CLASS="navigation"><HR>
+<!--Navigation Panel-->
+<A NAME="tex2html307"
+  HREF="node4.html">
+<IMG WIDTH="22" HEIGHT="22" title="Next"  ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="./next.png"></A> 
+<A NAME="tex2html303"
+  HREF="darcs.html">
+<IMG WIDTH="22" HEIGHT="22" title="Up"  ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="./up.png"></A> 
+<A NAME="tex2html297"
+  HREF="node2.html">
+<IMG WIDTH="22" HEIGHT="22" title="Previous"  ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="./prev.png"></A> 
+<A NAME="tex2html305"
+  HREF="node1.html">
+<IMG WIDTH="22" HEIGHT="22" title="Contents"  ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="./contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html308"
+  HREF="node4.html">Getting started</A>
+<B> Up:</B> <A NAME="tex2html304"
+  HREF="darcs.html">Darcs 1.0.7 (release) Darcs</A>
+<B> Previous:</B> <A NAME="tex2html298"
+  HREF="node2.html">Introduction</A>
+ &nbsp; <B>  <A NAME="tex2html306"
+  HREF="node1.html">Contents</A></B> </DIV>
+<!--End of Navigation Panel-->
+<ADDRESS>
+Tommy Pettersson
+2006-05-13
+</ADDRESS>
+</BODY>
+</HTML>

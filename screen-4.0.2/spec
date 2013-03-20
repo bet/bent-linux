@@ -1,0 +1,13 @@
+pkg screen-4.0.2
+
+url ftp://ftp.uni-erlangen.de/pub/utilities/screen/screen-4.0.2.tar.gz
+
+build \
+    tar xzf screen-4.0.2.tar.gz
+    cd screen-4.0.2
+    ./configure --prefix=/usr --mandir=/usr/share/man \
+        --infodir=/usr/share/info --sysconfdir=/etc
+    perl -pi -le 's/^(.*)$/\/* $1 *\// if /#define HAVE_SVR4_PTYS/' config.h
+    make
+    make DESTDIR=$BPM_ROOT install
+    rm -f $BPM_ROOT/usr/share/info/dir

@@ -1,0 +1,13 @@
+pkg ircii-20040820
+
+url ftp://ircii.warped.com/pub/ircII/ircii-20040820.tar.bz2
+
+build \
+    tar xf ircii-20040820.tar.bz2
+    cd ircii-20040820
+    mkdir obj-bent
+    cd obj-bent
+    ../configure --prefix=/usr --mandir=/usr/share/man \
+        --with-paranoid
+    make
+    make DESTDIR=$BPM_ROOT install

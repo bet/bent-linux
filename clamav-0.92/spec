@@ -1,0 +1,11 @@
+pkg clamav-0.92
+
+url http://easynews.dl.sourceforge.net/sourceforge/clamav/clamav-0.92.tar.gz
+
+build \
+    tar xzf clamav-0.92.tar.gz
+    cd clamav-0.92
+    LDFLAGS='-static -s' CFLAGS=-Os ./configure --prefix=/usr --mandir=/usr/share/man --sysconfdir=/etc --disable-clamav --disable-shared
+    make || true
+    make 'LIBS=$(top_builddir)/libclamav/libclamav.la  -lnsl -lresolv -lbind -lintl'
+    make DESTDIR=$BPM_ROOT install

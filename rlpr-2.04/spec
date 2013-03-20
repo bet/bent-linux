@@ -1,0 +1,11 @@
+pkg rlpr-2.04
+
+url ftp://truffula.com/pub/rlpr-2.04.tar.gz
+
+build \
+    tar xf rlpr-2.04.tar.gz
+    cd rlpr-2.04
+    ./configure --prefix=/usr --mandir=/usr/share/man
+    make
+    make DESTDIR=$BPM_ROOT install
+    strip $BPM_ROOT/usr/*bin/* || true

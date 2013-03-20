@@ -1,0 +1,12 @@
+pkg Par-1.52
+
+url http://www.nicemice.net/par/Par152.tar.gz
+
+build \
+    tar xzf Par152.tar.gz
+    cd Par152
+    make -f protoMakefile CC="gcc -c -Os" LINK1="gcc -static -s" LINK2="-o"
+    mkdir -p $BPM_ROOT/usr/bin
+    install -m755 -s par $BPM_ROOT/usr/bin/par
+    mkdir -p $BPM_ROOT/usr/man/man1
+    cp -p par.1 $BPM_ROOT/usr/man/man1/par.1

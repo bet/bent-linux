@@ -1,0 +1,17 @@
+pkg flite-1.3
+
+url http://www.speech.cs.cmu.edu/flite/packed/flite-1.3/flite-1.3-release.tar.gz
+    http://www.speech.cs.cmu.edu/flite/packed/flite-1.3/ANNOUNCE-1.3-release
+    http://www.speech.cs.cmu.edu/flite/packed/flite-1.3/flop.prc
+
+build \
+    tar xf flite-1.3-release.tar.gz
+    cd flite-1.3-release
+    CFLAGS=-Os LDFLAGS='-s -static' ./configure --prefix=/usr --infodir=/usr/share/info --mandir=/usr/share/man \
+        --disable-shared --disable-sockets
+    make
+    (cd main;gcc -Os -Wall -static -s -o ../bin/flite flite_main.o -L../lib -lflite_cmu_us_kal -lflite_usenglish -lflite_cmulex -L../lib -lflite -lm)
+    (cd main;gcc -Os -Wall -static -s -o ../bin/flite_time flite_time_main.o -L../lib -lflite_cmu_time_awb -lflite_usenglish -lflite_cmulex -L../lib -lflite -lm)
+    (cd main;gcc -Os -Wall -static -s -o ../bin/t2p t2p_main.o -L../lib -lflite_cmu_us_kal -lflite_usenglish -lflite_cmulex -L../lib -lflite -lm)
+    make prefix=$BPM_ROOT/usr install || true
+    install bin/flite bin/flite_time $BPM_ROOT/usr/bin/

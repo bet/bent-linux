@@ -1,0 +1,12 @@
+diff -ru mpg123-0.59r.orig/Makefile mpg123-0.59r/Makefile
+--- mpg123-0.59r.orig/Makefile	1999-06-15 20:39:06.000000000 +0000
++++ mpg123-0.59r/Makefile	2004-07-19 16:12:53.000000000 +0000
+@@ -103,7 +103,7 @@
+         mpg123-make
+ 
+ linux:
+-	$(MAKE) CC=gcc LDFLAGS= \
++	$(MAKE) CC=gcc LDFLAGS='-s -static' \
+ 		OBJECTS='decode_i386.o dct64_i386.o decode_i586.o \
+ 			audio_oss.o term.o' \
+ 		CFLAGS='-DI386_ASSEM -DPENTIUM_OPT -DREAL_IS_FLOAT -DLINUX \

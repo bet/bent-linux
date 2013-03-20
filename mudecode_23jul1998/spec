@@ -1,0 +1,10 @@
+pkg mudecode_23jul1998
+
+url http://www.acme.com/software/mudecode/mudecode_23jul1998.tar.gz
+
+build \
+    tar xf mudecode_23jul1998.tar.gz
+    cd mudecode
+    make CC='diet gcc'
+    mkdir -p $BPM_ROOT/usr/bin $BPM_ROOT/usr/share/man/man1
+    make INSTBIN=$BPM_ROOT/usr/bin INSTMAN=$BPM_ROOT/usr/share/man install

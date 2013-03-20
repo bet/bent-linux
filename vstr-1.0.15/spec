@@ -1,0 +1,12 @@
+pkg vstr-1.0.15
+
+url http://www.and.org/vstr/latest/vstr-1.0.15.tar.bz2
+
+build \
+    tar xf vstr-1.0.15.tar.bz2
+    cd vstr-1.0.15
+    ./configure --prefix=/usr --mandir=/usr/share/man --infodir=/usr/share/info \
+        --disable-dynamic --enable-static
+    make
+    make DESTDIR=$BPM_ROOT install
+    rm -f $BPM_ROOT/usr/share/info/dir

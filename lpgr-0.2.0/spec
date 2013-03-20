@@ -1,0 +1,11 @@
+pkg lpgr-0.2.0
+
+url http://lpgr.sourceforge.net/source/devel/lpgr-0.2.0.tar.gz
+
+build \
+    tar xf lpgr-0.2.0.tar.gz
+    cd lpgr
+    perl -pi -e 's/-lncurses -lmenu/-lmenu -lncurses/' Makefile
+    make
+    mkdir -p $BPM_ROOT/usr/bin
+    install -s lpgr $BPM_ROOT/usr/bin/

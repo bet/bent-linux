@@ -1,0 +1,10 @@
+pkg rsyslog-1.13.2
+
+url http://download.adiscon.com/rsyslog/rsyslog-1.13.2.tar.gz
+
+build \
+    tar xf rsyslog-1.13.2.tar.gz
+    cd rsyslog-1.13.2/linux
+    make CFLAGS='-Os -DSYSV' LDFLAGS=-s LIBS=-lbind
+    mkdir -p $BPM_ROOT/usr/sbin $BPM_ROOT/usr/share/man/man8 $BPM_ROOT/usr/share/man/man5
+    make DESTDIR=$BPM_ROOT install

@@ -1,0 +1,17 @@
+pkg gettext-0.14
+
+url http://ftp.gnu.org/gnu/gettext/gettext-0.14.tar.gz
+    gettext-0.14-nolibdl.patch
+
+build \
+    tar xzf gettext-0.14.tar.gz
+    cd gettext-0.14
+    patch -p1 <../gettext-0.14-nolibdl.patch
+    ./configure --prefix=/usr --mandir=/usr/share/man --infodir=/usr/share/info \
+        --disable-nls --disable-shared --disable-csharp --with-included-gettext
+    find . -type f -name Makefile|xargs perl -pi -e 's/-ldl//'
+    make LIBS=-lbind
+    perl -pi -le "s/'no' = yes/yes = yes/" gettext-*/intl/Makefile
+    make DESTDIR=$BPM_ROOT install
+    (cd gettext-runtime/intl;make all-yes;make DESTDIR=$BPM_ROOT install)
+    rm -f $BPM_ROOT/usr/share/info/dir

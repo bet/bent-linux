@@ -1,0 +1,11 @@
+pkg dante-1.1.19-pre1
+
+url ftp://ftp.inet.no/pub/socks/dante-1.1.19-pre1.tar.gz
+
+build \
+    tar xf dante-1.1.19-pre1.tar.gz
+    cd dante-1.1.19-pre1
+    CFLAG=-Os ./configure --prefix=/usr --mandir=/usr/share/man --sysconfdir=/etc --disable-shared
+    find . -name Makefile |xargs perl -pi -le 's/$/ -lbind/ if /^LIBS\s*=/'
+    make
+    make DESTDIR=$BPM_ROOT install

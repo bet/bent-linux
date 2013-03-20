@@ -1,0 +1,11 @@
+pkg autoconf-2.59
+
+url http://ftp.gnu.org/gnu/autoconf/autoconf-2.59.tar.bz2
+
+build \
+    tar xjf autoconf-2.59.tar.bz2
+    cd autoconf-2.59
+    ./configure --prefix=/usr --mandir=/usr/share/man --infodir=/usr/share/info
+    make
+    make DESTDIR=$BPM_ROOT install
+    rm -f $BPM_ROOT/usr/share/info/dir

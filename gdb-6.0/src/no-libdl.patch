@@ -1,0 +1,93 @@
+diff -ru gdb-6.0.orig/gdb/thread-db.c gdb-6.0/gdb/thread-db.c
+--- gdb-6.0.orig/gdb/thread-db.c	2003-06-05 18:22:02.000000000 +0000
++++ gdb-6.0/gdb/thread-db.c	2004-10-19 14:15:25.000000000 +0000
+@@ -381,11 +381,11 @@
+   void *handle;
+   td_err_e err;
+ 
+-  handle = dlopen (LIBTHREAD_DB_SO, RTLD_NOW);
++  handle = NULL; /* dlopen (LIBTHREAD_DB_SO, RTLD_NOW); */
+   if (handle == NULL)
+     {
+       fprintf_filtered (gdb_stderr, "\n\ndlopen failed on '%s' - %s\n",
+-			LIBTHREAD_DB_SO, dlerror ());
++			LIBTHREAD_DB_SO, "no dyn libsupport"); /* dlerror ()); */
+       fprintf_filtered (gdb_stderr,
+ 			"GDB will not be able to debug pthreads.\n\n");
+       return 0;
+@@ -394,47 +394,47 @@
+   /* Initialize pointers to the dynamic library functions we will use.
+      Essential functions first.  */
+ 
+-  td_init_p = dlsym (handle, "td_init");
++  td_init_p = NULL; /* dlsym (handle, "td_init"); */
+   if (td_init_p == NULL)
+     return 0;
+ 
+-  td_ta_new_p = dlsym (handle, "td_ta_new");
++  td_ta_new_p = NULL; /* dlsym (handle, "td_ta_new"); */
+   if (td_ta_new_p == NULL)
+     return 0;
+ 
+-  td_ta_map_id2thr_p = dlsym (handle, "td_ta_map_id2thr");
++  td_ta_map_id2thr_p = NULL; /* dlsym (handle, "td_ta_map_id2thr"); */
+   if (td_ta_map_id2thr_p == NULL)
+     return 0;
+ 
+-  td_ta_map_lwp2thr_p = dlsym (handle, "td_ta_map_lwp2thr");
++  td_ta_map_lwp2thr_p = NULL; /* dlsym (handle, "td_ta_map_lwp2thr"); */
+   if (td_ta_map_lwp2thr_p == NULL)
+     return 0;
+ 
+-  td_ta_thr_iter_p = dlsym (handle, "td_ta_thr_iter");
++  td_ta_thr_iter_p = NULL; /* dlsym (handle, "td_ta_thr_iter"); */
+   if (td_ta_thr_iter_p == NULL)
+     return 0;
+ 
+-  td_thr_validate_p = dlsym (handle, "td_thr_validate");
++  td_thr_validate_p = NULL; /* dlsym (handle, "td_thr_validate"); */
+   if (td_thr_validate_p == NULL)
+     return 0;
+ 
+-  td_thr_get_info_p = dlsym (handle, "td_thr_get_info");
++  td_thr_get_info_p = NULL; /* dlsym (handle, "td_thr_get_info"); */
+   if (td_thr_get_info_p == NULL)
+     return 0;
+ 
+-  td_thr_getfpregs_p = dlsym (handle, "td_thr_getfpregs");
++  td_thr_getfpregs_p = NULL; /* dlsym (handle, "td_thr_getfpregs"); */
+   if (td_thr_getfpregs_p == NULL)
+     return 0;
+ 
+-  td_thr_getgregs_p = dlsym (handle, "td_thr_getgregs");
++  td_thr_getgregs_p = NULL; /* dlsym (handle, "td_thr_getgregs"); */
+   if (td_thr_getgregs_p == NULL)
+     return 0;
+ 
+-  td_thr_setfpregs_p = dlsym (handle, "td_thr_setfpregs");
++  td_thr_setfpregs_p = NULL; /* dlsym (handle, "td_thr_setfpregs"); */
+   if (td_thr_setfpregs_p == NULL)
+     return 0;
+ 
+-  td_thr_setgregs_p = dlsym (handle, "td_thr_setgregs");
++  td_thr_setgregs_p = NULL; /* dlsym (handle, "td_thr_setgregs"); */
+   if (td_thr_setgregs_p == NULL)
+     return 0;
+ 
+@@ -447,11 +447,11 @@
+     }
+ 
+   /* These are not essential.  */
+-  td_ta_event_addr_p = dlsym (handle, "td_ta_event_addr");
+-  td_ta_set_event_p = dlsym (handle, "td_ta_set_event");
+-  td_ta_event_getmsg_p = dlsym (handle, "td_ta_event_getmsg");
+-  td_thr_event_enable_p = dlsym (handle, "td_thr_event_enable");
+-  td_thr_tls_get_addr_p = dlsym (handle, "td_thr_tls_get_addr");
++  td_ta_event_addr_p = NULL; /* dlsym (handle, "td_ta_event_addr"); */
++  td_ta_set_event_p = NULL; /* dlsym (handle, "td_ta_set_event"); */
++  td_ta_event_getmsg_p = NULL; /* dlsym (handle, "td_ta_event_getmsg"); */
++  td_thr_event_enable_p = NULL; /* dlsym (handle, "td_thr_event_enable"); */
++  td_thr_tls_get_addr_p = NULL; /* dlsym (handle, "td_thr_tls_get_addr"); */
+ 
+   return 1;
+ }

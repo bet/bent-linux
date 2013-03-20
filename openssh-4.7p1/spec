@@ -1,0 +1,13 @@
+pkg openssh-4.7p1
+
+url ftp://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-4.7p1.tar.gz
+    ftp://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-4.7p1.tar.gz.asc
+
+build \
+    tar xf openssh-4.7p1.tar.gz
+    cd openssh-4.7p1
+    ./configure --prefix=/usr --mandir=/usr/share/man --infodir=/usr/share/info --sysconfdir=/etc \
+        --without-lastlog --with-md5-passwords
+    perl -pi -le 's/$/ -lbind/ if /^LIBS\s*=/' Makefile
+    make
+    make DESTDIR=$BPM_ROOT install

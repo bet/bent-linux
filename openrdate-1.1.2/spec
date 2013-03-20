@@ -1,0 +1,11 @@
+pkg openrdate-1.1.2
+
+url http://superb-east.dl.sourceforge.net/sourceforge/openrdate/openrdate-1.1.2.tar.gz
+
+build \
+    tar xf openrdate-1.1.2.tar.gz
+    cd openrdate-1.1.2
+    ./configure --prefix=/usr --mandir=/usr/share/man --infodir=/usr/share/info
+    make
+    make DESTDIR=$BPM_ROOT install
+    rm -f $BPM_ROOT/usr/share/info/dir

@@ -1,0 +1,18 @@
+pkg hashsum-1.6
+
+url http://www.certainkey.com/resources/downloads/hashsum-1.6.tar.gz
+    hashsum-1.6-tuning.patch
+
+build \
+    tar xf hashsum-1.6.tar.gz
+    cd hashsum
+    patch -p1 <../hashsum-1.6-tuning.patch
+    make
+    mkdir -p $BPM_ROOT/usr/bin
+    install -s hashsum $BPM_ROOT/usr/bin/
+    ln -s hashsum $BPM_ROOT/usr/bin/sha256sum
+    ln -s hashsum $BPM_ROOT/usr/bin/sha384sum
+    ln -s hashsum $BPM_ROOT/usr/bin/sha512sum
+    ln -s hashsum $BPM_ROOT/usr/bin/ripemd160sum
+    mkdir -p $BPM_ROOT/usr/share/doc/hashsum
+    mv hashsum_docs/* $BPM_ROOT/usr/share/doc/hashsum/

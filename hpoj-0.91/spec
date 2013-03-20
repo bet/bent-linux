@@ -1,0 +1,13 @@
+pkg hpoj-0.91
+
+url http://download.sourceforge.net/hpoj/hpoj-0.91.tgz
+    hpoj-0.91-static.patch
+
+build \
+    tar xzf hpoj-0.91.tgz
+    cd hpoj-0.91
+    patch -p1 <../hpoj-0.91-static.patch
+    ./configure --prefix=/usr --mandir=/usr/share/man --disable-shared --enable-static
+    make
+    make prefix=$BPM_ROOT/usr install || true # whinges about lack of dyn libs
+    strip $BPM_ROOT/usr/*bin/* || true

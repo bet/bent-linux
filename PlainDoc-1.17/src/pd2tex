@@ -1,0 +1,3320 @@
+#!/usr/bin/perl
+# Copyright (c) 2002-2006 Sampo Kellomaki (sampo@iki.fi). All Rights Reserved.
+# This is free software. You may distribute under GPL. NO WARRANTY.
+#
+# PlainDoc to LaTeX, DocBook, and HTML converter
+#
+# $Id: pd2tex,v 1.17 2006/09/14 20:33:14 sampo Exp $
+# xx.xx.1999, created, Sampo Kellomaki <sampo@iki.fi>
+# 3.2.2002, complete rewrite --Sampo
+# 4.11.2002, changed approach to line oriented model --Sampo
+# 6.2.2003, refinement for Liberty purposes --Sampo
+# 8.2.2003, fixed table grabber bugs --Sampo
+# 12.3.2003, tweaked for ID-PP --Sampo
+# 14.3.2003, tweaked for CUR --Sampo
+# 25.3.2003, started work on LaTeX interface --Sampo
+# 7.4.2003,  fixed many TeX table bugs, adapted for cur-liberty --Sampo
+# 18.4.2003, fixed for producing ID-PP --Sampo
+# 29.5.2003, tweaks for producing fleur.pd --Sampo
+# 26.6.2003, merged back some of JK's table formatting, merged fixes from pd2tex.pl,
+#            unified the two to just one --Sampo
+# 26.6.2003, merged fleur variant and Lib dbx variant for use with suuri.pd --Sampo
+# 14.8.2003, added template feature for producing meeting minutes --Sampo
+# 29.8.2003, added image scaling option --Sampo
+# 24.9.2003, added comments explaining how to do diagrams --Sampo
+# 23.10.2003, added long table format from Antonio --Sampo
+# 25.1.2004, added Mercnet style --Sampo
+# 18.2.2004, adjusted for Zita's thesis and physics/mathematics in general --Sampo
+# 23.9.2004, added multiline biblio item support. --Sampo
+# 24.9.2004, added image sizing and placement support, added longtable --Sampo
+# 8.10.2004, unified various versions with goal of supporting Zita, Liberty, ds,
+#            and other projects from one base. --Sampo
+# 20.10.2004, added features to support dbx better
+#             incorporated fixes to dbx from Rob Lockhart --Sampo
+# 31.10.2004, merged symlabs legal templates, added new command line --Sampo
+# 24.11.2004, added automatic epstopdf --Sampo
+# 28.11.2004, added Symlabs logo type --Sampo
+# 1.12.2004,  fixed HTML generation --Sampo
+# 18.12.2004, permit formatting in list titles and real titles --Sampo
+# 29.12.2004, lots of tweaks, dot and gnuplot modes --Sampo
+# 2.1.2005,   tweaked class construct to accept language parameter --Sampo
+# 9.2.2005,   fixed problems found by Pablo Sanchez --Sampo
+# 2.4.2005,   added .gp  as gnuplot file and improved <<texsections: >> --Sampo
+# 24.5.2005,  tweaked to act as cur generation tool --Sampo
+# 6.6.2005,   tweaked for DST generation (adding <tag> hilite et al.) --Sampo
+# 9.7.2005,   tweaked conflicts between <tag> hilite and other uses of < and >,
+#             added per chapter HTML generation --Sampo
+# 9.9.2005,   fixed problems reported by Rob Lockhart --Sampo
+# 14.10.2005, segregated the HTML conversion results to their own subdirectory --Sampo
+# 24.11.2005, resolved some merge conflicts --Sampo
+# 5.12.2005,  fixed see references for multilayered dia diagrams --Sampo
+# 18.12.2005, merged two column image fix for Zita's papers --Sampo
+# 28.12.2005, added <<hyphenation: >> support --Sampo
+# 8.1.2006,   developed aspell compatible spell check --Sampo
+# 12.4.2006,  added -nosecnum and -nohtmlpreamb per Felix's suggestion --Sampo
+# 13.4.2006,  fixed HTML images by eliminating pstopnm(3) and using gs(3) directly --Sampo
+# 7.7.2006,   several tweaks inspired by line breaks needed by Rob Lockhart, --Sampo
+# 9.9.2006,   partially applied a patch by Felix --Sampo
+#
+# Usage: ./pd2tex foo.pd
+#
+# Document contains (document can be considered as a special top level section)
+#   - <<special: constructs>>
+#   - anything that a section can contain
+#
+# Sections and subsections can contain
+#   - lower level subsections (identified by underlining)
+#   - anything that body can contain
+#   - direct descendants must be top level lists
+# 
+# List items are identified by level of indent and can contain
+#   - anything that body can contain
+#   - list can contain only lower level lists (more indent)
+#   - list can never contain sections or subsections. Appearence of a section terminates list
+#   - decrease in level of indent terminates list
+#   - list items can be single line or multiline, with same indent
+#
+# Body text can contain
+#   - lists (no list can not span (sub)sections)
+#     - * bulleted lists
+#     - 1. number lists
+#     - a. alpha lists
+#     - definition:: lists (subsequent lines must be indented by 4 chars)
+#   - <<table: Caption text ...>>
+#   - <<img: file.eps: Caption text>>
+#       N.B. The best way to produce diagram drawings is to use dia for drawing
+#       and export as .eps. Then run `epstopdf file.eps'. Only problem with this
+#       method is that there is no control of image size. Thus the eps must already
+#       be the correct size. Apparently the best way to accomplish this is to
+#       use the dia File->Page Setup->Scale option to reduce the image (e.g. 70%).
+#   - code, identified by indent
+#   - para, if nothing special indicates otherwise
+#   - body terminates if
+#     - indent level decreases
+#     - something looking like section is found
+#
+# Table contains cells defined by special syntax. Each cell content is treated as para
+#
+# Para can contain
+#   - *bold*, +italic+, ~code~
+#   - inline <<image.gif>>
+#   - www.foo.com and email@foo.com links (autodetected)
+#   - [references]
+#   - paragraphs are separated by empty lines (and special constructs?)
+#
+# Code section starts at given level of indent and continues until less indented
+# line. Lines in between may be more indented if needed.
+#
+# Lists and indent (| = current indent, : = parent's indent; lesser indent terminates construct)
+# 1.: parent list
+#   :a.|same level
+#   :b.|same level
+#   :  |* sublist
+#   :  |* sub
+#   :c.|same level (terminates sub)
+#   :  |* sub
+# 2.: next parent item
+#
+# Book printing
+#  pd2tex r-slim.pd
+#  pdftops
+#  psbook r-slim.ps r-slim-book.ps # omit -s for best result
+#  mpage -o -2 -j1%2 -P r-slim-book.ps  # odd sheets
+#  # HP4100: rotate output by 180 degrees and put in input tray with image up (p. 1)
+#  mpage -o -2 -j2%2 -P r-slim-book.ps  # even sheets
+#  # invert order of output, fold, and staple in middle
+#
+# Latex tips
+# ==========
+#   Too deeply nested   Apparently this really means what it says. Maybe something not closing?
+#   Float too large     Picture or table is too large to fit in available space on page. Ignore.
+#   Overfull \vbox      Means that something didn't really fit. May cause misformatting. Ignore.
+#   Missing $ inserted  Automatic switch to math mode: char (e.g. under score) only allowed
+#                       in math mode was seen and LaTeX "helpfully" switches to math mode.
+# \usepackage{lineno} \linenumbers
+# \hspace{\fill}  Right align rest of line
+
+$usage = <<USAGE;
+Usage: pd2tex mydoc.pd  # Generate mydoc.tex, mydoc.pdf, mydoc.dbx, and mydoc.html
+       pd2tex -acroread mydoc.pd  # Regenerate document and preview it
+       pd2tex <mydox.pd >mydoc.tex       # filter mode
+       pd2tex -dbx <mydoc.pd >mydoc.dbx  # filter mode for DocBook
+
+Options:
+  -dbx       Invokes DocBook filter mode
+  -html      Invokes HTML filter mode (must make subdirectory html)
+  -gensafe   Convert images from ps, eps, dot, or dia to pdf only if no pdf (default)
+  -gendep    Convert from ps, eps, dot, or dia to pdf based on time stamps
+  -genforce  Force conversion of images from ps, eps, dot, or dia to pdf
+  -nogen     Prevent conversion of images from ps, eps, dot, or dia to pdf
+  -notex     Prevent .tex output in normal mode. Also prevents .pdf output.
+  -nopdf     Prevent .pdf output in normal mode (.tex is still generated).
+  -nodbx     Prevent .dbx output in normal mode
+  -nohtml    Prevent .html output in normal mode
+  -nohtmlpreamb  Prevent HTML preamble from being added
+  -nosecnum  Prevent automatic section numbering
+  -fn        Omit footnotes.
+  -FN        Force footnotes even on dbx (some dbx tools are broken wrt footnotes in lists)
+  -l         List format templates
+  -n         Dry run. Do not alter files on disk.
+  -acroread  Automatically launch acroread after processing the document
+  -d DIR     Change current working directory to DIR
+USAGE
+    ;
+
+### Configure
+
+$trace = 0;
+$number = 0;  # Should sections and lists be explicitly numbered in dbx
+$tex_col_wid_factor = 0.18;  # TeX: tweak the table/column width (cm per equals sign in underline)
+$dbx_col_wid_factor = 0.08;  # DocBook: tweak the table/column width (inches per equals sign)
+$hbadness = 2000;  # Do not warn for hbadness below this. See also tables which set this to 10000.
+$imggen = 'safe';
+$pipemode = 0;
+$secnum = 1;
+$html2_split_treshold = 3;
+$fn_style = 1;   # 0 = omit (-fn), 1 = tex ok, dbx inline, 3 = both tex and dbx footnotes (-FN)
+$pdflag{'autoformat'} = 1;   # <<pdflags: autoformat=0>>
+$pdflag{'showsgasxsd'} = 0;  # <<pdflags: showsgasxsd=1>>
+$pdflag{'stripsecnum'} = 1;  # <<pdflags: stripsecnum=0>>
+
+### Process command line options
+
+while ($ARGV[0] =~ /^-/) {
+    if ($ARGV[0] eq '-acroread') { shift; $acroread = 1; next; }
+    if ($ARGV[0] eq '-dbx')      { shift; $dbx_filter = 1; next; }
+    if ($ARGV[0] eq '-html')     { shift; $html_filter = 1; next; }
+    if ($ARGV[0] eq '-gensafe')  { shift; $imggen = 'safe'; next; }
+    if ($ARGV[0] eq '-gendep')   { shift; $imggen = 'dep'; next; }
+    if ($ARGV[0] eq '-genforce') { shift; $imggen = 'force'; next; }
+    if ($ARGV[0] eq '-nogen')    { shift; $imggen = ''; next; }
+    if ($ARGV[0] eq '-notex')    { shift; $notex = 1; next; }
+    if ($ARGV[0] eq '-nodbx')    { shift; $nodbx = 1; next; }
+    if ($ARGV[0] eq '-nohtml')   { shift; $nohtml = 1; next; }
+    if ($ARGV[0] eq '-nopipe')   { shift; $pipemode = 0; next; }
+    if ($ARGV[0] eq '-pipe')     { shift; $pipemode = 1; next; }
+    if ($ARGV[0] eq '-nosecnum') { shift; $secnum = 0; next; }
+    if ($ARGV[0] eq '-nohtmlpreamb') { shift; $nohtmlpreamb = 1; next; }
+    if ($ARGV[0] eq '-epstopng') { shift; epstopng($ARGV[0], $ARGV[1]); exit; }
+    if ($ARGV[0] eq '-n')        { shift; $dryrun = 1; next; }
+    if ($ARGV[0] eq '-fn')       { shift; $fn_style = 0; next; }  # omit footnotes
+    if ($ARGV[0] eq '-FN')       { shift; $fn_style = 3; next; }  # force dbx footnotes
+    if ($ARGV[0] eq '-t')        { shift; ++$trace; next; }
+    if ($ARGV[0] eq '-d')        { shift; chdir shift; next; }
+    die "Unknown argument `$ARGV[0]'\n$usage";
+}
+
+if (@ARGV) {
+    $file = $base = shift;
+    $base =~ s/\.pd$//i;
+    open STDIN,"<$file" or die "Cannot read input file $file: $!";
+    if ($notex || $dryrun) {
+	open TEX,">/dev/null";
+	$nopdf = 1;
+    } else {
+	unlink "$base.tex";  # in case stray pipe was left over from previous iteration
+	if ($pipemode) {
+	    # Since LaTeX apparently does not support reading input from stdin, we fool
+	    # it by creating a named pipe. This allows us to interperse the pd2tex error
+	    # output with the messages from LaTeX.
+	    open TEX,">$base.tex" or die "Cannot write $base.tex: $!";
+	    if (-d 'tex') {
+		select TEX; $| = 1; select STDOUT;
+		if (!($texpid = fork)) {
+		    die "fork (for pdflatex) failed: $!" if !defined($texpid);
+		    chdir 'tex';
+		    select(undef,undef,undef,0.250);
+		    exec "pdflatex -file-line-error-style -interaction=errorstopmode ../$base.tex";
+		    die "exec pdflatex failed: $!";
+		}
+	    } else {
+		warn "WARNING: For pdflatex post processing tex subdirectory is needed. Create using mkdir tex\n";
+	    }
+	    #open TEX,"|pdflatex -file-line-error-style -interaction=errorstopmode - >$base.pdf"
+	    #	or die "Cannot open pipe to pdflatex: $!";
+	} else {
+	    open TEX,">$base.tex" or die "Cannot write $base.tex: $!";
+	}
+    }
+    if ($nohtml || $dryrun) {
+	open HTML,">/dev/null";
+	open HTML2,">/dev/null";
+	$html2 = undef;
+    } else {
+	if (-d 'html') {
+	    $html1 = "$base.html";
+	    open HTML,">html/$html1" or die "Cannot write $html1: $!";
+	    $html2 = "$base-front-matter.html";
+	    open HTML2,">html/$html2" or die "Cannot write html/$html2.html: $!";
+	} else {
+	    warn "WARNING: For HTML conversion to work, you must create subdirectory called html. E.g. mkdir html\n";
+	    open HTML,">/dev/null";
+	    open HTML2,">/dev/null";
+	    $html1 = $html2 = undef;
+	}
+    }
+    if ($nodbx || $dryrun) {
+	open DBX,">/dev/null";
+    } else {
+	open DBX,">$base.dbx" or die "Cannot write $base.dbx: $!";
+    }
+} else {
+    if ($dbx_filter) {
+	open TEX,">/dev/null";
+	open DBX,">&STDOUT";
+	open HTML,">/dev/null";
+	open HTML2,">/dev/null";
+	$html2 = undef;
+    } elsif ($html_filter) {
+	open TEX,">/dev/null";
+	open DBX,">/dev/null";
+	open HTML,">&STDOUT";
+	open HTML2,">/dev/null";
+	$html2 = undef;
+    } else {
+	open TEX,">&STDOUT";
+	open DBX,">/dev/null";
+	open HTML,">/dev/null";
+	open HTML2,">/dev/null";
+	$html2 = undef;
+    }
+    $nopdf = 1;
+}
+
+# Exceptions to the two letter country code recognition
+%not_a_country = ( pl => 'perl', cc => 'c++', hh => 'c++', sh => 'Shell',
+		   ds => 'DirectoryScript', pd => 'PlainDoc' );
+
+# Exceptions to dot designates path rule
+%not_a_path = ( 'i.e' => 1, 'e.g' => 1, 'p.ex' => 1, 'E.U' => 1, 'U.E' => 1, 'U.S' => 1,
+		'and/or' => 1, 'AND/OR' => 1, 'e/ou' => 1, 'ja/tai' => 1, 'c.d' => 1, 'n.b' => 1,
+		'N.B' => 1, 'S.A' => 1);
+
+$encoding = 'UTF-8';  # only for dbx
+#$encoding = 'Latin1';
+#$code_tag = 'literallayout';
+$code_open_tag = '<programlisting format="non-normative-code"><computeroutput>';   # used for indented code blocks
+$code_close_tag = '</computeroutput></programlisting>';   # used for indented code blocks
+$tag_tag = 'command';
+%dbx_list_open = (
+		      '1' => qq(<orderedlist>\n),
+		      'a' => qq(<orderedlist numeration="loweralpha">\n),
+		      'A' => qq(<orderedlist numeration="upperalpha">\n),
+		      'i' => qq(<orderedlist numeration="loweralpha">\n),
+		      'I' => qq(<orderedlist numeration="loweralpha">\n),
+		      '*' => qq(<itemizedlist mark="bullet">\n),
+		      '-' => qq(<itemizedlist mark="hyphen">\n),
+		      '+' => qq(<itemizedlist mark="plus">\n),
+		      'o' => qq(<itemizedlist mark="opencircle">\n),
+		      ':' => qq(<variablelist>\n),  #  termlength="20"
+		      );
+%dbx_list_close = (
+		      '1' => qq(</orderedlist>\n\n),
+		      'a' => qq(</orderedlist>\n\n),
+		      'A' => qq(</orderedlist>\n\n),
+		      'i' => qq(</orderedlist>\n\n),
+		      'I' => qq(</orderedlist>\n\n),
+		      '*' => qq(</itemizedlist>\n\n),
+		      '-' => qq(</itemizedlist>\n\n),
+		      '+' => qq(</itemizedlist>\n\n),
+		      'o' => qq(</itemizedlist>\n\n),
+		      ':' => qq(</variablelist>\n\n),
+		      );
+
+%html_list_open = (
+		      '1' => qq(<ol>\n),
+		      'a' => qq(<ol>\n),
+		      'A' => qq(<ol>\n),
+		      'i' => qq(<ol>\n),
+		      'I' => qq(<ol>\n),
+		      '*' => qq(<ul>\n),
+		      '-' => qq(<ul>\n),
+		      '+' => qq(<ul>\n),
+		      'o' => qq(<ul>\n),
+		      ':' => qq(<dl>\n),
+		      );
+%html_list_close = (
+		      '1' => qq(</ol>\n\n),
+		      'a' => qq(</ol>\n\n),
+		      'A' => qq(</ol>\n\n),
+		      'i' => qq(</ol>\n\n),
+		      'I' => qq(</ol>\n\n),
+		      '*' => qq(</ul>\n\n),
+		      '-' => qq(</ul>\n\n),
+		      '+' => qq(</ul>\n\n),
+		      'o' => qq(</ul>\n\n),
+		      ':' => qq(</dl>\n\n),
+		      );
+
+$enum = 'enumerate';
+#$enum = 'denseenum';
+$itemize = 'itemize';
+#$itemize = 'denseitemize';
+
+%tex_list_open = (
+		      '1' => qq(\\begin{$enum}[1.]\n),
+		      'a' => qq(\\begin{$enum}[a.]\n),
+		      'A' => qq(\\begin{$enum}[A.]\n),
+		      'i' => qq(\\begin{$enum}[i.]\n),
+		      'I' => qq(\\begin{$enum}[I.]\n),
+		      '*' => qq(\\begin{$itemize}\n),
+		      '-' => qq(\\begin{$itemize}\n),
+		      '+' => qq(\\begin{$itemize}\n),
+		      'o' => qq(\\begin{$itemize}\n),
+		      ':' => qq(\\begin{description}\n),
+		      );
+%tex_list_item = (
+		      '1' => qq(\\item ),
+		      'a' => qq(\\item ),
+		      'A' => qq(\\item ),
+		      'i' => qq(\\item ),
+		      'I' => qq(\\item ),
+		      '*' => qq(\\item ),
+		      '-' => qq(\\item[-] ),
+		      '+' => qq(\\item[+] ),
+		      'o' => qq(\\item[o] ),
+		      ':' => qq(\\item[notused]\n),
+		      );
+%tex_list_close = (
+		      '1' => qq(\\end{$enum}\n\n),
+		      'a' => qq(\\end{$enum}\n\n),
+		      'A' => qq(\\end{$enum}\n\n),
+		      'i' => qq(\\end{$enum}\n\n),
+		      'I' => qq(\\end{$enum}\n\n),
+		      '*' => qq(\\end{$itemize}\n\n),
+		      '-' => qq(\\end{$itemize}\n\n),
+		      '+' => qq(\\end{$itemize}\n\n),
+		      'o' => qq(\\end{$itemize}\n\n),
+		      ':' => qq(\\end{description}\n\n),
+		      );
+$class = 'article';
+$tex_doc_class = "\\documentclass[12pt]{article}\n";
+
+@tex_sec_article = qw( ignore section subsection subsubsection paragraph );
+@tex_sec_slide = qw( ignore section* subsection* subsubsection* paragraph* );
+@tex_sec_book = qw( ignore chapter section subsection subsubsection paragraph );
+@tex_sec = @tex_sec_article;
+#$tex_flt_place = '!hbp';
+$tex_flt_place = '!hbtp';
+$includegraphics = '\\includegraphics[width=1.0\\textwidth,height=1.0\\textheight,keepaspectratio]';
+$maketitle = '\\maketitle';
+$moretexpreamble = <<LATEX;
+\\setlength\\parskip{\\medskipamount}
+\\setlength\\parindent{0pt}
+\\lfoot{\\today}
+\\cfoot{!!AUTHOR}
+\\rfoot{!!HEADER_TITLE, page \\thepage !!AFTER_PAGE}
+LATEX
+    ;
+$moretexpreamble_empty = <<LATEX;
+\\setlength\\parskip{\\medskipamount}
+\\setlength\\parindent{0pt}
+LATEX
+    ;
+#\\lhead{}
+#\\chead{}
+#\\rhead{}
+#\\lfoot{}
+#\\cfoot{}
+#\\rfoot{}
+#LATEX
+#    ;
+
+$moretexpreamble_clean = <<LATEX;
+\\setlength\\parskip{\\medskipamount}
+\\setlength\\parindent{0pt}
+\\lhead{}
+\\chead{}
+\\rhead{}
+\\lfoot{}
+\\cfoot{}
+\\rfoot{}
+\\pagestyle{empty}
+LATEX
+    ;
+
+$moretexpreamble_confidential = <<LATEX;
+\\setlength\\parskip{\\medskipamount}
+\\setlength\\parindent{0pt}
+\\lfoot{\\today\\\\Proprietary and Confidential. May contain privileged information.}
+\\cfoot{\\copyright !!COPYRIGHT}
+\\rfoot{!!HEADER_TITLE, page \\thepage !!AFTER_PAGE}
+LATEX
+    ;
+
+$tex_boxed_tab = 1;
+if ($tex_boxed_tab) {
+    $tex_tab_hdr_sep = "\\\\\n\\hline\n\\hline\n";
+    $tex_tab_line_sep = "\\\\\n\\hline\n";
+    $tex_left_bar = '|';
+    $tex_top_line = "\\hline\n";
+    $tex_bot_line = "\\\\\n\\hline\n";
+} else {
+    $tex_tab_hdr_sep = "\\\\\n\\hline\n";
+    $tex_tab_line_sep = "\\\\\n";
+    $tex_left_bar = '';
+    $tex_top_line = '';
+    $tex_bot_line = '';
+}
+
+$toc_enable = '';
+
+$dbxpreamble = <<DBX;  # <!ENTITY legalnotice SYSTEM "../legal/legalnotice-sg-1.0.dbx">
+<?xml version="1.0" encoding="$encoding"?>
+<!DOCTYPE article SYSTEM "../../src/dtd/libdocbook.dtd" [
+    <!ENTITY % xinclude SYSTEM "../../src/dtd/xinclude.mod">
+    %xinclude;
+    <!ENTITY legalnotice SYSTEM "../legal/legalnotice-wsf-2.0.dbx">
+]>
+DBX
+    ;
+#$htmlpreamble = '<title></title><body bgcolor=white>';
+
+
+### End configure
+
+use Data::Dumper;
+use POSIX qw(strftime);
+$curdate = strftime "%e %b %Y", gmtime;
+$yyyy = 1900 + (gmtime)[5];
+
+### Expand all %include_pd() and %include_code() sections
+
+sub read_file {
+    my ($path) = @_;
+    unless (open PD, "<$path") {
+	warn "$i: Missing include file <<$path>>: $!";
+	return "***missing file $path***";
+    }
+    my $x = <PD>;
+    close PD;
+    return $x;
+}
+
+sub write_file {
+    my ($f, $x) = @_;
+    open PD, ">$f" or die "Can't write file($f): $!";
+    print PD $x;
+    close PD;
+}
+
+sub include {
+    my ($prefix,$path,$ext) = @_;
+    return "$prefix<<$path$ext>>" if $path =~ /^\w+:/; # Specials
+    return "$prefix<<$path$ext>>" if $ext =~
+	/^\.(svg)|(e?ps)|(png)|(gif)|(jpe?g)$/i;       # Images
+    my $x = read_file($path.$ext);
+    if ($prefix =~ /^\s+$/) {  # Verbatim block?
+	$x =~ s/\n/\n$prefix/g;
+	return $prefix . $x;
+    } else {
+	return $x;
+    }
+}
+
+sub incl_range {
+    my ($prefix,$path,$ext,$start,$end) = @_;
+    my $x = read_file($path.$ext);
+    my @lines = split /\r?\n/, $x;
+    @lines = splice @lines, $start, $end-$start;
+    $x = join "\n", @lines;
+    if ($prefix =~ /^\s+$/) {  # Verbatim block?
+	$x =~ s/\n/\n$prefix/g;
+	return $prefix . $x;
+    } else {
+	return $x;
+    }
+}
+
+sub hexit {
+    my ($x,$tag) = @_;
+    #warn "hexit before($x)";
+    $x =~ s/(.)/sprintf("%02x",ord($1))/ges;
+    #warn "hexit after($x)";
+    return "^^^^^^^^$tag: $x~~~~~~~~" if $tag;
+    return $x;
+}
+
+sub unhexit {
+    my ($x) = @_;
+    #warn "unhexit before($x)";
+    $x =~ s/(..)/chr(hex($1))/gsex;
+    #warn "unhexit after($x)";
+    return $x;
+}
+
+sub def_macro {
+    my ($name, $value) = @_;
+    #die "def_macro($name,$value)";
+    $mac{$name} = $value;
+    return '';
+}
+
+sub def_specific_macro {
+    my ($name, $tex, $dbx, $html) = @_;
+    #warn "SPECIFIC MACRO tex($tex) dbx($dbx) html($html)";
+    $mac{$name} = '';
+    $mac{$name} .= hexit($tex, 'RAWTEX') if $tex;
+    $mac{$name} .= hexit($dbx, 'RAWDBX') if $dbx;
+    $mac{$name} .= hexit($html,'RAWHTML') if $html;
+    #$tex_mac{$name} = $tex;
+    #$dbx_mac{$name} = $dbx;
+    #$html_mac{$name} = $html;
+    return '';
+}
+
+###
+### Read in file and expand includes
+###
+
+undef $/;
+$pd = <STDIN>;
+for (1..5) { # 5 levels of include nesting
+    #         1   1                2  path   23 ext 3   4   4 5   5
+    $pd =~ s{^(.*?)<<includerange: ([^\n>:]+?)(\.\w+)?: (\d+)-(\d+)>>}
+            {incl_range($1,$2,$3,$4,$5)}gem;
+    $pd =~ s/^(.*?)<<([^\n>]+?)(\.\w+)?>>/include($1,$2,$3)/gem;
+    $pd =~ s/<<ignore:\s+.*?>>[ \t]*//sg;  # Ignore blocks are omitted (eat trailing spaces, too)
+}
+
+### Figure out document class
+
+$pagestyle = "\\usepackage{fancyhdr}\n\\pagestyle{fancy}\n";
+
+($class,                         $optarg,    $lang,      $header_title,$after_page) =
+    $pd =~ m/<<class:\s+(\w+)(?:!([^!>]*)(?:!([^!>]*)(?:!([^!>]*)(?:!([^!>]*))?)?)?)?>>/s;
+if ($class) {
+    #warn "class($class) optarg($optarg) lang($lang) hdrtit($header_title) after_page($after_page) [$&]";
+    $pd =~ s/<<class:\s+.*?>>//s;
+    if ($class eq 'book') {
+	warn "BOOK";
+	@tex_sec = @tex_sec_book;
+    } elsif ($class eq 'empty') {
+	warn "EMPTY";
+	$class = 'article';
+	$moretexpreamble = $moretexpreamble_empty;
+    } elsif ($class eq 'clean') {
+	warn "CLEAN";
+	$class = 'article';
+	$moretexpreamble = $moretexpreamble_clean;
+    } elsif ($class eq 'confidential') {
+	warn "CONFIDENTIAL";
+	$class = 'article';
+	$moretexpreamble = $moretexpreamble_confidential;
+    } elsif ($class eq 'slide') {
+	warn "SLIDE";
+	@tex_sec = @tex_sec_slide;
+	$class = 'article';
+	$optarg ||= '12pt';
+	$paper = 'custom';
+	$wid = '400pt';
+	$ht = '300pt';
+	$new_slide = "\n\\newpage\n\n";  # force page break before each section
+	$lm = '5mm';
+	$tm = '3mm';
+	$rm = '5mm';
+	$bm = '7mm';   # tall enough for 8mm logo art in footer
+	$hh = '12pt';
+	$hs = '5pt';
+	$fh = '12pt';
+	$fs = '14pt';
+    }
+    $tex_doc_class = "\\documentclass[$optarg]{$class}\n";
+    $tex_doc_class .= "\\usepackage[$lang]{babel}\n\\selectlanguage{$lang}\n" if $lang;
+}
+
+### Custom paper size and margins (See LaTeX companion pp.89-90 (vmargin replaces vpage))
+# <<papersize: empty!a4!landsacpe>>
+# <<papersize: fancy!a4>>
+
+($headfootstyle,                     $paper2,    $orient,    $wid2,      $ht2,       $lm2,       $tm2,       $rm2,       $bm2,       $hh2,       $hs2,       $fh2,       $fs2) =
+    $pd =~ m/<<papersize:\s+(\w+)(?:!([^!>]*)(?:!([^!>]*)(?:!([^!>]*)(?:!([^!>]*)(?:!([^!>]*)(?:!([^!>]*)(?:!([^!>]*)(?:!([^!>]*)(?:!([^!>]*)(?:!([^!>]*)(?:!([^!>]*)(?:!([^!>]*))?)?)?)?)?)?)?)?)?)?)?)?>>/s;
+$pd =~ s/<<papersize:\s+.*?>>//s;
+
+$paper = $paper2 if $paper2;
+$wid = $wid2 if $wid2;
+$ht = $ht2 if $ht2;
+
+$lm = $lm2 if $lm2;  # left margin
+$tm = $tm2 if $tm2;  # top margin
+$rm = $rm2 if $rm2;  # right margin
+$bm = $bm2 if $bm2;  # bottom margin
+$hh = $hh2 if $hh2;  # head height
+$hs = $hs2 if $hs2;  # head sep
+$fh = $fh2 if $fh2;  # foot height
+$fs = $fs2 if $fs2;  # foot skip
+
+if ($paper || $orient) {
+    $vmargin ||= "\\usepackage{vmargin}\n";
+    $paper ||= "Afour";
+    if ($paper eq 'custom') {
+	$vmargin .= "\\setpapersize{custom}{$wid}{$ht}\n";
+    } else {
+	$orient = "[$orient]" if $orient;
+	$vmargin .= "\\setpapersize${orient}{$paper}\n";
+    }
+}
+
+if ($lm || $tm || $rm || $bm) {
+    $lm ||= '0mm';  # left margin
+    $tm ||= '0mm';  # top margin
+    $rm ||= '0mm';  # right margin
+    $bm ||= '0mm';  # bottom margin
+    $hh ||= '0mm';  # head height
+    $hs ||= '0mm';  # head sep
+    $fh ||= '0mm';  # foot height
+    $fs ||= '0mm';  # foot skip
+    $vmargin ||= "\\usepackage{vmargin}\n";
+    $vmargin .= "\\setmarginsrb{$lm}{$tm}{$rm}{$bm}{$hh}{$hs}{$fh}{$fs}\n";
+}
+
+warn "vmargin($vmargin)";
+
+if ($headfootstyle && $headfootstyle ne 'fancy') {
+    $pagestyle = "\\pagestyle{$headfootstyle}\n";  # e.g. empty or plain
+}
+
+### Tweak paragraph and line spacing
+
+($linespacing,                          $parindent, $parskip) =
+    $pd =~ m/<<linespace:\s+([^!>]*)(?:!([^!>]*)(?:!([^!>]*))?)?>>/s;
+$pd =~ s/<<linespace:\s+.*?>>//s;
+
+$linespace .= "\\renewcommand{\\baselinestretch}{$linespacing}\n" if $linespacing;
+$linespace .= "\\setlength\\parindent{$parindent}\n" if $parindent;
+$linespace .= "\\setlength\\parskip{$parskip}\n" if $parskip;
+
+### Extract macros
+
+#die "pd($pd)";
+
+#                      1   1 2     2
+$pd =~ s|\n<<define:\s+(\w+)!([^>]+)>>|def_macro($1, $2)|gex;
+#$pd =~ s|\n<<define:\s+\w+.*?>>\s*\n|HErE|sg;
+#                            1   1    2 tex  2    3 dbx  3    4 html 4
+#$pd =~ s/\n<<definespecific: (\w+)(?:!([^!>]+)(?:!([^!>]+)(?:!([^!>]+))?)?)?>>/def_specific_macro($1, $2, $3, $4)/gex;
+#                            1   1 2 tex 2 3 dbx 3 4 html 4
+$pd =~ s/\n<<definespecific:\s+(\w+)!([^!]+)!([^!]+)!([^!]+?)>>/def_specific_macro($1, $2, $3, $4)/gex;
+
+$pd =~ s/<<cvsid:\s+(.*?)>>/$cvsid.="$1\n",''/ge;
+($cvsfile, $cvsrevision, $cvsdate, $cvstime, $cvsuser) =
+    $cvsid =~ /^\$Id:\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+/;
+def_macro('CVSFILE', $cvsfile);
+def_macro('CVSREVISION', $cvsrevision);
+def_macro('CVSDATE', $cvsdate);
+def_macro('CVSTIME', $cvstime);
+def_macro('CVSUSER', $cvsuser);
+
+### Substitute macros
+
+$pd =~ s/!!(\w+)/$mac{$1}/g;
+
+### Extract some special <<components>>
+
+($abstract) = $pd =~ m/<<abstract:\s+(.*?)>>/s;
+#warn "abstract $abstract"  if $trace;;
+#$tex_abstract = "\\begin{quote} Abstract: ".tex_para($abstract)."\\end{quote}\n\n" if $abstract;
+$tex_abstract = "\\begin{abstract}\n".tex_para($abstract)."\\end{abstract}\n\n" if $abstract;
+$abstract =~ s%\r?\n\r?\n%^^^^/para~~~~\n^^^^para~~~~%sg;
+$dbx_abstract = dbx_para($abstract);
+$abstract =~ s%^^^^/para~~~~\n^^^^para~~~~%\n^^^^p~~~~%sg;
+$html_abstract = html_para($abstract);
+
+$pd =~ s/<<abstract:\s+.*?>>/<<tex:\n$tex_abstract>>/s;
+
+($first_page) = $pd =~ m/<<1stpage:\s+(.*?)>>/s;
+$pd =~ s/<<1stpage:\s+.*?>>//s;
+
+($keywords) = $pd =~ m/<<keywords:\s+(.*?)>>/s;
+$pd =~ s/<<keywords:\s+.*?>>//s;
+$keywords =~ s{,\s*}{</keyword>\n<keyword>}gs;
+
+($author) = $pd =~ m/<<author:\s+(.*?)>>/;
+$pd =~ s/<<author:\s+.*?>>//;
+$author ||= 'N.N.';
+#warn "author($author)";
+
+($copyright) = $pd =~ m/<<copyright:\s+(.*?)>>/;
+$pd =~ s/<<copyright:\s+.*?>>//;
+$copyright ||= $author;
+
+($top_id , $version) = $pd =~ m/<<version:(?:([\w-]+):)?\s+(.*?)>>/;
+$pd =~ s/<<version:.*?>>//;
+
+($x) = $pd =~ m/<<texpreamble:\s+(.*?)>>/s;
+$pd =~ s/<<texpreamble:\s+.*?>>//s;
+$texpreamble = $x if $x;
+$texpreamble =~ s/!!AUTHOR/$author/;
+$texpreamble =~ s/!!HEADER_TITLE/$header_title/;
+$texpreamble =~ s/!!AFTER_PAGE/$after_page/;
+$texpreamble =~ s/!!COPYRIGHT/$copyright/;
+
+if ($pd =~ m/<<moretexpreamble:\s+.*?>>/s) {
+    $moretexpreamble = '';
+    $pd =~ s/<<moretexpreamble:\s+(.*?)>>/$moretexpreamble.=$1,''/gse;
+}
+$moretexpreamble =~ s/!!AUTHOR/$author/;
+$moretexpreamble =~ s/!!HEADER_TITLE/$header_title/;
+$moretexpreamble =~ s/!!AFTER_PAGE/$after_page/;
+$moretexpreamble =~ s/!!COPYRIGHT/$copyright/;
+
+if ($pd =~ m/<<moremoretexpreamble:\s+.*?>>/s) {
+    $pd =~ s/<<moremoretexpreamble:\s+(.*?)>>/$moremoretexpreamble.=$1,''/gse;
+}
+
+($x) = $pd =~ m/<<dbxpreamble:\s+(.*?)>>/s;
+$pd =~ s/<<dbxpreamble:\s+.*?>>//s;
+$dbxpreamble = $x if $x;
+
+($x) = $pd =~ m/<<htmlpreamble:\s+(.*?)>>/s;
+$pd =~ s/<<htmlpreamble:\s+.*?>>//s;
+$htmlpreamble = $x if $x;
+
+($additionalarticleinfodbx) = $pd =~ m/<<additionalarticleinfodbx:\s+(.*?)>>/s;
+$pd =~ s/<<additionalarticleinfodbx:\s+.*?>>//s;
+
+($x) = $pd =~ s%<<notapath:\s+(.*?)>>%for $x (split /[,\s]+/,$1) { $not_a_path{$x} = 1; }%gse;
+
+($history_ena, $history_title, $x) = $pd =~ m/<<history:(\d:)?\s*(\S[^\n]*)?(.*?)>>/s;
+$history = $x if $x; #           2 dd      mm      yy     3 auth   12.10.2005
+@history = split qr{^([\d.-]+):: (\d+[./-]\d+[./-]\d+),\s+(.*?)\s*$}m, $history;
+shift @history;
+if (!@history) {
+    #                              2 dd     mm      yy      12. October, 2005
+    @history = split /^([\d.-]+):: (\d+\.\s+\w+,?\s+\d+),\s+(.*?)\s*$/m, $history;
+    shift @history;
+}
+
+if ($history) {
+    if ($history_title =~ /^\d/) {
+	# *** Process "2.4.2005, description, --Author" style history
+    }
+    $tex_history = $history_title ? "\\textbf{$history_title}" : '';
+    $tex_history .= qq(\\begin{description});
+    for ($j=0; $j<$#history; $j+=4) {
+	$tex_revdesc = $history[$j+3];
+	$tex_revdesc =~ s%^\s+\*%\\item%gm;
+
+	$tex_history .= qq(\\item[$history[$j]] $history[$j+1] $history[$j+2]\n);
+	$tex_history .= qq(\\begin{itemize}\n$tex_revdesc\n\\end{itemize}\n)
+	    unless $tex_revdesc =~ /^\s*$/s;
+    }
+    $tex_history .= qq(\\end{description});
+}
+
+if ($history_ena eq '1:') {
+    $pd =~ s/<<history:(\d:)?\s+.*?>>/<<tex:\n$tex_history\n>>/sg;
+} else {
+    $pd =~ s/<<history:(\d:)?\s+.*?>>//sg;
+}
+
+($credit_title, $x) = $pd =~ m/<<credit:([^\n]*)(.*?)>>/s;
+$credit = $x if $x;
+
+if ($credit) {
+    @credits = split /\n/, $credit;
+    $credit_title =~ s/^\s+//;
+    $tex_credit = "\\textbf{$credit_title}\\\\";
+    for $x (@credits) {
+	$tex_credit .= tex_para($x);
+    }
+}
+$pd =~ s/<<credit:\s+.*?>>/<<tex:\n$tex_credit>>/sg;
+
+### Generate index entries
+
+@ix = ();  # Words to index
+
+sub add_to_index {
+    my ($x) = @_;
+    my ($w,$ws,@ws,$ww);
+    for $ws (split /\n/, $x) {
+	next if $ws =~ /^\s*$/s;
+	$ws =~ s/^\s+//;
+	$ws =~ s/\s+$//;
+	@ws = split /\s*!\s*/, $ws;
+	for $w (@ws) {
+	    ($ww,undef) = split /\@/, $w;
+	    next if $ww =~ /^\s*$/s;
+	    $ix{$ww} = $ws[0];
+	}
+    }
+}
+
+$pd =~ s/<<wordix:(.*?)>>/add_to_index($1)/seg;
+$pd =~ s/<<conceptix:(.*?)>>/add_to_index($1)/seg;
+$pd =~ s/<<peopleix:(.*?)>>/add_to_index($1)/seg;
+@ix = keys %ix;
+
+($makeindex) = $pd =~ m/<<makeindex:\s+(\d*)(.*?)>>/s;
+$pd =~ s/<<makeindex:\s+.*?>>/$makeindex?'<<tex: \\printindex>>':''/se;
+($maketoc) = $pd =~ m/<<maketoc:\s+(\d*)(.*?)>>/s;
+$pd =~ s/<<maketoc:\s+.*?>>/$maketoc?'<<tex: \\tableofcontents>>':''/se;
+($makelof) = $pd =~ m/<<makelof:\s+(\d*)(.*?)>>/s;
+$pd =~ s/<<makelof:\s+.*?>>/$makelof?'<<tex: \\listoffigures>>':''/se;
+($makelot) = $pd =~ m/<<makelot:\s+(\d*)(.*?)>>/s;
+$pd =~ s/<<makelot:\s+.*?>>/$makelot?'<<tex: \\listoftables>>':''/se;
+#warn "makeindex($makeindex) maketoc($maketoc) makelof($makelof) makelot($makelot)";
+
+($mktit) = $pd =~ m/<<maketitle:\s+(\d*)(.*?)>>/s;
+if (defined($mktit)) {
+    $maketitle = $mktit ? "\\maketitle\n" : '';
+}
+$pd =~ s/<<maketitle:\s+.*?>>//s;
+
+$pd =~ s/^\#.*?-\*-pd-\*-.*?\n//s;
+($doctitle,$ul) = $pd =~ m/^(\w..+?)\n(\#\#\#+)\n\n/s;
+#($doctitle,$version,$ul) = $pd =~ m/^(\w..+?)\nVersion: ([0-9]+\.[0-9]+-[0-9][0-9])\n(\#\#\#+)\n\n/s;
+
+$pd =~ s/^\w..+?\n\#\#\#+\n\n//s;
+warn "Wrong length underline" if length($doctitle) != length($ul);
+
+$pd =~ s%<<rawtex:\s*(.*?)>>%hexit($1, 'RAWTEX')%gse;
+$pd =~ s%<<rawdbx:\s*(.*?)>>%hexit($1, 'RAWDBX')%gse;
+$pd =~ s%<<rawhtml:\s*(.*?)>>%hexit($1, 'RAWHTML')%gse;
+
+if ($trace) {   # Dump file after special tags have been extracted
+    open DUMP, ">pd.dump.$$" or die "Can't write dump file pd.dump.$$: $!";
+    print DUMP $pd;
+    close DUMP;
+}
+
+if (1) {
+    $x = $pd;
+    $x =~ s/\\\w+(\[.*?\])*(\{.*?\})*/ /gs;
+    $x =~ s/\$.{1,100}?\$/ /gs;
+    $x =~ s/<<\w+:\s+.*?>>/ /sg;  # All special blocks are omitted
+    $x =~ s/\[.+?\]/ /gs;
+    $x =~ s/\d+/ /gs;
+    $x =~ s|[.,;:!?+*&/%\"\'°º()<>{}^~=-]| |g; # *** primero, segunda
+    my @spell = split /\s+/s, $x;
+    my %spell;
+    for $x (@spell) { ++$spell{$x}; }
+    open SPELL, ">spell.words" or die "Can't write dump file spell.words: $!";
+    @spell = sort keys %spell;
+    for $x (@spell) {
+	print SPELL "$x\n" unless $x =~ /^[A-Z]+$/;
+    }
+    close SPELL;
+    # aspell --encoding=iso8859-1 --lang=pt list <spell.words >miten.meni  *** ei toimi hyvin
+    # ispell -d portugues -p oikein.dict -l <spell.words >miten.meni # Toimii
+}
+
+### Split into lines and do line processing
+
+@pd = split /\r?\n/, $pd;
+$i = 0;
+#die Dumper \@pd;
+
+$sec_id[0] = $top_id || $doctitle;
+$sec_id[0] =~ tr[A-Za-z0-9][_]c;
+$sec_level = 0;      # The section nesting level (0 = doc, 1=sec, 2=subsec, 3=subsubsec, ...)
+
+sub sec {
+    my ($la, $j, $nndbx, $given_id, $new_sec_level, @n_sec);
+    while ($i <= $#pd) {
+	warn "$i: sec $sec_level" if $trace;
+	body('','');
+	if ($i > $#pd) {  # end
+	    close_dbx_sections();
+	    return;
+	}
+	
+	# Ok, now body has detected a section
+	
+	$given_id = undef;
+	$_ = $pd[$i];    # section title
+	#       12   2 1       3   3    4   4
+	if (/^<<((sub)*)sec:(?:(\w+):)? (.*?)>>/) {  # section
+	    warn "$i: section detected list_level=$list_level" if $trace;
+	    $new_sec_level = (length($1) / 3) + 1;
+	    $given_id = $3;
+	    $_ = $4;
+	} else {
+	    $la = $pd[$i+1]; # underline lookahead
+	    warn "underline length does not match" if length $_ != length $la;   # Sec candidate
+	    if      ($la =~ /^====+$/)   { $new_sec_level = 1;  # Section (Chapter)
+            } elsif ($la =~ /^----+$/)   { $new_sec_level = 2;  # Subsection (Section)
+	    } elsif ($la =~ /^~~~~+$/)   { $new_sec_level = 3;  # Subsubsection (Subsection)
+	    } elsif ($la =~ /^\^\^\^+$/) { $new_sec_level = 4;  # Subsubsubsection
+            } else { warn "false alarm, wrong underline type"; }
+	}
+	s/^[\d.]* //s if $pdflag{'stripsecnum'};
+    
+	if ($new_sec_level == $sec_level) {
+	    print DBX ( (' 'x$sec_level) . "</section><!--$sec_id[$sec_level]-->\n\n\n");
+	    if ($sec_level < 1) {
+		warn "Figures in the previous section: $cap_n_images. Total figures thus far: $n_images.\n";
+		$cap_n_images = 0;
+	    }
+	} elsif ($new_sec_level > $sec_level) {
+	    warn "Section level can only ever increase by one ($i:$pd[$i]) ($sec_level $new_sec_level)" if $sec_level != ($new_sec_level-1);
+	    $sec_level = $new_sec_level;
+	    $n_sec[$sec_level] = 0;
+	} else {  # section level decreases (by arbitrary amount)
+	    if ($sec_level < 1) {
+		warn "Figures in the previous section: $cap_n_images. Total figures thus far: $n_images.\n";
+		$cap_n_images = 0;
+	    }
+	    for ($j = $sec_level; $j >= $new_sec_level; --$j) {
+		print DBX ((' 'x$j) . "</section><!--$sec_id[$sec_level]-->\n\n\n");
+	    }
+	    $sec_level = $new_sec_level;
+	}
+	
+	++$n_sec[$sec_level];
+	$sec_id[$sec_level] = $given_id || $_;
+	$sec_id[$sec_level] =~ s/[^A-Za-z0-9]//gs;
+	$sec_id = join '-', @sec_id[0..$sec_level];
+	$nn = '';
+	for ($j = 1; $j <= $sec_level; ++$j) {
+	    $nn .= $n_sec[$j] . '.';
+	}
+	chop $nn;
+	
+	$link = $nn;
+	$link =~ s/[^\w.-]//gs;
+	$link =~ s/[.]/-/gs;
+	
+	$nn = $secnum ? $nn.' ' : '';
+	$nndbx = $nn if $number;
+	#while ($sec_id_used{$sec_id}) { $sec_id++; } $sec_id_used{$sec_id} = 1;
+	$x = dbx_format($_);
+	print DBX ( (' 'x$sec_level) . qq(<section id="$sec_id">\n<title>$nndbx$x</title>\n));
+
+	$x = html_format($_);
+	print HTML ((' 'x$sec_level) . qq(<a name="$link"></a><h$sec_level>$nn$x</h$sec_level>\n));
+	push @html_toc_title, "$nn$x";
+	push @html_toc_link, $link;
+	
+	if ($sec_level < $html2_split_treshold && $html2) {
+	    $prevprev = $prev2;
+	    $prev2 = $html2;
+	    $html2 = $nn.$x;
+	    $html2 =~ s/[^\w.-]//gs;
+	    $html2 =~ s/[.]/-/gs;
+	    $html2 = "$base-$html2.html";
+	    print HTML2 qq(<hr>[<a href="$prevprev" class=prevBut>Prev</a> | <a href="$html2" class=nextBut>Next</a>]<hr>\n);
+	    close HTML2;
+	    open HTML2, ">html/$html2" or die "Can't open html/$html2 for writing new HTML segment: $!";
+	    print HTML2 <<HTML2 unless $nohtmlpreamb;
+<title>$doctitle: $nn$x</title>
+<link type="text/css" rel="stylesheet" href="$base.css">
+<body bgcolor=white>
+[<a href="$prev2">Prev</a>]<hr>
+HTML2
+		;
+	}
+	print HTML2 ( (' 'x$sec_level) . qq(<a name="$link"></a><h$sec_level>$nn$x</h$sec_level>\n) );
+	push @html2_toc_link, qq($html2\#$link);
+
+	warn "--- SEC $nn$x\n";
+	$x = tex_format($_);
+	#s/_/\\_/g;   # Avoid TeX math mode: Missing $ inserted
+	print TEX $new_slide . '\\' . $tex_sec[$sec_level] . "{$x}\\label{$sec_id}\n";
+	print TEX "\\message{=== SEC $nn}\n";  # Progress reports in LaTeX source
+	$i += 2;
+    }
+}
+
+$indent = 0; # current indent level
+$list_level = 0;     # Hierarchical level of current list
+@list_indent = (0);  # Indendation level of different lists
+@list_type = (0);    # 1 = numeric, a = alpha, * = bullet, : = definition, etc.
+
+sub body {
+    my ($ind, $first) = @_;
+    my ($itemstart, $bullet, $item, $la, @para);
+    my $ind_len = length($ind);
+    push @para, $first if $first;
+    while ($i <= $#pd) {
+	warn "BODY $i: $pd[$i]" if $trace>1;
+	if ($pd[$i] =~ /^\s*$/) {  # empty line --> close current paragraph
+	    para(@para);
+	    @para = ();
+	    ++$i;
+	    warn "para done" if $trace>1;
+	    next;
+	}
+	if (substr($pd[$i],0,$ind_len) ne $ind) {  # lesser indent terminates current cons
+	    warn "$i: lesser indent >$ind< ind_len=$indlen list_level=$list_level" if $trace;
+	    last;
+	}
+	if ($pd[$i]=~/^<<(sub)*sec:.*?>>/) {  # section
+	    warn "$i: section detected list_level=$list_level" if $trace;
+	    last;
+	}
+	$la = $pd[$i+1];
+	if ((length($pd[$i]) >= 4) && $la =~ /^[=~^-]{4,}$/) {  # section
+	    warn "Section underline wrong length\n$pd[$i]\n$la" if length($pd[$i]) != length($la);
+	    warn "$i: section detected list_level=$list_level" if $trace;
+	    last;
+	}
+	
+	$_ = substr($pd[$i], $ind_len);      # remove indent for rest of processing
+	if ((($itemstart, $bullet, $item) = /^(([*+-])\s+)(.*)$/)
+	    && ($list_level || $pd[$i - 1] =~ /^\s*$/)) { # Start bulleted list
+	    para(@para);
+	    @para = ();
+	    $list_type[++$list_level] = $bullet;
+	    $list_indent[$list_level] = $ind_len + length($itemstart);
+	    warn "$i: bullet setting list_indent[$list_level] ind($ind) m1($itemstart) pd[i-1]($pd[$i-1])" if $trace;
+	    list($ind_len + length($itemstart), $itemstart, $item);
+	    warn "$i: bulleted list done" if $trace;
+	    next;
+	} elsif ((($itemstart, $item) = /^(\d+\.\s+)(.*)$/)
+		 && ($list_level || $pd[$i - 1] =~ /^\s*$/)) { # Start ordered list
+	    para(@para);
+	    @para = ();
+	    $list_type[++$list_level] = '1';
+	    $n_list[$list_level] = 1;
+	    warn "$i: ord setting list_indent[$list_level] ind($ind) m1=>$itemstart< pd[i-1]($pd[$i-1])" if $trace;
+	    $list_indent[$list_level] = $ind_len + length($itemstart);
+	    list($ind_len + length($itemstart), $itemstart, $item);
+	    warn "$i: ord list done list_level=$list_level" if $trace;
+	    next;
+	} elsif ((($itemstart, $item) = /^([a-hj-z][.\)]\s+)(.*)$/)
+		 && ($list_level || $pd[$i - 1] =~ /^\s*$/)) {  # Start lower alpha list
+	    para(@para);
+	    @para = ();
+	    $list_type[++$list_level] = 'a';
+	    $n_list[$list_level] = 'a';
+	    warn "$i: lower alpha setting list_indent[$list_level] ind=$ind m1=>$itemstart<" if $trace;
+	    $list_indent[$list_level] = $ind_len + length($itemstart);
+	    list($ind_len + length($itemstart), $itemstart, $item);
+	    warn "$i: lower alpha list done list_level=$list_level" if $trace;
+	    next;
+	} elsif ((($itemstart, $item) = /^([A-HJ-Z]\.\s+)(.*)$/)
+		 && ($list_level || $pd[$i - 1] =~ /^\s*$/)) {  # Start upper alpha list
+	    para(@para);
+	    @para = ();
+	    $list_type[++$list_level] = 'A';
+	    $n_list[$list_level] = 'A';
+	    $list_indent[$list_level] = $ind_len + length($itemstart);
+	    list($ind_len + length($itemstart), $itemstart, $item);
+	    warn "$i: upper alpha list done list_level=$list_level" if $trace;
+	    next;
+	} elsif ((($itemstart, $item) = /^(i[.\)]\s+)(.*)$/)
+		 && ($list_level || $pd[$i - 1] =~ /^\s*$/)) {  # Start lower roman list
+	    para(@para);
+	    @para = ();
+	    $list_type[++$list_level] = 'i';
+	    $n_list[$list_level] = 'i';
+	    warn "$i: lower roman setting list_indent[$list_level] ind=$ind m1=>$itemstart<" if $trace;
+	    $list_indent[$list_level] = $ind_len + length($itemstart);
+	    list($ind_len + length($itemstart), $itemstart, $item);
+	    warn "$i: lower roman list done list_level=$list_level" if $trace;
+	    next;
+	} elsif ((($itemstart, $item) = /^(I\.\s+)(.*)$/)
+		 && ($list_level || $pd[$i - 1] =~ /^\s*$/)) {  # Start upper alpha list
+	    para(@para);
+	    @para = ();
+	    $list_type[++$list_level] = 'I';
+	    $n_list[$list_level] = 'I';
+	    $list_indent[$list_level] = $ind_len + length($itemstart);
+	    list($ind_len + length($itemstart), $itemstart, $item);
+	    warn "$i: upper Roman list done list_level=$list_level" if $trace;
+	    next;
+        } elsif ((($itemstart, $bullet, $item) = /^(([^\n]+?)::\s+)(.*)$/)
+		 && ($list_level || $pd[$i - 1] =~ /^\s*$/)) {  # Start definition list
+	    para(@para);
+	    @para = ();
+	    $list_type[++$list_level] = ':';
+	    #$list_indent[$list_level] = $ind_len + length($itemstart);
+	    $list_indent[$list_level] = $ind_len + 4;
+	    varlist($ind_len + 4, $bullet, $item);
+	    warn "$i: definition list done list_level=$list_level" if $trace;
+	    next;
+	}
+	
+	if (/^> (.*?)$/) {    # usenet quoted stuff is block quote
+	    para(@para);
+	    @para = ();
+	    blockquote($1);
+	    next;
+	}
+
+	if (/^\s+(.*?)$/) {   # indented stuff is verbatim
+	    para(@para);
+	    @para = ();
+	    code($1);
+	    next;
+	}
+
+	if (/^<<texsections:\s+(.*?)>>$/) {
+	    para(@para);
+	    @para = ();
+	    @tex_sec = split /[,\s]+/, $1;
+	    ++$i;
+	    next;
+	}
+	if (/^<<pdflags:\s+(.*?)>>$/) {
+	    para(@para);
+	    @para = ();
+	    for $flag (split /[,\s]+/, $1) {
+		($flagname, $flagvalue) = split /=/, $flag, 2;
+		$pdflag{$flagname} = $flagvalue;
+	    }
+	    ++$i;
+	    next;
+	}
+	
+	#                  1           2    2    3    3    4    4          5 legend
+        if (/^<<gnuplot:\s*(\S.*?)(?:\,(\S*?)(?:,(\S*?)(?:,(\S*?))?)?)?:\s*(.*)$/) {
+	    para(@para);
+	    @para = ();
+
+	    warn "-----creating temporary gnuplot file $1.gp\n";
+	    open GNUPLOT, ">$1.gp" or die "Can't create temprary file $1.gp: $!";
+	    print GNUPLOT "# Generated by pd2tex. DO NOT EDIT. CHANGES WILL BE LOST.\n";
+	    print GNUPLOT qq(set output "$1.eps"\n);
+	    ++$i;
+	    if ($pd[$i] !~ /^>>/) {
+		print GNUPLOT qq(set terminal postscript\n) unless $pd[$i] =~ /set\s+terminal/;
+		print GNUPLOT qq(set encoding iso_8859_1\n) unless $pd[$i] =~ /set\s+encoding/;
+		print GNUPLOT $pd[$i]."\n";
+		for (++$i; $pd[$i] !~ /^>>/; ++$i) {
+		    print GNUPLOT $pd[$i]."\n";
+		}
+	    }
+	    close GNUPLOT;
+	    image($1, $5, $2, $3, $4);
+	    ++$i;
+	    next;
+	}
+
+        if (($name, $pos, $siz, $trim, $caption) =
+	    #          1     1     2    2    3    3    4    4          5  5
+	    /^<<dot:\s*(\S.*?)(?:\,(\S*?)(?:,(\S*?)(?:,(\S*?))?)?)?:\s*(.*)$/) {
+	    para(@para);
+	    @para = ();
+
+	    warn "-----creating temporary dot file $name.dot\n";
+	    open DOT, ">$name.dot" or die "Can't create temprary file $name.dot: $!";
+	    print DOT "// Generated by pd2tex. DO NOT EDIT. CHANGES WILL BE LOST.\n";
+	    for (++$i; $pd[$i] =~ /^\s*\/\//; ++$i) {  # comments
+		print DOT $pd[$i]."\n";
+	    }
+	    #warn "DOT name($name) $i: $pd[$i]";
+	    if ($pd[$i] !~ /graph\s+\w+\s*\{/) {  # not explicitly specified
+		($name2 = $name) =~ s/[^a-z0-9]/_/gi;
+		print DOT "digraph $name2 {\n";
+		$need_close_curly = 1;
+	    } else {
+		$need_close_curly = 0;
+	    }
+	    for (; $pd[$i] !~ /^>>/; ++$i) {
+		print DOT $pd[$i]."\n";
+	    }
+	    print DOT "}\n" if $need_close_curly;
+	    close DOT;
+	    image($name, $caption, $pos, $siz, $trim);
+	    ++$i;
+	    next;
+	}
+
+	if (/<<epspdf:\s*(\S+)>>/) {  # trigger image generation
+	    para(@para);
+	    @para = ();
+	    gen_img($1, "$i epspdf: $pd[$i]");
+	    ++$i;
+	    next;
+	}
+
+        #              path        pos       siz       trim            caption
+	#              1     1    ,2    2   ,3    3   ,4    4      :   5   5
+        if (/^<<img:\s*(\S.*?)(?:\,(\S*?)(?:,(\S*?)(?:,(\S*?))?)?)?:\s*(.*?)>>/i) {
+	    para(@para);
+	    @para = ();
+	    #warn "IMG IMG IMG [$1/$2/$3/$4/$5]";
+	    image($1, $5, $2, $3, $4);
+	    ++$i;
+	    next;
+	}
+
+        #              path        pos       siz       trim         layers            caption
+	#              1     1    ,2    2   ,3    3   ,4    4      :5            5:   6   6
+        if (/^<<dia:\s*(\S.*?)(?:\,(\S*?)(?:,(\S*?)(?:,(\S*?))?)?)?:([a-z0-9_,-]+):\s*(.*?)>>/i) {
+	    para(@para);
+	    @para = ();
+	    #warn "DIA DIA DIA [$1/$2/$3/$4/$5/$6]";
+	    image($1, $6, $2, $3, $4, $5);
+	    ++$i;
+	    next;
+	}
+	
+	#                                                1     1     2    2      3  3
+        if (($ref, $posspec, $legend) = /^<<doubleimg:\s*(\S.*?)(?:\,(\S*?))?:\s*(.*)$/) {
+	    my ($path1, $legend1, $path2, $legend2);
+	    para(@para);
+	    @para = ();
+	    
+	    ++$i;
+	    if (($path1, $legend1) = ($pd[$i] =~ /^([^:>]+):\s*(.*)$/)) {
+		++$i;
+		if (($path2, $legend2) = ($pd[$i] =~ /^([^:>]+):\s*(.*)$/)) {
+		    ++$i;
+		}
+	    }
+	    for (; $pd[$i] !~ /^>>/; ++$i) {
+		warn "doubleimg: skipping excess input($pd[$i])";
+	    }
+	    #warn "doubleimage($path1,$legend1,$path2,$legend2)";
+	    doubleimage($ref, $legend, $posspec, $path1, undef, $legend1, $path2, undef, $legend2);
+	    ++$i;
+	    next;
+	}
+
+	#                                                1     1     2    2      3  3
+        if (($ref, $posspec, $legend) = /^<<doubledia:\s*(\S.*?)(?:\,(\S*?))?:\s*(.*)$/) {
+	    my ($path1, $legend1, $path2, $legend2);
+	    para(@para);
+	    @para = ();
+	    
+	    ++$i;
+	    if (($path1, $layers1, $legend1) = ($pd[$i] =~ /^([^:>]+):([a-z0-9_,-]+):\s*(.*)$/i)) {
+		++$i;
+		if (($path2, $layers2, $legend2) = ($pd[$i] =~ /^([^:>]+):([a-z0-9_,-]+):\s*(.*)$/i)) {
+		    ++$i;
+		}
+	    }
+	    for (; $pd[$i] !~ /^>>/; ++$i) {
+		warn "doubledia: skipping excess input($pd[$i])";
+	    }
+	    #warn "doubleimage($path1,$legend1,$path2,$legend2)";
+	    doubleimage($ref, $legend, $posspec, $path1, $layers1, $legend1, $path2, $layers2, $legend2);
+	    ++$i;
+	    next;
+	}
+
+	#       123      4     2      1 5 6                      65
+        if (/^<<(((long)|(mini))?table):(\s*([A-Za-z0-9\xa0-\xff].*))?$/) {
+	    para(@para);
+	    @para = ();
+	    table($6,$1);
+	    next;
+	}
+
+        if (/^<<references:( (\w.*?))?\s*$/) {
+	    para(@para);
+	    @para = ();
+	    references($2);
+	    next;
+	}
+
+	#              1     1 2   3                      32
+        if (/^<<xmlfmt:([^:]*):(\s*([A-Za-z0-9\xa0-\xff].*))?$/) {
+	    para(@para);
+	    @para = ();
+	    xmlfmt($3,$1);
+	    next;
+	}
+
+	#              1     1 2     2 3     3    4   4
+        if (/^<<sgfrag:([^:]*):([^:]*):([^:]*):\s*(.+?)\s*>>$/) {
+	    para(@para);
+	    @para = ();
+	    sgfrag($1, $2, $3, $4);
+	    ++$i;
+	    next;
+	}
+
+        if (/^<<schema:( (\w.*))?$/) {  # XML schema verbatim listing
+	    para(@para);
+	    @para = ();
+	    print DBX  qq(<programlisting format="schema"><computeroutput><!\[CDATA\[);
+	    print HTML qq(<pre>);
+	    print HTML2 qq(<pre>);
+	    print TEX  qq(\\begin{verbatim});
+	    unindented_code($2);
+	    print DBX qq(\]\]></computeroutput></programlisting>);
+	    print HTML "</pre>";
+	    print HTML2 "</pre>";
+	    print TEX qq(\\end{verbatim}\n);
+	    ++$i;
+	    next;
+	}
+
+        if (/^<<code:( (\w.*))?$/) {  # code verbatim listing
+	    para(@para);
+	    @para = ();
+	    print DBX  qq(<programlisting format="code"><computeroutput><!\[CDATA\[);
+	    print HTML qq(<pre>);
+	    print HTML2 qq(<pre>);
+	    print TEX  qq(\\begin{verbatim});
+	    unindented_code($2);
+	    print DBX qq(\]\]></computeroutput></programlisting>);
+	    print HTML "</pre>";
+	    print HTML2 "</pre>";
+	    print TEX qq(\\end{verbatim}\n);
+	    ++$i;
+	    next;
+	}
+
+        if (/^<<logoutput:( (\w.*))?$/) {  # logoutput verbatim listing
+	    para(@para);
+	    @para = ();
+	    print DBX  qq(<programlisting format="logoutput"><computeroutput><!\[CDATA\[);
+	    print HTML qq(<pre>);
+	    print HTML2 qq(<pre>);
+	    print TEX  qq(\\begin{verbatim});
+	    unindented_code($2);
+	    print DBX qq(\]\]></computeroutput></programlisting>);
+	    print HTML "</pre>";
+	    print HTML2 "</pre>";
+	    print TEX qq(\\end{verbatim}\n);
+	    ++$i;
+	    next;
+	}
+
+        if (/^<<newpage:.*?>>\s*$/) {
+	    para(@para);
+	    @para = ();
+	    if ($class eq 'slide') {
+		print DBX "\n<!--newpage-->\n";
+		print HTML "\n<hr><!--newpage-->\n";
+		print HTML2 "\n<hr><!--newpage-->\n";
+		print TEX "\n\\end{slide}\n\n\\begin{slide}\n";
+	    } else {
+		print DBX "\n<!--newpage-->\n";
+		print HTML "\n<hr><!--newpage-->\n";
+		print HTML2 "\n<hr><!--newpage-->\n";
+		print TEX "\n\\clearpage\n";
+	    }
+	    warn "newpage done" if $trace;
+	    ++$i;
+	    next;
+	}
+
+        if (/^<<closesec:.*?>>\s*$/) {
+	    para(@para);
+	    @para = ();
+	    close_dbx_sections();
+	    warn "closesec done" if $trace;
+	    ++$i;
+	    next;
+	}
+
+        if (/<<eqn:(.*?)>>/) {  # direct TeX code for an equation
+	    para(@para);
+	    @para = ();
+	    print TEX "\\begin{equation}$1\\end{equation}" if $1;
+	    ++$i;
+	    warn "tex done" if $trace;
+	    next;
+	}
+        if (/^<<eqn:( (.*?))?$/) {  # direct TeX code for an equation
+	    para(@para);
+	    @para = ();
+	    print TEX "\\begin{equation}";
+	    print TEX $2 if $2;
+	    for (++$i; $pd[$i] !~ /^>>/; ++$i) {
+		print TEX $pd[$i]."\n";
+	    }
+	    print TEX "\\end{equation}";
+	    ++$i;
+	    warn "tex done" if $trace;
+	    next;
+	}
+
+        if (/<<tex:(.*?)>>/) {  # direct TeX code
+	    para(@para);
+	    @para = ();
+	    #warn "=========== tex one($1)";
+	    print TEX $1 if $1;
+	    ++$i;
+	    warn "tex done" if $trace;
+	    next;
+	}
+        if (/^<<tex:( (.*?))?$/) {  # direct TeX code
+	    warn "tex start i=$i ($pd[$i])" if $trace;
+	    para(@para);
+	    @para = ();
+	    #warn "=========== tex two($2)";
+	    print TEX $2 if $2;
+	    for (++$i; $pd[$i] !~ /^>>/; ++$i) {
+		#warn "=========== tex two bis($pd[$i])";
+		print TEX $pd[$i]."\n";
+	    }
+	    ++$i;
+	    warn "tex done i=$i ($pd[$i])" if $trace;
+	    next;
+	}
+
+        if (/^<<dbx:\s*(.*)$/) {  # direct DocBook code
+	    para(@para);
+	    @para = ();
+	    #warn "Entering dbx($1)";
+	    print DBX $1 if $1;
+	    for (++$i; $pd[$i] !~ /^>>/; ++$i) {
+		#warn "dbx i=$i ($pd[$i])";
+		print DBX $pd[$i]."\n";
+	    }
+	    ++$i;
+	    warn "dbx done" if $trace;
+	    next;
+	}
+	
+        if (/^<<html:\s*(.*)$/) {  # direct HTML code
+	    para(@para);
+	    @para = ();
+	    print HTML $2 if $1;
+	    print HTML2 $2 if $1;
+	    for (++$i; $pd[$i] !~ /^>>/; ++$i) {
+		print HTML $pd[$i]."\n";
+		print HTML2 $pd[$i]."\n";
+	    }
+	    ++$i;
+	    warn "html done" if $trace;
+	    next;
+	}
+	
+        if (/<<cvssig:(.*?)>>/) {
+	    para(@para);
+	    @para = ();
+	    open BZ, "|bzip2 -9>cvssig" or die "cvssig tag failed to invoke bzip2: $!";
+	    #print BZ $1;
+	    print BZ $cvsid;
+	    close BZ;
+	    $cvssig = '';
+	    $cvssigraw = readall('cvssig');
+	    $cvssigraw =~ s/(.)(.)(.)/$cvssig.=b64enc($1,$2,$3),''/ges;
+	    $cvssigraw =~ s/(.)/sprintf("%02x",ord($1))/ges;  # last 0, 1, or 2 bytes
+	    $cvssig =~ s/(.{64})/$1\n/g;
+	    print DBX  "$cvssig=$cvssigraw";
+	    print HTML "$cvssig=$cvssigraw";
+	    print HTML2 "$cvssig=$cvssigraw";
+	    print TEX  "$cvssig=$cvssigraw";
+	    ++$i;
+	    warn "cvssig done" if $trace;
+	    next;
+	}
+
+	if (/^<<EOF: .*?>>/) {
+	    $i = $#pd + 1;
+	    last;
+	}
+	
+	warn "push to para" if $trace>1;
+        push @para, "$_\n";
+	++$i;
+    }
+    warn "$i: end of body list_level=$list_level" if $trace;
+    para(@para);
+    return;
+}
+
+$b64str = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ.-';
+sub b64enc {
+    my ($b1, $b2, $b3) = @_;
+    my $x1 = (ord($b1) >> 2) & 0x3f;
+    my $x2 = (ord($b1) & 3) | ((ord($b2) >> 2) & 0x3c);
+    my $x3 = (ord($b2) & 0xf) | ((ord($b3) >> 2) & 0x30);
+    my $x4 = ord($b3) & 0x3f;
+    return substr($b64str,$x1,1).substr($b64str,$x2,1).substr($b64str,$x3,1).substr($b64str,$x4,1);
+}
+
+### Process a definition list. The list has just been detected in body. Now we
+### need to proceed to next level of indent.
+
+sub varlist {
+    my ($ind_len, $prefix, $first) = @_;
+    print DBX   ((' 'x$list_level) . $dbx_list_open{$list_type[$list_level]});
+    print HTML  ((' 'x$list_level) . $html_list_open{$list_type[$list_level]});
+    print HTML2 ((' 'x$list_level) . $html_list_open{$list_type[$list_level]});
+    print TEX   ((' 'x$list_level) . $tex_list_open{$list_type[$list_level]});
+    while (1) {
+	warn "$i: start varlist $ind_len ($prefix) --[$first]-- list_level=$list_level" if $trace;
+	$dbx_prefix = dbx_format($prefix);
+	print DBX ((' 'x$list_level) . qq(<varlistentry><term>$dbx_prefix</term><listitem>\n));
+	$html_prefix = html_format($prefix);  # allow formatting in list item title
+	print HTML "<dt>$html_prefix<dd>";
+	print HTML2 "<dt>$html_prefix<dd>";
+	$tex_prefix = tex_format($prefix);  # allow formatting in list item title
+	#$prefix = tex_esc($prefix);
+	print TEX "\\item[$tex_prefix] ";
+	++$i;
+	body(' 'x$ind_len, $first);  # Process paragraphs for this list item
+	warn "$i: back from body --[$first]-- list_level=$list_level" if $trace;
+	print DBX ((' 'x$list_level) . "</listitem></varlistentry>\n");
+	
+	$la = $pd[$i+1];
+	if ((length($pd[$i]) == length($la)) && $la =~ /^[=~^-]{3,}$/) {  # section
+	    warn "$i: section detected list_level=$list_level" if $trace;
+	    last;
+	}
+	
+	### Can either be list item at same level or list item continuation at any
+	### previous level (i.e. new paragraph) or new item at any previous level
+	
+	$_ = $pd[$i];
+	($indent) = /^(\s*)/;
+	$indent = length($indent);
+	warn "***** indent=$indent prev_indent=".$list_indent[$list_level-1]." level=$list_level" if $trace;
+	if ($indent == $list_indent[$list_level-1]) {
+	    my $typ = $list_type[$list_level];
+	    warn "checking for another item at same level typ=$typ --[$_]--" if $trace;
+	    if (($typ eq ':') && /^(\s*(([^\n]+?)::\s+))(.*)$/) {
+		$prefix = $3;
+		$first = $4;
+		warn "$i: another item list_level=$list_level --[$first]--" if $trace;
+		next;
+	    }
+	    warn "$i: same level didn't match >>$pd[$i]<<" if $trace;
+	}
+	last;	# Was not an item of the same list
+    }
+    print DBX   ((' 'x$list_level) . $dbx_list_close{$list_type[$list_level]});
+    print HTML  ((' 'x$list_level) . $html_list_close{$list_type[$list_level]});
+    print HTML2 ((' 'x$list_level) . $html_list_close{$list_type[$list_level]});
+    print TEX   ((' 'x$list_level) . $tex_list_close{$list_type[$list_level]});
+    --$list_level;
+    warn "$i: list closed list_level=$list_level" if $trace;
+}
+
+### Process a list. The list has just been detected in body. Now we need to proceed
+### to next level of indent.
+
+sub list {
+    my ($ind_len, $prefix, $first) = @_;
+    print DBX   ((' 'x$list_level) . $dbx_list_open{$list_type[$list_level]});
+    print HTML  ((' 'x$list_level) . $html_list_open{$list_type[$list_level]});
+    print HTML2 ((' 'x$list_level) . $html_list_open{$list_type[$list_level]});
+    print TEX   ((' 'x$list_level) . $tex_list_open{$list_type[$list_level]});
+    while (1) {
+	warn "$i: start list body $ind_len ($prefix) --[$first]-- list_lvl=$list_level" if $trace;
+	
+	#$first = "$n_list[$list_level]. $first" if $number && $list_type[$list_level]=~/^[Aa1]$/;
+	print DBX   ((' 'x$list_level) . qq(<listitem>\n));
+	print HTML  ((' 'x$list_level) . qq(<li>\n));
+	print HTML2 ((' 'x$list_level) . qq(<li>\n));
+	print TEX   ((' 'x$list_level) . $tex_list_item{$list_type[$list_level]});
+	++$i;
+	body(' 'x$ind_len, $first);  # Process paragraphs for this list item
+	warn "$i: back from body --[$first]-- list_level=$list_level" if $trace;
+	print DBX ((' 'x$list_level) . "</listitem>\n");
+	
+	$la = $pd[$i+1];
+	if ((length($pd[$i]) == length($la)) && $la =~ /^[=~^-]{3,}$/) {  # section
+	    warn "$i: section detected list_level=$list_level" if $trace;
+	    last;
+	}
+	
+	### Can either be list item at same level or list item continuation at any
+	### previous level (i.e. new paragraph) or new item at any previous level
+	
+	$_ = $pd[$i];
+	($indent) = /^(\s*)/;
+	$indent = length($indent);
+	warn "***** indent=$indent prev_indent=".$list_indent[$list_level-1]." level=$list_level" if $trace;
+	if ($indent == $list_indent[$list_level-1]) {
+	    my $typ = $list_type[$list_level];
+	    my $cur_ind = $list_indent[$list_level];
+	    warn "checking for another item at same level typ=$typ cur_ind=$cur_ind  --[$_]--" if $trace;
+	    if (($typ eq '1') && /^(\s*\d+\.\s+)(.*)/) {
+		if (length($1) == $cur_ind) {
+		    ++$n_list[$list_level];
+		    $first = $2;
+		    warn "$i: another item list_level=$list_level --[$first]--" if $trace;
+		    next;
+		} else {
+		    warn "$i: Indent does not match ($_)";
+		}
+	    } elsif (($typ eq 'a') && /^(\s*[a-z]+[.\)]\s+)(.*)/) {
+		if (length($1) == $cur_ind) {
+		    ++$n_list[$list_level];
+		    $first = $2;
+		    warn "$i: another item list_level=$list_level --[$first]--" if $trace;
+		    next;
+		} else {
+		    warn "$i: Indent does not match ($_)";
+		}
+	    } elsif (($typ eq 'A') && /^(\s*[A-Z]+\.\s+)(.*)/) {
+		if (length($1) == $cur_ind) {
+		    ++$n_list[$list_level];
+		    $first = $2;
+		    warn "$i: another item list_level=$list_level --[$first]--" if $trace;
+		    next;
+		} else {
+		    warn "$i: Indent does not match ($_)";
+		}
+	    } elsif (($typ eq 'i') && /^(\s*[ivxlcdm]+[.\)]\s+)(.*)/) {
+		if (length($1) == $cur_ind) {
+		    ++$n_list[$list_level];
+		    $first = $2;
+		    warn "$i: another item list_level=$list_level --[$first]--" if $trace;
+		    next;
+		} else {
+		    warn "$i: Indent does not match ($_)";
+		}
+	    } elsif (($typ eq 'I') && /^(\s*[IVXLCDM]+\.\s+)(.*)/) {
+		if (length($1) == $cur_ind) {
+		    ++$n_list[$list_level];
+		    $first = $2;
+		    warn "$i: another item list_level=$list_level --[$first]--" if $trace;
+		    next;
+		} else {
+		    warn "$i: Indent does not match ($_)";
+		}
+	    } elsif (/^(\s*([*+-])\s+)(.*)/) {
+		if ((length($1) == $cur_ind) && ($typ eq $2)) {
+		    ++$n_list[$list_level];
+		    $first = $3;
+		    warn "$i: another item list_level=$list_level --[$first]--" if $trace;
+		    next;
+		} else {
+		    warn "$i: Indent does not match ($_)";
+		}
+	    }
+	    warn "$i: same level didn't match --[$pd[$i]]--" if $trace;
+	}
+
+	last;  # Was not an item of the same list
+    }
+    print DBX   ((' 'x$list_level) . $dbx_list_close{$list_type[$list_level]});
+    print HTML  ((' 'x$list_level) . $html_list_close{$list_type[$list_level]});
+    print HTML2 ((' 'x$list_level) . $html_list_close{$list_type[$list_level]});
+    print TEX   ((' 'x$list_level) . $tex_list_close{$list_type[$list_level]});
+    --$list_level;
+    warn "$i: list closed list_level=$list_level" if $trace;
+}
+
+sub sgfrag {
+    my ($in, $sec, $out, $caption) = @_;
+    my ($sg,$dbx);
+    if ($pdflag{'showsgasxsd'} eq '1') {
+        $sg = readall($out);
+	$dbx = qq(<programlisting format="schema"><xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="./$out" parse="text"/></programlisting>);
+    } elsif ($pdflag{'showsgasxsd'} eq '2') {
+        $sg = readall($out);
+	$dbx = '<programlisting format="schema"><computeroutput><!\[CDATA\[' .
+	    dbx_entity_escape_lite($sg)	. ']]></computeroutput></programlisting>';
+    } else {
+	$sg = readall("$in.sg");
+	#my $xs = readall("$in.xsd");
+	if ($sec) {
+	    ($sg) = $sg =~ /\#sec\($sec\)\s*(.*?)\s*\#endsec\($sec\)/s;
+	    #($xs) = $xs =~ /sec\($sec\)\s*(.*?)\s*endsec\($sec\)/s;
+	}
+	$dbx = qq(<programlisting format="schemagrammar"><computeroutput><!\[CDATA\[)
+	    . dbx_entity_escape_lite($sg) . qq(\]\]></computeroutput></programlisting>);
+    }
+    ++$img_no;
+    my $dbx_caption  = dbx_format($caption);
+    my $html_caption = html_format($caption);
+    my $tex_caption  = tex_caption($caption);
+    my $label = "$in-$sec";
+    
+    print DBX   qq(<figure id="$label" label="$img_no"><title>$dbx_caption</title>);
+    print HTML  qq(<pre>);
+    print HTML2 qq(<pre>);
+    print TEX   qq(\\begin{figure}\\begin{verbatim});
+    print DBX   $dbx;
+    print HTML  $sg;
+    print HTML2 $sg;
+    print TEX   $sg;
+    print DBX   qq(</figure>);
+    print HTML  "</pre>Fig-$img_no: $html_caption<p>";
+    print HTML2 "</pre>Fig-$img_no: $html_caption<p>";
+    print TEX   qq(\\end{verbatim}$tex_caption\\label{$label}\\end{figure});
+}
+
+sub xmlfmt_html {
+    my ($x) = @_;
+}
+
+sub xmlfmt {
+    my ($frag_name, $opts) = @_;
+    my $x = '';
+    my @opts = split /\s*,\s*/, $opts;
+
+    for ($row = 0; $i<=$#pd && $pd[$i] !~ /^>>/; ++$i) {
+	$x .= $pd[$i] . "\n";
+    }
+
+    print DBX   qq(<programlisting format="$opts[0]"><computeroutput><!\[CDATA\[);
+    print HTML  qq(<pre>);
+    print HTML2 qq(<pre>);
+    print TEX   qq(\\begin{verbatim});
+    print DBX   dbx_entity_escape_lite($x);
+    print HTML  xmlfmt_html($x);
+    print HTML2 xmlfmt_html($x);
+    print TEX   texfmt_html($x);
+    print DBX   qq(\]\]></computeroutput></programlisting>);
+    print HTML  "</pre>";
+    print HTML2 "</pre>";
+    print TEX   qq(\\end{verbatim});
+}
+
+sub table {
+    my ($table_name,$tablekind) = @_;
+    # globals: @pd, $i
+    $i+=2;
+    my (@table, @col_beg, @col_wid, @col_hdr, @cols, @vis_wid);
+    my ($j, $row, $dbx, $html, $tex, $colspecs, $tex_colspec, $r, $cols, $line);
+    my $cur_col = 0;
+    @cols = split / /, $pd[$i];
+    $cols = $#cols+1;
+    $line = $pd[$i-1];
+    for ($j = 0; $j < $cols; ++$j) {
+	my $wid = length($cols[$j]);
+	$col_hdr[$j] = substr($line, $cur_col, $wid);
+	$vis_wid[$j] = $col_wid[$j] = $wid;
+	$col_beg[$j] = $cur_col;
+	warn "cols[j]: >$cols[$j]< wid=$wid cur_col=$cur_col hdr: >>$col_hdr[$j]<<" if $trace>1;
+	$cur_col += $wid + 1;
+    }
+    for (++$i; ; ++$i) {
+	if ($pd[$i]=~/^WIDTHS:\s*(.*?)\s*$/) {
+	    $j = -1;
+	    for $wid (split /,/, $1) {
+		++$j;
+		next if $wid =~ /^\s*$/;
+		if ($wid =~ /^\d+$/) {
+		    $vis_wid[$j] = $wid;
+		    next;
+		}
+		$vis_wid[$j] += $wid;
+	    }
+	    next;
+	}
+	if ($pd[$i]=~/^OPTIONS:\s*(.*?)\s*/) {
+	    next;
+	}
+	last;
+    }
+    for ($row = 0; $i<=$#pd && $pd[$i] !~ /^>>/;) {
+	warn "$i: $pd[$i]" if $trace>1;
+	if ($pd[$i] =~ /^:$/) {  # end of col by line mode
+	    warn "$i: end of col by line marker" if $trace>1;
+	    ++$i;
+	    next;
+	}
+	if ($pd[$i] =~ /^\s*$/) {  # col by line mode
+	    warn "$i: col by line mode cols=$cols" if $trace>1;
+	    ++$i;
+	    for ($j = 0; $j < $cols; ++$j, ++$i) {
+		if ($pd[$i] =~ /^>>/) {
+		    warn "Wrong number of lines in end of table in col-by-line mode: [$pd[$i-1]]";
+		    last;
+		}
+		$table[$row][$j] = $pd[$i];
+	    }
+	    ++$row;
+	    next;
+	}
+	
+	# row by line mode
+	$line = $pd[$i];
+	for ($j = 0; $j < $cols-1; ++$j) {
+	    $table[$row][$j] = substr($line, $col_beg[$j], $col_wid[$j]);
+	    warn "$i: col $j: >>$table[$row][$j]<<  --[$line]--" if $trace>1;
+	}
+	$table[$row][$cols-1] = substr($line, $col_beg[$cols-1]);  # last col takes the rest
+	++$i;
+	++$row;
+    }
+    ++$i;
+
+    # Ok, now we got table in @table and @col_hdr. Format it into Lib docbook table. The
+    # Liberty DocBook tools require two special columns to be added to sides and require namest.
+
+    $colspecs = '';
+    $tex_colspec = $tex_left_bar;
+    $dbx = qq(<thead>\n<row>\n);
+    $html = "<tr>\n";
+    $colspecs = qq(<colspec colname="c0" colwidth="0pt"/>\n);    # left extra col
+    for ($j = 1; $j <= $cols; ++$j) {
+	$dbx .= qq( <entry namest="c$j">) . dbx_para_raw($col_hdr[$j-1]) . "</entry>\n";
+	$html .= qq( <th>) . html_format($col_hdr[$j-1]) . "</th>\n";
+	$wid = sprintf('%.1f', $vis_wid[$j-1] * $dbx_col_wid_factor);
+	$colspecs .= qq(<colspec colname="c$j" colwidth="${wid}in"/>\n);
+	
+	$tp = tex_format($col_hdr[$j-1]);
+	$tex .= "$tp &";
+	$wid = sprintf('%.1f', $vis_wid[$j-1] * $tex_col_wid_factor);
+	$tex_colspec .= $tex_boxed_tab ? "p{${wid}cm}|" : "p{${wid}cm}";
+    }
+    $colspecs .= qq(<colspec colname="c$j" colwidth="0pt"/>\n);  # right extra col
+
+    $dbx .= "</row>\n</thead>\n<tbody>\n";
+    $html .= "</tr>\n";
+    chop $tex;
+    $tex .= $tex_tab_hdr_sep;
+
+    # Generate Table Body
+
+    print TEX "\\message{===TAB}";
+
+    for ($r = 0; $r < $row; ++$r) {
+	if ($table[$r][0] eq '-----') {
+	    $tex .= "\\hline\n";
+	    next;
+	}
+	$dbx .= qq(<row>\n);
+	$html .= "<tr>\n";
+	for ($j = 1; $j <= $cols; ++$j) {
+	    $dbx .= qq( <entry namest="c$j">) . dbx_para_raw($table[$r][$j-1]) . "</entry>\n";
+	    $html .= qq( <td>) . html_format($table[$r][$j-1]) . "</td>\n";
+	    $tp = tex_format($table[$r][$j-1]);
+	    $tex .= "$tp &";
+	}
+	chop $tex;
+	$tex .= $tex_tab_line_sep;
+	$dbx .= "</row>\n";
+	$html .= "</tr>\n";
+    }
+    substr($tex, -length($tex_tab_line_sep)) = '' if $tex_tab_line_sep;
+    $dbx .= "</tbody>\n";
+    $cols += 2;  # account for extra cols
+
+    $html =~ s|<th>\s*</th>|<th>&nbsp;</th>|gs;  # Make empty cells appear correctly on firefox
+    $html =~ s|<td>\s*</td>|<td>&nbsp;</td>|gs;  # Make empty cells appear correctly on firefox
+
+    # Wrap the table into necessary top level tags
+    
+    print TEX "\\hbadness=10000\n";  # Disable warnings
+    if ($table_name) {
+	my $label = fold_label($table_name);
+	my $dbx_caption = dbx_format($table_name);
+	my $tex_caption = tex_caption($table_name);
+	my $html_caption = html_format($table_name);
+	print DBX qq(<table id="$label" tocentry="1" frame="all"><title>$dbx_caption</title><tgroup cols="$cols" align="left">\n$colspecs$dbx</tgroup></table>\n);
+	print HTML qq(<p><i>$html_caption</i><br><table border=1>\n$html</table>\n);
+	print HTML2 qq(<p><i>$html_caption</i><br><table border=1>\n$html</table>\n);
+	if ($tablekind eq 'longtable') {
+	    print TEX qq(\\begin{longtable}[$tex_flt_place]{$tex_colspec}\n$tex_caption\\label{tab:$label} \\\\ \n$tex_top_line\\endfirsthead\n\\caption[]{\\small (continuation)} \\\\ \n$tex_top_line\\endhead\n$tex\n$tex_bot_line\\end{longtable}\n);
+	} elsif ($tablekind eq 'minitable') {
+	    print TEX qq(\\begin{floatingtable}{\\begin{tabular}{$tex_colspec}\n$tex_top_line$tex\n$tex_bot_line\\end{tabular}}\n$tex_caption\\label{tab:$label}\n\\end{floatingtable}\n);
+	} else {
+	    print TEX qq(\\begin{table}[$tex_flt_place]\n\\centering$tex_caption\\label{tab:$label}\n\\vspace{3mm}\\begin{tabular}{$tex_colspec}\n$tex_top_line$tex\n$tex_bot_line\\end{tabular}\\end{table}\n);
+	}
+    } else {
+	print DBX qq(<informaltable><tgroup cols="$cols" align="left">\n$colspecs$dbx</tgroup></informaltable>\n);
+	print HTML qq(<table border=1>\n$html</table>\n);
+	print HTML2 qq(<table border=1>\n$html</table>\n);
+	if ($tablekind eq 'longtable') {
+	    print TEX qq(\\begin{longtable}[$tex_flt_place]{$tex_colspec}\n$tex_top_line$tex\n$tex_bot_line\\end{longtable}\n);
+	} elsif ($tablekind eq 'minitable') {
+	    print TEX qq(\\begin{floatingtable}{\\begin{tabular}{$tex_colspec}\n$tex_top_line$tex\n$tex_bot_line\\end{tabular}}\\end{floatingtable}\n);
+	} else {
+	    print TEX qq(\\begin{table}[$tex_flt_place]\\centering\\begin{tabular}{$tex_colspec}\n$tex_top_line$tex\n$tex_bot_line\\end{tabular}\\end{table}\n);
+	}
+    }
+    print TEX "\\hbadness=$hbadness\n";  # Restore normal warning level
+}
+
+sub close_dbx_sections {
+    while ($sec_level) {
+	print DBX ( (' 'x$sec_level) . "</section><!--$sec_id[$sec_level]-->\n\n\n");
+	--$sec_level;
+    }
+}
+
+sub references {
+    my ($ref_name) = @_;
+    my ($ii, $labwid);
+    # globals: @pd, $i
+    $ref_id = $dbx_ref_name = $ref_name || 'References';
+    $ref_id =~ tr[A-Za-z0-9][_]c;
+
+    close_dbx_sections();
+    print DBX <<DBX;   # <section id="$ref_id"><bibliography id="references-$ref_id">
+<bibliodiv id="references-$ref_id">
+  <title>$dbx_ref_name</title>
+DBX
+;
+    if ($ref_name) {
+	print TEX   "\\renewcommand\\refname{$ref_name}\n";  # article
+	#print TEX  "\\renewcommand\\bibname{$ref_name}\n";  # book
+	print HTML  "<H2>$ref_name</H2>\n<dl>\n";
+	print HTML2 "<H2>$ref_name</H2>\n<dl>\n";
+    } else {
+	print HTML  "<H2>References</H2>\n<dl>\n";
+	print HTML2 "<H2>References</H2>\n<dl>\n";
+    }
+
+    $labwid = 4;
+    for ($ii = $i+1; $ii<=$#pd && $pd[$ii] !~ /^>>/; ++$ii) {
+	warn "$ii: $pd[$i]" if $trace>1;
+	if (($lab,$rest) = $pd[$i] =~ /^\s*\[(.*?)\]\s+(.*?)\s*$/) {
+	    $labwid = length($lab) if length($lab) > $labwid;
+	}
+    }
+
+    print TEX "\\begin{thebibliography}{XXXX".('X'x$labwid)."}\n";
+    for (++$i; $i<=$#pd && $pd[$i] !~ /^>>/; ++$i) {
+	warn "$i: $pd[$i]" if $trace>1;
+	if (($lab,$rest) = $pd[$i] =~ /^\s*\[(.*?)\]\s+(.*?)\s*$/) {
+	    $lab = tex_esc($lab);
+	    $rest = tex_esc($rest);
+	    print DBX qq(  <bibliomixed id="$lab"/>\n);
+	    print TEX "\\bibitem[$lab]{$lab} $rest\n";
+	    print HTML qq(<dt>[<a name="$lab" class=ref>$lab</a>] <dd>$rest\n);
+	    print HTML2 qq(<dt>[<a name="$lab" class=ref>$lab</a>] <dd>$rest\n);
+	} else {
+	    $rest = tex_esc($pd[$i]);
+	    print TEX "$rest\n";
+	    print HTML "$rest\n";
+	    print HTML2 "$rest\n";
+	}
+    }
+    ++$i;
+    #print DBX qq(</bibliography>\n </section>\n);
+    print DBX qq(</bibliodiv>\n);
+    print TEX "\\end{thebibliography}\n";
+    print HTML "</dl>\n";
+    print HTML2 "</dl>\n";
+}
+
+sub unindented_code {
+    my ($first) = @_;
+    print DBX  dbx_entity_escape_lite($first) if $first;
+    print HTML $first if $first;
+    print HTML2 $first if $first;
+    print TEX  tex_esc_verbatim($first) if $first;
+    for (++$i; $pd[$i] !~ /^>>/; ++$i) {
+	print DBX  dbx_entity_escape_lite($pd[$i])."\n";
+	print HTML $pd[$i]."\n";
+	print HTML2 $pd[$i]."\n";
+	print TEX  (tex_esc_verbatim($pd[$i])."\n");
+    }
+}
+
+sub code {
+    my ($first_line) = @_;
+    my ($ind) = $pd[$i] =~ /^(\s+)/;
+    my $code = $pd[$i] . "\n";
+    for (++$i; ($i<=$#pd)&&((substr($pd[$i],0,length($ind)) eq $ind) || $pd[$i]=~/^\s*$/); ++$i) {
+	warn "$i code $#pd: $pd[$i]" if $trace>2;
+	$code .= $pd[$i] . "\n";
+    }
+    if ($first_line =~ /^NOTE: (.*)$/) {
+	$first_line = $1;
+	$code =~ s/^\s*NOTE: .*?\n//s;
+	my $dbx_code = dbx_para($code);
+	my $tex_code = tex_para($code);
+	print DBX qq(<note><title>$first_line</title>$dbx_code</note>\n);
+	print TEX qq(\\quote{\\emph{$first_line}\n$tex_code}\n);
+	return;
+    }
+    print DBX "$code_open_tag<![CDATA[".dbx_entity_escape_lite($code)."]]>$code_close_tag\n";
+    $code = tex_esc_verbatim($code);
+    #warn "--[$code]--";
+    print TEX "\\begin{verbatim}$code\\end{verbatim}\n\n";
+    $code =~ s/</&lt;/g;
+    print HTML "<pre>$code</pre>\n";
+    print HTML2 "<pre>$code</pre>\n";
+}
+
+sub blockquote {
+    my ($first_line) = @_;
+    my ($ind) = $pd[$i] =~ /^(\s*> )/;
+    my $len_ind = length($ind);
+    my $code = $first_line;
+    my ($dbx_quote, $tex_quote, $html_quote);
+    for (++$i; ($i<=$#pd) && (substr($pd[$i],0,$len_ind) eq $ind); ++$i) {
+	warn "$i: $pd[$i]" if $trace;
+        $line = substr($pd[$i], $len_ind-1);  # include space between lines
+	if ($line =~ /^\s*$/) {               # empty line signifies paragraph break
+	    $dbx_quote .= dbx_para($code) . "\n\n";
+	    $tex_quote .= tex_para($code) . "\n\n";
+	    $code = '';
+	} else {
+	    $code .= $line;
+	}
+    }
+    $dbx_quote .= dbx_para($code);
+    print DBX "<blockquote>$dbx_quote</blockquote>\n";
+
+    $html_quote .= html_format($code);
+    print HTML "<blockquote>$html_quote</blockquote>\n";
+    print HTML2 "<blockquote>$html_quote</blockquote>\n";
+    
+    $tex_quote .= tex_format($code);
+    print TEX "\\begin{quote}$tex_quote\n\\end{quote}\n";
+}
+
+# N.B. In order to be able to escape < and > properly we use here a trick:
+#      ^^^^ represents < and ~~~~ represents >. Once escaping is done, they
+#      are substituted back.
+
+$inline_open = '^^^^inlinemediaobject~~~~^^^^imageobject~~~~';
+$inline_close = '^^^^/imageobject~~~~^^^^/inlinemediaobject~~~~';
+
+sub fold_label {
+    my ($label) = @_;
+    $label =~ s|[^\w:-]|-|g;
+    return $label;
+}
+
+sub dbx_entity_escape_lite {  # Used by verbatim modes that use CDATA
+    my ($x) = @_;
+    return $x unless $encoding eq 'UTF-8';
+    
+    return $x;
+}
+
+sub dbx_entity_escape {
+    my ($x) = @_;
+    return $x unless $encoding eq 'UTF-8';
+    
+    $x =~ s/\@/&commat;/g;
+
+    $x =~ s/á/&aacute;/g;   $x =~ s/à/&agrave;/g;  $x =~ s/â/&acirc;/g;
+    $x =~ s/ä/&auml;/g;     $x =~ s/ã/&atilde;/g;  $x =~ s/å/&aring;/g;
+    $x =~ s/Á/&Aacute;/g;   $x =~ s/À/&Agrave;/g;  $x =~ s/Â/&Acirc;/g;
+    $x =~ s/Ä/&Auml;/g;     $x =~ s/Ã/&Atilde;/g;  $x =~ s/Å/&Aring;/g;
+    
+    $x =~ s/ó/&oacute;/g;   $x =~ s/ò/&ograve;/g;  $x =~ s/ô/&ocirc;/g;
+    $x =~ s/ö/&ouml;/g;     $x =~ s/õ/&otilde;/g;
+    $x =~ s/Ó/&Oacute;/g;   $x =~ s/Ò/&Ograve;/g;  $x =~ s/Ô/&Ocirc;/g;
+    $x =~ s/Ö/&Ouml;/g;     $x =~ s/Õ/&Otilde;/g;
+    
+    $x =~ s/í/&iacute;/g;   $x =~ s/ì/&igrave;/g;  $x =~ s/î/&icirc;/g; $x =~ s/ï/&iuml;/g;
+    $x =~ s/Í/&Iacute;/g;   $x =~ s/Ì/&Igrave;/g;  $x =~ s/Î/&Icirc;/g; $x =~ s/Ï/&Iuml;/g;
+    
+    $x =~ s/é/&eacute;/g;   $x =~ s/è/&egrave;/g;  $x =~ s/ê/&ecirc;/g; $x =~ s/ë/&euml;/g;
+    $x =~ s/É/&Eacute;/g;   $x =~ s/È/&Egrave;/g;  $x =~ s/Ê/&Ecirc;/g; $x =~ s/Ë/&Euml;/g;
+    
+    $x =~ s/ú/&uacute;/g;   $x =~ s/ù/&ugrave;/g;  $x =~ s/û/&ucirc;/g; $x =~ s/ü/&uuml;/g;
+    $x =~ s/Ú/&Uacute;/g;   $x =~ s/Ù/&Ugrave;/g;  $x =~ s/Û/&Ucirc;/g; $x =~ s/Ü/&Uuml;/g;
+    
+    $x =~ s/ç/&ccedilla;/g; $x =~ s/Ç/&Ccedilla;/g;
+    $x =~ s/ñ/&ntilde;/g;   $x =~ s/Ñ/&Ntilde;/g;
+
+    return $x;
+}
+
+sub dbx_para_raw {
+    my $x = join ' ', @_;
+    return "\n" unless length $x;
+    local ($1,$2,$3,$4,$5,$6,$7,$8,$9);
+
+    if ($fn_style == 3) {
+	$x =~ s%<<footnote:\s*(.*?)\s*>>%$fn_num++,qq(^^^^footnote id="fn$fn_num" label="$fn_num"~~~~^^^^para~~~~$1^^^^/para~~~~^^^^/footnote~~~~)%gse;
+    } elsif ($fn_style == 1) {
+	$x =~ s%<<footnote:\s*(.*?)\s*>>%$fn_num++,qq([*** fn$fn_num: $1 ***])%gse;
+    } else {
+	$x =~ s%<<footnote:\s*(.*?)\s*>>%%gs;
+    }
+    $x =~ s/\(\*\*\*(.*?)\)//gs;
+    
+    #         1    2  34     5       6     7     8
+    $x =~ s%<<(\S*?(\.((gif)|(jpe?g)|(svg)|(png)|(e?ps))))>>%
+	$inline_open^^^^imagedata fileref="$1"/~~~~$inline_close%gsx;
+    $x =~ s%<<tt:\s*(.*?)>>%^^^^computeroutput~~~~$1^^^^/computeroutput~~~~%gs;
+    $x =~ s%<<bold:\s*(.*?)>>%^^^^emphasis role="bold"~~~~$1^^^^/emphasis~~~~%gs;
+    $x =~ s%<<italic:\s*(.*?)>>%^^^^emphasis~~~~$1^^^^/emphasis~~~~%gs;
+    $x =~ s%<<see:\s*([^>]+)>>%qq(^^^^xref linkend=") . fold_label($1) . qq("/~~~~)%gse;
+    $x =~ s%<<ix:\s*([^>]+)>>%$1%gs;  # index entry
+    $x =~ s%<<ref:\s*([^:]+): (.*?)>>%<xref linkend="$2"/>%gs;   # *** should do proper ref
+    $x =~ s|<(/?\w.*?/?)>|^^^^$tag_tag~~~~<$1>^^^^/$tag_tag~~~~|gs;
+    # *** add URL, email, and file path detection
+    $x =~ s|&|&amp;|g;
+    $x =~ s|<|&lt;|g;
+    $x =~ s|>|&gt;|g;
+    $x =~ s|\\\\|<literallayout>\n</literallayout>|g;
+    $x =~ s|\^\^\^\^\^\^\^\^RAWTEX: (.*?)~~~~~~~~||gse;
+    $x =~ s|\^\^\^\^\^\^\^\^RAWDBX: (.*?)~~~~~~~~|unhexit($1)|gse;
+    $x =~ s|\^\^\^\^\^\^\^\^RAWHTML: (.*?)~~~~~~~~||gse;
+    $x =~ s|\^\^\^\^|<|g;
+    $x =~ s|~~~~|>|g;
+    $x =~ s|\*(\S.*?\S)\*|<emphasis role="bold">$1</emphasis>|gs;
+    $x =~ s|([\s\(])\+([a-z].*?\w)\+|$1<emphasis>$2</emphasis>|gsi;
+    $x =~ s|~(\S.*?\S)~|<computeroutput>$1</computeroutput>|gs;
+    $x =~ s|~([/\#\$\w-].*?[\w\)])~|<computeroutput>$1</computeroutput>|gs;
+    #$x =~ s|~(\S.*?\S)~|<literal>$1</literal>|gs;
+    #$x =~ s|\+(\S.*?\S)\+|<command>$1</command>|gs;
+    #$x =~ s|!(\S.*?\S)!|<replaceable>$1</replaceable>|gs;
+    #$x =~ s|\[(\S.*?\S)\]|[<link linkend="$1">$1</link>]|gs;  # biblio refs
+    $x =~ s|\[(\w.*?[\w.])\]|<xref linkend="$1"/>|gs;  # biblio refs
+
+    # convert LaTeX leftovers to something reasonable
+    $x =~ s|\\mu|µ|gs;
+    $x =~ s|\\acute\{a\}|á|gs;
+    $x =~ s|\\times| x |gs;
+    $x =~ s|\\:| |gs;
+    $x =~ s|(?<!\\)\^\{([^\{\}]+)\}|<sup>$1</sup>|gs if $x =~ /\$/;  # *** different for dbx?
+    $x =~ s|(?<!\\)\^(\w)|<sup>$1</sup>|gs if $x =~ /\$/;
+    $x =~ s|(?<!\\)_\{([^\{\}]+)\}|<sub>$1</sub>|gs if $x =~ /\$/;
+    $x =~ s|(?<!\\)_(\w)|<sub>$1</sub>|gs if $x =~ /\$/;
+    $x =~ s/!\\/\\/g;  # Backslash escape
+    $x =~ s|\$||gs;
+    $x =~ s|<dollari>|\$|gs;
+    $x =~ s|<ampersandi>|&|gs;
+    $x =~ s|\\pm |±|gs;
+    $x =~ s|\\isotope\{(\d+)\}\{(\w+)\}|<sup>$1</sup>$2|gs;
+    $x =~ s/\\[a-z]+(\[[^]]+\])*(\{[^}]+\})*//gsi;  # most LaTeX macros
+    $x =~ s/\\{/{/gs;
+    $x =~ s/\\}/}/gs;
+    $x =~ s%====%_%g;
+
+    return dbx_entity_escape($x);
+}
+
+sub dbx_para {
+    my $x = &dbx_para_raw;
+    return '' if $x =~ /^\s*$/s;
+    my $prepara = $para_started ? '' : '<para>';
+    return "$prepara$x</para>";
+}
+
+sub dbx_format {
+    return &dbx_para_raw;
+}
+
+###
+### HTML formatting
+###
+
+sub tag {
+    my ($tag, $cont) = @_;
+    if ($cont) {
+	my ($thetag) = split /\s+/, $tag, 2;
+	return qq(^^^^$tag~~~~$cont^^^^/$thetag~~~~);
+    } else {
+	return qq(^^^^$tag~~~~);
+    }
+}
+
+sub html_format_func {
+    my ($ret, $func, $args) = @_;
+    #return "$ret$func($args)" if !$pdflag{'autoformat'};
+    $ret =~ s%_%====%g;
+    $func =~ s%_%====%g;
+    $args =~ s%_%====%g;
+    #warn "func($func)\n";
+    return tag('i', "$ret$func($args)");
+}
+
+sub html_format_email {
+    my ($uid, $dom) = @_;
+    #warn "email uid($uid) dom($dom)\n";
+    #return "$uid\@$dom" if !$pdflag{'autoformat'};
+    $uid =~ s%_%====%g;
+    $dom =~ s%_%====%g;
+    $uid =~ s|\.|''''|g;
+    $dom =~ s|\.|''''|g;
+    return tag(qq(a href="mailto:$uid\@$dom"), "$uid\@$dom");
+}
+
+sub html_format_url {
+    my ($url, $what) = @_;
+    #warn "url($url) $what\n";
+    #return $url if !$pdflag{'autoformat'};
+    $url =~ s%_%====%g;
+    $url =~ s|\.|''''|g;
+    $url =~ s|/|""""|g;
+    my $link = $url;
+    $link = 'http://'.$link if $link !~ m{:""""""""};
+    return tag(qq(a href="$link"), $url);
+}
+
+sub html_format_country_url {
+    my ($url, $cc, $what) = @_;
+    return $url if $not_a_country{$cc};
+    #warn "url($url) cc($cc) $what";
+    return html_format_url($url);
+}
+
+sub html_format_path {
+    my ($path,$what) = @_;
+    return $path if $not_a_path{$path};
+    return $path if $path=~m|^[0-9/.,-]+$|s;  # Avoid pure numbers like 12/34 or 1.2
+    #warn "path($path) $what";
+    $path =~ s%_%====%g;
+    $path =~ s|\.|''''|g;
+    $path =~ s|/|""""|g;
+    return tag('tt', $path);
+}
+
+sub html_format_ip {
+    my ($path,$what) = @_;
+    return $path if $not_a_path{$path};
+    return $path if $path=~m|^\d+\.\d+$|s;       # Avoid pure numbers like 1.2
+    return $path if $path=~m|^\d+\.\d+\.\d+$|s;  # Avoid pure numbers like 1.2.3
+    #warn "path($path) $what";
+    $path =~ s%_%====%g;
+    $path =~ s|\.|''''|g;
+    $path =~ s|/|""""|g;
+    return tag('tt', $path);
+}
+
+sub html_format_ref {
+    my ($ref) = @_;
+    return qq([$ref]);
+}
+
+sub html_format_tt {
+    my ($tt) = @_;
+    $tt =~ s/\$/^^^^dollari~~~~/gs;
+    return tag('tt', $tt);
+}
+
+sub html_format_fn {
+    my ($note) = @_;
+    $fn_num++;
+    $note =~ s/\"/^^^^ampersandi~~~~quot;/gs;   # Quote friendly
+    $note =~ s%</?\w+.*?>%%gs;    # Zap tags such as <i> or <tt>
+    return tag(qq(img src="fn.png" title="$note" alt="$note"));
+}
+
+sub html_biblio {
+    my ($bibref) = @_;
+    return '['.$biblio.']' if $not_a_path{$biblio};
+    return qq([<a href="#$bibref"/>$1</a>]);
+}
+
+sub html_format {
+    my $x = join ' ', @_;
+    return "\n" unless length $x;
+    local ($1,$2,$3,$4,$5,$6,$7,$8,$9);
+
+    if ($fn_style) {
+	$x =~ s%<<footnote:\s*(.*?)\s*>>%html_format_fn($1)%gse;
+    } else {
+	$x =~ s%<<footnote:\s*(.*?)\s*>>%%gs;
+    }
+    $x =~ s%<<label:\s*(.*?)\s*>>%^^^^a name="$1"~~~~^^^^/a~~~~%gs;
+    $x =~ s%<<link:(.*?)(:\s+(.*?))?\s*>>%qq(^^^^a href="$1"~~~~).(defined($3)?$3:$1).'^^^^/a~~~~'%gsex;
+    $x =~ s/\(\*\*\*(.*?)\)//gs;
+
+    if ($pdflag{'autoformat'} == 1) {
+	# function and email detection
+	#       1        12            2 3           3  4             4  5         5
+	$x =~ s{(\A|\s|\()([a-z0-9_:]+=)?([a-z0-9_:]+)\(([a-z0-9_:, ]*)\)([,.!?\)]?)(?=\s|\Z)}{$1.html_format_func($2,$3,$4).$5}gisex;
+	#       1           12            2  3            34           4
+	$x =~ s{(\A|\s|\(|\<)([a-z0-9_.-]+)\@([a-z0-9_.-]+)([,.!?\)\>]?)(?=\s|\Z)}{$1.html_format_email($2,$3).$4}gisex;
+	
+	# URL and domain name detection
+	#       1        12                                     23         3
+	$x =~ s{(\A|\s|\()([a-z]+://[a-z0-9][a-z0-9_./?&=+%\#-]+)([,.!?\)]?)(?=\s|\Z)}{$1.html_format_url($2,"proto2://$3/").$3}gisex;
+	#       1        12                                            23         3
+	$x =~ s{(\A|\s|\()(www\.[a-z0-9_-]+\.[a-z0-9][a-z0-9_./?&=+%-]+)([,.!?\)]?)(?=\s|\Z)}{$1.html_format_url($2,'www').$3}gisex;
+	#       1        12                                            23         3
+	$x =~ s{(\A|\s|\()(ftp\.[a-z0-9_-]+\.[a-z0-9][a-z0-9_./?&=+%-]+)([,.!?\)]?)(?=\s|\Z)}{$1.html_format_url($2,'ftp').$3}gisex;
+	#       1        12                                 3                   3 24         4
+	$x =~ s{(\A|\s|\()([a-z0-9][a-z0-9_.-]+[a-z0-9]\.com(/[a-z0-9_./?&=+%-]+)?)([,.!?\)]?)(?=\s|\Z)}{$1.html_format_url($2,'com').$4}gisex;
+	$x =~ s{(\A|\s|\()([a-z0-9][a-z0-9_.-]+[a-z0-9]\.net(/[a-z0-9_./?&=+%-]+)?)([,.!?\)]?)(?=\s|\Z)}{$1.html_format_url($2,'net').$4}gisex;
+	$x =~ s{(\A|\s|\()([a-z0-9][a-z0-9_.-]+[a-z0-9]\.org(/[a-z0-9_./?&=+%-]+)?)([,.!?\)]?)(?=\s|\Z)}{$1.html_format_url($2,'org').$4}gisex;
+	
+	#       1        12                              3          34                   4 25         5
+	$x =~ s{(\A|\s|\()([a-z0-9][a-z0-9_.-]+[a-z0-9]\.([a-z][a-z])(/[a-z0-9_./?&=+%-]+)?)([,.!?\)]?)(?=\s|\Z)}{$1.html_format_country_url($2,$3,"cc_url($5)").$5}gisex;
+	#warn "==[$x]==";
+
+	# file path detection
+	#       1        12                                23         3
+	$x =~ s{(\A|\s|\()(~?[a-z0-9_./-]*\.[a-z][a-z0-9_]*?)([,.!?\)]?)(?=\s|\Z)}{$1.html_format_path($2,"path1($3)").$3}gisex;
+	#       1        12                            23         3
+	$x =~ s{(\A|\s|\()(~?[a-z0-9_.-]*/[a-z0-9_./-]*?)([,.!?\)]?)(?=\s|\Z)}{$1.html_format_path($2,"path2($3)").$3}gisex;
+	#       1        12             23         3
+	$x =~ s{(\A|\s|\()(\d+\.[\d./*]+)([,.!?\)]?)(?=\s|\Z)}{$1.html_format_ip($2,"ip($3)").$3}gisex;
+    }
+    
+    #         1    2  34     5       6     7     8
+    $x =~ s%<<(\S*?(\.((gif)|(jpe?g)|(svg)|(png)|(e?ps))))>>%^^^^img href="$1"/~~~~%gsx;
+    $x =~ s%<<tt:\s*(.*?)>>%html_format_tt($1)%gsex;
+    $x =~ s%<<italic:\s*(.*?)>>%^^^^i~~~~$1^^^^/i~~~~%gs;
+    $x =~ s%<<bold:\s*(.*?)>>%^^^^b~~~~$1^^^^/b~~~~%gs;
+    $x =~ s%<<seeix:\s*(\S[^:>]*):\s*(\S[^>]*)>>%^^^^a href="#$1"~~~~$2^^^^/a~~~~%gs;  # Combined index and ref
+    $x =~ s%<<see:\s*([^>]+)>>%qq(^^^^a href="#) . fold_label($1) . qq("~~~~*^^^^/a~~~~)%gse;
+    $x =~ s%<<ix:\s*([^>]+)>>%$1%gs; # index entry
+    $x =~ s%<<ixx:\s*([^>]+)>>%%gs;  # hidden index entry
+    $x =~ s%<<ref:\s*([^:]+): (.*?)>>%$2%gs;   # *** should do proper ref
+    $x =~ s|<(/?\w.*?/?)>|^^^^$tag_tag~~~~<$1>^^^^/$tag_tag~~~~|gs;
+    $x =~ s|&|&amp;|g;
+    $x =~ s|<|&lt;|g;
+    $x =~ s|>|&gt;|g;
+    $x =~ s|\\\\|^^^^br~~~~|g;
+    $x =~ s|''''|.|g;
+    $x =~ s|""""|/|g;
+
+    $x =~ s|\*(\S.*?\S)\*|^^^^b~~~~$1^^^^/b~~~~|gs;                         # bold
+    $x =~ s|([\s\(])\+([a-z].*?[\w.])\+|$1^^^^i~~~~$2^^^^/i~~~~|gsi;        # italic
+    $x =~ s|(?<!~)~([/\#\$\w-].*?[\w\)\}:])~(?!~)|html_format_tt($1)|gsex;  # computer output
+    $x =~ s|\^\^\^\^\^\^\^\^RAWTEX: (.*?)~~~~~~~~||gse;
+    $x =~ s|\^\^\^\^\^\^\^\^RAWDBX: (.*?)~~~~~~~~||gse;
+    $x =~ s|\^\^\^\^\^\^\^\^RAWHTML: (.*?)~~~~~~~~|unhexit($1)|gse;
+    $x =~ s|\^\^\^\^|<|g;
+    $x =~ s|~~~~|>|g;
+
+    #$x =~ s|~(\w.*?\w)~|<literal>$1</literal>|gs;
+    #$x =~ s|\+(\w.*?\w)\+|<command>$1</command>|gs;
+    #$x =~ s|!(\w.*?\w)!|<replaceable>$1</replaceable>|gs;
+    #$x =~ s|\[(\w.*?\w)\]|[<link linkend="$1">$1</link>]|gs;  # biblio refs
+    $x =~ s|\[(\w.*?[\w.])\]|html_biblio($1)|gsex;  # biblio refs
+    #$x =~ s|||gs;
+
+    # convert LaTeX leftovers to something reasonable
+    $x =~ s|\\mu|µ|gs;
+    $x =~ s|\\acute\{a\}|á|gs;
+    $x =~ s|\\times| x |gs;
+    $x =~ s|\\:| |gs;
+    $x =~ s|(?<!\\)\^\{([^\{\}]+)\}|<sup>$1</sup>|gs if $x =~ /\$/;
+    $x =~ s|(?<!\\)\^(\w)|<sup>$1</sup>|gs if $x =~ /\$/;
+    $x =~ s|(?<!\\)_\{([^\{\}]+)\}|<sub>$1</sub>|gs if $x =~ /\$/;
+    $x =~ s|(?<!\\)_(\w)|<sub>$1</sub>|gs if $x =~ /\$/;
+    $x =~ s/!\\/\\/g;  # Backslash escape
+    $x =~ s|\$||gs;
+    $x =~ s|<dollari>|\$|gs;
+    $x =~ s|<ampersandi>|&|gs;
+    $x =~ s|\\pm |±|gs;
+    $x =~ s|\\isotope\{(\d+)\}\{(\w+)\}|<sup>$1</sup>$2|gs;
+    $x =~ s/\\[a-z]+(\[[^]]+\])*(\{[^}]+\})*//gsi;  # most LaTeX macros
+    $x =~ s/\\{/{/gs;
+    $x =~ s/\\}/}/gs;
+    $x =~ s%====%_%g;
+
+    return $x;
+}
+
+sub html_para {
+    my $x = &html_format;
+    return '' if $x =~ /^\s*$/s;
+    my $prepara = $para_started ? '' : '<p>';
+    return "$prepara$x</p>";
+}
+
+###
+### TeX Special Character Escaping
+###
+
+sub tex_esc_verbatim {
+    my ($x) = @_;
+    local ($1,$2);
+    $x =~ s/([\&])/\\$1/g;
+    return $x;
+    #$x =~ s/\\/\$\\backslash\$/g;  More useful to permit customization
+    $x =~ s/([\#\$\%\&\_\{\}])/\\$1/g;
+    $x =~ s/([~^])/\\$1\{\}/g;
+    $x =~ s/!\\/\$\\backslash\$/g;
+    return $x;
+}
+
+sub tex_esc {
+    my ($x) = @_;
+    local ($1,$2);
+    $x =~ s/([\#\%\&\_\{\}])/\\$1/g;  # \$ is needed for math
+    $x =~ s/([~^])/\\$1\{\}/g;
+    $x =~ s/!\\/\$\\backslash\$/g;
+    return $x;
+}
+
+sub tex_esc_tag {
+    return "\\".$_[0].'^^^^'.tex_esc($_[1]).'````';
+}
+
+sub tex_esc_tt {
+    my ($x) = @_;
+    local ($1,$2);
+    #warn "escaping [$x]";
+    $x =~ s/([_\$\{\}\#])/\\$1/g;  # \&\%
+    $x =~ s/\[/~~~~/g;
+    $x =~ s/\]/\$\$\$\$/g;
+    $x =~ s/</::::/g;
+    $x =~ s/>/;;;;/g;
+    #$x =~ s/([~^])/\\$1\{\}/g;
+    #$x =~ s/!\\/\$\\backslash\$/g;
+    #warn "escaped [$x]";
+    return $x;
+}
+
+sub tex_esc_tt_tag {
+    return "\\".$_[0].'^^^^'.tex_esc_tt($_[1]).'````';
+}
+
+sub tex_format_func {
+    my ($ret, $func, $args) = @_;
+    warn "func($func)\n";
+    $ret = tex_esc_tt($ret);
+    $func = tex_esc_tt($func);
+    $args = tex_esc_tt($args);
+    return '\\emph^^^^' . $ret . $func . '(' . $args . ")````\\index^^^^$func\@\\emph{$func()}````";
+}
+
+sub tex_format_email {
+    my ($uid, $dom) = @_;
+    warn "email uid($uid) dom($dom)\n";
+    $uid = tex_esc_tt($uid);
+    $dom = tex_esc_tt($dom);
+    $uid =~ s|\.|''''|g;
+    $dom =~ s|\.|''''|g;
+    return "\\texttt^^^^$uid\@$dom````\\index^^^^$uid\@$dom````";
+}
+
+sub tex_format_url {
+    my ($url, $what) = @_;
+    return $url if $not_a_path{$url};
+    warn "url($url) $what\n";
+    $url = tex_esc_tt($url);
+    $url =~ s|\.|''''|g;
+    $url =~ s|/|""""|g;
+    return '\\texttt^^^^' . $url . '````';
+}
+
+sub tex_format_country_url {
+    my ($url, $cc, $what) = @_;
+    #warn "url($url) cc($cc) $what";
+    return $url if $not_a_country{$cc};
+    return $url if $not_a_path{$cc};
+    warn "url($url) cc($cc) $what\n";
+    return tex_format_url($url);
+}
+
+sub tex_format_path {
+    my ($path,$what) = @_;
+    return $path if $not_a_path{$path};
+    return $path if $path=~m|^[0-9/.,-]+$|s;  # Avoid pure numbers like 12/34 or 1.2
+    warn "path($path) $what\n";
+    $path = tex_esc_tt($path);
+    $path =~ s|\.|''''|g;
+    $path =~ s|/|""""|g;
+    return '\\texttt^^^^' . $path . '````';
+}
+
+sub tex_format_ip {
+    my ($path,$what) = @_;
+    return $path if $not_a_path{$path};
+    return $path if $path=~m|^\d+\.\d+$|s;       # Avoid pure numbers like 1.2
+    return $path if $path=~m|^\d+\.\d+\.\d+$|s;  # Avoid pure numbers like 1.2.3
+    warn "ip($path) $what\n";
+    $path = tex_esc_tt($path);
+    $path =~ s|\.|''''|g;
+    $path =~ s|/|""""|g;
+    return '\\texttt^^^^' . $path . '````';
+}
+
+sub tex_format_ref {
+    my ($ref) = @_;
+    #$ref =~ s/^[+*~]//; $ref =~ s/[+*~]$//;
+    $ref =~ s/^\\[a-z]+\^\^\^\^(.*?)````/$1/gsi;
+    return "\\index^^^^$ref````";
+}
+
+sub tex_esc_all {
+    my ($x) = @_;
+    $x = tex_esc_tt($x);
+    $x =~ s|\.|''''|g;
+    $x =~ s|/|""""|g;
+    return $x;
+}
+
+sub tex_biblio {
+    my ($bibref) = @_;
+    return '['.$biblio.']' if $not_a_path{$biblio};
+    return '\\cite^^^^'.$bibref.'````\\index^^^^'.$bibref.'````';
+}
+
+sub tex_format {
+    my $x = join ' ', @_;
+    return "\n" unless length $x;
+    local ($1,$2,$3,$4,$5,$6,$7,$8,$9);
+
+    $x =~ s%<<e:\s*(.*?)>>%tex_esc_all($1)%gsex;
+    $x =~ s/\(\*\*\*(.*?)\)/push(@todo, $1),''/ges;
+
+    #warn "--[$x]--";
+
+    if ($pdflag{'autoformat'} == 1) {
+	# function and email detection
+	#       1        12            2 3           3  4             4  5         5
+	$x =~ s{(\A|\s|\()([a-z0-9_:]+=)?([a-z0-9_:]+)\(([a-z0-9_:, ]*)\)([,.!?\)]?)(?=\s|\Z)}{$1.tex_format_func($2,$3,$4).$5}gisex;
+	#       1           12            2  3            34           4
+	$x =~ s{(\A|\s|\(|\<)([a-z0-9_.-]+)\@([a-z0-9_.-]+)([,.!?\)\>]?)(?=\s|\Z)}{$1.tex_format_email($2,$3).$4}gisex;
+	
+	# URL and domain name detection
+	#       1        12                                    23         3
+	$x =~ s{(\A|\s|\()([a-z]+://[a-z0-9][a-z0-9_./?&=+%\#-]+)([,.!?\)]?)(?=\s|\Z)}{$1.tex_format_url($2,"proto2://$3/").$3}gisex;
+	#       1        12                                            23         3
+	$x =~ s{(\A|\s|\()(www\.[a-z0-9_-]+\.[a-z0-9][a-z0-9_./?&=+%-]+)([,.!?\)]?)(?=\s|\Z)}{$1.tex_format_url($2,'www').$3}gisex;
+	#       1        12                                            23         3
+	$x =~ s{(\A|\s|\()(ftp\.[a-z0-9_-]+\.[a-z0-9][a-z0-9_./?&=+%-]+)([,.!?\)]?)(?=\s|\Z)}{$1.tex_format_url($2,'ftp').$3}gisex;
+	#       1        12                                 3                   3 24         4
+	$x =~ s{(\A|\s|\()([a-z0-9][a-z0-9_.-]+[a-z0-9]\.com(/[a-z0-9_./?&=+%-]+)?)([,.!?\)]?)(?=\s|\Z)}{$1.tex_format_url($2,'com').$4}gisex;
+	$x =~ s{(\A|\s|\()([a-z0-9][a-z0-9_.-]+[a-z0-9]\.net(/[a-z0-9_./?&=+%-]+)?)([,.!?\)]?)(?=\s|\Z)}{$1.tex_format_url($2,'net').$4}gisex;
+	$x =~ s{(\A|\s|\()([a-z0-9][a-z0-9_.-]+[a-z0-9]\.org(/[a-z0-9_./?&=+%-]+)?)([,.!?\)]?)(?=\s|\Z)}{$1.tex_format_url($2,'org').$4}gisex;
+	
+	#       1        12                              3          34                   4 25         5
+	$x =~ s{(\A|\s|\()([a-z0-9][a-z0-9_.-]+[a-z0-9]\.([a-z][a-z])(/[a-z0-9_./?&=+%-]+)?)([,.!?\)]?)(?=\s|\Z)}{$1.tex_format_country_url($2,$3,"cc_url($5)").$5}gisex;
+	#warn "==[$x]==";
+	
+	# file path detection
+	#       1        12                                23         3
+	$x =~ s{(\A|\s|\()(~?[a-z0-9_./-]*\.[a-z][a-z0-9_]*?)([,.!?\)]?)(?=\s|\Z)}{$1.tex_format_path($2,"path1($3)").$3}gisex;
+	#       1        12                            23         3
+	$x =~ s{(\A|\s|\()(~?[a-z0-9_.-]*/[a-z0-9_./-]*?)([,.!?\)]?)(?=\s|\Z)}{$1.tex_format_path($2,"path2($3)").$3}gisex;
+	
+	#       1        12                   23         3    URN detect
+	$x =~ s{(\A|\s|\()(urn:[a-z0-9_./:-]*?)([,.!?\)]?)(?=\s|\Z)}{$1.tex_format_path($2,"urn($3)").$3}gisex;
+	
+	#       1        12             23         3
+	$x =~ s{(\A|\s|\()(\d+\.[\d./*]+)([,.!?\)]?)(?=\s|\Z)}{$1.tex_format_ip($2,"ip($3)").$3}gisex;
+    }
+    #warn "..[$x]..";
+    
+    $x =~ s|\*(\S.*?\S)\*|\\textbf^^^^$1````|gs;  # bold
+    $x =~ s{(\A|\s|\()\+([a-z].*?[\w.])\+}{$1\\emph^^^^$2````}gsi;  # italic
+    $x =~ s|~([/\#\$\w-].*?[\w\)\}:])~|tex_esc_tt_tag('texttt', $1)|gsex; # computer output
+    #$x =~ s|\+(\w.*?\w)\+|\\textsf^^^^$1````|gs;  # command
+    #$x =~ s|!(\w.*?\w)!|\\textsf^^^^\\emph^^^^$1````````|gs;  # replaceable
+    $x =~ s%<<tt:\s*(.*?)>>%tex_esc_tt_tag('texttt', $1)%gsex;
+    $x =~ s%<<italic:\s*(.*?)>>%tex_esc_tag('emph', $1)%gsex;
+    $x =~ s%<<bold:\s*(.*?)>>%tex_esc_tag('textbf', $1)%gsex;
+    $x =~ s%<<seeix:\s*(\S[^:>]*):\s*(\S[^>]*)>>%"\\ref^^^^$1```` $2".tex_format_ref($2)%gsex;  # Combined index and ref
+    $x =~ s%<<see:\s*(\S[^>]*)>>%'\\ref{' . fold_label($1) . '}'%gse;
+    $x =~ s%<<ix:\s*(\S[^>]*)>>%$1.tex_format_ref($1)%gsex;  # index entry
+    $x =~ s%<<ixx:\s*(\S[^>]*)>>%tex_format_ref($1)%gsex;  # hidden index entry
+    $x =~ s%<<ref:\s*([^:]+): (.*?)>>%$2%gs;   # *** should do proper ref
+    $x =~ s%([a-z])-se(?![a-z0-9])%$1\\hifen se%gi;          # Portuguese ortography "faz-se"
+
+    $x =~ s|\[(\w.*?[\w.])\]|tex_biblio($1)|gsex;  # biblio refs
+
+    #warn "BEFORE($x)" if $x =~ /sensor/;
+    #$x =~ s|(\\[a-z]+)\{(.*?)\}|$1^^^^$2````|g;
+
+    #       1        12   2  3       3  4          4
+    $x =~ s%(\A|\s|\()(\w+)\{([^\}]*?)\}([:,.!?\)]*)(?=\s|\Z)%$1$2\\\{$3\\\}$4%gs;
+    $x =~ s%(\A|\s|\()(\w+)\[([^\]]*?)\]([:,.!?\)]*)(?=\s|\Z)%$1$2\\\[$3\\\]$4%gs;
+    
+    if ($fn_style) {
+	$x =~ s%<<footnote:\s*(.*?)\s*>>%\\footnote{$1}%gs;
+    } else {
+	$x =~ s%<<footnote:\s*(.*?)\s*>>%%gs;
+    }
+    $x =~ s%<<label:\s*(.*?)\s*>>%\\label{$1}%gs;
+    $x =~ s%<<link:(.*?)(:\s+(.*?))?\s*>>%defined($3)?$3:$1%gsex;
+    $x =~ s%<<(\S*?)(\.((gif)|(jpe?g)|(svg)|(png)|(e?ps)))>>%
+    	\\begin{figure}[$tex_flt_place]$includegraphics\{$1\}\\end{figure}%gs;
+    $x =~ s%(</?[a-z][^>]*?/?>)%tex_esc_tt_tag('texttt', $1)%gsexi;  # <tag>
+    # \\ means line break but just by passing it thru LaTeX will do the right thing
+    $x =~ s|\^\^\^\^\^\^\^\^RAWTEX: (.*?)~~~~~~~~|unhexit($1)|gse;
+    $x =~ s|\^\^\^\^\^\^\^\^RAWDBX: (.*?)~~~~~~~~||gse;
+    $x =~ s|\^\^\^\^\^\^\^\^RAWHTML: (.*?)~~~~~~~~||gse;
+    
+    # Late undo escaping on some special characters
+    $x =~ s|\^\^\^\^|{|g;
+    $x =~ s|````|}|g;
+    $x =~ s|::::|<|g;
+    $x =~ s|;;;;|>|g;
+    $x =~ s|~~~~|[|g;
+    $x =~ s|\$\$\$\$|]|g;
+    $x =~ s|''''|.|g;
+    $x =~ s|""""|/|g;
+    #       vvvvvvv------ negative lookbehind for backslash
+    $x =~ s/(?<!\\)([\#\%\&])/\\$1/g;  # \$ \{ \} \_ are needed for math. Be sure not to double esc.
+    $x =~ s/(?<!\\)_/\\_/g if $x !~ /\$/;
+    $x =~ s/(?<!\\)\^/\\^\{\}/g if $x !~ /\$/;
+    $x =~ s/!\\/\$\\backslash\$/g;  # special escape for backslash itself
+
+    # Index designated words (this gets pretty inefficient when there are hundreds of words)
+    #warn "Start indexing";
+    my $w;
+    for $w (@ix) {
+	#warn "  Index [$w]";
+	# Regexs gets recompiled every single time. Tough.
+	if (1) {
+	    $x =~ s/\\((emph)|(texttt)|(textbf))\{$w\}/\\$1\{$w\}\\index\{$ix{$w}\}/g;
+	    $x =~ s/(\A|\s|\()$w([,.!?\)]?)(?=\s|\Z)/$1$w\\index\{$ix{$w}\}$2/g;
+	} else {
+	    $x =~ s/\\((emph)|(texttt)|(textbf))\{$w\}/"\\$1\{$w\}".debug_ix($w)/ge;
+	    $x =~ s/(\A|\s|\()$w([,.!?\)]?)(?=\s|\Z)/$1.$w.debug_ix($w).$2/ge;
+	}
+    }
+    #warn "End indexing";
+    return $x;
+}
+
+sub debug_ix {
+    my ($w) = @_;
+    my $r = "\\index\{$ix{$w}\}";
+    warn "word($w) ix($r)";
+    return $r;
+}
+
+sub tex_para {
+    return &tex_format . "\n\n";
+}
+
+sub para {
+    print DBX   &dbx_para  . "\n\n";
+    print HTML  &html_para . "\n\n";
+    print HTML2 &html_para . "\n\n";
+    print TEX   &tex_para;
+    $para_started = 0;
+}
+
+# sub format {
+#     if (!$para_started) {
+# 	print DBX   "<para>";
+# 	print HTML  "<p>";
+# 	print HTML2 "<p>";
+#     }
+#     $para_started = 1;
+#     print DBX   &dbx_format  . "\n\n";
+#     print HTML  &html_format . "\n\n";
+#     print HTML2 &html_format . "\n\n";
+#     print TEX   &tex_format;
+# }
+
+###
+### Image handling
+###
+
+sub filenewer {
+    my ($a, $b) = @_;
+    my $a_m = (stat $a)[9] + 0;
+    my $b_m = (stat $b)[9] + 0;
+    #warn "filenewer a($a)=$a_m b($b)=$b_m";
+    return $a_m > $b_m;
+}
+
+sub fix_dia_eps_export {
+    my ($path) = @_;
+    my $x = readall("$path.eps");
+    # Add to this table any other translations you need (open *-utf-8.eps file w/emacs)
+    $x =~ s/Ã­/í/g;    # iacute
+    $x =~ s/Ã³/ó/g;    # oacute
+    $x =~ s/Ãº/ú/g;    # uacute
+    $x =~ s/Ã§/ç/g;    # ccedil
+    $x =~ s/Ã£/ã/g;    # atilde
+    
+    #$x =~ s%/Courier-BoldOblique-latin1\n\s+/Courier-BoldOblique findfont\n.*?\ndefinefont pop\n%%gs;
+    writeall("$path.eps", $x);
+}
+
+sub extract_dia_layers {
+    my ($path,$layers) = @_;
+    my $epspath = $path.'-'.$layers;
+    if (!-r "$path.dia") {
+	warn "x-x-x-DIA file($path.dia) missing. No conversion possible for($epspath)\n";
+	return $epspath;
+    }
+
+    if ((($imggen eq 'force')
+	 || filenewer("$path.dia", "tex/$epspath.eps") && filenewer("$path.dia", "tex/$epspath.pdf"))) {
+	warn "-----Automatic conversion of DIA $path.dia to EPS $epspath.eps\n";
+	unless ($dryrun) {
+	    system('dia', '-t', 'eps-builtin', '-e', "tex/$epspath.eps", '-L', $layers, "$path.dia");
+	    fix_dia_eps_export("tex/$epspath");
+	}
+    }
+    return $epspath;
+}
+
+$gs_antialias = '-DDOINTERPOLATE -dTextAlphaBits=4 -dGraphicsAlphaBits=4';
+
+sub epstopng {
+    my ($eps, $png) = @_;
+    my $f = readall($eps);
+    my ($x, $y, $m, $n) = $f =~ m{%%BoundingBox:\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)};
+    $m -= $x;
+    $n -= $y;
+    # -r144x144
+    # Effect correct page size and translation. Especially latter is tricky: the -c flag
+    # causes some PostScript code to be evaluated before the eps file so origin is shifted.
+    $cmd = "gs -q -dSAFER -dNOPAUSE -dBATCH -sDEVICE=png256 $gs_antialias -g${m}x${n} -sOutputFile=$png -c $x neg $y neg translate -- $eps >/dev/null 2>&1";
+    warn "Command($cmd)";
+    system($cmd);
+}
+
+sub gen_img {
+    my ($path, $hint) = @_;
+    #warn "GEN($path) pwd(" . `pwd` . ") imggen($imggen)";
+    if (-r "$path.pdf"
+	&& (($imggen eq 'force')
+	    || filenewer("$path.pdf", "tex/$path.pdf"))) {
+	write_file("tex/$path.pdf", read_file("$path.pdf"));
+	#warn "wrote(tex/$path.pdf)";
+	return;
+    }
+    return if !$imggen;  # -nogen
+    if ($imggen eq 'safe') {
+	return if -r "$path.pdf";
+    }
+    if (-r "$path.dot"
+	     && (($imggen eq 'force')
+		 || filenewer("$path.dot", "tex/$path.eps") && filenewer("$path.dot", "tex/$path.pdf"))) {
+	warn "-----Automatic conversion of DOT $path.dot to PS\n";
+	system('dot', '-Tps2', "$path.dot", '-o', "tex/$path.eps") unless $dryrun;
+    } elsif (-r "$path.gp"
+	     && (($imggen eq 'force')
+		 || filenewer("$path.gp", "tex/$path.eps") && filenewer("$path.gp", "tex/$path.pdf"))) {
+	warn "-----Automatic conversion of GNUPLOT $path.gp to EPS\n";
+	# N.B. gnuplot file itself must be set up to produce EPS output
+	system("cd tex && gnuplot ../$path.gp") unless $dryrun;
+    } elsif (-r "$path.gnuplot"
+	     && (($imggen eq 'force')
+		 || filenewer("$path.gnuplot", "tex/$path.eps") && filenewer("$path.gnuplot", "tex/$path.pdf"))) {
+	warn "-----Automatic conversion of GNUPLOT $path.gnuplot to EPS\n";
+	# N.B. gnuplot file itself must be set up to produce EPS output
+	system("cd tex && gnuplot ../$path.gnuplot") unless $dryrun;
+    } elsif (-r "$path.dia"
+	     && (($imggen eq 'force')
+		 || filenewer("$path.dia", "tex/$path.eps") && filenewer("$path.dia", "tex/$path.pdf"))) {
+	warn "-----Automatic conversion of DIA $path.dia to EPS\n";
+	unless ($dryrun) {
+	    system('dia', '-t', 'eps-builtin', '-e', "tex/$path.eps", "$path.dia");
+	    fix_dia_eps_export("tex/$path");
+	}
+    } elsif (-r "$path.png"
+	     && (($imggen eq 'force')
+		 || filenewer("$path.png", "tex/$path.eps") && filenewer("$path.png", "tex/$path.pdf") && filenewer("$path.png", "tex/$path.ppm"))) {
+	warn "-----Automatic conversion of IMAGE $path.png to EPS\n";
+	system("pngtopnm $path.png >tex/$path.ppm") unless $dryrun;
+	system("cp $path.png html/i-$path.png") unless $dryrun;
+    } elsif (-r "$path.jpg"
+	     && (($imggen eq 'force')
+		 || filenewer("$path.jpg", "tex/$path.eps")
+		    && filenewer("$path.jpg", "tex/$path.pdf")
+		    && filenewer("$path.jpg", "tex/$path.ppm"))) {
+	warn "-----Automatic conversion of IMAGE $path.jpg to EPS\n";
+	system("djpeg -pnm $path.jpg >tex/$path.ppm") unless $dryrun;
+    } elsif (-r "$path.gif"
+	     && (($imggen eq 'force')
+		 || filenewer("$path.gif", "tex/$path.eps") && filenewer("$path.gif", "tex/$path.pdf") && filenewer("$path.gif", "tex/$path.ppm"))) {
+	warn "-----Automatic conversion of IMAGE $path.gif to EPS\n";
+	#system("giftopnm -pnm $path.gif >$path.ppm") unless $dryrun;
+	system("gif2ps $path.gif >tex/$path.ps") unless $dryrun;
+    }
+    if (-r "$path.ppm"
+	&& (($imggen eq 'force')
+	    || filenewer("$path.ppm", "tex/$path.eps") && filenewer("$path.ppm", "tex/$path.pdf"))) {
+	warn "-----Automatic conversion of IMAGE $path.ppm to EPS\n";
+	system("pnmtops -noturn $path.ppm >tex/$path.eps") unless $dryrun;  # output $path.eps
+    }
+    if (-r "tex/$path.ppm"
+	&& (($imggen eq 'force')
+	    || filenewer("tex/$path.ppm", "tex/$path.eps")
+	    && filenewer("tex/$path.ppm", "tex/$path.pdf"))) {
+	warn "-----Automatic conversion of IMAGE $path.ppm to EPS\n";
+	system("pnmtops -noturn tex/$path.ppm >tex/$path.eps") unless $dryrun;  # output $path.eps
+    }
+
+    if (-r "$path.eps"
+	&& (($imggen eq 'force')
+	    || filenewer("$path.eps", "tex/$path.pdf"))) {
+	warn "+++++Automatic conversion of EPS $path.eps to PDF\n";
+	my $x = readall("$path.eps");
+	if ($x !~ /^%%BoundingBox: /m && !$dryrun) {
+	    warn "++++++++Missing BoundingBox in EPS $path.eps. Running gs to determine it.\n";
+	    system "gs -q -dSAFER -dNOPAUSE -dBATCH -sDEVICE=bbox $path.eps >/dev/null 2>bbox";
+	    my $bbox = readall('bbox');
+	    if ($bbox =~ /^%%BoundingBox: /m) {
+		rename "$path.eps" => "$path-nobbox.eps";
+		$x =~ s/^(%%EndComments)/$bbox$1/m;
+		writeall("$path.eps", $x);
+	    } else {
+		warn "Determination of BoundingBox failed: $bbox";
+	    }
+	}
+	system("cd tex && epstopdf ../$path.eps") unless $dryrun;
+	warn "-----Automatic conversion of EPS $path.eps to PNG\n";
+	if (-r "html/i-$path.png") {
+		warn "++ Image already copied ++\n";
+	} else {
+		epstopng("$path.eps", "html/i-$path.png") unless $dryrun;
+	}
+	return;
+    } elsif (-r "$path.ps"
+	&& (($imggen eq 'force')
+	    || filenewer("$path.ps", "tex/$path.pdf"))) {
+	warn "+++++Automatic conversion of PS $path.ps to PDF\n";
+	system('ps2pdf', "$path.ps", "tex/$path.pdf") unless $dryrun;
+	warn "-----Automatic conversion of PS $path.ps to PNG\n";
+	if (-r "html/i-$path.png") {
+		warn "++ Image already copied ++\n";
+	} else {
+		epstopng("$path.ps", "html/i-$path.png") unless $dryrun;
+	}
+	return;
+    }
+
+    if (-r "tex/$path.eps"
+	&& (($imggen eq 'force')
+	    || filenewer("tex/$path.eps", "tex/$path.pdf"))) {
+	warn "+++++Automatic conversion of EPS tex/$path.eps to PDF\n";
+	my $x = readall("tex/$path.eps");
+	if ($x !~ /^%%BoundingBox: /m && !$dryrun) {
+	    warn "++++++++Missing BoundingBox in EPS $path.eps. Running gs to determine it.\n";
+	    system "gs -q -dSAFER -dNOPAUSE -dBATCH -sDEVICE=bbox $path.eps >/dev/null 2>bbox";
+	    my $bbox = readall('bbox');
+	    if ($bbox =~ /^%%BoundingBox: /m) {
+		rename "$path.eps" => "$path-nobbox.eps";
+		$x =~ s/^(%%EndComments)/$bbox$1/m;
+		writeall("tex/$path.eps", $x);
+	    } else {
+		warn "Determination of BoundingBox failed: $bbox";
+	    }
+	}
+	system("cd tex && epstopdf $path.eps") unless $dryrun;
+	warn "-----Automatic conversion of EPS tex/$path.eps to PNG\n";
+	if (-r "html/i-$path.png") {
+		warn "++ Image already copied ++\n";
+	} else {
+		epstopng("tex/$path.eps", "html/i-$path.png") unless $dryrun;
+	}
+	# Old way (has problem in that it rotates landscape graphics)
+	#system("cd tex && pstopnm -ppm $path.eps") unless $dryrun;  # invokes gs
+	#system("pnmtopng tex/$path.eps001.ppm >html/i-$path.png") unless $dryrun;
+	#unlink "tex/$path.eps001.ppm";  # these are huge so it behooves to rm them quickly
+	return;
+    } elsif (-r "tex/$path.ps"
+	&& (($imggen eq 'force')
+	    || filenewer("tex/$path.ps", "tex/$path.pdf"))) {
+	warn "+++++Automatic conversion of PS tex/$path.ps to PDF\n";
+	system('ps2pdf', "tex/$path.ps", "tex/$path.pdf") unless $dryrun;
+	warn "-----Automatic conversion of PS $path.ps to PNG\n";
+	if (-r "html/i-$path.png") {
+		warn "++ Image already copied ++\n";
+	} else {
+		epstopng("tex/$path.ps", "html/i-$path.png") unless $dryrun;
+	}
+	return;
+    }
+    warn "*****Missing image `tex/$path' or conversion to pdf failed ($hint) pd[$i]: $pd[$i]"
+	unless -r "tex/$path.pdf";
+}
+
+sub massage_image {
+    my ($path, $layers, $hint) = @_;
+    if ($layers) {
+	$path = extract_dia_layers($path, $layers);
+    }
+    gen_img($path, $hint);
+    if (!-r "tex/$path.pdf") {
+	warn "*****Missing image tex/$path.pdf";
+	$path = "MISSING GRAPHIC ($path)";
+    }
+    return $path;
+}
+
+%tex_img_sizes = (
+  n  => 'keepaspectratio,', # "natural"
+  'dbx90' => 'width=1.0\\textwidth,height=1.0\\textheight,keepaspectratio,',
+  'dbx80' => 'width=1.0\\textwidth,height=1.0\\textheight,keepaspectratio,',
+  'dbx70' => 'width=1.0\\textwidth,height=1.0\\textheight,keepaspectratio,',
+  'dbx60' => 'width=1.0\\textwidth,height=1.0\\textheight,keepaspectratio,',
+  'dbx50' => 'width=1.0\\textwidth,height=1.0\\textheight,keepaspectratio,',
+  'dbx40' => 'width=1.0\\textwidth,height=1.0\\textheight,keepaspectratio,',
+  'dbx30' => 'width=1.0\\textwidth,height=1.0\\textheight,keepaspectratio,',
+  'dbx20' => 'width=1.0\\textwidth,height=1.0\\textheight,keepaspectratio,',
+  'dbx10' => 'width=1.0\\textwidth,height=1.0\\textheight,keepaspectratio,',
+  1  => 'width=1.0\\textwidth,height=1.0\\textheight,keepaspectratio,',
+  15 => 'width=0.67\\textwidth,height=0.67\\textheight,keepaspectratio,',
+  2  => 'width=0.5\\textwidth,height=0.5\\textheight,keepaspectratio,',
+  3  => 'width=0.33\\textwidth,height=0.33\\textheight,keepaspectratio,',
+  4  => 'width=0.25\\textwidth,height=0.25\\textheight,keepaspectratio,',
+  8  => 'width=0.125\\textwidth,height=0.125\\textheight,keepaspectratio,',
+  80 => 'width=1.0\\textwidth,height=0.8\\textheight,keepaspectratio,',
+  90 => 'width=1.0\\textwidth,height=0.9\\textheight,keepaspectratio,',
+  );
+
+%dbx_img_sizes = (
+  n  => '', # "natural"
+  'dbx90' => 'scale="90"',  #  scalefit="1"
+  'dbx80' => 'scale="80"',
+  'dbx70' => 'scale="70"',
+  'dbx60' => 'scale="60"',
+  'dbx50' => 'scale="50"',
+  'dbx40' => 'scale="40"',
+  'dbx30' => 'scale="30"',
+  'dbx20' => 'scale="20"',
+  'dbx10' => 'scale="10"',
+  1  => 'scale="100"',
+  15 => 'scale="67"',
+  2  => 'scale="50"',
+  3  => 'scale="33"',
+  4  => 'scale="25"',
+  8  => 'scale="12.5"',
+  80 => 'scale="80"',
+  90 => 'scale="90"',
+  );
+
+%tex_units = (
+	      tw => '\\textwidth',
+	      th => '\\textheight',
+	      );
+
+sub tex_graphics {
+    my ($siz, $path) = @_;
+    return $path if $path =~ /^MISS/;
+    return qq(\\includegraphics[$siz]{$path});
+}
+
+sub tex_caption {
+    my ($caption) = @_;
+    return '' if !$caption;
+    my $tex_caption = tex_format($caption);
+    return "\\caption{\\small $tex_caption}";
+}
+
+sub image {
+    my ($path, $caption, $pos, $siz, $trim, $layers) = @_;
+    $path = massage_image($path, $layers, 'image');
+
+    my $star = '';
+    my ($w, $w_unit, $h, $h_unit, $k, $label, $tex_graphics, $tex_caption, $dbx_siz);
+    $pos ||= $tex_flt_place;
+    if ($pos =~ s/\*//) {
+	#warn "POS HAS A STAR pos($pos)";
+	$star = '*';
+    }
+    $siz = 1 if !$siz;
+    if (($w, $w_unit, $h, $h_unit, $stretch) = $siz =~ /^(\d*)(.*?)X(\d*)(.*?)(S?)$/) {
+	$siz = '';
+	if ($w) {
+	    $w_unit = $tex_units{$w_unit} if $tex_units{$w_unit};
+	    $siz .= "$w$w_unit,";
+	}
+	if ($h) {
+	    $h_unit = $tex_units{$w_unit} if $tex_units{$h_unit};
+	    $siz .= "$w$w_unit,";
+	}
+	$siz .= 'keepaspectratio,' unless $stretch;
+	chop $siz;
+    } else {
+	$dbx_siz = $dbx_img_sizes{$siz};
+	$siz = $tex_img_sizes{$siz};
+	warn "Bad size spec `$siz' in `<<img: $path\[...\]: $caption>>'" unless $siz;
+    }
+    $siz ||= $tex_img_sizes{1};
+    if ($trim) {
+	#warn "TRIM TRIM TRIM [$trim]";
+	my ($trim_left, $trim_bot, $trim_right, $trim_top) =
+	    $trim =~ /L(-?\d+)B(-?\d+)R(-?\d+)T(-?\d+)/;
+	$siz .= "trim=$trim_left $trim_bot $trim_right $trim_top,";
+    }
+    #chop $siz;
+    $siz .= 'clip';
+    $label = fold_label($path);
+    $tex_graphics = tex_graphics($siz, $path);
+    ++$n_images;
+    ++$cap_n_images;
+    print TEX "\\message{===FIG $label}";
+    if ($caption) {
+	my $dbx_caption = dbx_format($caption);
+	++$img_no;
+	print DBX <<DBX;
+<figure id="$label" label="$img_no">
+  <title>$dbx_caption</title>
+  <mediaobject>
+    <imageobject><imagedata fileref="$path.eps" $dbx_siz/></imageobject>
+  </mediaobject>
+</figure>
+DBX
+;
+	my $html_caption = html_format($caption);
+	print HTML qq(<p><a name="$label"><img src="i-$path.png"></a><br>Fig-$img_no: $html_caption</p>);
+	print HTML2 qq(<p><a name="$label"><img src="i-$path.png"></a><br>Fig-$img_no: $html_caption</p>);
+	$tex_caption = tex_caption($caption);
+	if ($pos =~ /^W(\d+)/) {
+	    print TEX qq(\\begin{floatingfigure}{${1}cm}$tex_graphics$tex_caption\\vspace{3mm}\\label{fig:$label}\\end{floatingfigure});
+	} else {
+	    print TEX qq(\\begin{figure$star}[$pos]\\centering$tex_graphics$tex_caption\\label{fig:$label}\\end{figure$star});
+	}
+    } else {
+	print DBX qq(<mediaobject><imageobject><imagedata fileref="$path.eps" $dbx_siz/></imageobject></mediaobject>);
+	print HTML qq(<p><a name="$label"><img src="i-$path.png"></a></p>);
+	print HTML2 qq(<p><a name="$label"><img src="i-$path.png"></a></p>);
+	if ($pos =~ /^W(\d+)/) {
+	    print TEX qq(\\begin{floatingfigure}{${1}cm}$tex_graphics\\end{floatingfigure});
+	} elsif ($pos eq 'R') {
+	    print TEX qq($tex_graphics\n);
+	} else {
+	    print TEX qq(\\begin{figure$star}[$pos]\\centering$tex_graphics \\end{figure$star}\n);
+	}
+    }
+}
+
+$doubleimage_half_siz = 'width=0.5\textwidth,height=0.5\textheight,keepaspectratio';
+sub doubleimage {
+    my ($label, $caption, $pos, $path1, $layers1, $legend1, $path2, $layers2, $legend2) = @_;
+    #warn "pos1($pos)";
+    $path1 = massage_image($path1, $layers1, 'doubleimage 1');
+    $path2 = massage_image($path2, $layers2, 'doubleimage 2');
+    
+    my ($w, $w_unit, $h, $h_unit, $k, $tex_graphics, $tex_caption);
+    $pos ||= $tex_flt_place;
+    $label = fold_label($label);
+    my $tex_graphics1 = tex_graphics($doubleimage_half_siz, $path1);
+    my $tex_graphics2 = tex_graphics($doubleimage_half_siz, $path2);
+
+    my $dbx_caption = dbx_format($caption);
+    ++$n_images;
+    ++$cap_n_images;
+    ++$img_no;
+    print TEX "\\message{===DBLFIG $label}";
+    print DBX <<DBX;
+<figure id="$label" label="$img_no">
+  <title>$dbx_caption</title>
+  <mediaobject>
+    <imageobject><imagedata fileref="i-$path1.png"/></imageobject>
+    <imageobject><imagedata fileref="i-$path2.png"/></imageobject>
+  </mediaobject>
+</figure>
+DBX
+;
+    my $html_caption = html_format($caption);
+    my $html_dual_fig = <<HTML;
+<table border=0>
+<tr><td><img src="i-$path1.png"><br>(a) $legend1</td>
+    <td><img src="i-$path2.png"><br>(b) $legend2</td></tr>
+<tr><td colspan=2><a name="$label">Fig-$img_no</a>: $html_caption</td></tr>
+</table>
+HTML
+;
+    print HTML $html_dual_fig;
+    print HTML2 $html_dual_fig;
+
+    $tex_caption = tex_caption($caption);
+    my $tex_dbl_subfig = qq(\\mbox{\\subfigure[\\small $legend1]{$tex_graphics1}\\quad\\subfigure[\\small $legend2]{$tex_graphics2}});
+    if ($pos =~ /^W(\d+)/) {
+	print TEX qq(\\begin{floatingfigure}{${1}cm}$tex_dbl_subfig$tex_caption\\vspace{3mm}\\label{fig:$label}\\end{floatingfigure});
+    } else {
+	print TEX qq(\\begin{figure}[$pos]\\centering$tex_dbl_subfig$tex_caption\\label{fig:$label}\\end{figure});
+    }
+}
+
+###
+### Preamble and Output phase
+###
+
+$cvsid =~ s/\$//g;
+$dbx_credit = '';
+for $x (@credits) {
+    next if $x =~ /^\s*$/;
+    $y = dbx_para_raw($x);
+    $dbx_credit .= qq(<othercredit><surname>$y</surname></othercredit>\n);
+}
+
+if ($history_ena eq '1:') {
+    $dbx_history = '<revhistory>';
+    for ($j=0; $j<$#history; $j+=4) {
+	$x = $history[$j+3];
+	$dbx_revdesc = dbx_para_raw($x);
+	$dbx_revdesc =~ s%^\s+\*%</para><para>%gm;
+	$x = $history[$j+2];
+	$dbx_auth = dbx_entity_escape($x);  # Lib simplified DocBook forbids markup
+	$dbx_history .= <<HISTORY;
+<revision>
+<revnumber>$history[$j]</revnumber>
+<date>$history[$j+1]</date>
+<authorinitials>$dbx_auth</authorinitials>
+<revdescription>
+<para>
+$dbx_revdesc
+</para>
+</revdescription>
+</revision>
+HISTORY
+;
+    }
+    $dbx_history =~ s%<para>\s*</para>%%g;
+    $dbx_history .= '</revhistory>';
+} else {
+    $dbx_history = '';
+}
+
+@dbx_authors = split /(?:,?\s+and\s+)|\n/, $author;
+for $a (@dbx_authors) {
+    $dbx_author .= '<editor><surname>' . dbx_format($a) . "</surname></editor>\n";
+}
+
+$author_squash = $author;
+$author_squash =~ s/ä/a/g;
+
+#<?xml-stylesheet type="text/xsl" href="../../src/xsl/_html.xsl"?>
+#<affiliation><orgname></orgname></affiliation>
+print DBX <<DBX;
+$dbxpreamble
+<!-- WARNING: Do not edit! This file was generated on $curdate from original
+     PlainDoc (.pd) source using pd2tex of Sampo Kellomaki (sampo\@iki.fi).
+     All edits to this file will be lost when it is generated next time. -->
+<!-- \$Id\$ -->
+<!-- Original id: $cvsid -->
+<!-- Author: $author_squash -->
+<article id="$sec_id[0]" class="specification" status="draft">
+
+<articleinfo>
+<title>$doctitle</title>
+<date>$curdate</date>
+<edition role="Version">$version</edition>
+<authorgroup>
+$dbx_author
+$dbx_credit
+</authorgroup>
+<abstract>
+$dbx_abstract
+</abstract>
+$additionalarticleinfodbx
+$dbx_history
+</articleinfo>
+DBX
+    ;
+
+###
+
+#warn "doctitle($doctitle)";
+
+print HTML $htmlpreamble ? $htmlpreamble : <<HTML unless $nohtmlpreamb;
+<title>$doctitle</title>
+<link type="text/css" rel="stylesheet" href="$base.css">
+<body bgcolor=white>
+<H1>$doctitle</H1>
+HTML
+    ;
+print HTML2 <<HTML unless $nohtmlpreamb;
+<title>$doctitle</title>
+<body bgcolor=white>
+<link type="text/css" rel="stylesheet" href="$base.css">
+<H1>$doctitle</H1>
+HTML
+    ;
+
+if ($author && $author ne 'N.N.') {
+    $html_author = html_format($author);
+    print HTML "<i>$html_author</i>\n";
+    print HTML2 "<i>$html_author</i>\n";
+}
+
+if ($abstract) {
+    print HTML "<blockquote>$html_abstract</blockquote>\n";
+    print HTML2 "<blockquote>$html_abstract</blockquote>\n";
+}
+
+# See also: \overlay{image} for background image, or \background{color}, or \emblema{logoimg}
+# in pdfscreen section (sec 4.8, p. 80 of lshort.pdf).
+
+#$tex_1st = tex_para($first_page);
+#warn "###".$first_page."###\n";
+#warn "###".$tex_1st."###\n";
+
+if ($makeindex) {
+    $tex_index = ($makeindex == 2) ? "\\usepackage{makeidx,showidx}" : "\\usepackage{makeidx}";
+    $tex_index .= "\n\\makeindex\n";
+}
+
+# N.B. Add \\hbadness=10000 to disable 90% of the warnings
+
+print TEX <<LATEX;
+% Generated on $curdate using pd2tex of Sampo Kellomaki (sampo\@iki.fi)
+% Do not edit this file: your changes will be lost next time this is generated.
+LATEX
+    ;
+print TEX $texpreamble ? $texpreamble : <<LATEX;
+$tex_doc_class
+\\usepackage{floatflt}
+\\usepackage{pslatex}
+\\usepackage[T1]{fontenc}
+\\usepackage[latin1]{inputenc}
+\\usepackage{enumerate}
+\\usepackage{amssymb}
+\\usepackage{subfigure}
+\\usepackage{longtable}
+\\usepackage[bookmarks=true,bookmarksnumbered=true,pdftex]{hyperref}
+$vmargin
+$pagestyle
+\\usepackage[pdftex]{color,graphicx}
+\\pdfpagewidth=\\paperwidth
+\\pdfpageheight=\\paperheight
+\\hbadness=$hbadness
+\\newcommand{\\hifen}{\\discretionary{-}{-}{-}}
+$tex_index
+\\author{$author}
+\\title{$doctitle}
+$moretexpreamble
+$linespace
+$moremoretexpreamble
+\\begin{document}
+$maketitle
+LATEX
+    ;
+
+print TEX "\\begin{slide}\n" if $class eq 'slide';
+
+sec();  # recursively processes the entire document
+
+print DBX qq(</article>\n);
+print TEX "\\end{slide}\n" if $class eq 'slide';
+print TEX qq(\\end{document}\n);
+close TEX;
+close DBX;
+close HTML;
+close HTML2;
+
+if ($html1) {  # ToC for monolith document
+    open HTML, ">html/$base-toc1.html" or die "Can't open $base-toc1.html for writing: $!";
+    print HTML <<HTML;
+<title>$doctitle TOC</title>
+<body bgcolor=white>
+<H3>Table of Contents (monolithic)</H3>
+HTML
+    ;
+    for ($i = 0; $i <= $#html_toc_title; ++$i) {
+	print HTML qq(<a href="$html1\#$html_toc_link[$i]" target=c>$html_toc_title[$i]</a><br>\n);
+    }
+    close HTML;
+}
+
+if ($html2) {  # ToC for multipage document
+    open HTML2, ">html/$base-toc.html" or die "Can't open $base-toc.html for writing: $!";
+    print HTML2 <<HTML2;
+<title>$doctitle TOC</title>
+<body bgcolor=white>
+<H3>Table of Contents</H3>
+HTML2
+    ;
+    for ($i = 0; $i <= $#html_toc_title; ++$i) {
+	print HTML2 qq(<a href="$html2_toc_link[$i]" target=c>$html_toc_title[$i]</a><br>\n);
+    }
+    close HTML2;
+}
+
+if ($pipemode) {
+    warn "Waiting for pdflatex process (pid $texpid) to complete.\n";
+    waitpid $texpid,0;
+    if ($?) {
+	warn "### pdflatex error. Exit value=".($? >> 8).", sig=".($? & 0x7f).".\n";
+    } else {
+	warn "--- pdflatex completed with success.\n";
+    }
+}
+
+warn "Total figures: $n_images\nFigures in last chapter: $cap_n_images\n";
+
+exit if $nopdf;
+
+### Post processing to generate the pdf document
+
+# *** need to check and process picture dependencies here!
+
+chdir 'tex';
+unless ($dryrun || $pipemode) {
+    system ('pdflatex', '-file-line-error-style', "../$base.tex");
+    if ($makeindex) {
+	# Fix spurious whitespace in formatted index entries generated from table
+	$idx = readall("$base.idx");
+	$idx =~ s/\@\\((emph)|(texttt)|(textbf))\s+\{/\@\\$1\{/g;
+	writeall("$base.idx", $idx);
+	system ('makeindex', '-q', "$base.idx");
+    }
+} 
+system ('acroread', "$base.pdf") if $acroread;
+
+sub readall {
+    my ($f) = @_;
+    open X, "<$f" or die "Cant read $f: $!";
+    my $x = <X>;
+    close X;
+    return $x;
+}
+
+sub writeall {
+    my ($f,$x) = @_;
+    open X, ">$f" or die "Cant write $f: $!";
+    print X $x;
+    close X;
+}
+
+#EOF

@@ -1,0 +1,12 @@
+pkg dnsproxy-1.15
+
+url http://www.wolfermann.org/dnsproxy-1.15.tar.gz
+
+build \
+    tar xf dnsproxy-1.15.tar.gz
+    cd dnsproxy-1.15
+    ./configure --prefix=/usr --mandir=/usr/share/man \
+        --with-native-libevent
+    make
+    mkdir -p $BPM_ROOT/usr/sbin $BPM_ROOT/usr/share/man/cat1
+    make prefix=$BPM_ROOT/usr mandir=$BPM_ROOT/usr/share/man install

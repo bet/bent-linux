@@ -1,0 +1,13 @@
+pkg fnord-1.10
+
+url http://www.fefe.de/fnord/fnord-1.10.tar.bz2
+    http://www.fefe.de/fnord/fnord-1.10.tar.bz2.sig
+
+build \
+    tar xf fnord-1.10.tar.bz2
+    cd fnord-1.10
+    make
+    mkdir -p $BPM_ROOT/usr/bin
+    cp fnord fnord-cgi fnord-idx $BPM_ROOT/usr/bin/
+    mkdir -p $BPM_ROOT/usr/share/doc/fnord-1.10
+    cp README $BPM_ROOT/usr/share/doc/fnord-1.10/

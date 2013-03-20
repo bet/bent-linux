@@ -1,0 +1,14 @@
+pkg aescrypt-0.7
+
+url http://easynews.dl.sourceforge.net/sourceforge/aescrypt/aescrypt-0.7.tar.gz
+
+build \
+    tar xf aescrypt-0.7.tar.gz
+    cd aescrypt-0.7
+    ./configure --prefix=/usr
+    make '-s'
+    mkdir -p $BPM_ROOT/usr/bin
+    mv aescrypt aesget $BPM_ROOT/usr/bin/
+    mkdir -p $BPM_ROOT/usr/share/doc/aescrypt-0.7
+    mv README.html $BPM_ROOT/usr/share/doc/aescrypt-0.7/
+    strip $BPM_ROOT/usr/bin/*

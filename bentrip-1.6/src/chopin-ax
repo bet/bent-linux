@@ -1,0 +1,35 @@
+#!/usr/bin/perl -w
+use strict;
+use POSIX qw(strftime);
+
+my $cddb_id = "57115f06";
+my $album = "PianoConcertos-Ax";
+my $artist = "Chopin";
+my $genre = "classical";
+my $encode_date = strftime("%Y-%m-%d", localtime);
+
+my @titles = <DATA>;
+chomp @titles;
+
+for my $i (0..$#titles) {
+    my $tracknum = $i+1;
+    system "vorbiscomment",
+           "-w",
+	   "-t", "cddb_id=$cddb_id",
+	   "-t", "genre=$genre",
+	   "-t", "encode_date=$encode_date",
+	   "-t", "title=$titles[$i]",
+	   "-t", "album=$album",
+	   "-t", "artist=$artist",
+	   "-t", "tracknumber=$tracknum",
+	   sprintf("%2.2d.ogg", $tracknum),
+	   sprintf("%3.3d-%s.ogg", $tracknum, $titles[$i]);
+}
+
+__DATA__
+ConcertoNo1op11AllegroMaestoso
+ConcertoNo1op11RomanzeLarghetto
+ConcertoNo1op11RondoVivace
+ConcertoNo2op21Maestoso
+ConcertoNo2op21Larghetto
+AllegroVivace

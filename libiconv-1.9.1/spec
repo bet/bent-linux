@@ -1,0 +1,12 @@
+pkg libiconv-1.9.1
+
+url http://mirrors.kernel.org/gnu/libiconv/libiconv-1.9.1.tar.gz
+
+build \
+    tar xzf libiconv-1.9.1.tar.gz
+    cd libiconv-1.9.1
+    ./configure --prefix=/usr --enable-shared=no --enable-static=yes --mandir=/usr/share/man \
+        --infodir=/usr/share/info --sysconfdir=/etc --disable-nls
+    make
+    make DESTDIR=$BPM_ROOT install
+    rm $BPM_ROOT/usr/lib/lib*.so*

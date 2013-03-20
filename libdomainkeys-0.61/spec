@@ -1,0 +1,17 @@
+pkg libdomainkeys-0.61
+
+url http://download.sourceforge.net/domainkeys/libdomainkeys-0.61.tar.gz
+
+build \
+    tar xzf libdomainkeys-0.61.tar.gz
+    cd libdomainkeys-0.61
+    make
+    mkdir -p $BPM_ROOT/usr/bin
+    mv dktest dknewkey $BPM_ROOT/usr/bin/
+    mkdir -p $BPM_ROOT/usr/lib
+    mv libdomainkeys.a $BPM_ROOT/usr/lib/
+    mkdir -p $BPM_ROOT/usr/include
+    mv domainkeys.h $BPM_ROOT/usr/include/
+    mkdir -p $BPM_ROOT/usr/share/doc/libdomainkeys
+    mv CHANGES README *.html $BPM_ROOT/usr/share/doc/libdomainkeys/
+    strip $BPM_ROOT/usr/bin/dktest

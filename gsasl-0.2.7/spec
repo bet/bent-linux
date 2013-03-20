@@ -1,0 +1,13 @@
+pkg gsasl-0.2.7
+
+url http://josefsson.org/gsasl/releases/gsasl-0.2.7.tar.gz
+    http://josefsson.org/gsasl/releases/gsasl-0.2.7.tar.gz.sig
+
+build \
+    tar xzf gsasl-0.2.7.tar.gz
+    cd gsasl-0.2.7
+    ./configure --prefix=/usr --mandir=/usr/share/man --infodir=/usr/share/info \
+        --disable-shared --disable-nls --with-html-dir=/usr/share/doc/gsasl
+    make
+    make DESTDIR=$BPM_ROOT install
+    rm -f $BPM_ROOT/usr/share/info/dir

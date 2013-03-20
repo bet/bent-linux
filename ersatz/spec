@@ -1,0 +1,19 @@
+pkg ersatz
+
+url http://hunter.apana.org.au/~cjb/Code/ersatz.tar.gz
+
+build \
+    tar xzf ersatz.tar.gz
+    cd ersatz
+    perl -pi -le 's/^#CFLAGS=/CFLAGS=-s -static/' Makefile
+    perl -pi -le 's#/usr/local/share/#/usr/share/doc/ersatz/#' ee.1
+    make
+    mkdir -p $BPM_ROOT/usr/bin
+    install -s ee $BPM_ROOT/usr/bin
+    mkdir -p $BPM_ROOT/usr/share/man/man1
+    cp ee.1 $BPM_ROOT/usr/share/man/man1/
+    mkdir -p $BPM_ROOT/usr/share/doc/ersatz
+    cp ERSATZ.keys $BPM_ROOT/usr/share/doc/ersatz/
+
+isa editor
+    emacs

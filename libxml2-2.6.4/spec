@@ -1,0 +1,11 @@
+pkg libxml2-2.6.4
+
+url ftp://xmlsoft.org/libxml2-2.6.4.tar.gz
+    
+build \
+    tar xzf libxml2-2.6.4.tar.gz
+    cd libxml2-2.6.4
+    ./configure --prefix=/usr --mandir=/usr/share/man --infodir=/usr/share/info \
+        --sysconfdir=/etc --disable-shared
+    make
+    make DESTDIR=$BPM_ROOT install

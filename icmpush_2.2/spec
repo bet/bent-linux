@@ -1,0 +1,11 @@
+pkg icmpush_2.2
+
+url http://ftp.debian.org/debian/pool/main/i/icmpush/icmpush_2.2.orig.tar.gz
+
+build \
+    tar xzf icmpush_2.2.orig.tar.gz
+    cd icmpush-2.2.orig
+    make CCFLAGS="$CFLAGS -Wall -include time.h" linuz
+    mkdir -p $BPM_ROOT/usr/bin $BPM_ROOT/usr/share/man/man8
+    make INST_DIR=$BPM_ROOT/usr/bin MAN_DIR=$BPM_ROOT/usr/share/man/man8 install
+    strip $BPM_ROOT/usr/bin/*

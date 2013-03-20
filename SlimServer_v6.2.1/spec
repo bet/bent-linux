@@ -1,0 +1,11 @@
+pkg SlimServer_v6.2.1
+
+url http://www.slimdevices.com/downloads/SlimServer_v6.2.1/SlimServer_v6.2.1.tar.gz
+
+build \
+    mkdir -p $BPM_ROOT/usr/share/slimserver
+   tar xf SlimServer_v6.2.1.tar.gz -C $BPM_ROOT/usr/share/slimserver
+   cd $BPM_ROOT/usr/share/slimserver
+   dir=`ls`
+   mv $dir/* .
+   rmdir $dir

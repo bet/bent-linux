@@ -1,0 +1,8 @@
+pkg vxargs-0.2.1
+
+url http://dharma.cis.upenn.edu/planetlab/vxargs/vxargs-0.2.1.py
+
+build \
+    mkdir -p $BPM_ROOT/usr/bin
+    mv vxargs-0.2.1.py $BPM_ROOT/usr/bin/vxargs
+    chmod 755 $BPM_ROOT/usr/bin/vxargs

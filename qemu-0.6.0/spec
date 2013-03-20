@@ -1,0 +1,7 @@
+pkg qemu-0.6.0
+
+url http://fabrice.bellard.free.fr/qemu/qemu-0.6.0-i386.tar.gz
+
+build \
+    (cd $BPM_ROOT&&tar xzf -) <qemu-0.6.0-i386.tar.gz
+    (cd $BPM_ROOT/usr; mv local/* .; rmdir local)

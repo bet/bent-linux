@@ -1,0 +1,11 @@
+pkg wireshark-0.99.5
+
+url http://www.wireshark.org/download/src/wireshark-0.99.5.tar.bz2
+
+build \
+    tar xf wireshark-0.99.5.tar.bz2
+    cd wireshark-0.99.5
+    CFLAGS=-Os LDFLAGS=-s ./configure --prefix=/usr --mandir=/usr/share/man \
+        --enable-static --disable-shared --disable-wireshark --enable-randpkt --with-ssl
+    make 'LIBS=-lz -lbind'
+    make DESTDIR=$BPM_ROOT install

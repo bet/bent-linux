@@ -1,0 +1,9 @@
+pkg bakatcha
+
+url bakatcha.c
+    bakatcha.mbox
+
+build \
+    diet gcc -Os -s -o bakatcha bakatcha.c
+    mkdir -p $BPM_ROOT/usr/bin
+    mv bakatcha $BPM_ROOT/usr/bin/

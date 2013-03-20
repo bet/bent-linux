@@ -1,0 +1,11 @@
+pkg pgpdump-0.24
+
+url ftp://pgp.iijlab.net/pub/pgp/tools/pgpdump-0.24.tar.gz
+
+build \
+    tar xf pgpdump-0.24.tar.gz
+    cd pgpdump-0.24
+    ./configure --prefix=/usr --mandir=/usr/share/man
+    make
+    mkdir -p $BPM_ROOT/usr/bin $BPM_ROOT/usr/share/man/man1
+    make prefix=$BPM_ROOT/usr mandir=$BPM_ROOT/usr/share/man install

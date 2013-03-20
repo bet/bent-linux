@@ -1,0 +1,5 @@
+path=(/usr/bin /usr/sbin /bin /sbin)
+EDITOR=jove
+PAGER=less
+LESS=-c
+fn l { ls -FC $* }

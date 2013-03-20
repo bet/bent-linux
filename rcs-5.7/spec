@@ -1,0 +1,12 @@
+pkg rcs-5.7
+
+url http://www.cs.purdue.edu/homes/trinkle/RCS/rcs-5.7.tar.Z
+
+build \
+    gzip -d <rcs-5.7.tar.Z|tar xf -
+    cd rcs-5.7
+    ./configure --prefix=/usr --with-diffutils
+    make
+    make prefix=$BPM_ROOT/usr install
+    mkdir -p $BPM_ROOT/usr/share
+    mv $BPM_ROOT/usr/man $BPM_ROOT/usr/share/

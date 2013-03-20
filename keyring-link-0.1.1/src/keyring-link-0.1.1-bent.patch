@@ -1,0 +1,46 @@
+diff -ru keyring-link-0.1.1.orig/Makefile keyring-link-0.1.1/Makefile
+--- keyring-link-0.1.1.orig/Makefile	2001-03-27 16:31:04.000000000 +0000
++++ keyring-link-0.1.1/Makefile	2005-03-17 22:30:32.000000000 +0000
+@@ -1,5 +1,5 @@
+ CFLAGS = -g -Wall -D'PACKAGE="keyring-link"'
+-LIBS = -lpisock -lcrypto
++LIBS = -lpisock -lcrypto -lm
+ 
+ OBJS = keyring.o trace.o hextype.o
+ 
+diff -ru keyring-link-0.1.1.orig/keyring.c keyring-link-0.1.1/keyring.c
+--- keyring-link-0.1.1.orig/keyring.c	2001-03-27 16:23:08.000000000 +0000
++++ keyring-link-0.1.1/keyring.c	2005-03-17 22:30:04.000000000 +0000
+@@ -30,8 +30,8 @@
+ 
+ #include <netinet/in.h>
+ 
+-#include <libpisock/pi-file.h>
+-#include <libpisock/pi-dlp.h>
++#include <pi-file.h>
++#include <pi-dlp.h>
+ 
+ #include <openssl/ssl.h>
+ #include <openssl/des.h>
+@@ -122,9 +122,7 @@
+ {
+     struct DBInfo      db_info;
+ 
+-    if (pi_file_get_info(pif, &db_info) == -1) {
+-	rs_fatal("error getting DBInfo");
+-    }
++    pi_file_get_info(pif, &db_info);
+ 
+     if (db_info.type != kKeyDBType) {
+ 	rs_fatal("database type is %#lx, but should be %#lx -- perhaps "
+@@ -269,9 +267,7 @@
+     int                idx;
+     unsigned char      snib[MD5_DIGEST_LENGTH];
+ 
+-    if (pi_file_get_entries(pif, &nrecords) == -1) {
+-	rs_fatal("error getting number of records");
+-    }
++    pi_file_get_entries(pif, &nrecords);
+ 
+     calc_snib(pass, snib);
+     des_setup(snib);

@@ -1,0 +1,10 @@
+pkg vilistextum-2.6.9
+
+url http://bhaak.dyndns.org/vilistextum/vilistextum-2.6.9.tar.bz2
+
+build \
+    tar xf vilistextum-2.6.9.tar.bz2
+    cd vilistextum-2.6.9
+    CFLAGS=-Os LDFLAGS=-s ./configure --prefix=/usr --mandir=/usr/share/man
+    make
+    make DESTDIR=$BPM_ROOT install

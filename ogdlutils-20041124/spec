@@ -1,0 +1,16 @@
+pkg ogdlutils-20041124
+
+url http://osdn.dl.sourceforge.net/sourceforge/ogdl/ogdlutils-20041124.tgz
+
+build \
+    tar xzf ogdlutils-20041124.tgz
+    cd ogdlutils-20041124
+    cd c
+    perl -pi -le 's/gcc/gcc -Os -static/' Makefile
+    make || true
+    test -x gpath
+    mkdir -p $BPM_ROOT/usr/bin
+    install -s gpath xml2ogdl tindent ogdl2dot $BPM_ROOT/usr/bin/
+    mkdir -p $BPM_ROOT/usr/share/man/man1
+    cp doc/man/*.1 $BPM_ROOT/usr/share/man/man1/
+

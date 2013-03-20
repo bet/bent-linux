@@ -1,0 +1,15 @@
+pkg aes-1.0.7
+
+url http://my.cubic.ch/~timtas/aes/aes-1.0.7.tar.gz
+
+build \
+    tar xf aes-1.0.7.tar.gz
+    cd aes-1.0.7
+    ./configure linux
+    make CFLAGS="$CFLAGS -DHAVE_DEV_URANDOM"
+    mkdir -p $BPM_ROOT/usr/bin
+    mv aes $BPM_ROOT/usr/bin
+    mkdir -p $BPM_ROOT/usr/share/doc/aes-1.0.7
+    mv README $BPM_ROOT/usr/share/doc/aes-1.0.7/
+    strip $BPM_ROOT/usr/bin/*
+

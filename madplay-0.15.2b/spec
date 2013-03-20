@@ -1,0 +1,11 @@
+pkg madplay-0.15.2b
+
+url ftp://ftp.mars.org/mpeg/madplay-0.15.2b.tar.gz
+
+build \
+    tar xf madplay-0.15.2b.tar.gz
+    cd madplay-0.15.2b
+    ./configure --prefix=/usr --mandir=/usr/share/man \
+        --disable-debugging
+    make
+    make DESTDIR=$BPM_ROOT install

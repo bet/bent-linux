@@ -1,0 +1,8 @@
+pkg when-1.1.5
+
+url http://www.lightandmatter.com/when/when.tar.gz
+
+build \
+    tar xf when.tar.gz
+    cd when_dist
+    make DESTDIR=$BPM_ROOT install

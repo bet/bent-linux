@@ -1,0 +1,12 @@
+diff -ru wget-1.10.orig/src/ptimer.c wget-1.10/src/ptimer.c
+--- wget-1.10.orig/src/ptimer.c	2005-04-30 15:09:18.000000000 +0000
++++ wget-1.10/src/ptimer.c	2005-06-13 13:55:22.000000000 +0000
+@@ -159,7 +159,7 @@
+       if (clocks[i].sysconf_name != NO_SYSCONF_CHECK)
+ 	if (sysconf (clocks[i].sysconf_name) < 0)
+ 	  continue;		/* sysconf claims this clock is unavailable */
+-      if (clock_getres (clocks[i].id, &r) < 0)
++/*      if (clock_getres (clocks[i].id, &r) < 0)
+ 	continue;		/* clock_getres doesn't work for this clock */
+       posix_clock_id = clocks[i].id;
+       posix_millisec_resolution = r.tv_sec * 1000.0 + r.tv_nsec / 1000000.0;

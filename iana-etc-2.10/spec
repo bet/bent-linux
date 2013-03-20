@@ -1,0 +1,11 @@
+pkg iana-etc-2.10
+
+url http://www.sethwklein.net/projects/iana-etc/downloads/iana-etc-2.10.tar.bz2
+
+build \
+    tar xf iana-etc-2.10.tar.bz2
+    cd iana-etc-2.10
+    make get
+    make
+    make test
+    make DESTDIR=$BPM_ROOT install

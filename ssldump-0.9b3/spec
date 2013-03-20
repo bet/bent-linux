@@ -1,0 +1,14 @@
+pkg ssldump-0.9b3
+
+url http://www.rtfm.com/ssldump/ssldump-0.9b3.tar.gz
+    bpf.h
+
+build \
+    tar xzf ssldump-0.9b3.tar.gz
+    cd ssldump-0.9b3
+    mkdir net
+    mv ../bpf.h net/
+    CFLAGS='-Os -I'`pwd` LDFLAGS=-s ./configure --prefix=/usr --mandir=/usr/share/man
+    make 'LIBS=-lbind -lssl -lcrypto -lpcap'
+    make prefix=$BPM_ROOT/usr MANDIR=$BPM_ROOT/usr/share/man install
+    strip $BPM_ROOT/usr/sbin/ssldump

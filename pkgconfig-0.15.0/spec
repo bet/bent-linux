@@ -1,0 +1,12 @@
+pkg pkgconfig-0.15.0
+
+url http://www.freedesktop.org/software/pkgconfig/releases/pkgconfig-0.15.0.tar.gz
+
+build \
+    tar xzf pkgconfig-0.15.0.tar.gz
+    cd pkgconfig-0.15.0
+    ./configure --prefix=/usr --mandir=/usr/share/man --infodir=/usr/share/info \
+        --disable-shared
+    make
+    make DESTDIR=$BPM_ROOT install
+    rm -f $BPM_ROOT/usr/share/info/dir

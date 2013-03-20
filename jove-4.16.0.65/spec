@@ -1,0 +1,16 @@
+pkg jove-4.16.0.65
+
+url ftp://ftp.cs.toronto.edu/cs/ftp/pub/hugh/jove-dev/jove4.16.0.65.tgz
+
+build \
+    tar xzf jove4.16.0.65.tgz
+    cd jove4.16.0.65
+    make SYSDEFS="-DBSDPOSIX" JOVEHOME=/usr MANDIR=/usr/share/man/man1 jjove portsrv
+    strip jjove portsrv
+    mkdir -p $BPM_ROOT/usr/bin
+    cp jjove $BPM_ROOT/usr/bin/jove
+    mkdir -p $BPM_ROOT/usr/lib/jove
+    cp portsrv $BPM_ROOT/usr/lib/jove/
+
+isa editor
+    emacs

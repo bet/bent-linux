@@ -1,0 +1,10 @@
+pkg ngrep-1.45
+
+url http://superb-east.dl.sourceforge.net/sourceforge/ngrep/ngrep-1.45.tar.bz2
+    http://ngrep.sourceforge.net/sign/ngrep-1.45.tar.bz2.asc
+
+build \
+    tar xf ngrep-1.45.tar.bz2
+    cd ngrep-1.45
+    ./configure --prefix=/usr --mandir=/usr/share/man
+    make 'LIBS=-lpcap -lbind' DESTDIR=$BPM_ROOT install

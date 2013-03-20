@@ -1,0 +1,26 @@
+pkg linux-2.4.36
+
+url http://www.kernel.org/pub/linux/kernel/v2.4/linux-2.4.36.tar.bz2
+    http://www.kernel.org/pub/linux/kernel/v2.4/linux-2.4.36.tar.bz2.sign
+    linux-2.4.36-config
+
+build \
+    tar xf linux-2.4.36.tar.bz2
+    cd linux-2.4.36
+    make mrproper
+    cp ../linux-2.4.36-config .config
+    yes '' | make oldconfig
+    make dep
+    make bzImage
+    mkdir -p $BPM_ROOT/boot
+    cp arch/i386/boot/bzImage $BPM_ROOT/boot/vmlinuz-2.4.36
+    cp System.map $BPM_ROOT/boot/System.map-2.4.36
+    mkdir -p $BPM_ROOT/lib/modules
+    make INSTALL_MOD_PATH=$BPM_ROOT modules_install || true
+    mkdir -p $BPM_ROOT/usr/share/doc/linux-2.4.36
+    cp -R Documentation/* $BPM_ROOT/usr/share/doc/linux-2.4.36
+    make clean
+    mkdir -p $BPM_ROOT/usr/src/linux-2.4.36
+    find . -depth|cpio -pdl $BPM_ROOT/usr/src/linux-2.4.36/
+    ln -s linux-2.4.36 $BPM_ROOT/usr/src/linux
+

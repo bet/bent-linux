@@ -1,0 +1,18 @@
+pkg netpbm-10.18.8
+
+url http://umn.dl.sourceforge.net/sourceforge/netpbm/netpbm-10.18.8.tgz
+
+build \
+    tar xzf netpbm-10.18.8.tgz
+    cd netpbm-10.18.8
+    cp ../netpbm-10.18.8-Makefile.config Makefile.config
+    make --keep-going || true
+    make --keep-going package pkgdir=$BPM_ROOT || true
+    mkdir -p $BPM_ROOT/usr
+    mv $BPM_ROOT/bin $BPM_ROOT/usr/
+    mv $BPM_ROOT/include $BPM_ROOT/usr/
+    mv $BPM_ROOT/link $BPM_ROOT/usr/lib
+    mkdir -p $BPM_ROOT/usr/share
+    mv $BPM_ROOT/man $BPM_ROOT/usr/share/
+    mkdir -p $BPM_ROOT/usr/share/netpbm
+    mv $BPM_ROOT/misc $BPM_ROOT/usr/share/netpbm/

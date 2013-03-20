@@ -1,0 +1,12 @@
+diff -ru tcpdump-3.8.3.orig/print-sunrpc.c tcpdump-3.8.3/print-sunrpc.c
+--- tcpdump-3.8.3.orig/print-sunrpc.c	2003-11-16 08:51:47.000000000 +0000
++++ tcpdump-3.8.3/print-sunrpc.c	2004-06-14 18:05:20.000000000 +0000
+@@ -142,7 +142,7 @@
+ 	if (lastprog != 0 && prog == lastprog)
+ 		return (buf);
+ #ifndef WIN32
+-	rp = getrpcbynumber(prog);
++	rp = NULL; /* getrpcbynumber(prog); */
+ 	if (rp == NULL)
+ #endif /* WIN32 */
+ 		(void) snprintf(buf, sizeof(buf), "#%u", prog);

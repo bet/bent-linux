@@ -1,0 +1,8 @@
+pkg rip-1.07
+
+url http://rip.sourceforge.net/download/rip-1.07.tar.gz
+
+build \
+    tar xzf rip-1.07.tar.gz
+    mkdir -p $BPM_ROOT/usr/bin
+    cp rip-1.07/rip $BPM_ROOT/usr/bin/

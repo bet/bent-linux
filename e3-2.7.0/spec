@@ -1,0 +1,16 @@
+pkg e3-2.7.0
+
+url http://www.sax.de/~adlibit/e3-2.7.0.tar.gz
+
+build \
+    tar xzf e3-2.7.0.tar.gz
+    cd e3-2.7.0
+    make
+    mkdir -p $BPM_ROOT/usr/bin
+    cp e3 $BPM_ROOT/usr/bin/
+    (cd $BPM_ROOT/usr/bin; for f in ws em pi vi ne;do ln e3 e3$f; done)
+    mkdir -p $BPM_ROOT/usr/share/man/man1
+    cp e3.man $BPM_ROOT/usr/share/man/man1/
+
+isa editor
+    emacs

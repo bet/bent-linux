@@ -1,0 +1,8 @@
+pkg HyperSpec-7-0
+
+url ftp://ftp.lispworks.com/pub/software_tools/reference/HyperSpec-7-0.tar.gz
+
+build \
+    mkdir -p $BPM_ROOT/usr/share/doc/HyperSpec-7-0
+    gzip -d <HyperSpec-7-0.tar.gz | \
+        (cd $BPM_ROOT/usr/share/doc/HyperSpec-7-0 && tar xf -)

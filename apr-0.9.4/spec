@@ -1,0 +1,10 @@
+pkg apr-0.9.4
+
+url http://apache.mirror.digitalspace.net/apr/apr-0.9.4.tar.gz
+
+build \
+    tar xzf apr-0.9.4.tar.gz
+    cd apr-0.9.4
+    ./configure --prefix=/usr
+    make
+    make DESTDIR=$BPM_ROOT install

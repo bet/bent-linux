@@ -1,0 +1,11 @@
+pkg mpg123-0.59r
+
+url http://www.mpg123.de/mpg123/mpg123-0.59r.tar.gz
+    mpg123-0.59r-static.patch
+
+build \
+    tar xzf mpg123-0.59r.tar.gz
+    cd mpg123-0.59r
+    patch -p1 <../mpg123-0.59r-static.patch
+    make linux
+    make PREFIX=$BPM_ROOT/usr MANDIR=$BPM_ROOT/usr/share/man install

@@ -1,0 +1,10 @@
+pkg adcd-0.4
+
+url http://savannah.nongnu.org/download/adcd/adcd-0.4.tar.bz2
+
+build \
+    tar xf adcd-0.4.tar.bz2
+    cd adcd-0.4
+    make CXXFLAGS=-Os || true
+    g++ -Os -s -o adcd cd.o adcd.o -lncurses
+    make prefix=/usr DESTDIR=$BPM_ROOT install

@@ -1,0 +1,10 @@
+pkg texttohtml_02may1998
+
+url http://www.acme.com/software/texttohtml/texttohtml_02may1998.tar.gz
+
+build \
+    tar xf texttohtml_02may1998.tar.gz
+    cd texttohtml
+    make CC='diet gcc'
+    mkdir -p $BPM_ROOT/usr/bin $BPM_ROOT/usr/share/man/man1
+    make BINDIR=$BPM_ROOT/usr/bin MANDIR=$BPM_ROOT/usr/share/man/man1 install

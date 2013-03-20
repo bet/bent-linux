@@ -1,0 +1,13 @@
+pkg pcmcia-cs-3.2.5
+
+url http://umn.dl.sourceforge.net/sourceforge/pcmcia-cs/pcmcia-cs-3.2.5.tar.gz
+
+build \
+    tar xzf pcmcia-cs-3.2.5.tar.gz
+    cd pcmcia-cs-3.2.5
+    (echo /usr/src/linux;yes '')|LDFLAGS=-static CFLAGS=-Os make config
+    grep -v CONFIG_SMP config.out >foo && mv foo config.out
+    make LDFLAGS=-static CFLAGS=-Os all
+    make LDFLAGS=-static CFLAGS=-Os PREFIX=$BPM_ROOT install
+    find $BPM_ROOT -type f|xargs file|grep 'ELF.*executable'|sed 's/:.*$//'|xargs strip
+

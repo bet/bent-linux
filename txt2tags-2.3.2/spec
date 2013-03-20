@@ -1,0 +1,8 @@
+pkg txt2tags-2.3.2
+
+url http://txt2tags.sourceforge.net/src/txt2tags-2.3.2.py
+
+build \
+    mkdir -p $BPM_ROOT/usr/bin
+    chmod 755 txt2tags-2.3.2.py
+    mv txt2tags-2.3.2.py $BPM_ROOT/usr/bin/txt2tags

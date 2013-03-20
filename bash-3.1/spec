@@ -1,0 +1,16 @@
+pkg bash-3.1
+
+url http://ftp.gnu.org/gnu/bash/bash-3.1.tar.gz
+
+build \
+    tar xzf bash-3.1.tar.gz
+    cd bash-3.1
+    ./configure --enable-static-link --enable-readline \
+        --prefix=/ --mandir=/usr/share/man --infodir=/usr/share/info \
+        --disable-bang-history
+    make
+    make prefix=$BPM_ROOT mandir=$BPM_ROOT/usr/share/man \
+        infodir=$BPM_ROOT/usr/share/info install
+    ln -s bash $BPM_ROOT/bin/sh
+    rm -f $BPM_ROOT/usr/share/info/dir
+

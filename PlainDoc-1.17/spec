@@ -1,0 +1,10 @@
+pkg PlainDoc-1.17
+
+url http://mercnet.pt/plaindoc/pd2tex
+    http://mercnet.pt/plaindoc/sampo-plaindoc.pd
+
+build \
+    mkdir -p $BPM_ROOT/usr/bin $BPM_ROOT/usr/share/doc/PlainDoc-1.17
+    cp pd2tex $BPM_ROOT/usr/bin/
+    chmod 755 $BPM_ROOT/usr/bin/pd2tex
+    cp sampo-plaindoc.pd $BPM_ROOT/usr/share/doc/PlainDoc-1.17/

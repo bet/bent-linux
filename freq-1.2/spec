@@ -1,0 +1,11 @@
+pkg freq-1.2
+
+url freq
+    cfreq.c
+
+build \
+    mkdir -p $BPM_ROOT/usr/bin
+    cp freq $BPM_ROOT/usr/bin/freq
+    mkdir -p $BPM_ROOT/usr/man/man1
+    pod2man freq >$BPM_ROOT/usr/man/man1/freq.1
+    diet gcc -Os -s -o $BPM_ROOT/usr/bin/cfreq cfreq.c

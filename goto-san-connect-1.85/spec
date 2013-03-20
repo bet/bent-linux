@@ -1,0 +1,11 @@
+pkg goto-san-connect-1.85
+
+url http://www.taiyo.co.jp/~gotoh/ssh/connect.c
+    http://www.taiyo.co.jp/~gotoh/ssh/connect.html
+    http://www.taiyo.co.jp/~gotoh/ssh/openssh-socks.html
+
+build \
+    mkdir -p $BPM_ROOT/usr/bin
+    gcc -Os -static -s -o $BPM_ROOT/usr/bin/connect connect.c -lbind
+    mkdir -p $BPM_ROOT/usr/share/doc/goto-san-connect
+    mv * $BPM_ROOT/usr/share/doc/goto-san-connect/

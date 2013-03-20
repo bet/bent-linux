@@ -1,0 +1,18 @@
+pkg ncurses-5.5
+
+url http://ftp.gnu.org/gnu/ncurses/ncurses-5.5.tar.gz
+    http://ftp.gnu.org/gnu/ncurses/ncurses-5.5.tar.gz.sig
+
+build \
+    tar xzf ncurses-5.5.tar.gz
+    cd ncurses-5.5
+    ./configure --prefix=/usr --infodir=/usr/share/info --mandir=/usr/share/man \
+        --with-install-prefix=$BPM_ROOT --without-shared --without-debug \
+        --disable-database --enable-termcap --enable-sigwinch --without-cxx --without-cxx-binding
+    make
+    make install
+    mkdir -p $BPM_ROOT/usr/include/ncurses
+    cp include/*.h $BPM_ROOT/usr/include/ncurses
+    cp -f include/* $BPM_ROOT/usr/include/
+    rm -f $BPM_ROOT/usr/share/info/dir
+

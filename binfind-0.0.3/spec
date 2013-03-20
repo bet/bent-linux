@@ -1,0 +1,10 @@
+pkg binfind-0.0.3
+
+url http://stud4.tuwien.ac.at/~e9825234/binfind/binfind-0.0.3.tar.gz
+
+build \
+    tar xf binfind-0.0.3.tar.gz
+    cd binfind-0.0.3
+    ./configure --prefix=/usr --mandir=/usr/share/man --infodir=/usr/share/info
+    make
+    make DESTDIR=$BPM_ROOT install

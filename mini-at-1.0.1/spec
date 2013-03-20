@@ -1,0 +1,14 @@
+pkg mini-at-1.0.1
+
+url http://www.lwithers.me.uk/projects/mini-at/data/mini-at-1.0.1.tar.bz2
+    http://www.lwithers.me.uk/projects/mini-at/data/mini-at-1.0.1.tar.bz2.asc
+
+build \
+    tar xf mini-at-1.0.1.tar.bz2
+    cd mini-at-1.0.1
+    PREFIX=/usr ./make.sh
+    PREFIX=$BPM_ROOT/usr ./make.sh install
+    strip $BPM_ROOT/usr/bin/*
+    rm -f $BPM_ROOT/usr/share/info/dir
+    mkdir -p $BPM_ROOT/usr/share/doc/mini-at-1.0.1
+    cp README $BPM_ROOT/usr/share/doc/mini-at-1.0.1/

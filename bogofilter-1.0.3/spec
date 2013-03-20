@@ -1,0 +1,11 @@
+pkg bogofilter-1.0.3
+
+url http://easynews.dl.sourceforge.net/sourceforge/bogofilter/bogofilter-1.0.3.tar.bz2
+
+build \
+    tar xjf bogofilter-1.0.3.tar.bz2
+    cd bogofilter-1.0.3
+    ./configure --prefix=/usr --mandir=/usr/share/man --sysconfdir=/etc --with-database=qdbm
+    make
+    mkdir -p $BPM_ROOT/usr
+    make DESTDIR=$BPM_ROOT install-strip

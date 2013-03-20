@@ -1,0 +1,11 @@
+pkg libmad-0.15.1b
+
+url ftp://ftp.mars.org/mpeg/libmad-0.15.1b.tar.gz
+
+build \
+    tar xf libmad-0.15.1b.tar.gz
+    cd libmad-0.15.1b
+    ./configure --prefix=/usr \
+        --enable-speed --disable-debugging --disable-shared
+    make
+    make DESTDIR=$BPM_ROOT install

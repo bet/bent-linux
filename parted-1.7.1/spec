@@ -1,0 +1,13 @@
+pkg parted-1.7.1
+
+url http://ftp.gnu.org/gnu/parted/parted-1.7.1.tar.gz
+    http://ftp.gnu.org/gnu/parted/parted-1.7.1.tar.gz.sig
+
+build \
+    tar xf parted-1.7.1.tar.gz
+    cd parted-1.7.1
+    CFLAGS=-Os LDFLAGS=-s ./configure --prefix=/usr --mandir=/usr/share/man --infodir=/usr/share/info \
+        --disable-dynamic-loading --enable-all-static --disable-shared --enable-static --disable-nls
+    make
+    make DESTDIR=$BPM_ROOT install
+    rm -f $BPM_ROOT/usr/share/info/dir

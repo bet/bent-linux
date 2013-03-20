@@ -1,0 +1,10 @@
+pkg aft-5.094
+
+url http://www.maplefish.com/todd/aft-5.094.tar.gz
+
+build \
+    tar xzf aft-5.094.tar.gz
+    cd aft-5.094
+    ./configure --prefix=/usr
+    make
+    make DESTDIR=$BPM_ROOT install

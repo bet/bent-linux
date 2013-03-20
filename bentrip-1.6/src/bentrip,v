@@ -1,0 +1,390 @@
+head	1.7;
+access;
+symbols;
+locks
+	bet:1.7; strict;
+comment	@# @;
+
+
+1.7
+date	2004.07.25.17.34.17;	author bet;	state Exp;
+branches;
+next	1.6;
+
+1.6
+date	2004.07.25.17.32.44;	author bet;	state Exp;
+branches;
+next	1.5;
+
+1.5
+date	2004.07.14.14.17.13;	author bet;	state Exp;
+branches;
+next	1.4;
+
+1.4
+date	2004.07.13.16.12.27;	author bet;	state Exp;
+branches;
+next	1.3;
+
+1.3
+date	2004.07.13.15.47.07;	author bet;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	2004.07.09.23.54.01;	author bet;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2004.07.09.23.53.05;	author bet;	state Exp;
+branches;
+next	;
+
+
+desc
+@1.0 as posted
+@
+
+
+1.7
+log
+@added choice fm among cddb_id matches
+@
+text
+@#!/usr/bin/perl -w
+use strict;
+use CDDB_get;
+use URI::Escape;
+
+=head1 NAME
+
+  bentrip --- Bennett's ripper
+
+=head1 SYNOPSIS
+
+  bentrip [cddbid [choice]]
+
+=head1 DESCRIPTION
+
+bentrip rips one CD into the current working subdirectory. The
+ripping is hardwired, cdparanoia with default options into oggenc
+--bitrate 160 (parameters, and indeed the idea and the way to do
+this all shamlessly stolen from Gregory J. Smethells' rip, as found
+at http://rip.sourceforge.net/). Details hardwired to Bennett's
+preferences. bentrip, unlike Gregory J. Smethells' rip, is
+completely and utterly non-interactive; it writes the best it can
+and fills in defaults for anything it can't find out.
+
+Aside from system permission problems and the ilke, it only bombs if
+CDDB_get::get_discids fails to produce a CDDB id and a count of tracks.
+
+If you can guess better than CDDB_get::get_discids (i.e. if there's
+some other freedb database entry you'd like to force it to use),
+provide it as a cmdline arg. And if there are multiple entries for
+the cddbid [look cddbif .freedb shows the choices] and bentrip gets
+the wrong one, specify which, as an array subscript (i.e. the first
+choice is 0, second choice is 1, etc.).
+
+=cut
+
+my $VERSION = "1.6";
+
+my ($id, $total, $toc) = @@{&CDDB_get::get_discids()};
+die "CDDB_get::get_discids did not acquire cddb id" unless defined $id;
+die "Unknown number of tracks" unless defined $total;
+
+$id = sprintf "%x", $id;
+$id = shift if @@ARGV;
+
+my (@@recs) = `look $id $ENV{HOME}/.freedb`;
+
+my ($cddbid, $artist, $album, $genre, @@track);
+
+if (@@recs) {
+    my $idx = 0;
+    $idx = shift if @@ARGV;
+    $_ = $recs[$idx];
+    chomp;
+    ($cddbid, $artist, $album, $genre, @@track) = map { uri_unescape($_) } split /:/;
+    die unless scalar(@@track) >= $total;
+} else {
+    $artist = "unknown artist $id";
+    $album = "unknown album $id";
+    $genre = "unknown genre $id";
+    @@track = map { sprintf "track%3d", $_ } 1 .. $total;
+}
+
+my $artist_filename = $artist;
+$artist_filename =~ y/a-zA-Z0-9_-//cds;
+$artist_filename = $id unless length $artist_filename;
+-d $artist_filename or mkdir $artist_filename or die;
+my $album_filename = $album;
+$album_filename =~ y/a-zA-Z0-9_-//cds;
+$album_filename = $id unless length $album_filename;
+-d "$artist_filename/$album_filename" or mkdir "$artist_filename/$album_filename" or die;
+my ($year, $mon, $day) = (localtime(time))[5,4,3];
+$year += 1900; $mon++;
+my $date = sprintf("$year-%02.2d-%02.2d", $mon, $day);
+
+$| = 1;
+track: for my $track (1 .. $total) {
+    print "Ripping track $track of $total\n";
+    my $filename;
+    $filename = $track[$track-1];
+    $filename =~ y/a-zA-Z0-9_-//cds;
+    $filename = sprintf("$artist_filename/$album_filename/%03d-$filename.ogg", $track);
+
+    if (-f $filename) {
+	print "No I am not, it is already there\n";
+	next track;
+    }
+
+    pipe READER, WRITER or die;
+    my $oggpid = fork;
+    die unless defined $oggpid;
+    if ($oggpid == 0) {
+	close WRITER or die;
+	open STDIN, "<&READER" or die;
+	exec "oggenc", "-",
+	    "--bitrate", 160,
+	    "-t", $track[$track-1],
+	    "-a", $artist,
+	    "-l", $album,
+	    "-N", $track,
+	    "-c", "genre=$genre",
+	    "-c", "encode_date=$date",
+	    "-c", "cddb_id=$id",
+	    "-o", $filename;
+	die "oggenc did not exec";
+    }
+
+    my $cdparanoiapid = fork;
+    die unless defined $cdparanoiapid;
+    if ($cdparanoiapid == 0) {
+	close READER or die;
+	open STDOUT, ">&WRITER" or die;
+	exec "cdparanoia", "-d", "/dev/cdrom", "-q", $track, "-";
+	die "cdparanoia did not exec";
+    }
+
+    close READER or die;
+    close WRITER or die;
+    $SIG{INT} = sub { unlink $filename; die "interrupted, cleaned up $filename" };
+    my $waitpid = waitpid $oggpid, 0;
+    unlink $filename and die "wacko waitpid ogg" unless $waitpid == $oggpid;
+    unlink $filename and die "oggenc roached exit status $?" if $?;
+    $waitpid = waitpid $cdparanoiapid, 0;
+    unlink $filename and die "wacko waitpid cdparanoia" unless $waitpid == $cdparanoiapid;
+    unlink $filename and die "cdparanoia roached exit status $?" if $?;
+    $SIG{INT} = 'DEFAULT';
+}
+@
+
+
+1.6
+log
+@*** empty log message ***
+@
+text
+@d12 1
+a12 1
+  bentrip [cddbid]
+d30 4
+a33 1
+provide it as a cmdline arg.
+d37 1
+a37 1
+my $VERSION = "1.5";
+d51 3
+a53 1
+    $_ = $recs[0];
+@
+
+
+1.5
+log
+@hex-encode cddb_id
+@
+text
+@d4 1
+d12 1
+a12 10
+  bentrip
+
+	or perhaps
+
+  while true;do
+      bentrip
+      eject
+      echo -n "Another? "
+      read ans
+  done
+d26 5
+a30 1
+CDDB_get::get_cddb fails to produce a CDDB id and a count of tracks.
+d34 10
+a43 1
+my $VERSION = "1.3";
+d45 1
+a45 9
+my @@cd = CDDB_get::get_cddb({
+    CDDB_HOST => "freedb.freedb.org",
+    CDDB_PORT => 888,
+    CDDB_MODE => "http",
+    input     => 0,
+    HELLO_ID  => "bet\@@rahul.net rip script $VERSION",
+    HTTP_PROXY => ($ENV{HTTP_PROXY} or $ENV{http_proxy}),
+});
+my %cd;
+d47 5
+a51 2
+if (@@cd and $#cd%2) {
+    %cd = @@cd;
+d53 4
+a56 3
+    my ($id, $total, $toc) = @@{&CDDB_get::get_discids()};
+    $cd{id} = sprintf "%x", $id;
+    $cd{tno} = $total;
+d59 23
+a81 12
+die "CDDB_get did not acquire cddb id" unless defined $cd{id};
+die "Unknown number of tracks" unless defined $cd{tno};
+&edit(\%cd);
+&burn(\%cd, "/dev/cdrom");
+
+sub edit {
+    my ($cd) = @@_;
+    local *_;
+
+    my $id = $cd->{id};
+    for (qw(artist title cat)) {
+	$cd->{$_} = "unknown $_ $id" unless defined $cd->{$_};
+d83 18
+a100 2
+    for my $i (1 .. $cd->{tno}) {
+	$cd->{track}[$i-1] = sprintf("track%3d", $i) unless defined $cd->{track}[$i-1];
+a101 1
+}
+d103 3
+a105 50
+sub burn {
+    my ($cd) = @@_;
+    local *_;
+
+    my $artist = $cd->{artist}; $artist =~ y/a-zA-Z0-9_-//cds;
+    $artist = $cd->{id} unless length $artist;
+    -d $artist or mkdir $artist or die;
+    my $title = $cd->{title}; $title =~ y/a-zA-Z0-9_-//cds;
+    $title = $cd->{id} unless length $title;
+    -d "$artist/$title" or mkdir "$artist/$title" or die;
+    my ($year, $mon, $day) = (localtime(time))[5,4,3];
+    $year += 1900; $mon++;
+    my $date = sprintf("$year-%02.2d-%02.2d", $mon, $day);
+    $| = 1;
+    track: for my $track (1 .. $cd->{tno}) {
+	print "Ripping track $track of $cd->{tno}\n";
+	my $filename;
+	$filename = $cd->{track}[$track-1];
+	$filename =~ y/a-zA-Z0-9_-//cds;
+	$filename = sprintf("$artist/$title/%03d-$filename.ogg", $track);
+	if (-f $filename) {
+	    print "No I am not, it is already there\n";
+	    next track;
+	}
+	pipe READER, WRITER or die;
+	my $oggpid = fork;
+	die unless defined $oggpid;
+	if ($oggpid == 0) {
+	    close WRITER or die;
+	    open STDIN, "<&READER" or die;
+	    exec "oggenc", "-",
+		"--bitrate", 160,
+		"-t", $cd->{track}[$track-1],
+		"-a", $cd->{artist},
+		"-l", $cd->{title},
+		"-N", $track,
+		"-c", "genre=$cd->{cat}",
+		"-c", "encode_date=$date",
+		"-c", "cddb_id=$cd->{id}",
+		"-o", $filename;
+	    die "oggenc did not exec";
+	}
+	my $cdparanoiapid = fork;
+	die unless defined $cdparanoiapid;
+	if ($cdparanoiapid == 0) {
+	    close READER or die;
+	    open STDOUT, ">&WRITER" or die;
+	    exec "cdparanoia", "-d", "/dev/cdrom", "-q", $track, "-";
+	    die "cdparanoia did not exec";
+	}
+d107 3
+a109 9
+	close WRITER or die;
+	$SIG{INT} = sub { unlink $filename; die "interrupted, cleaned up $filename" };
+	my $waitpid = waitpid $oggpid, 0;
+	unlink $filename and die "wacko waitpid ogg" unless $waitpid == $oggpid;
+	unlink $filename and die "oggenc roached exit status $?" if $?;
+	$waitpid = waitpid $cdparanoiapid, 0;
+	unlink $filename and die "wacko waitpid cdparanoia" unless $waitpid == $cdparanoiapid;
+	unlink $filename and die "cdparanoia roached exit status $?" if $?;
+	$SIG{INT} = 'DEFAULT';
+d111 11
+@
+
+
+1.4
+log
+@bugfix to track count when CDDB is down
+@
+text
+@d38 1
+a38 1
+my $VERSION = "1.2";
+d54 1
+a54 1
+    $cd{id} = $id;
+@
+
+
+1.3
+log
+@fixed case of no CDDB hit
+@
+text
+@d55 1
+a55 1
+    $cd{tno} = $total + 1;
+@
+
+
+1.2
+log
+@version 1.1, ported back to perl 5.6
+@
+text
+@d38 1
+a38 1
+my $VERSION = "1.1";
+d40 1
+a40 1
+my %cd = CDDB_get::get_cddb({
+d48 9
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d38 1
+a38 1
+my $VERSION = "1.0";
+d96 1
+a96 1
+	    open STDIN, "<&", \*READER or die;
+d113 1
+a113 1
+	    open STDOUT, ">&", \*WRITER or die;
+@

@@ -1,0 +1,10 @@
+pkg aescrypt2-1.0
+
+url http://www.cr0.net:8040/code/crypto/aes/aescrypt2-1.0.tgz
+
+build \
+    tar xf aescrypt2-1.0.tgz
+    cd aescrypt2-1.0
+    mkdir -p $BPM_ROOT/usr/bin
+    gcc -Os -s -o $BPM_ROOT/usr/bin/aescrypt2 aescrypt2.c aes.c sha256.c -D_FILE_OFFSET_BITS=64
+    

@@ -1,0 +1,11 @@
+pkg urlview-0.9
+
+url http://ftp.gnupg.org/GUUG/mutt/contrib/urlview-0.9.tar.gz
+
+build \
+    tar xf urlview-0.9.tar.gz
+    cd urlview-0.9
+    ./configure --prefix=/usr --mandir=/usr/share/man
+    make
+    mkdir -p $BPM_ROOT/usr/share/man/man1
+    make DESTDIR=$BPM_ROOT mandir=$BPM_ROOT/usr/share/man install

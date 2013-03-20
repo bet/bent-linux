@@ -1,0 +1,16 @@
+pkg Markdown-1.0.1
+
+url http://daringfireball.net/projects/downloads/Markdown_1.0.1.zip
+    http://www.aaronsw.com/2002/html2text/html2text.py
+    http://daringfireball.net/projects/markdown/basics.text
+    http://daringfireball.net/projects/markdown/syntax.text
+    http://daringfireball.net/projects/markdown/dingus.text
+
+build \
+    unzip Markdown_1.0.1.zip
+    cd Markdown_1.0.1
+    mkdir -p $BPM_ROOT/usr/bin
+    mv Markdown.pl $BPM_ROOT/usr/bin/Markdown
+    mkdir -p $BPM_ROOT/usr/share/doc/Markdown-1.0.1
+    mv *.text $BPM_ROOT/usr/share/doc/Markdown-1.0.1/
+    mv ../*.text $BPM_ROOT/usr/share/doc/Markdown-1.0.1/

@@ -1,0 +1,12 @@
+pkg ppp-2.4.2b3
+
+url ftp://ftp.samba.org/pub/ppp/ppp-2.4.2b3.tar.gz
+
+build \
+    tar xzf ppp-2.4.2b3.tar.gz
+    cd ppp-2.4.2b3
+    ./configure
+    perl -ni -le 'print unless /plugins/' linux/Makefile.top
+    perl -pi -le 's/^/#/ if /^PLUGIN=/' pppd/Makefile.linux
+    make 'CC=cc -static'
+    make DESTDIR=$BPM_ROOT INSTALL=install install

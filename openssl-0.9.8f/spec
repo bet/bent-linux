@@ -1,0 +1,13 @@
+pkg openssl-0.9.8f
+
+url http://www.openssl.org/source/openssl-0.9.8f.tar.gz
+    http://www.openssl.org/source/openssl-0.9.8f.tar.gz.asc
+
+build \
+    tar xzf openssl-0.9.8f.tar.gz
+    cd openssl-0.9.8f
+    ./Configure no-threads no-shared --prefix=/usr --openssldir=/usr linux-elf
+    perl -pi -le 's/-DDSO_DLFCN -DHAVE_DLFCN_H/-UDSO_DLFCN -UHAVE_DLFCN_H/;s/ -ldl//' Makefile
+    make
+    make INSTALL_PREFIX=$BPM_ROOT install
+    strip $BPM_ROOT/usr/bin/openssl

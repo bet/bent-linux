@@ -1,0 +1,18 @@
+pkg stunnel-4.20
+
+url ftp://stunnel.mirt.net/stunnel/stunnel-4.20.tar.gz
+
+build \
+    tar xf stunnel-4.20.tar.gz
+    cd stunnel-4.20
+    ./configure --prefix=/usr --mandir=/usr/share/man \
+        --enable-static --disable-shared --enable-dh --localstatedir=/var --disable-libwrap
+    (
+        echo US
+        echo New Jersey
+        echo Jersey City
+        echo Bent Linux
+        echo ''
+        echo ''
+    ) | make
+    make DESTDIR=$BPM_ROOT localstatedir=$BPM_ROOT/var install

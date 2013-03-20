@@ -1,0 +1,10 @@
+pkg moc-2.5.0-alpha2
+
+url ftp://ftp.daper.net/pub/soft/moc/unstable/moc-2.5.0-alpha2.tar.bz2
+
+build \
+    tar xf moc-2.5.0-alpha2.tar.bz2
+    cd moc-2.5.0-alpha2
+    CFLAGS='-Os -DHAVE_STRERROR_R' LDFLAGS=-s ./configure --prefix=/usr --mandir=/usr/share/man
+    make
+    make DESTDIR=$BPM_ROOT install

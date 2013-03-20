@@ -1,0 +1,12 @@
+pkg httping-1.2.4
+
+url http://www.vanheusden.com/httping/httping-1.2.4.tgz
+
+build \
+    tar xf httping-1.2.4.tgz
+    cd httping-1.2.4
+    make 'CFLAGS=-Os -DVERSION=\"1.2.4\"'
+    mkdir -p $BPM_ROOT/usr/bin
+    mkdir -p $BPM_ROOT/usr/share/man/man1
+    make DESTDIR=$BPM_ROOT install
+    strip $BPM_ROOT/usr/bin/*

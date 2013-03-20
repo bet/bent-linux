@@ -1,0 +1,12 @@
+pkg libevent-1.3d
+
+url http://www.monkey.org/~provos/libevent-1.3d.tar.gz
+
+build \
+    tar xf libevent-1.3d.tar.gz
+    cd libevent-1.3d
+    ./configure --prefix=/usr --mandir=/usr/share/man --infodir=/usr/share/info \
+        --disable-shared --enable-static
+    make
+    make DESTDIR=$BPM_ROOT install
+    rm -f $BPM_ROOT/usr/share/info/dir

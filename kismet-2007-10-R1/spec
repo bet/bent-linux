@@ -1,0 +1,11 @@
+pkg kismet-2007-10-R1
+
+url http://www.kismetwireless.net/code/kismet-2007-10-R1.tar.gz
+
+build \
+    tar xf kismet-2007-10-R1.tar.gz
+    cd kismet-2007-10-R1
+    ./configure --prefix=/usr --mandir=/usr/share/man
+    make || true
+    make 'LIBS=-lstdc++ -lbind'
+    make DESTDIR=$BPM_ROOT INSTUSR=$LOGNAME INSTGRP=$LOGNAME MANGRP=$LOGNAME install

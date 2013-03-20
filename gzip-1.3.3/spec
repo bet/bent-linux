@@ -1,0 +1,13 @@
+pkg gzip-1.3.3
+
+url http://www.gzip.org/gzip-1.3.3.tar.gz
+
+build \
+    tar xf gzip-1.3.3.tar.gz
+    cd gzip-1.3.3
+    ./configure --prefix=/usr --mandir=/usr/share/man --infodir=/usr/share/info \
+        --enable-static --disable-shared
+    make
+    make DESTDIR=$BPM_ROOT install
+    ln -s gzip $BPM_ROOT/usr/bin/compress
+    rm -f $BPM_ROOT/usr/share/info/dir

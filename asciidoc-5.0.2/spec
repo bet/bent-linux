@@ -1,0 +1,9 @@
+pkg asciidoc-5.0.2
+
+url http://www.methods.co.nz/asciidoc/asciidoc-5.0.2.tar.gz
+
+build \
+    mkdir -p $BPM_ROOT/usr/share
+    (cd $BPM_ROOT/usr/share && tar xzf -) <asciidoc-5.0.2.tar.gz
+    mkdir -p $BPM_ROOT/usr/bin
+    ln -s /usr/share/asciidoc-5.0.2/asciidoc.py $BPM_ROOT/usr/bin/asciidoc

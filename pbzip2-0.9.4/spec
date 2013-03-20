@@ -1,0 +1,10 @@
+pkg pbzip2-0.9.4
+
+url http://compression.ca/pbzip2/pbzip2-0.9.4.tar.gz
+
+build \
+    tar xzf pbzip2-0.9.4.tar.gz
+    cd pbzip2-0.9.4
+    g++ -Os -s -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64 -o pbzip2 pbzip2.cpp -pthread -lpthread -lbz2
+    mkdir -p $BPM_ROOT/usr/bin
+    mv pbzip2 $BPM_ROOT/usr/bin/

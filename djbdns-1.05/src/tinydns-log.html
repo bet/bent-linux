@@ -1,0 +1,254 @@
+<html>
+    <head>
+        <title>
+            tinydns Log File Format
+        </title>
+    </head>
+    <body>
+        <h2><code>tinydns</code> Log File Format</h2>
+
+	by <a href='mailto:mayoff@dqd.com'>Rob Mayoff &lt;mayoff@dqd.com&gt;</a>
+
+	<hr>
+
+	<blockquote>
+
+	<p> <code>tinydns</code> is part of the <a
+	href='http://cr.yp.to/djbdns.html'><code>djbdns</code></a>
+	package, written by Daniel J. Bernstein, aka djb. I couldn't
+	find any documentation on its log file format. These
+	are my notes on what the log entries mean. If there are
+	any errors here, they are mine and not djb's. Please <a
+	href='mailto:mayoff-dns@dqd.com'>mail me</a> any additions,
+	corrections, or comments.
+
+	<p> <code>tinydns</code> logs IP addresses as 8 digit hexadecimal
+	strings.  For example, 127.0.0.1 is logged as 7f000001.
+
+	<p> <code>tinydns</code> logs port numbers, query ids, and query
+	types as 4 digit hexadecimal strings. Common query types:
+
+	<table>
+
+	    <tr>
+		<th align='left'>Hex</th>
+		<th align='left'>Symbol</th>
+	    </tr>
+
+	    <tr> <td> 0001 </td> <td> A        </td> </tr>
+	    <tr> <td> 0002 </td> <td> NS       </td> </tr>
+	    <tr> <td> 0005 </td> <td> CNAME    </td> </tr>
+	    <tr> <td> 0006 </td> <td> SOA      </td> </tr>
+	    <tr> <td> 000c </td> <td> PTR      </td> </tr>
+	    <tr> <td> 000f </td> <td> MX       </td> </tr>
+	    <tr> <td> 0010 </td> <td> TXT      </td> </tr>
+	    <tr> <td> 001c </td> <td> AAAA     </td> </tr>
+	    <tr> <td> 0026 </td> <td> A6       </td> </tr>
+	    <tr> <td> 00fb </td> <td> IXFR     </td> </tr>
+	    <tr> <td> 00fc </td> <td> AXFR     </td> </tr>
+	    <tr> <td> 00ff </td> <td> wildcard </td> </tr>
+
+	</table>
+
+	<p> See <a
+	href='http://www.iana.org/assignments/dns-parameters'>this
+	file</a> for a possibly canonical list of query types.
+
+	<p>
+
+	Log entry types:
+
+	<ul>
+	    <li><a href='#starting'><code><b>starting tinydns</b></code></a>
+	    <li><a href='#plus'><code>ip<b>:</b>port<b>:</b>id <b>+</b> type name</code></a>
+	    <li><a href='#minus'><code>ip<b>:</b>port<b>:</b>id <b>-</b> type name</code></a>
+	    <li><a href='#notimp'><code>ip<b>:</b>port<b>:</b>id <b>I</b> type name</code></a>
+	    <li><a href='#weirdclass'><code>ip<b>:</b>port<b>:</b>id <b>C</b> type name</code></a>
+	    <li><a href='#noquery'><code>ip<b>:</b>port<b>:0000 / 0000 .</b></code></a>
+	</ul>
+
+	</blockquote>
+
+	<h3><a name='descriptions'>Descriptions</a></h3>
+
+	<blockquote>
+
+	<dl>
+
+	    <p> <a name='starting'><dt><code><b>starting tinydns</b></code></dt></a>
+
+	    <p> <dd>
+
+		<code>tinydns</code> logs this entry immediately before
+		entering its receive/process/respond loop.
+
+	    <p> <a name='plus'><dt><code>ip<b>:</b>port<b>:</b>id <b>+</b> type name</code></dt></a>
+
+	    <p> <dd>
+
+                <code>tinydns</code> attempted to respond to a request.
+		The attempt may have failed due to a network error, but
+		such errors are not logged.
+
+		<p>
+		<table>
+		    <tr>
+			<th align='left'>Field</th>
+			<th align='left'>Meaning</th>
+		    </tr>
+
+		    <tr>
+			<td valign='top'><code>ip</code></td>
+			<td>The IP address from which the request was
+			received, and to which the response was sent.
+			</td>
+		    </tr>
+
+		    <tr>
+			<td valign='top'><code>port</code></td>
+			<td>The port number from which the request was
+			received, and to which the response was
+			sent.
+			</td>
+		    </tr>
+
+		    <tr>
+			<td valign='top'><code>id</code></td>
+			<td>The request id, which the client picks and
+			the server includes in the response.
+			</td>
+		    </tr>
+
+		    <tr>
+			<td valign='top'><code>type</code></td>
+			<td>The type of records requested.
+			</td>
+		    </tr>
+
+		    <tr>
+			<td valign='top'><code>name</code></td>
+			<td>The domain name for which records were
+			requested.
+			</td>
+		    </tr>
+
+		</table>
+
+	    <p> <a name='minus'><dt><code>ip<b>:</b>port<b>:</b>id <b>-</b> type name</code></dt></a>
+
+	    <p> <dd>
+
+                <code>tinydns</code> dropped a request because it did
+		not have the authority to answer.
+
+		<p> The fields have the same meanings as in the <a
+		href='#plus'>+ log entry</a>.
+
+	    <p> <a name='notimp'><dt><code>ip<b>:</b>port<b>:</b>id <b>I</b> type name</code></dt></a>
+
+	    <p> <dd>
+
+		<code>tinydns</code> received a request that it does
+		not implement, or that had invalid bits set in the
+		header, so it responded with an RCODE of 4 (NOTIMP).
+		For example, if the client asks <code>tinydns</code> to
+		perform a recursive query, or any type of query except a
+		standard query, then <code>tinydns</code> creates this
+		type of log entry and responds with a NOTIMP answer.
+
+		<p> The fields have the same meanings as in the <a
+		href='#plus'>+ log entry</a>.
+
+	    <p> <a name='weirdclass'><dt><code>ip<b>:</b>port<b>:</b>id <b>C</b> type name</code></dt></a>
+
+	    <p> <dd>
+
+		<code>tinydns</code> received a query for a class other
+		than <code>IN</code> (Internet) or 255, so it responded
+		with an RCODE of 1 (FORMERR). Class 255 means "any
+		class".
+
+		<p> The fields have the same meanings as in the <a
+		href='#plus'>+ log entry</a>. Note that the actual class
+		in the query is not logged, so there is no reliable way
+		to decode the meaning of the <code>type</code> field.
+
+	    <p> <a name='noquery'><dt><code>ip<b>:</b>port<b>:0000 / 0000 .</b></code></dt></a>
+
+	    <p> <dd>
+
+                <code>tinydns</code> received a request packet that
+		either contained no query, contained more than one
+		query, or otherwise could not be parsed.
+		<code>tinydns</code> dropped the request.
+
+		<p> The <code>ip</code> and <code>port</code> fields have
+		the same meanings as in the <a
+		href='#plus'>+ log entry</a>.  The other field values
+		are hardcoded.
+
+	</dl>
+
+	</blockquote>
+
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+
+        (The blank space above allows the <a href='#noquery'>last
+        named anchor</a> to appear at the top of your window.)
+
+	<hr>
+	Thanks to Daniel Biddle for class 255 and dns-parameters.
+
+    </body>
+</html>

@@ -1,0 +1,11 @@
+pkg libpng-1.2.24
+
+url http://superb-east.dl.sourceforge.net/sourceforge/libpng/libpng-1.2.24.tar.bz2
+
+build \
+    tar xjf libpng-1.2.24.tar.bz2
+    cd libpng-1.2.24
+    cp scripts/makefile.std Makefile
+    make prefix=/usr
+    mkdir -p $BPM_ROOT/usr/include $BPM_ROOT/usr/lib
+    make prefix=/usr DESTDIR=$BPM_ROOT install

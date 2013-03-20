@@ -1,0 +1,11 @@
+pkg djbdns-initscripts-1.4
+
+url http://bent.latency.net/djbdns-initscripts/djbdns-initscripts-1.4.tar.bz2
+
+build \
+    tar xjf djbdns-initscripts-1.4.tar.bz2
+    cd djbdns-initscripts-1.4
+    mkdir -p $BPM_ROOT/etc/rc.d/init.d
+    cp dnscache tinydns axfrdns $BPM_ROOT/etc/rc.d/init.d
+    mkdir -p $BPM_ROOT/usr/share/doc/djbdns-initscript-1.4
+    cp [A-Z]* $BPM_ROOT/usr/share/doc/djbdns-initscript-1.4/

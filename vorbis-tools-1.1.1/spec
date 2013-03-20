@@ -1,0 +1,11 @@
+pkg vorbis-tools-1.1.1
+
+url http://downloads.xiph.org/releases/vorbis/vorbis-tools-1.1.1.tar.gz
+
+build \
+    tar xf vorbis-tools-1.1.1.tar.gz
+    cd vorbis-tools-1.1.1
+    ./configure --prefix=/usr --mandir=/usr/share/man \
+        --disable-shared --enable-static
+    make
+    make DESTDIR=$BPM_ROOT install

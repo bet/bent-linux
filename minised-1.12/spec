@@ -1,0 +1,12 @@
+pkg minised-1.12
+
+url http://dl.exactcode.de/oss/minised/minised-1.12.tar.gz
+
+build \
+    tar xf minised-1.12.tar.gz
+    cd minised-1.12
+    make 'CC=gcc -Os -s'
+    mkdir -p $BPM_ROOT/usr/bin
+    cp minised $BPM_ROOT/usr/bin/minised
+    mkdir -p $BPM_ROOT/usr/share/man/man1
+    cp minised.1 $BPM_ROOT/usr/share/man/man1/minised.1

@@ -1,0 +1,19 @@
+pkg editkit-1.00
+
+url ftp://ftp.ac-grenoble.fr/ge/Office/editkit-1.00.tgz
+
+build \
+    tar xzf editkit-1.00.tgz
+    cd editkit-1.00
+    perl -pi -le 's/-O2/-Os/' Makefile
+    make 'TLIBS=-static -ltermcap' emt
+    mkdir -p $BPM_ROOT/usr/bin
+    install -s emt $BPM_ROOT/usr/bin/
+    mkdir -p $BPM_ROOT/usr/share/editkit
+    cp rc.example $BPM_ROOT/usr/share/editkit/rc.common
+    cp README $BPM_ROOT/usr/share/editkit/
+    cp MANUAL.emacs $BPM_ROOT/usr/share/editkit/
+    (cd $BPM_ROOT/usr/share/editkit && ln rc.common emtrc)
+
+isa editor
+    emacs

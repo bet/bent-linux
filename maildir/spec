@@ -1,0 +1,9 @@
+pkg maildir
+
+url http://gpl.internetconnection.net/files/maildir.tar.gz
+
+build \
+    tar xf maildir.tar.gz
+    cd maildir
+    mkdir -p $BPM_ROOT/usr/bin
+    gcc -Os -s -o $BPM_ROOT/usr/bin/maildir maildir.c hostname.c

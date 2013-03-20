@@ -1,0 +1,12 @@
+pkg tcpdump-3.8.3
+
+url http://www.tcpdump.org/release/tcpdump-3.8.3.tar.gz
+    no-getrpcbynumber.patch
+
+build \
+    tar xzf tcpdump-3.8.3.tar.gz
+    cd tcpdump-3.8.3
+    patch -p1 <../no-getrpcbynumber.patch
+    CFLAGS=-Os LDFLAGS='-s -static' ./configure --prefix=/usr
+    make
+    make DESTDIR=$BPM_ROOT install

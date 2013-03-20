@@ -1,0 +1,9 @@
+pkg fbida-2.03
+
+url http://dl.bytesex.org/releases/fbida/fbida-2.03.tar.gz
+
+build \
+    tar xf fbida-2.03.tar.gz
+    cd fbida-2.03
+    CFLAGS=-Os LDFLAGS=-s make 'prefix=/usr' 'LDLIBS=-liconv -ljpeg -lexif -lm -lfontconfig -lexpat -lfreetype -lz'
+    CFLAGS=-Os LDFLAGS=-s make 'prefix=/usr' DESTDIR=$BPM_ROOT install

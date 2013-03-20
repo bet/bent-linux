@@ -1,0 +1,14 @@
+pkg clisp-2.41
+
+url http://easynews.dl.sourceforge.net/sourceforge/clisp/clisp-2.41.tar.bz2
+
+build \
+    tar xf clisp-2.41.tar.bz2
+    cd clisp-2.41
+    CC='gcc -Os -s' ./configure --fsstnd=redhat --prefix=/usr --without-dynamic-ffi --build || true
+    cd src
+    ./makemake --fsstnd=redhat --prefix=/usr --without-dynamic-ffi --with-nogettext --without-unicode --without-dynamic-ffi --without-dynamic-modules >Makefile
+    make config.lisp
+    mkdir $BPM_ROOT/usr
+    make DESTDIR=$BPM_ROOT install
+    

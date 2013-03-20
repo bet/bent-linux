@@ -1,0 +1,10 @@
+pkg select_23apr2002
+
+url http://www.acme.com/software/select/select_23apr2002.tar.gz
+
+build \
+    tar xf select_23apr2002.tar.gz
+    cd select
+    make CC='diet gcc' CFLAGS="$CFLAGS -Wall -Wmissing-prototypes -Wstrict-prototypes"
+    mkdir -p $BPM_ROOT/usr/bin $BPM_ROOT/usr/share/man/man1
+    make BINDIR=$BPM_ROOT/usr/bin MANDIR=$BPM_ROOT/usr/share/man/man1 install

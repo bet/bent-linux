@@ -1,0 +1,11 @@
+pkg minirsyslogd-1.02
+
+url http://www.clueby4.org/minirsyslogd/minirsyslogd-1.02.tar.gz
+
+build \
+    tar xf minirsyslogd-1.02.tar.gz
+    cd minirsyslogd-1.02
+    mkdir -p $BPM_ROOT/usr/sbin
+    gcc -Os -s -o $BPM_ROOT/usr/sbin/minirsyslogd minirsyslogd.c
+    mkdir -p $BPM_ROOT/usr/share/man/man8
+    mv minirsyslogd.8.gz $BPM_ROOT/usr/share/man/man8/

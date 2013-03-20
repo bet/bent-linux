@@ -1,0 +1,10 @@
+pkg mlmmj-1.2.15
+
+url http://mlmmj.mmj.dk/files/mlmmj-1.2.15.tar.bz2
+
+build \
+    tar xjf mlmmj-1.2.15.tar.bz2
+    cd mlmmj-1.2.15
+    CFLAGS=-Os LDFLAGS=-s ./configure --prefix=/usr --mandir=/usr/share/man
+    make 'LIBS=-lnsl -lbind'
+    make DESTDIR=$BPM_ROOT install

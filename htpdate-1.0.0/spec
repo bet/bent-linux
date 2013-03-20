@@ -1,0 +1,11 @@
+
+pkg htpdate-1.0.0
+
+url http://www.clevervest.com/htp/archive/c/htpdate-1.0.0.tar.bz2
+
+build \
+    tar xf htpdate-1.0.0.tar.bz2
+    cd htpdate-1.0.0
+    make
+    make prefix=$BPM_ROOT/usr install
+    strip $BPM_ROOT/usr/bin/*||true

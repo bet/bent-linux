@@ -1,0 +1,8 @@
+pkg makedoc-0.7a
+
+url http://jmason.org/software/sitescooper/makedoc7.cpp
+
+build \
+    mkdir -p $BPM_ROOT/usr/bin
+    g++ -static -Os -o $BPM_ROOT/usr/bin/makedoc makedoc7.cpp
+    strip $BPM_ROOT/usr/bin/makedoc

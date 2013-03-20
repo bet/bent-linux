@@ -1,0 +1,11 @@
+pkg libid3tag-0.15.1b
+
+url ftp://ftp.mars.org/mpeg/libid3tag-0.15.1b.tar.gz
+
+build \
+    tar xf libid3tag-0.15.1b.tar.gz
+    cd libid3tag-0.15.1b
+    ./configure --prefix=/usr \
+        --disable-shared --disable-debugging
+    make
+    make DESTDIR=$BPM_ROOT install

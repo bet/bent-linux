@@ -1,0 +1,8 @@
+pkg bent-initscripts-1.1
+
+url rcS
+
+build \
+    mkdir -p $BPM_ROOT/etc/init.d
+    cp rcS $BPM_ROOT/etc/init.d/
+

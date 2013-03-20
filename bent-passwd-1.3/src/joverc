@@ -1,0 +1,23 @@
+auto-execute-command auto-fill-mode /tmp/mutt-*
+auto-execute-command auto-fill-mode .*\.sdf
+set match-regular-expressions on
+set allow-^S-and-^Q on
+set scroll-all-lines on
+set meta-key on
+show-match-mode
+bind-to-key buffer-position ^X=
+bind-to-key left-margin-here ^X.
+
+set right-margin 68
+
+define-macro par-fill-paragraph ^F^[xbackward-paragraph^M^@^[]^[xfilter-region^Mpar w68^M^F
+bind-macro-to-key par-fill-paragraph ^[j
+
+define-macro perl-mode ^[xset c-indentation-increment 4^M^[xshow-match-mode^M^[xc-mode^M^[xset error-format-string .* at \\([\^ ]*\\) line \\([0-9]*\\)^M
+
+define-macro socgen ^X^I/home/bet/miscdocs/SG^M^X^X
+
+# define-macro nobody ^\\^$^M^F^@^[>^W
+# define-macro datestamp ^@^M^[xfilt^Mdate -Iseconds^M
+# define-macro gulfwar-mod ^\\^$^M^F^@^[>^[xfilt^Mdate -Iseconds^M^X^M
+# bind-macro-to-key gulfwar-mod ^C

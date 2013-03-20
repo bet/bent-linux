@@ -1,0 +1,24 @@
+pkg zoneinfo-2007k
+
+url ftp://elsie.nci.nih.gov/pub/tzcode2007k.tar.gz
+    ftp://elsie.nci.nih.gov/pub/tzdata2007k.tar.gz
+
+build \
+    tar xf tzcode2007k.tar.gz
+    tar xf tzdata2007k.tar.gz
+    make TOPDIR=/usr \
+         TZDIR=/usr/share/zoneinfo \
+         ETCDIR=/usr/sbin \
+         BINDIR=/usr/bin \
+         MANDIR=/usr/share/man \
+         CFLAGS='-Os -Dtzname=__tzname -Dtzset=__tzset -DHAVE_STDINT_H' \
+         ALL
+    make TOPDIR=$BPM_ROOT/usr \
+         TZDIR=$BPM_ROOT/usr/share/zoneinfo \
+         ETCDIR=$BPM_ROOT/usr/sbin \
+         BINDIR=$BPM_ROOT/usr/bin \
+         MANDIR=$BPM_ROOT/usr/share/man \
+         INSTALL
+    strip $BPM_ROOT/usr/sbin/zdump
+    strip $BPM_ROOT/usr/sbin/zic
+    strip $BPM_ROOT/usr/bin/date

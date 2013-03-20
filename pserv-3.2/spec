@@ -1,0 +1,11 @@
+pkg pserv-3.2
+
+url http://voxel.dl.sourceforge.net/sourceforge/pserv/pserv-3.2.tar.gz
+
+build \
+    tar xf pserv-3.2.tar.gz
+    cd pserv-3.2
+    ./configure --prefix=/usr --mandir=/usr/share/man \
+        --enable-forking --enable-cgi
+    make
+    make DESTDIR=$BPM_ROOT install

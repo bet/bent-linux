@@ -1,0 +1,29 @@
+pkg frotz-2.43
+
+url http://www.cs.csubak.edu/~dgriffi/proj/frotz/files/frotz-2.43.tar.gz
+    http://alge.anart.no/ftp/pub/games/Infocom/games/Adventureland.z5
+    http://alge.anart.no/ftp/pub/games/Infocom/games/Zokoban.z5
+    http://alge.anart.no/ftp/pub/games/Infocom/games/Zork1.z5
+    http://alge.anart.no/ftp/pub/games/Infocom/games/Zork2.z5
+    http://alge.anart.no/ftp/pub/games/Infocom/games/Zork3.z5
+    http://alge.anart.no/ftp/pub/games/Infocom/games/Ztuu.z5
+    http://alge.anart.no/ftp/pub/games/Infocom/games/advent.z6
+    http://alge.anart.no/ftp/pub/games/Infocom/games/awitl.z5
+    http://alge.anart.no/ftp/pub/games/Infocom/games/godot.z5
+    http://alge.anart.no/ftp/pub/games/Infocom/games/night.z5
+    http://alge.anart.no/ftp/pub/games/Infocom/games/rogue.z5
+    http://alge.anart.no/ftp/pub/games/Infocom/games/wumpus.z5
+    http://alge.anart.no/ftp/pub/games/Infocom/games/zdungeon.z5
+
+build \
+    tar xf frotz-2.43.tar.gz
+    cd frotz-2.43
+    make OPTS=-Os PREFIX=/usr MAN_PREFIX=/usr/share CONFIG_DIR=/etc \
+        COLOR_DEFS= SOUND_DEFS=-DOSS_SOUND SOUND_DEV=/dev/dsp \
+        CURSES=-lncurses
+    make OPTS=-Os PREFIX=/usr MAN_PREFIX=/usr/share CONFIG_DIR=/etc \
+        COLOR_DEFS= SOUND_DEFS=-DOSS_SOUND SOUND_DEV=/dev/dsp \
+        CURSES=-lncurses dumb
+    mkdir -p $BPM_ROOT/etc $BPM_ROOT/usr/bin $BPM_ROOT/usr/share/man/man6
+    make OPTS=-Os PREFIX=$BPM_ROOT/usr MAN_PREFIX=$BPM_ROOT/usr/share CONFIG_DIR=$BPM_ROOT/etc \
+        install install_dumb

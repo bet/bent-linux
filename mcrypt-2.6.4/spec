@@ -1,0 +1,11 @@
+pkg mcrypt-2.6.4
+
+url http://download.sourceforge.net/mcrypt/mcrypt-2.6.4.tar.gz
+
+build \
+    tar xf mcrypt-2.6.4.tar.gz
+    cd mcrypt-2.6.4
+    ./configure --prefix=/usr --mandir=/usr/share/man
+    make
+    make DESTDIR=$BPM_ROOT install || true
+    ln -s mcrypt $BPM_ROOT/usr/bin/mdecrypt

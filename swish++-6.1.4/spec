@@ -1,0 +1,12 @@
+pkg swish++-6.1.4
+
+url http://homepage.mac.com/pauljlucas/software/swish++-6.1.4.tar.gz
+
+build \
+    tar xf swish++-6.1.4.tar.gz
+    cd swish++-6.1.4
+    perl -pi -le 's#^#// # if /#error/' config.h
+    perl -pi -le 's#/usr/local#/usr#;s#/man#/share/man# if /^I_MAN:=/;s/^/#/ if /^(MOD_LIST|CHARSET_LIST|ENCODING_LIST|SEARCH_DAEMON)/' config/config.mk
+    make 'CC=g++ -Os -s -static'
+    perl -pi -le 's#/usr#'$BPM_ROOT'/usr# if /^I_ROOT:=/;' config/config.mk
+    make install

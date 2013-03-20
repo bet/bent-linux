@@ -1,0 +1,10 @@
+pkg zip-2.31
+
+url ftp://ftp.info-zip.org/pub/infozip/src/zip231.tar.gz
+
+build \
+    tar xf zip231.tar.gz
+    cd zip-2.31
+    make -f unix/Makefile generic_gcc
+    make -f unix/Makefile prefix=$BPM_ROOT/usr MANDIR=$BPM_ROOT/usr/share/man/man1 INSTALL=cp install
+    strip $BPM_ROOT/usr/bin/*

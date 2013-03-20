@@ -1,0 +1,19 @@
+pkg thttpd-2.25b
+
+url http://www.acme.com/software/thttpd/thttpd-2.25b.tar.gz
+
+build \
+    tar xf thttpd-2.25b.tar.gz
+    cd thttpd-2.25b
+    ./configure --prefix=/usr --mandir=/usr/share/man
+    make \
+        WEBDIR=/home/httpd/html \
+        BINDIR=/usr/sbin prefix=/usr \
+        CGIBINDIR=/home/httpd/cgi-bin
+    mkdir -p $BPM_ROOT/home/httpd/{cgi-bin,logs}
+    mkdir -p $BPM_ROOT/etc/rc.d/init.d
+    mkdir -p $BPM_ROOT/usr/share/man/man{1,8}
+    mkdir -p $BPM_ROOT/usr/sbin
+    install  contrib/redhat-rpm/thttpd.init $BPM_ROOT/etc/rc.d/init.d/thttpd
+    install  contrib/redhat-rpm/thttpd.conf $BPM_ROOT/etc/
+    make -i prefix=$BPM_ROOT/usr MANDIR=$BPM_ROOT/usr/share/man install

@@ -1,0 +1,12 @@
+pkg timer_q-1.0.7
+
+url http://www.and.org/timer_q/latest/timer_q-1.0.7.tar.bz2
+
+build \
+    tar xf timer_q-1.0.7.tar.bz2
+    cd timer_q-1.0.7
+    ./configure --prefix=/usr --mandir=/usr/share/man --infodir=/usr/share/info \
+        --disable-dynamic --enable-static
+    make
+    make DESTDIR=$BPM_ROOT install
+    rm -f $BPM_ROOT/usr/share/info/dir

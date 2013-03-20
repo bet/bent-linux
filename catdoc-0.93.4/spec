@@ -1,0 +1,13 @@
+pkg catdoc-0.93.4
+
+url ftp://ftp.45.free.net/pub/catdoc/catdoc-0.93.4.tar.gz
+
+build \
+    tar xf catdoc-0.93.4.tar.gz
+    cd catdoc-0.93.4
+    ./configure --prefix=/usr --mandir=/usr/share/man \
+        --disable-langinfo --disable-wordview --with-input=8859-1 --with-output=8859-1 \
+        --with-install-root=$BPM_ROOT
+    make
+    make install
+    strip $BPM_ROOT/usr/bin/*

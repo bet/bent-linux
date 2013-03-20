@@ -1,0 +1,11 @@
+pkg pilot-link-0.12.0-pre2
+
+url http://pilot-link.org/source/pilot-link-0.12.0-pre2.tar.gz
+
+build \
+    tar xf pilot-link-0.12.0-pre2.tar.gz
+    cd pilot-link-0.12.0-pre2
+    ./configure --prefix=/usr --mandir=/usr/share/man \
+        --disable-shared
+    make 'LIBS=-lm -lz'
+    make DESTDIR=$BPM_ROOT install

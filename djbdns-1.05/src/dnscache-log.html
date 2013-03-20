@@ -1,0 +1,809 @@
+<html>
+    <head>
+        <title>
+            dnscache Log File Format
+        </title>
+    </head>
+    <body>
+        <h2><code>dnscache</code> Log File Format</h2>
+
+	by <a href='mailto:mayoff@dqd.com'>Rob Mayoff &lt;mayoff@dqd.com&gt;</a>
+
+	<p> These notes are incomplete.
+
+	<hr>
+
+	<blockquote>
+
+        <p> <code>dnscache</code> is part of the <a
+        href='http://cr.yp.to/djbdns.html'><code>djbdns</code></a>
+        package, written by Daniel J. Bernstein, aka djb. I couldn't
+        find any documentation on its log file format, other than <a
+        href='http://cr.yp.to/djbdns/cachesize.html'>this
+        explanation of one field of the <code>stats</code> log
+        entry</a>. This file contains my notes on what the log entries
+        mean. If there are any errors here, they are mine and not djb's.
+        Please <a href='mailto:mayoff-dns@dqd.com'>mail me</a> any
+        additions, corrections, or comments.
+
+	<p> <code>dnscache</code> logs IP addresses as 8 digit hexadecimal
+	strings.  For example, 127.0.0.1 is logged as 7f000001.
+
+        <p> <code>dnscache</code> logs UDP ports and query IDs as 4
+        digit hexadecimal strings.
+
+	<p> <code>dnscache</code> logs all time intervals (including
+	TTLs) as decimal strings, in units of seconds.
+
+        <p> <code>dnscache</code> logs record types numerically.
+        For a list of record types, see <a
+        href='ftp://ftp.isi.edu/in-notes/rfc1700.txt'>RFC 1700</a>, page
+        79. The common ones are 1 = A, 12 = PTR, and 15 = MX.
+
+	<p> <a href='http://www.rfc-editor.org/rfc/rfc1035.txt'>RFC
+	1035</a> specifies the implementation of DNS.
+
+	<p> You can find some programs for analyzing
+	<code>dnscache</code> logs at <a
+	href='http://www.fibrespeed.net/~mbabcock/code/'
+	>http://www.fibrespeed.net/~mbabcock/code/</a>.
+
+	<p> Log entry types:
+
+	<ul>
+	    <li><a href='#cached'><code><b>cached</b> type name</code></a>
+	    <li><a href='#cached-cname'><code><b>cached cname</b> name cname</code></a>
+	    <li><a href='#cached-ns'><code><b>cached ns</b> control server</code></a>
+	    <li><a href='#cached-nxdomain'><code><b>cached nxdomain</b> name</code></a>
+	    <li><a href='#drop'><code><b>drop</b> serial error</code></a>
+	    <li><a href='#lame'><code><b>lame</b> serverip name control</code></a>
+	    <li><a href='#nodata'><code><b>nodata</b> serverip ttl type name </code></a>
+	    <li><a href='#nxdomain'><code><b>nxdomain</b> serverip ttl name</code></a>
+	    <li><a href='#query'><code><b>query</b> serial clientip<b>:</b>clientport<b>:</b>id type name</code></a>
+	    <li><a href='#rr'><code><b>rr</b> serverip ttl type name data</code></a>
+	    <li><a href='#rr-cname'><code><b>rr</b> serverip ttl <b>cname</b> name cname</code></a>
+	    <li><a href='#rr-mx'><code><b>rr</b> serverip ttl <b>mx</b> name preference exchanger</code></a>
+	    <li><a href='#rr-ns'><code><b>rr</b> serverip ttl <b>ns</b> name server</code></a>
+	    <li><a href='#rr-ptr'><code><b>rr</b> serverip ttl <b>ptr</b> name pname</code></a>
+	    <li><a href='#rr-soa'><code><b>rr</b> serverip ttl <b>soa</b> server email serial refresh retry expire minimum</code></a>
+	    <li><a href='#sent'><code><b>sent</b> serial length</code></a>
+	    <li><a href='#servfail'><code><b>servfail</b> name error</code></a>
+	    <li><a href='#starting'><code><b>starting</b></code></a>
+	    <li><a href='#stats'><code><b>stats</b> query-count cache-motion udp-active tcp-active</code></a>
+	    <li><a href='#tcpopen'><code><b>tcpopen</b> clientip<b>:</b>clientport</code></a>
+	    <li><a href='#tcpclose'><code><b>tcpclose</b> clientip<b>:</b>clientport error</code></a>
+	    <li><a href='#tx'><code><b>tx</b> gluelessness type name control serverips...</code></a>
+	</ul>
+
+	</blockquote>
+
+	<h3><a name='descriptions'>Descriptions</a></h3>
+
+	<blockquote>
+
+	<dl>
+
+	    <p> <a name='cached'><dt><code><b>cached</b> type name</code></dt></a>
+
+	    <p> <dd>
+
+		<code>dnscache</code> needs some records and found them
+		in the cache.  It may have needed the records because
+		the client requested them, or it may have needed the
+		addresses of a name server in order to look up some
+		other records.
+
+		<p> The actual cached data is not recorded
+		with this log entry. The cached data may include several
+		records, but <code>dnscache</code> makes only one log
+		entry.
+
+		<p>
+		<table>
+		    <tr>
+			<th align='left'>Field</th>
+			<th align='left'>Meaning</th>
+		    </tr>
+
+		    <tr>
+			<td valign='top'><code>type</code></td>
+			<td>The type of records needed.</td>
+		    </tr>
+
+		    <tr>
+			<td valign='top'><code>name</code></td>
+			<td>
+			The domain name for which records were needed.
+			</td>
+		    </tr>
+
+		</table>
+
+	    <p> <a name='cached-cname'><dt><code><b>cached cname</b> name cname</code></dt></a>
+
+	    <p> <dd>
+
+                <code>dnscache</code> found the answer to a client query
+                in its cache, and the answer was a CNAME record. In this
+                case, <code>dnscache</code> starts over, looking for the
+                same record type but with the "canonical name".
+
+		<p>
+		<table>
+		    <tr>
+			<th align='left'>Field</th>
+			<th align='left'>Meaning</th>
+		    </tr>
+
+		    <tr>
+			<td valign='top'><code>name</code></td>
+			<td>
+			The domain name for which the client wants
+			records.
+			</td>
+		    </tr>
+
+		    <tr>
+			<td valign='top'><code>cname</code></td>
+			<td>The "canonical name" for <code>name</code>.
+			meaning that <code>name</code> should be treated
+			as an alias for <code>cname</code>.
+			</td>
+		    </tr>
+
+		</table>
+
+	    <p> <a name='cached-ns'><dt><code><b>cached ns</b> control server</code></dt></a>
+
+	    <p> <dd>
+
+                <code>dnscache</code> needed to know the authoritative
+                nameservers for some domain, and found a set of
+                nameservers for the domain, or some ancestor of it, in
+                the cache. <code>dnscache</code> creates one log entry
+                for each nameserver in the set. The actual name for
+                which <code>dnscache</code> needed to find nameservers
+                is on the <code>query</code> log entry preceding the set
+                of <code>cached ns</code> log entries.
+
+		<p> For example:
+
+		<p><blockquote><pre>query 673 7f000001:09b6:7c48 1 www.windows.com.
+cached ns com. a.root-servers.net.
+cached ns com. e.gtld-servers.net.
+cached ns com. f.gtld-servers.net.
+cached ns com. j.gtld-servers.net.
+cached ns com. k.gtld-servers.net.
+cached ns com. a.gtld-servers.net.
+cached ns com. m.gtld-servers.net.
+cached ns com. g.gtld-servers.net.
+cached ns com. c.gtld-servers.net.
+cached ns com. i.gtld-servers.net.
+cached ns com. b.gtld-servers.net.
+cached ns com. d.gtld-servers.net.</pre></blockquote>
+
+                <p><code>dnscache</code> needed to
+                know the authoritative nameservers for
+                <code>www.windows.com</code>, and the nearest set of
+                nameservers in its cache was the set of nameservers that
+                are authoritative for <code>com</code>.
+
+		<p>
+		<table>
+		    <tr>
+			<th align='left'>Field</th>
+			<th align='left'>Meaning</th>
+		    </tr>
+
+		    <tr>
+			<td valign='top'><code>control</code></td>
+			<td>The domain name for which <code>server</code>
+			is authoritative.
+			</td>
+		    </tr>
+
+		    <tr>
+			<td valign='top'><code>server</code></td>
+			<td>The name of a server that is authoritative
+			for <code>control</code>.
+			</td>
+		    </tr>
+
+		</table>
+
+	    <p> <a name='cached-nxdomain'><dt><code><b>cached nxdomain</b> name</code></dt></a>
+
+	    <p> <dd>
+
+		<code>dnscache</code> needed to find records for
+		<code>name</code> and found a cached <a
+		href='#nxdomain'><code>nxdomain</code></a> entry in the
+		cache.
+
+		<p>
+		<table>
+		    <tr>
+			<th align='left'>Field</th>
+			<th align='left'>Meaning</th>
+		    </tr>
+
+		    <tr>
+			<td valign='top'><code>name</code></td>
+			<td>The domain name for which records were
+			requested.
+			</td>
+		    </tr>
+
+		</table>
+
+	    <p> <a name='drop'><dt><code><b>drop</b> serial error</code></dt></a>
+
+	    <p> <dd>
+
+		<code>dnscache</code> decided not to try to respond to
+		a client query.
+
+		<p>
+		<table>
+		    <tr>
+			<th align='left'>Field</th>
+			<th align='left'>Meaning</th>
+		    </tr>
+
+		    <tr>
+			<td valign='top'><code>serial</code></td>
+			<td> The serial number of the client request.
+			See <a href='#query'><code>query</code></a> for
+			an explanation of client request serial numbers.</td>
+		    </tr>
+
+		    <tr>
+			<td valign='top'><code>error</code></td>
+			<td> The reason <code>dnscache</code> dropped
+			the request:
+
+			<dl>
+			    <dt><code>timed out</code>
+			    <dd> <code>dnscache</code> had MAXUDP (200)
+			    active UDP queries and received another UDP
+			    query.  It dropped the oldest active query.
+			    <dt><code>permission denied</code>
+			    <dd> <code>dnscache</code> received an AXFR
+			    request.
+			    <dt><code>permission denied</code>
+			    <dd> <code>dnscache</code> received an AXFR
+			    request.
+			    <dt><code>out of memory</code>
+			    <dd> <code>dnscache</code> could not
+			    allocate memory for parsing a query packet
+			    or building a response.
+			    <dt>XXX more errors...
+			</dl>
+		    </tr>
+
+		</table>
+
+	    <p> <a name='lame'><dt><code><b>lame</b> serverip name control</code></dt></a>
+
+	    <p> <dd>
+
+		<code>dnscache</code> found a lame delegation.  This
+		means that the server is supposed to be authoritative
+		for some domain, but isn't.
+
+		<p>
+		<table>
+		    <tr>
+			<th align='left'>Field</th>
+			<th align='left'>Meaning</th>
+		    </tr>
+
+		    <tr>
+			<td valign='top'><code>serverip</code></td>
+			<td> The IP address of the lame server. </td>
+		    </tr>
+
+		    <tr>
+			<td valign='top'><code>name</code></td>
+			<td> The domain name for which records were
+			requested.</td>
+		    </tr>
+
+		    <tr>
+			<td valign='top'><code>control</code></td>
+			<td> The domain for which the server is
+			supposed to be authoritative, but isn't. </td>
+		    </tr>
+
+		</table>
+
+	    <p> <a name='nodata'><dt><code><b>nodata</b> serverip ttl type name </code></dt></a>
+
+	    <p> <dd>
+
+		<code>dnscache</code> received a "no data" response.
+		This means that the server has records for the
+		requested name, but no records of the requested type.
+
+		<p>
+		<table>
+		    <tr>
+			<th align='left'>Field</th>
+			<th align='left'>Meaning</th>
+		    </tr>
+
+		    <tr>
+			<td valign='top'><code>serverip</code></td>
+			<td> The IP address of the responding server.</td>
+		    </tr>
+
+		    <tr>
+			<td valign='top'><code>ttl</code></td>
+			<td>The time-to-live of the SOA record in the
+			response.  This is how long <code>dnscache</code>
+			is allowed to cache the negative response.
+			<code>dnscache</code> will not cache a negative
+			response for more than one hour in any case.
+			</td>
+		    </tr>
+
+		    <tr>
+			<td valign='top'><code>type</code></td>
+			<td> The requested record type.</td>
+		    </tr>
+
+		    <tr>
+			<td valign='top'><code>name</code></td>
+			<td> The domain name for which records were
+			requested.</td>
+		    </tr>
+
+		</table>
+
+	    <p> <a name='nxdomain'><dt><code><b>nxdomain</b> serverip ttl name</code></dt></a>
+
+	    <p> <dd>
+
+                <code>dnscache</code> received a "Name Error" response.
+                This means that the server has no records of any type for
+                the requested name.
+
+		<p>
+		<table>
+		    <tr>
+			<th align='left'>Field</th>
+			<th align='left'>Meaning</th>
+		    </tr>
+
+		    <tr>
+			<td valign='top'><code>serverip</code></td>
+			<td> The IP address of the responding server.</td>
+		    </tr>
+
+		    <tr>
+			<td valign='top'><code>ttl</code></td>
+			<td>The time-to-live of the SOA record in the
+			response.  This is how long <code>dnscache</code>
+			is allowed to cache the negative response.
+			<code>dnscache</code> will not cache a negative
+			response for more than one hour in any case.
+			</td>
+		    </tr>
+
+		    <tr>
+			<td valign='top'><code>name</code></td>
+			<td> The domain name for which records were
+			requested.</td>
+		    </tr>
+
+		</table>
+
+	    <p> <a name='query'><dt><code><b>query</b> serial clientip<b>:</b>clientport<b>:</b>id type name</code></dt></a>
+	    
+	    <p> <dd>
+
+                <code>dnscache</code> received a packet containing a
+		query and intends to try to answer it.
+
+		<p>
+		<table>
+		    <tr>
+			<th align='left'>Field</th>
+			<th align='left'>Meaning</th>
+		    </tr>
+
+		    <tr>
+			<td valign='top'><code>serial</code></td>
+			<td>
+                        The number of queries <code>dnscache</code>
+                        received prior to this query since starting,
+                        plus one. In other words, serial number 1 is
+                        assigned to the first query received, serial
+                        number 2 is assigned to the second query
+                        received, and so on. The counter is stored using
+                        64 bits, so chances of it wrapping are unlikely.
+			</td>
+		    </tr>
+
+		    <tr>
+			<td valign='top'><code>clientip</code></td>
+			<td>
+			The source IP address of the packet. Presumably
+			this is the IP address from which the packet was
+			sent, though it could have been spoofed.
+			</td>
+		    </tr>
+
+		    <tr>
+			<td valign='top'><code>clientport</code></td>
+			<td>
+			The source UDP port of the packet.
+			</td>
+		    </tr>
+
+		    <tr>
+			<td valign='top'><code>id</code></td>
+			<td>
+			The id from the packet.  The id is chosen by the
+			client, and the server will include it in the
+			response.
+			</td>
+		    </tr>
+
+		    <tr>
+			<td valign='top'><code>type</code></td>
+			<td>
+                        The type of records the client wants.
+			</td>
+		    </tr>
+
+		    <tr>
+			<td valign='top'><code>name</code></td>
+			<td>
+                        The domain name for which the client wants
+			records.
+			</td>
+		    </tr>
+
+		</table>
+
+	    <p> <a name='rr'><dt><code><b>rr</b> XXX</code></dt></a>
+
+	    <p> <a name='sent'><dt><code><b>sent</b> serial length</code></dt></a>
+
+	    <p> <dd>
+
+		<code>dnscache</code> finished constructing a response
+		to a query.
+		If the query came over UDP, then <code>dnscache</code>
+		also sent the response.  If the query came over TCP,
+		then <code>dnscache</code> did not send the response
+		before making this log entry.  (Sending over TCP may
+		block so <code>dnscache</code> trickles the data out
+		as part of its main loop.)
+
+		<p>
+		<table>
+		    <tr>
+			<th align='left'>Field</th>
+			<th align='left'>Meaning</th>
+		    </tr>
+
+		    <tr>
+			<td valign='top'><code>serial</code></td>
+			<td> The serial number of the client request
+			to which <code>dnscache</code> responded.
+			See <a href='#query'><code>query</code></a> for
+			an explanation of client request serial numbers.</td>
+		    </tr>
+
+		    <tr>
+			<td valign='top'><code>length</code></td>
+			<td> The number of bytes in the response. </td>
+		    </tr>
+
+		</table>
+
+	    <p> <a name='servfail'><dt><code><b>servfail</b> name error</code></dt></a>
+
+	    <p> <dd>
+
+                <code>dnscache</code> sent a packet with rcode 2,
+		"Server failure", because it encountered an error.
+
+		<p>Some of the errors that can make dnscache do this:
+
+		<p>
+		<ul>
+
+                    <li> failure to allocate storage for a received DNS
+		    packet
+
+                    <li> failure to create a UDP socket
+
+                    <li> failure to set the O_NONBLOCK flag on the UDP
+		    socket
+
+                    <li> failure to bind the UDP socket to a port
+
+                    <li> failure to transmit a packet to any of up to 16
+                    nameservers and receive a response packet with an
+                    rcode of 0 (no error) or 3 (NXDOMAIN), with
+                    four attempts per nameserver
+
+		    <li> failure to create a TCP socket
+
+                    <li> failure to set the O_NONBLOCK flag on the TCP
+		    socket
+
+                    <li> failure to bind the TCP socket to a port
+
+                    <li> failure to connect the TCP socket to any of
+                    up to 16 nameservers (one attempt per nameserver),
+                    transmit a query to the nameserver, and receive a
+                    response packet with an rcode of 0 (no error) or 3
+		    (NXDOMAIN)
+
+		</ul>
+
+                <p>There may be other ways for dnscache to log/send
+                servfail, but these are all the ones I have found from
+                inspecting the source code.
+
+		<p>
+		<table>
+		    <tr>
+			<th align='left'>Field</th>
+			<th align='left'>Meaning</th>
+		    </tr>
+
+		    <tr>
+			<td valign='top'><code>name</code></td>
+			<td>
+                        The domain name for which the dnscache was
+			trying to find records.
+			</td>
+		    </tr>
+
+		    <tr>
+			<td valign='top'><code>error</code></td>
+			<td>
+                            As of <code>djbdns</code> version 1.05,
+                            the error message will <b>always</b> be
+                            "input/output error", because the only call
+                            to <code>log_servfail</code> is in
+			    <code>doit</code> in
+                            <code>query.c</code>, like this:
+
+			    <blockquote><pre>errno = error_io;
+if (state == 1) goto HAVEPACKET;
+if (state == -1) {
+  log_servfail(z->name[z->level]);
+  goto SERVFAIL;
+}</pre></blockquote>
+
+			</td>
+		    </tr>
+
+		</table>
+
+	    <p> <a name='starting'><dt><code><b>starting</b></code></dt></a>
+
+	    <p> <dd>
+
+		<code>dnscache</code> logs this entry when it starts up.
+
+	    <p> <a name='stats'><dt><code><b>stats</b> query-count cache-motion udp-active tcp-active</code></dt></a>
+
+	    <p> <dd>
+
+		This entry contains statistics about
+		<code>dnscache</code>'s behavior, both since startup and
+		at the moment the entry was logged.
+
+		<p>
+		<table>
+		    <tr>
+			<th align='left'>Field</th>
+			<th align='left'>Meaning</th>
+		    </tr>
+
+		    <tr>
+			<td valign='top'><code>query-count</code></td>
+			<td>The total number of queries received by
+			<code>dnscache</code> since startup.
+			</td>
+		    </tr>
+
+		    <tr>
+			<td valign='top'><code>cache-motion</code></td>
+                        <td>The total number of bytes
+                        <code>dnscache</code> has stored in its cache
+                        since startup. This says nothing about the
+                        maximum size of the cache or how much data has
+                        been evicted from the cache.  See <a
+			href='http://cr.yp.to/djbdns/faq/cachex.html#cachemotion'>djb's
+                        explanation of cache motion</a> for more
+                        information.
+			</td>
+		    </tr>
+
+		    <tr>
+			<td valign='top'><code>udp-active</code></td>
+                        <td>The number of queries that
+                        <code>dnscache</code> has received via UDP but
+                        not yet responded to or dropped.
+			</td>
+		    </tr>
+
+		    <tr>
+			<td valign='top'><code>tcp-active</code></td>
+                        <td>The number of queries that
+                        <code>dnscache</code> has received via TCP but
+                        not yet responded to or dropped.
+			</td>
+		    </tr>
+
+		</table>
+
+	    <p> <a name='tx'><dt><code><b>tx</b> gluelessness type name control serverips...</code></dt></a>
+
+
+	    <p> <dd>
+
+		This line indicates that dnscache transmitted a query.
+
+		<p>
+		<table>
+		    <tr>
+			<th align='left'>Field</th>
+			<th align='left'>Meaning</th>
+		    </tr>
+
+		    <tr>
+			<td valign='top'><code>gluelessness</code></td>
+			<td>The amount of gluelessness that generated
+			this query.
+
+			<p> Read <a
+			href='http://cr.yp.to/djbdns/notes.html#gluelessness'>
+			djb's explanation of gluelessness</a>.
+
+			<p> For the case of www.monty.de, the queries
+			<code>dnscache</code> sent for www.monty.de have
+			gluelessness 0.  The query sent for
+			ns.norplex.net has gluelessness 1.  The query
+			for vserver.neptun11.de has gluelessness 2.  The
+			query sent for ns.germany.net has gluelessness
+			3.  And so on.
+
+			</td>
+		    </tr>
+
+		    <tr>
+			<td valign='top'><code>type</code></td>
+			<td>The requested record type.</td>
+		    </tr>
+
+		    <tr>
+			<td valign='top'><code>name</code></td>
+			<td>The domain name for which records are being
+			requested.
+			</td>
+		    </tr>
+
+		    <tr>
+			<td valign='top'><code>control</code></td>
+
+                        <td><code>dnscache</code> sends a query to a server
+                        because it has been told that the server is
+                        authoritative for the domain in question, or
+                        some ancestor thereof. The <code>control</code>
+                        field shows the domain for which <code>dnscache</code> thinks
+                        the server is authoritative.
+
+			<p>
+			For example, suppose the cache is empty, and you
+			ask <code>dnscache</code> for the A records for example.com.
+			First, <code>dnscache</code> will send a query to a root
+			server, because the root server is authoritative
+			for the root domain (written ".").  So the
+			<code>tx</code> line for the query will have "."
+			in the <code>control</code> field.
+
+			<p> The root server will give <code>dnscache</code> a list of
+			servers that are authoritative for the
+			<code>com</code> domain.  <code>dnscache</code> will ask one
+			of the <code>com</code> servers for the A records
+			for <code>example.com</code>, and the log entry
+			will have <code>com.</code> in the
+			<code>control</code> field.
+
+			<p> Suppose the <code>com</code> server says that
+			<code>ns.example.net</code> is authoritative for
+			<code>example.com</code>.  Then when <code>dnscache</code>
+			asks <code>ns.example.net</code> for A records
+			for <code>example.com</code>, the log entry will
+			have <code>example.com</code> in the
+			<code>control</code> field.
+			</td>
+		    </tr>
+
+		    <tr>
+			<td valign='top'><code>serverips</code></td>
+			<td>
+			The IP addresses of all the authoritative servers
+			for the <code>control</code> domain, in random
+			order.
+			<code>dnscache</code>
+			transmits the query to the first server in the
+			list.  If the server doesn't respond, <code>dnscache</code>
+			moves on to the next server in the list.
+			</td>
+		    </tr>
+
+		</table>
+	    </dd>
+
+	</dl>
+
+	</blockquote>
+
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+
+        (The blank space above allows the <a href='#tx'><code>tx</code>
+        named anchor</a> to appear at the top of your window.)
+
+    </body>
+</html>

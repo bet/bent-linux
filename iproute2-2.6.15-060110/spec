@@ -1,0 +1,11 @@
+pkg iproute2-2.6.15-060110
+
+url http://developer.osdl.org/dev/iproute2/download/iproute2-2.6.15-060110.tar.gz
+    http://developer.osdl.org/dev/iproute2/download/iproute2-2.6.15-060110.tar.gz.sign
+
+build \
+    tar xf iproute2-2.6.15-060110.tar.gz
+    cd iproute2-2.6.15-060110
+    perl -pi -le 's/ arpd / / if /^TARGETS=/' misc/Makefile
+    make
+    make DESTDIR=$BPM_ROOT install

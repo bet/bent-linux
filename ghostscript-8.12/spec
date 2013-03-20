@@ -1,0 +1,10 @@
+pkg ghostscript-8.12
+
+url http://unc.dl.sourceforge.net/sourceforge/ghostscript/ghostscript-8.12.tar.bz2
+    
+build \
+    tar xjf ghostscript-8.12.tar.bz2
+    cd ghostscript-8.12
+    ./configure --prefix=/usr --mandir=/usr/share/man --without-x
+    make
+    make prefix=$BPM_ROOT/usr mandir=$BPM_ROOT/usr/share/man install

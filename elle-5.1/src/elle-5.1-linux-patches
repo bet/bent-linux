@@ -1,0 +1,63 @@
+diff -ru elle-5.1.orig/Makefile elle-5.1/Makefile
+--- elle-5.1.orig/Makefile	Thu Aug  3 11:23:14 2000
++++ elle-5.1/Makefile	Thu Aug  3 12:07:53 2000
+@@ -226,3 +226,13 @@
+ 
+ 
+ 
++# Linux system.
++#	Developed using Red Hat 5.0. Should be fine for any reasonably current
++#	Unix conforming to FHS <URL:http://www.pathname.com/fhs/> and Posix
++#	and so on. And of course -ltermcap rather than -ltermlib.
++
++linux:	makecf.fun
++	make -f makecf.fun -f Makefile elle \
++		"CONFFLAGS = -DSYS_SYSV=1 -DFILESYSHEIRSTD" \
++		"RANLIB = ar -rs" \
++		"LLIBS = -ltermcap"
+diff -ru elle-5.1.orig/defprf.e elle-5.1/defprf.e
+--- elle-5.1.orig/defprf.e	Thu Aug  3 11:23:14 2000
++++ elle-5.1/defprf.e	Thu Aug  3 12:07:53 2000
+@@ -203,7 +203,7 @@
+ 
+ (keybind X-^B "List Buffers")
+ ;;Too damn dangerous to be a default
+-;;(keybind X-^C "Write File Exit")	; ELLE (ima). E:()-; G: (= save-buffers-kill-emacs)
++(keybind X-^C "Write File Exit")	; ELLE (ima). E:()-; G: (= save-buffers-kill-emacs)
+ (keybind X-^E "Write Region")		; E:(*)-;    G:(*) eval-last-sexp
+ (keybind X-^F "Find File")
+ (keybind X-^K "Write Last Kill")	; ELLE (mnx). E+G:()-
+diff -ru elle-5.1.orig/eemain.c elle-5.1/eemain.c
+--- elle-5.1.orig/eemain.c	Thu Aug  3 11:23:14 2000
++++ elle-5.1/eemain.c	Thu Aug  3 12:08:11 2000
+@@ -244,7 +244,9 @@
+ #endif
+ 
+ #if !(SYS_T10)
++#ifdef SIGSYS
+ 	signal(SIGSYS, bite_bag);	/* Bad arg to Sys call */
++#endif
+ 	signal(SIGSEGV, bite_bag);	/* Segmentation Violation */
+ #if !(SYS_COHERENT)
+ 	signal(SIGILL, bite_bag);	/* Illegal Instruction interrupt */
+@@ -472,7 +474,7 @@
+  */
+ char *
+ estrdup FNARGS1(char *,s)
+-{	char *strcpy();		/* Note STRCPY return val is its 1st arg */
++{	/* char *strcpy();		/* Note STRCPY return val is its 1st arg */
+ 	return(strcpy(memalloc(strlen(s)+1), s));
+ }
+ 
+diff -ru elle-5.1.orig/eesite.h elle-5.1/eesite.h
+--- elle-5.1.orig/eesite.h	Thu Aug  3 11:23:14 2000
++++ elle-5.1/eesite.h	Thu Aug  3 12:07:53 2000
+@@ -247,3 +247,8 @@
+ #ifndef EXPANDFNS		/* Support for ~ and $ filename expansion */
+ # define EXPANDFNS 0
+ #endif
++
++/* The Filesystem Heirarchy Standard */
++#ifdef FILESYSHEIRSTD
++# define EVHELPFILE   "/usr/lib/elle/help.dat"
++#endif

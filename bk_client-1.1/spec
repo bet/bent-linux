@@ -1,0 +1,11 @@
+pkg bk_client-1.1
+
+url http://www.bitmover.com/bk-client.shar
+
+build \
+    sh bk-client.shar
+    cd bk_client-1.1
+    gcc -Os -s -o sfio sfio.c -lz
+    make '-s'
+    mkdir -p $BPM_ROOT/usr/bin
+    mv sfio sfioball update $BPM_ROOT/usr/bin/

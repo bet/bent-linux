@@ -1,0 +1,11 @@
+pkg termcap-1.3.1
+
+url http://mirrors.kernel.org/gnu/termcap/termcap-1.3.1.tar.gz
+
+build \
+    tar xzf termcap-1.3.1.tar.gz
+    cd termcap-1.3.1
+    ./configure --prefix=/usr
+    make
+    make prefix=$BPM_ROOT/usr infodir=$BPM_ROOT/usr/share/info install
+

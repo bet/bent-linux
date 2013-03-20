@@ -1,0 +1,9 @@
+pkg psyslogd
+
+url http://lists.jammed.com/loganalysis/2002/01/att-0084/01-psyslogd.c
+    01-psyslogd-ctime-type.patch
+
+build \
+    mkdir -p $BPM_ROOT/usr/sbin
+    patch 01-psyslogd.c <01-psyslogd-ctime-type.patch
+    gcc -Wall -Os -s -o $BPM_ROOT/usr/sbin/psyslogd 01-psyslogd.c -lpcap

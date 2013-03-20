@@ -1,0 +1,14 @@
+pkg libmcrypt-2.5.7
+
+url ftp://mcrypt.hellug.gr/pub/crypto/mcrypt/libmcrypt/libmcrypt-2.5.7.tar.gz
+    http://download.sourceforge.net/mcrypt/libmcrypt-mars-0.9.tar.gz
+    http://download.sourceforge.net/mcrypt/libmcrypt-rc6-0.9.tar.gz
+    http://download.sourceforge.net/mcrypt/libmcrypt-skipjack-0.9.tar.gz
+
+build \
+    tar xf libmcrypt-2.5.7.tar.gz
+    cd libmcrypt-2.5.7
+    ./configure --prefix=/usr --mandir=/usr/share/man \
+        --enable-static --disable-shared
+    make
+    make DESTDIR=$BPM_ROOT install

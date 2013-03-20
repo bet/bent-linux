@@ -1,0 +1,31 @@
+pkg daemontools-0.70
+
+url http://cr.yp.to/daemontools/daemontools-0.70.tar.gz
+    ftp://ftp.innominate.org/gpa/djb/daemontools-0.70-man.tar.gz
+    daemontools-docs.tar.bz2
+    daemontools-svscan.init
+    daemontools-0.70-rh73.patch
+
+build \
+    tar xzf daemontools-0.70.tar.gz
+    cd daemontools-0.70
+    echo /usr >conf-home
+    echo gcc -Os --include /usr/include/errno.h > conf-cc
+    echo gcc -s -static >conf-ld
+    patch -p1 <../daemontools-0.70-rh73.patch
+    mkdir docs
+    (cd docs&&tar xjf -)<../daemontools-docs.tar.bz2
+    tar xzvf ../daemontools-0.70-man.tar.gz
+    PATH=.:$PATH make
+    mkdir -p $BPM_ROOT/etc/rc.d/init.d
+    mkdir -p $BPM_ROOT/usr/bin
+    mkdir -p $BPM_ROOT/usr/man/man8
+    rm install instcheck auto_home.[co]
+    echo $BPM_ROOT/usr >conf-home
+    make install instcheck
+    ./install
+    ./instcheck
+    cp ../daemontools-svscan.init $BPM_ROOT/etc/rc.d/init.d/svscan
+    cp daemontools-0.70-man/*.8 $BPM_ROOT/usr/man/man8/
+    mkdir -p $BPM_ROOT/usr/share/doc/daemontools-0.70
+    cp -r [A-Z]* docs $BPM_ROOT/usr/share/doc/daemontools-0.70/

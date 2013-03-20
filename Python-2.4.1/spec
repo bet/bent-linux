@@ -1,0 +1,17 @@
+pkg Python-2.4.1
+
+url http://www.python.org/ftp/python/2.4.1/Python-2.4.1.tar.bz2
+    Python-2.4.1-static-modules.patch
+
+build \
+    tar xf Python-2.4.1.tar.bz2
+    cd Python-2.4.1
+    OPT=-Os ./configure --prefix=/usr --mandir=/usr/share/man --infodir=/usr/share/info \
+        --with-threads=no --with-libs=-lbind
+    patch -p1 <../Python-2.4.1-static-modules.patch
+    make || true
+    perl -pi -le 's/ sharedmods//' Makefile
+    make 'LOCALMODLIBS=-lreadline -lintl -liconv -lssl -lcrypto -lcrypt -lpanel -lncurses -lgdbm -lz -lexpat'
+    make DESTDIR=$BPM_ROOT install || true
+    rm -rf $BPM_ROOT/usr/lib/python2.4.1/lib-dynload
+    ln -s python2.4 $BPM_ROOT/usr/bin/python

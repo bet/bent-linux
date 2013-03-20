@@ -1,0 +1,12 @@
+pkg enscript-1.6.1
+
+url http://ftp.gnu.org/gnu/enscript/enscript-1.6.1.tar.gz
+
+build \
+    tar xf enscript-1.6.1.tar.gz
+    cd enscript-1.6.1
+    ./configure --prefix=/usr --infodir=/usr/share/info --mandir=/usr/share/man
+    make
+    make DESTDIR=$BPM_ROOT sysconfdir=$BPM_ROOT/usr/etc datadir=$BPM_ROOT/usr/share install
+    mv $BPM_ROOT/$BPM_ROOT/usr/share/enscript/* $BPM_ROOT/usr/share/enscript
+    rm -r $BPM_ROOT/$BPM_ROOT

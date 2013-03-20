@@ -1,0 +1,12 @@
+pkg darkhttpd-1.5
+
+url http://dmr.ath.cx/net/darkhttpd/darkhttpd-1.5.tar.bz2
+
+build \
+    tar xf darkhttpd-1.5.tar.bz2
+    cd darkhttpd-1.5
+    gcc -Os -s -o darkhttpd darkhttpd.c -lbind
+    mkdir -p $BPM_ROOT/usr/bin
+    mv darkhttpd $BPM_ROOT/usr/bin/
+    mkdir -p $BPM_ROOT/usr/share/doc/darkhttpd
+    mv README $BPM_ROOT/usr/share/doc/darkhttpd/

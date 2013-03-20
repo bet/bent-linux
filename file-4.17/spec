@@ -1,0 +1,10 @@
+pkg file-4.17
+
+url ftp://ftp.fu-berlin.de/unix/tools/file/file-4.17.tar.gz
+
+build \
+    tar xzf file-4.17.tar.gz
+    cd file-4.17
+    ./configure --prefix=/usr --mandir=/usr/share/man --disable-shared
+    make
+    make DESTDIR=$BPM_ROOT install

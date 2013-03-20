@@ -1,0 +1,16 @@
+pkg gnupg-1.4.7
+
+url ftp://ftp.gnupg.org/gcrypt/gnupg/gnupg-1.4.7.tar.bz2
+    ftp://ftp.gnupg.org/gcrypt/gnupg/gnupg-1.4.7.tar.bz2.sig
+    ftp://ftp.gnupg.dk/pub/contrib-dk/idea.c.gz
+
+build \
+    tar xjf gnupg-1.4.7.tar.bz2
+    cd gnupg-1.4.7
+    gzip -d <../idea.c.gz >cipher/idea.c
+    CFLAGS=-Os LDFLAGS=-s ./configure --prefix=/usr --mandir=/usr/share/man --infodir=/usr/share/info \
+        --disable-dynload --enable-tiger --enable-new-tiger --enable-sha512 --disable-exec --disable-photo-viewers \
+        --disable-keyserver-helpers --disable-ldap --disable-mailto --disable-nls --with-idea
+    make
+    make DESTDIR=$BPM_ROOT install
+    rm $BPM_ROOT/usr/share/info/dir

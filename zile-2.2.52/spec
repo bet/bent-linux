@@ -1,0 +1,17 @@
+pkg zile-2.2.52
+
+url http://superb-east.dl.sourceforge.net/sourceforge/zile/zile-2.2.52.tar.gz
+
+build \
+    tar xf zile-2.2.52.tar.gz
+    cd zile-2.2.52
+    CC=gcc CFLAGS=-Os LDFLAGS='-static -s' ./configure --prefix=/usr \
+        --mandir=/usr/share/man --infodir=/usr/share/info
+    touch doc/AUTODOC
+    make
+    mkdir -p $BPM_ROOT/usr/share/info $BPM_ROOT/usr/man/man1 $BPM_ROOT/usr/bin
+    make DESTDIR=$BPM_ROOT install
+    rm -f $BPM_ROOT/usr/share/info/dir
+
+isa editor
+    emacs

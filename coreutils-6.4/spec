@@ -1,0 +1,13 @@
+pkg coreutils-6.4
+
+url http://ftp.gnu.org/gnu/coreutils/coreutils-6.4.tar.bz2
+    http://ftp.gnu.org/gnu/coreutils/coreutils-6.4.tar.bz2.sig
+
+build \
+    tar xf coreutils-6.4.tar.bz2
+    cd coreutils-6.4
+    ./configure --prefix=/usr --mandir=/usr/share/man --infodir=/usr/share/info --disable-nls
+    make 'LIBS=-lbind'
+    make DESTDIR=$BPM_ROOT datarootdir=/usr/share install
+    rm -f $BPM_ROOT/usr/share/info/dir
+

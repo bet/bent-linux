@@ -1,0 +1,8 @@
+pkg darcs2rss-0.6
+
+url http://darcs.simplicidade.org/repos/darcs2rss/darcs2rss
+
+build \
+    mkdir -p $BPM_ROOT/usr/bin
+    mv darcs2rss $BPM_ROOT/usr/bin/
+    chmod 755 $BPM_ROOT/usr/bin/darcs2rss

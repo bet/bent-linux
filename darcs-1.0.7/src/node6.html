@@ -1,0 +1,691 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Best practices</TITLE>
+<META NAME="description" CONTENT="Best practices">
+<META NAME="keywords" CONTENT="darcs">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="darcs.css">
+
+<LINK REL="next" HREF="node7.html">
+<LINK REL="previous" HREF="node5.html">
+<LINK REL="up" HREF="darcs.html">
+<LINK REL="next" HREF="node7.html">
+</HEAD>
+
+<BODY >
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html391"
+  HREF="node7.html">
+<IMG WIDTH="22" HEIGHT="22" title="Next"  ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="./next.png"></A> 
+<A NAME="tex2html387"
+  HREF="darcs.html">
+<IMG WIDTH="22" HEIGHT="22" title="Up"  ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="./up.png"></A> 
+<A NAME="tex2html381"
+  HREF="node5.html">
+<IMG WIDTH="22" HEIGHT="22" title="Previous"  ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="./prev.png"></A> 
+<A NAME="tex2html389"
+  HREF="node1.html">
+<IMG WIDTH="22" HEIGHT="22" title="Contents"  ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="./contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html392"
+  HREF="node7.html">Darcs commands</A>
+<B> Up:</B> <A NAME="tex2html388"
+  HREF="darcs.html">Darcs 1.0.7 (release) Darcs</A>
+<B> Previous:</B> <A NAME="tex2html382"
+  HREF="node5.html">Configuring darcs</A>
+ &nbsp; <B>  <A NAME="tex2html390"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR></DIV>
+<!--End of Navigation Panel-->
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL CLASS="ChildLinks">
+<LI><A NAME="tex2html393"
+  HREF="node6.html#SECTION00610000000000000000">Introduction</A>
+<LI><A NAME="tex2html394"
+  HREF="node6.html#SECTION00620000000000000000">Creating patches</A>
+<UL>
+<LI><A NAME="tex2html395"
+  HREF="node6.html#SECTION00621000000000000000">Changes</A>
+<LI><A NAME="tex2html396"
+  HREF="node6.html#SECTION00622000000000000000">Keeping or discarding changes</A>
+<LI><A NAME="tex2html397"
+  HREF="node6.html#SECTION00623000000000000000">Unrecording changes</A>
+<LI><A NAME="tex2html398"
+  HREF="node6.html#SECTION00624000000000000000">Special patches and pending</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html399"
+  HREF="node6.html#SECTION00630000000000000000">Using patches</A>
+<UL>
+<LI><A NAME="tex2html400"
+  HREF="node6.html#SECTION00631000000000000000">Dependencies</A>
+<LI><A NAME="tex2html401"
+  HREF="node6.html#SECTION00632000000000000000">Branches: just normal repositories</A>
+<LI><A NAME="tex2html402"
+  HREF="node6.html#SECTION00633000000000000000">Moving patches around--no versions</A>
+<LI><A NAME="tex2html403"
+  HREF="node6.html#SECTION00634000000000000000">Tags--versions</A>
+<LI><A NAME="tex2html404"
+  HREF="node6.html#SECTION00635000000000000000">Conflicts</A>
+<LI><A NAME="tex2html405"
+  HREF="node6.html#SECTION00636000000000000000">Resolving conflicts</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html406"
+  HREF="node6.html#SECTION00640000000000000000">Distributed development with one primary developer</A>
+<LI><A NAME="tex2html407"
+  HREF="node6.html#SECTION00650000000000000000">Development by a small group of developers in one office</A>
+</UL>
+<!--End of Table of Child-Links-->
+<HR>
+
+<H1><A NAME="SECTION00600000000000000000">
+Best practices</A>
+</H1>
+
+<P>
+
+<H1><A NAME="SECTION00610000000000000000">
+Introduction</A>
+</H1>
+
+<P>
+This chapter is intended to review various scenarios and describe in each
+case effective ways of using darcs.  There is no one ``best practice'', and
+darcs is a sufficiently low-level tool that there are many high-level ways
+one can use it, which can be confusing to new users.  The plan (and hope)
+is that various users will contribute here describing how they use darcs in
+different environments.  However, this is not a wiki, and contributions
+will be edited and reviewed for consistency and wisdom.
+
+<P>
+
+<H1><A NAME="SECTION00620000000000000000">
+Creating patches</A>
+</H1>
+
+<P>
+This section will lay down the concepts around patch creation.
+The aim is to develop a way of thinking
+that corresponds well to how darcs is behaving
+-- even in complicated situations.
+
+<P>
+In a single darcs repository you can think of two ``versions'' of the source tree.
+	They are called the <SPAN  CLASS="textit">working</SPAN> and <SPAN  CLASS="textit">pristine</SPAN> trees.
+    <SPAN  CLASS="textit">Working</SPAN> is your normal source tree, with or without darcs alongside.
+	The only thing that makes it part of a darcs repository
+	is the <code>_darcs</code> directory in its root.
+    <SPAN  CLASS="textit">Pristine</SPAN> is the recorded state of the source tree.
+	The pristine tree is constructed from groups of changes,
+        called <EM>patches</EM> (some other version control systems use the
+	term <EM>changeset</EM> instead of <EM>patch</EM>).<A NAME="tex2html9"
+  HREF="footnode.html#foot2039"><SUP><SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">1</SPAN></SUP></A>	Darcs will create and store these patches
+	based on the changes you make in <SPAN  CLASS="textit">working</SPAN>.
+
+<P>
+
+<H2><A NAME="SECTION00621000000000000000">
+Changes</A>
+</H2>
+	If <SPAN  CLASS="textit">working</SPAN> and <SPAN  CLASS="textit">pristine</SPAN> are the same,
+	there are ``no changes'' in the repository.
+	Changes can be introduced (or removed) by editing the files in <SPAN  CLASS="textit">working</SPAN>.
+	They can also be caused by darcs commands,
+	which can modify <SPAN  CLASS="textit">both</SPAN> <SPAN  CLASS="textit">working</SPAN> and <SPAN  CLASS="textit">pristine</SPAN>.
+	It is important to understand for each darcs command
+	how it modifies <SPAN  CLASS="textit">working</SPAN>, <SPAN  CLASS="textit">pristine</SPAN> or both of them.
+
+<P>
+<code>whatsnew</code> (as well as <code>diff</code>) can show
+	the difference between <SPAN  CLASS="textit">working</SPAN> and <SPAN  CLASS="textit">pristine</SPAN> to you.
+	It will be shown as a difference in <SPAN  CLASS="textit">working</SPAN>.
+	In advanced cases it need <SPAN  CLASS="textit">not</SPAN> be <SPAN  CLASS="textit">working</SPAN> that has changed;
+	it can just as well have been <SPAN  CLASS="textit">pristine</SPAN>, or both.
+	The important thing is the difference and what darcs can do with it.
+
+<P>
+
+<H2><A NAME="SECTION00622000000000000000">
+Keeping or discarding changes</A>
+</H2>
+    If you have a difference in <SPAN  CLASS="textit">working</SPAN>, you do two things
+    with it: <code>record</code> it to keep it, or <code>revert</code> it to lose the changes.<A NAME="tex2html10"
+  HREF="footnode.html#foot367"><SUP><SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">2</SPAN></SUP></A>
+<P>
+If you have a difference between <SPAN  CLASS="textit">working</SPAN> and <SPAN  CLASS="textit">pristine</SPAN>--for example after editing some files in <SPAN  CLASS="textit">working</SPAN>--<code>whatsnew</code> will show some ``unrecorded changes''.
+	To save these changes, use <code>record</code>.
+	It will create a new patch in <SPAN  CLASS="textit">pristine</SPAN> with the same changes,
+	so <SPAN  CLASS="textit">working</SPAN> and <SPAN  CLASS="textit">pristine</SPAN> are no longer different.
+	To instead undo the changes in <SPAN  CLASS="textit">working</SPAN>, use <code>revert</code>.
+	It will modify the files in <SPAN  CLASS="textit">working</SPAN> to be the same as in <SPAN  CLASS="textit">pristine</SPAN>
+	(where the changes do not exist).
+
+<P>
+
+<H2><A NAME="SECTION00623000000000000000">
+Unrecording changes</A>
+</H2>
+    <code>unrecord</code> is a command meant to be run only in private
+    repositories. Its intended purpose is to allow developers the flexibility
+    to undo patches that haven't been distributed yet.
+
+<P>
+However, darcs does not prevent you from unrecording a patch that
+    has been copied to another repository. Be aware of this danger!
+
+<P>
+If you <code>unrecord</code> a patch, that patch will be deleted from <SPAN  CLASS="textit">pristine</SPAN>.
+	This will cause <SPAN  CLASS="textit">working</SPAN> to be different from <SPAN  CLASS="textit">pristine</SPAN>,
+	and <code>whatsnew</code> to report unrecorded changes.
+	The difference will be the same as just before that patch was <code>record</code>ed.
+	Think about it.
+	<code>record</code> examines what's different with <SPAN  CLASS="textit">working</SPAN>
+	and constructs a patch with the same changes in <SPAN  CLASS="textit">pristine</SPAN>
+	so they are no longer different.
+	<code>unrecord</code> deletes this patch;
+	the changes in <SPAN  CLASS="textit">pristine</SPAN> disappear and the difference is back.
+
+<P>
+If the recorded changes included an error,
+	the resulting flawed patch can be unrecorded.
+	When the changes have been fixed,
+	they can be recorded again as a new--hopefully flawless--patch.
+
+<P>
+If the whole change was wrong it can be discarded from <SPAN  CLASS="textit">working</SPAN> too,
+	with <code>revert</code>.
+	<code>revert</code> will update <SPAN  CLASS="textit">working</SPAN> to the state of <SPAN  CLASS="textit">pristine</SPAN>,
+	in which the changes do no longer exist after the patch was deleted.
+
+<P>
+Keep in mind that the patches are your history,
+	so deleting them with <code>unrecord</code> makes it impossible to track
+	what changes you <SPAN  CLASS="textit">really</SPAN> made.
+	Redoing the patches is how you ``cover the tracks''.
+	On the other hand,
+	it can be a very convenient way to manage and organize changes
+	while you try them out in your private repository.
+	When all is ready for shipping,
+	the changes can be reorganized in what seems as useful and impressive patches.
+	Use it with care.
+
+<P>
+All patches are global,
+	so don't <SPAN  CLASS="textit">ever</SPAN> replace an already ``shipped'' patch in this way!
+	If an erroneous patch is deleted and replaced with a better one,
+	you have to replace it in <SPAN  CLASS="textit">all</SPAN> repositories that have a copy of it.
+	This may not be feasible, unless it's all private repositories.
+	If other developers have already made patches or tags in their repositories
+	that depend on the old patch, things will get complicated.
+
+<P>
+
+<H2><A NAME="SECTION00624000000000000000">
+Special patches and pending</A>
+</H2>
+
+<P>
+The patches described in the previous sections have mostly been hunks.
+A <SPAN  CLASS="textit">hunk</SPAN> is one of darcs' primitive patch types,
+and it is used to remove old lines and/or insert new lines.
+There are other types of primitive patches,
+such as <SPAN  CLASS="textit">adddir</SPAN> and <SPAN  CLASS="textit">addfile</SPAN>
+which add new directories and files,
+and <SPAN  CLASS="textit">replace</SPAN>
+which does a search-and-replace on tokens in files.
+
+<P>
+Hunks are always calculated in place with a diff algorithm
+just before <code>whatsnew</code> or <code>record</code>.
+But other types of primitive patches need to be explicitly created
+with a darcs command.
+They are kept in <SPAN  CLASS="textit">pending</SPAN><A NAME="tex2html11"
+  HREF="footnode.html#foot2040"><SUP><SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">3</SPAN></SUP></A>until they are either recorded or reverted.
+
+<P>
+<SPAN  CLASS="textit">Pending</SPAN> can be thought of as a special extension of <SPAN  CLASS="textit">working</SPAN>.
+When you issue, e.g., a darcs <code>replace</code> command,
+the replace is performed on the files in <SPAN  CLASS="textit">working</SPAN>
+and at the same time a replace patch is put in <SPAN  CLASS="textit">pending</SPAN>.
+Patches in <SPAN  CLASS="textit">pending</SPAN> describe special changes made in <SPAN  CLASS="textit">working</SPAN>.
+The diff algorithm will fictively apply these changes to <SPAN  CLASS="textit">pristine</SPAN>
+before it compares it to <SPAN  CLASS="textit">working</SPAN>,
+so all lines in <SPAN  CLASS="textit">working</SPAN> that are changed by a <code>replace</code> command
+will also be changed in <SPAN  CLASS="textit">pending</SPAN><SPAN CLASS="MATH"><IMG
+ WIDTH="31" HEIGHT="11" ALIGN="MIDDLE" BORDER="0"
+ SRC="img3.png"
+ ALT="$+$"></SPAN><SPAN  CLASS="textit">pristine</SPAN>
+when the hunks are calculated.
+That's why no hunks with the replaced lines will be shown by <code>whatsnew</code>;
+it only shows the replace patch in <SPAN  CLASS="textit">pending</SPAN> responsible for the change.
+
+<P>
+If a special patch is recorded, it will simply be moved to <SPAN  CLASS="textit">pristine</SPAN>.
+If it is instead reverted, it will be deleted from <SPAN  CLASS="textit">pending</SPAN>
+and the accompanying change will be removed from <SPAN  CLASS="textit">working</SPAN>.
+
+<P>
+Note that reverting a patch in pending is <SPAN  CLASS="textit">not</SPAN> the same as
+simply removing it from pending.
+It actually applies the inverse of the change to <SPAN  CLASS="textit">working</SPAN>.
+Most notable is that reverting an addfile patch
+will delete the file in <SPAN  CLASS="textit">working</SPAN> (the inverse of adding it).
+So if you add the wrong file to darcs by mistake,
+<SPAN  CLASS="textit">don't</SPAN> <code>revert</code> the addfile.
+Instead use <code>remove</code>, which cancels out the addfile in pending.
+
+<P>
+
+<H1><A NAME="SECTION00630000000000000000">
+Using patches</A>
+</H1> 
+<P>
+This section will lay down the concepts around patch distribution and branches.
+The aim is to develop a way of thinking
+that corresponds well to how darcs is behaving
+-- even in complicated situations.
+
+<P>
+A repository is a collection of patches.
+Patches have no defined order,
+but patches can have dependencies on other patches.
+Patches can be added to a repository in any order
+as long as all patches depended upon are there.
+Patches can be removed from a repository in any order,
+as long as no remaining patches depend on them.
+
+<P>
+Repositories can be cloned to create branches.
+Patches created in different branches may conflict.
+A conflict is a valid state of a repository.
+A conflict makes the working tree ambiguous until the conflict is resolved.
+
+<P>
+
+<H2><A NAME="SECTION00631000000000000000">
+Dependencies</A>
+</H2>
+
+<P>
+There are two kinds of dependencies:
+implicit dependencies and explicit dependencies.
+
+<P>
+Implicit dependencies is the far most common kind.
+These are calculated automatically by darcs.
+If a patch removes a file or a line of code,
+it will have to depend on the patch that added that file or line of code.<A NAME="tex2html12"
+  HREF="footnode.html#foot418"><SUP><SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">4</SPAN></SUP></A>If a patch adds a line of code,
+it will usually have to depend on the patch or patches that added the adjacent lines.
+
+<P>
+Explicit dependencies can be created if you give the <code>--ask-deps</code> option to <code>darcs record</code>.
+This is good for assuring that logical dependencies hold between patches.
+It can also be used to group patches--a patch with explicit dependencies doesn't need to change anything--and pulling the patch also pulls all patches it was made to depend on.
+
+<P>
+
+<H2><A NAME="SECTION00632000000000000000">
+Branches: just normal repositories</A>
+</H2>
+
+<P>
+Darcs does not have branches--it doesn't need to.
+Every repository can be used as a branch.
+This means that any two repositories are ``branches'' in darcs,
+but it is not of much use unless they have a large portion of patches in common.
+If they are different projects they will have nothing in common,
+but darcs may still very well be able to merge them,
+although the result probably is nonsense.
+Therefore the word ``branch'' isn't a technical term in darcs;
+it's just the way we think of one repository in relation to another.
+
+<P>
+Branches are <SPAN  CLASS="textit">very</SPAN> useful in darcs.
+They are in fact <SPAN  CLASS="textit">necessary</SPAN> if you want to do more than only simple work.
+When you <code>get</code> someone's repository from the Internet,
+you are actually creating a branch of it.
+It may first seem inefficient (or if you come from CVS--frightening),
+not to say plain awkward.
+But darcs is designed this way, and it has means to make it efficient.
+The answer to many questions about how to do a thing with darcs is: ``use a branch''.
+It is a simple and elegant solution with great power and flexibility,
+which contributes to darcs' uncomplicated user interface.
+
+<P>
+You create new branches (i.e., clone repositories)
+with the <code>get</code> and <code>put</code> commands.
+
+<P>
+
+<H2><A NAME="SECTION00633000000000000000">
+Moving patches around--no versions</A>
+</H2>
+
+<P>
+Patches are global, and a copy of a patch either is or is not present in a branch.
+This way you can rig a branch almost any way you like,
+as long as dependencies are fulfilled--darcs <SPAN  CLASS="textit">won't</SPAN> let you break dependencies.
+If you suspect a certain feature from some time ago introduced a bug,
+you can remove the patch/patches that adds the feature,
+and try without it.<A NAME="tex2html13"
+  HREF="footnode.html#foot2041"><SUP><SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">5</SPAN></SUP></A>
+<P>
+Patches are added to a repository with <code>pull</code>
+and removed from the repositories with <code>unpull</code>.
+Don't confuse these two commands with <code>record</code> and <code>unrecord</code>,
+which constructs and deconstructs patches.
+
+<P>
+It is important not to lose patches when (re)moving them around.
+<code>pull</code> needs a source repository to copy the patch from,
+whereas <code>unpull</code> just erases the patch.
+Beware that if you unpull <SPAN  CLASS="textit">all</SPAN> copies of a patch
+it is completely lost--forever.
+Therefore you should work with branches when you unpull patches.
+The <code>unpull</code> command can wisely be disabled in a dedicated main repository
+by adding <code>unpull disable</code> to the repository's defaults file.
+
+<P>
+For convenience, there is a <code>push</code> command.
+It works like <code>pull</code> but in the other direction.
+It also differs from <code>pull</code> in an important way:
+it starts a second instance of darcs to apply the patch in the target repository,
+even if it's on the same computer.
+It can cause surprises if you have a ``wrong'' darcs in your PATH.
+
+<P>
+
+<H2><A NAME="SECTION00634000000000000000">
+Tags--versions</A>
+</H2>
+
+<P>
+While <code>pull</code> and <code>unpull</code> can be used to
+construct different ``versions'' in a repository,
+it is often desirable to name specific configurations of patches
+so they can be identified and retrieved easily later.
+This is how darcs implements what is usually known as versions.
+The command for this is <code>tag</code>,
+and it records a tag in the current repository.
+
+<P>
+A tag is just a patch, but it only contains explicit dependencies.
+It will depend on all the patches in the current repository.<A NAME="tex2html14"
+  HREF="footnode.html#foot427"><SUP><SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">6</SPAN></SUP></A>Darcs can recognize if a patch is as a tag;
+tags are sometimes treated specially by darcs commands.
+
+<P>
+While traditional revision control systems tag versions in the time line history,
+darcs lets you tag any configuration of patches at any time,
+and pass the tags around between branches.
+
+<P>
+With the option <code>--tag</code> to <code>get</code> you can easily get
+a named version in the repository
+as a new branch.
+
+<P>
+
+<H2><A NAME="SECTION00635000000000000000">
+Conflicts</A>
+</H2>
+
+<P>
+This part of darcs becomes a bit complicated,
+and the description given here is slightly simplified.
+
+<P>
+Conflicting patches are created when
+you record changes to the same line in two different repositories.
+Same line does <SPAN  CLASS="textit">not</SPAN> mean the same line number and file name,
+but the same line added by a common depended-upon patch.
+
+<P>
+Contrary to many other merging tools,
+darcs considers two patches making the <SPAN  CLASS="textit">same</SPAN> change to be a conflict.
+In fact, darcs doesn't even look at the contents of the conflicting lines.
+If you think this is wrong, think about two different patches
+each adding a new keyword and also changing the line
+``<code>#define NUM_OF_KEYWORDS 17</code>''
+to
+``<code>#define NUM_OF_KEYWORDS 18</code>''.
+
+<P>
+A conflict <SPAN  CLASS="textit">happens</SPAN> when two conflicting patches meet in the same repository.
+This is no problem for darcs; it can happily pull together just any patches.
+But it is a problem for the files in <SPAN  CLASS="textit">working</SPAN> (and <SPAN  CLASS="textit">pristine</SPAN>).
+The conflict can be thought of as
+two patches telling darcs different things about what a file should look like.
+
+<P>
+Darcs escapes this problem
+by ignoring those parts<A NAME="tex2html15"
+  HREF="footnode.html#foot434"><SUP><SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">7</SPAN></SUP></A>of the patches that conflict.
+They are ignored in <SPAN  CLASS="textit">both</SPAN> patches.
+If patch&nbsp;A changes the line ``FIXME'' to ``FIXED'',
+and patch&nbsp;B changes the same line to ``DONE'',
+the two patches together will produce the line ``FIXME''.
+Darcs doesn't care which one you pulled into the repository first,
+you still get the same result when the conflicting patches meet.
+All other changes made by A and B are performed as normal.
+
+<P>
+Darcs can mark a conflict for you in <SPAN  CLASS="textit">working</SPAN>.
+This is done with <code>resolve</code> (which isn't a very good name).
+Conflicts are marked such that both conflicting changes
+are inserted with special delimiter lines around them.
+Then you can merge the two changes by hand,
+and remove the delimiters.
+
+<P>
+When you pull patches,
+darcs automatically performs a <code>resolve</code> for you if a conflict happens.
+You can remove the markup with <code>revert</code>,
+Remember that the result will be the lines from
+the previous version common to both conflicting patches.
+The conflict marking can be redone again with <code>resolve</code>.
+
+<P>
+A special case is when a pulled patch conflicts with unrecorded changes in the repository.
+The conflict will be automatically marked as usual,
+but since the markup is <SPAN  CLASS="textit">also</SPAN> an unrecorded change,
+it will get mixed in with your unrecorded changes.
+There is no guarantee you can revert <code>only</code> the markup after this,
+and <code>resolve</code> will not be able to redo this markup later if you remove it.
+It is good practice to record important changes before pulling.
+
+<P>
+<code>resolve</code> can't mark complicated conflicts.
+In that case you'll have to use <code>darcs diff</code> and other commands
+to understand what the conflict is all about.
+If for example two conflicting patches create the same file,
+<code>resolve</code> will pick just one of them,
+and no delimiters are inserted.
+So watch out if darcs tells you about a conflict.
+
+<P>
+<code>resolve</code> can also be used to check for unresolved conflicts.
+If there are none, darcs replies ``No conflicts to resolve''.
+While <code>pull</code> reports when a conflict happens,
+<code>unpull</code> and <code>get</code> don't.
+
+<P>
+
+<H2><A NAME="SECTION00636000000000000000">
+Resolving conflicts</A>
+</H2>
+
+<P>
+A conflict is resolved
+(not marked, as with the command <code>resolve</code>)
+as soon as some new patch depends on the conflicting patches.
+This will usually be the resolve patch you record after manually putting together the pieces
+from the conflict markup produced by <code>resolve</code> (or <code>pull</code>).
+But it can just as well be a tag.
+So don't forget to fix conflicts before you accidently ``resolve'' them by recording other patches.
+
+<P>
+If the conflict is with one of your not-yet-published patches,
+you may choose to amend that patch rather than creating a resolve patch.
+
+<P>
+If you want to back out and wait with the conflict,
+you can <code>unpull</code> the conflicting patch you just pulled.
+Before you can do that you have to <code>revert</code> the conflict markups
+that <code>pull</code> inserted when the conflict happened.
+
+<P>
+
+<H1><A NAME="SECTION00640000000000000000"></A>
+<A NAME="darcs-development-practices"></A>
+<BR>
+Distributed development with one primary developer
+</H1>
+
+<P>
+This is how darcs itself is developed.  There are many contributors to
+darcs, but every contribution is reviewed and manually applied by myself.
+For this sort of a situation, <code>darcs send</code> is ideal, since the barrier for
+contributions is very low, which helps encourage contributors.
+
+<P>
+One could simply set the <code>_darcs/prefs/email</code> value to the project
+mailing list, but I also use darcs send to send my changes to the main
+server, so instead the email address is set to
+``<code>Davids Darcs Repo &lt;droundy@abridgegame.org&gt;</code>''.  My
+<code>.procmailrc</code>
+file on the server has the following rule:
+<PRE>
+:0:
+* ^TODavids Darcs Repo
+|(umask 022; darcs apply --reply darcs-devel@abridgegame.org \
+             --repodir /path/to/repo --verify /path/to/allowed_keys)
+</PRE>
+This causes darcs apply to be run on any email sent to ``Davids Darcs
+Repo''.
+<code>apply</code> actually applies them only if they are signed by an
+authorized key.  Currently, the only authorized key is mine, but of course
+this could be extended easily enough.
+
+<P>
+The central darcs repository contains the following values in its
+<code>_darcs/prefs/defaults</code>:
+<PRE>
+apply test
+apply verbose
+apply happy-forwarding
+</PRE>
+The first line tells apply to always run the test suite.  The test suite is
+in fact the main reason I use send rather than push, since it allows me to
+easily continue working (or put my computer to sleep) while the tests are
+being run on the main server.  The second line is just there to improve the
+email response that I get when a patch has either been applied or failed
+the tests.  The third line makes darcs not complain about unsigned patches,
+but just to forward them to <code>darcs-devel</code>.
+
+<P>
+On my development computer, I have in my <code>.muttrc</code> the following
+alias, which allows me to easily apply patches that I get via email
+directly to my darcs working directory:
+<PRE>
+macro pager A "&lt;pipe-entry&gt;(umask 022; darcs apply --no-test -v --repodir ~/darcs)"
+</PRE>
+
+<P>
+
+<H1><A NAME="SECTION00650000000000000000"></A>
+<A NAME="dft-development-practices"></A>
+<BR>
+Development by a small group of developers in one office
+</H1>
+
+<P>
+This section describes the development method used for the density
+functional theory code DFT++, which is available at
+<code>http://dft.physics.cornell.edu/dft</code>.
+
+<P>
+We have a number of workstations which all mount the same <code>/home</code> via NFS.
+We created a special ``dft'' user, with the central repository living in that
+user's home directory.  The ssh public keys of authorized persons are added to
+the ``dft'' user's <code>.ssh/allowed_keys</code>, and we commit patches to this
+repository using
+<code>darcs push</code>.  As in Section&nbsp;<A HREF="#darcs-development-practices"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="./crossref.png"></A>,
+we have the central repository set to run the test suite before the push goes
+through.
+
+<P>
+Note that no one ever runs as the dft user.
+
+<P>
+A subtlety that we ran into showed up in the running of the test suite.
+Since our test suite includes the running of MPI programs, it must be run
+in a directory that is mounted across our cluster.  To achieve this, we set
+the <code>$DARCS_TMPDIR</code> environment variable to <code>~/tmp</code>.
+
+<P>
+Note that even though there are only four active developers at the moment,
+the distributed nature of darcs still plays a large role.  Each developer
+works on a feature until it is stable, a process that often takes quite a
+few patches, and only once it is stable does he
+<code>push</code> to the central repository.
+
+<P>
+
+<DIV CLASS="navigation"><HR>
+<!--Navigation Panel-->
+<A NAME="tex2html391"
+  HREF="node7.html">
+<IMG WIDTH="22" HEIGHT="22" title="Next"  ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="./next.png"></A> 
+<A NAME="tex2html387"
+  HREF="darcs.html">
+<IMG WIDTH="22" HEIGHT="22" title="Up"  ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="./up.png"></A> 
+<A NAME="tex2html381"
+  HREF="node5.html">
+<IMG WIDTH="22" HEIGHT="22" title="Previous"  ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="./prev.png"></A> 
+<A NAME="tex2html389"
+  HREF="node1.html">
+<IMG WIDTH="22" HEIGHT="22" title="Contents"  ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="./contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html392"
+  HREF="node7.html">Darcs commands</A>
+<B> Up:</B> <A NAME="tex2html388"
+  HREF="darcs.html">Darcs 1.0.7 (release) Darcs</A>
+<B> Previous:</B> <A NAME="tex2html382"
+  HREF="node5.html">Configuring darcs</A>
+ &nbsp; <B>  <A NAME="tex2html390"
+  HREF="node1.html">Contents</A></B> </DIV>
+<!--End of Navigation Panel-->
+<ADDRESS>
+Tommy Pettersson
+2006-05-13
+</ADDRESS>
+</BODY>
+</HTML>

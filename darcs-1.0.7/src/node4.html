@@ -1,0 +1,703 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Getting started</TITLE>
+<META NAME="description" CONTENT="Getting started">
+<META NAME="keywords" CONTENT="darcs">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="darcs.css">
+
+<LINK REL="next" HREF="node5.html">
+<LINK REL="previous" HREF="node3.html">
+<LINK REL="up" HREF="darcs.html">
+<LINK REL="next" HREF="node5.html">
+</HEAD>
+
+<BODY >
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html326"
+  HREF="node5.html">
+<IMG WIDTH="22" HEIGHT="22" title="Next"  ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="./next.png"></A> 
+<A NAME="tex2html322"
+  HREF="darcs.html">
+<IMG WIDTH="22" HEIGHT="22" title="Up"  ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="./up.png"></A> 
+<A NAME="tex2html316"
+  HREF="node3.html">
+<IMG WIDTH="22" HEIGHT="22" title="Previous"  ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="./prev.png"></A> 
+<A NAME="tex2html324"
+  HREF="node1.html">
+<IMG WIDTH="22" HEIGHT="22" title="Contents"  ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="./contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html327"
+  HREF="node5.html">Configuring darcs</A>
+<B> Up:</B> <A NAME="tex2html323"
+  HREF="darcs.html">Darcs 1.0.7 (release) Darcs</A>
+<B> Previous:</B> <A NAME="tex2html317"
+  HREF="node3.html">Building darcs</A>
+ &nbsp; <B>  <A NAME="tex2html325"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR></DIV>
+<!--End of Navigation Panel-->
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL CLASS="ChildLinks">
+<LI><A NAME="tex2html328"
+  HREF="node4.html#SECTION00410000000000000000">Creating your repository</A>
+<LI><A NAME="tex2html329"
+  HREF="node4.html#SECTION00420000000000000000">Making changes</A>
+<LI><A NAME="tex2html330"
+  HREF="node4.html#SECTION00430000000000000000">Making your repository visible to others</A>
+<LI><A NAME="tex2html331"
+  HREF="node4.html#SECTION00440000000000000000">Getting changes made to another repository</A>
+<LI><A NAME="tex2html332"
+  HREF="node4.html#SECTION00450000000000000000">Moving patches from one repository to another</A>
+<UL>
+<LI><A NAME="tex2html333"
+  HREF="node4.html#SECTION00451000000000000000">All pulls</A>
+<LI><A NAME="tex2html334"
+  HREF="node4.html#SECTION00452000000000000000">Send and apply manually</A>
+<LI><A NAME="tex2html335"
+  HREF="node4.html#SECTION00453000000000000000">Push</A>
+<LI><A NAME="tex2html336"
+  HREF="node4.html#SECTION00454000000000000000">Push --apply-as</A>
+<LI><A NAME="tex2html337"
+  HREF="node4.html#SECTION00455000000000000000">Sending signed patches by email</A>
+<UL>
+<LI><A NAME="tex2html338"
+  HREF="node4.html#SECTION00455010000000000000">Security considerations</A>
+<LI><A NAME="tex2html339"
+  HREF="node4.html#SECTION00455020000000000000">Installing necessary programs</A>
+<LI><A NAME="tex2html340"
+  HREF="node4.html#SECTION00455030000000000000">Granting access to a repository</A>
+<LI><A NAME="tex2html341"
+  HREF="node4.html#SECTION00455040000000000000">Setting up a sendable repository using procmail</A>
+<LI><A NAME="tex2html342"
+  HREF="node4.html#SECTION00455050000000000000">Checking if your e-mail patch was applied</A>
+</UL>
+</UL>
+<BR>
+<LI><A NAME="tex2html343"
+  HREF="node4.html#SECTION00460000000000000000">Reducing disk space usage</A>
+<UL>
+<LI><A NAME="tex2html344"
+  HREF="node4.html#SECTION00461000000000000000">Linking between repositories</A>
+<LI><A NAME="tex2html345"
+  HREF="node4.html#SECTION00462000000000000000">Alternate formats for the pristine tree</A>
+</UL></UL>
+<!--End of Table of Child-Links-->
+<HR>
+
+<H1><A NAME="SECTION00400000000000000000">
+Getting started</A>
+</H1>
+
+<P>
+This chapter will lead you through an example use of darcs, which hopefully
+will allow you to get started using darcs with your project.
+
+<P>
+
+<H1><A NAME="SECTION00410000000000000000">
+Creating your repository</A>
+</H1>
+
+<P>
+Creating your repository in the first place just involves telling darcs to
+create the special directory (called <TT>_darcs</TT>) in your project tree,
+which will hold the revision information.  This is done by simply calling
+from the root directory of your project:
+<PRE>
+% cd my_project/
+% darcs initialize
+</PRE>
+This creates the <code>_darcs</code> directory and populates it with whatever
+files and directories are needed to describe an empty project.  You now
+need to tell darcs what files and directories in your project should be
+under revision control.  You do this using the command <code>darcs add</code><A NAME="tex2html8"
+  HREF="footnode.html#foot199"><SUP><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">1</SPAN></SUP></A>:
+<PRE>
+% darcs add *.c Makefile.am configure.ac
+</PRE>
+When you have added all your files (or at least, think you have), you will
+want to record your changes.  ``Recording'' always includes adding a note
+as to why the change was made, or what it does.  In this case, we'll just
+note that this is the initial version.
+<PRE>
+% darcs record --all
+What is the patch name? Initial revision.
+</PRE>
+Note that since we didn't specify a patch name on the command line we were
+prompted for one.  If the environment variable `EMAIL' isn't set, you will
+also be prompted for your email address.  Each patch that is recorded is
+given a unique identifier consisting of the patch name, its creator's email
+address, and the date when it was created.
+
+<P>
+
+<H1><A NAME="SECTION00420000000000000000">
+Making changes</A>
+</H1>
+
+<P>
+Now that we have created our repository, make a change to one or more of
+your files.  After making the modification run:
+<PRE>
+% darcs whatsnew
+</PRE>
+This should show you the modifications that you just made, in the darcs
+patch format.  If you prefer to see your changes in a different format,
+read Section&nbsp;<A HREF="node7.html#whatsnew"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="./crossref.png"></A>, which describes the whatsnew command in
+detail.
+
+<P>
+Let's say you have now made a change to your project.  The next thing to do
+is to record a patch.  Recording a patch consists of grouping together a
+set of related changes, and giving them a name.  It also tags the patch
+with the date it was recorded and your email address.
+
+<P>
+To record a patch simply type:
+<PRE>
+% darcs record
+</PRE>
+darcs will then prompt you with all the changes that you have made that
+have not yet been recorded, asking you which ones you want to include in
+the new patch.  Finally, darcs will ask you for a name for the patch.
+
+<P>
+You can now rerun whatsnew, and see that indeed the changes you have
+recorded are no longer marked as new.
+
+<P>
+
+<H1><A NAME="SECTION00430000000000000000">
+Making your repository visible to others</A>
+</H1>
+How do you let the world know about these wonderful changes?  Obviously,
+they must be able to see your repository.  Currently the easiest way to do
+this is typically by http using any web server.  The recommended way to do
+this (using apache in a UNIX environment) is to create a directory called
+<TT>/var/www/repos</TT>, and then put a symlink to your repository there:
+<PRE>
+% cd /var/www/repos
+% ln -s /home/username/myproject .
+</PRE>
+
+<P>
+As long as you're running a web server and making your repository available to
+the world, you may as well make it easy for people to see what changes
+you've made.  You can do this by running <code>make installserver</code>, which
+installs the program <code>darcs_cgi</code> at <code>/usr/lib/cgi-bin/darcs</code>.  You
+also will need to create a cache directory named
+<code>/var/cache/darcs_cgi</code>, and make sure the owner of that directory is
+the same user that your web server runs its cgi scripts as.  For me,
+this is www-data.  Now your friends and enemies should be able to easily
+browse your repositories by pointing their web browsers at
+<code>http://your.server.org/cgi-bin/darcs</code>.
+
+<P>
+
+<H1><A NAME="SECTION00440000000000000000">
+Getting changes made to another repository</A>
+</H1>
+Ok, so I can now browse your repository using my web browser... so
+what? How do I get your changes into <SPAN  CLASS="textit">my</SPAN> repository, where they can
+do some good? It couldn't be easier.  I just <code>cd</code> into my repository,
+and there type:
+<PRE>
+% darcs pull http://your.server.org/repos/yourproject
+</PRE>
+Darcs will check to see if you have recorded any changes that aren't in my
+current repository.  If so, it'll prompt me for each one, to see which ones
+I want to add to my repository.  Note that you may see a different series
+of prompts depending on your answers, since sometimes one patch depends on
+another, so if you answer yes to the first one, you won't be prompted for
+the second if the first depends on it.
+
+<P>
+Of course, maybe I don't even have a copy of your repository.  In that case
+I'd want to do a
+<PRE>
+% darcs get http://your.server.org/repos/yourproject
+</PRE>
+which gets the whole repository.
+
+<P>
+I could instead create an empty repository and fetch all of your patches
+with pull.  Get is just a more efficient way to clone a whole repository.
+
+<P>
+Get, pull and push also work over ssh.  Ssh-paths are of the same form
+accepted by scp, namely <code>[username@]host:/path/to/repository</code>.
+
+<P>
+
+<H1><A NAME="SECTION00450000000000000000">
+Moving patches from one repository to another</A>
+</H1>
+
+<P>
+Darcs is flexible as to how you move patches from one repository to another.
+This section will introduce all the ways you can get patches from one place
+to another, starting with the simplest and moving to the most complicated.
+
+<P>
+
+<H2><A NAME="SECTION00451000000000000000">
+All pulls</A>
+</H2>
+
+<P>
+The simplest method is the ``all-pull'' method.  This involves making each
+repository readable (by http, ftp, nfs-mounted disk, whatever), and you
+run <code>darcs pull</code> in the repository you want to move the patch to.  This is nice,
+as it doesn't require you to give write access to anyone else, and is
+reasonably simple.
+
+<P>
+
+<H2><A NAME="SECTION00452000000000000000">
+Send and apply manually</A>
+</H2>
+
+<P>
+Sometimes you have a machine on which it is not convenient to set up a web
+server, perhaps because it's behind a firewall or perhaps for security
+reasons, or because it is often turned off.  In this case you can use
+<code>darcs send</code>
+from that computer to generate a patch bundle destined for another
+repository.  You can either let darcs email the patch for you, or save it
+as a file and transfer it by hand.  Then in the destination repository you
+(or the owner of that repository) run <code>darcs apply</code> to apply the patches contained
+in the bundle.  This is also quite a simple method since, like the all-pull
+method, it doesn't require that you give anyone write access to your
+repository.  But it's less convenient, since you have to keep track of the
+patch bundle (in the email, or whatever).
+
+<P>
+If you use the send and apply method with email, you'll probably want to
+create a <code>_darcs/prefs/email</code> file containing your email address.
+This way anyone who sends to your repository will automatically send the
+patch bundle to your email address.
+
+<P>
+If you receive many patches by email, you probably will benefit by running
+darcs apply directly from your mail program.  I have in my <code>.muttrc</code>
+the following
+<PRE>
+macro pager A "&lt;pipe-entry&gt;darcs apply --verbose --mark-conflicts \
+        --reply droundy@abridgegame.org --repodir ~/darcs"
+</PRE>
+which allows me to apply patches directly from <code>mutt</code>, sending a
+confirmation email to the person who sent me the patch.
+
+<P>
+
+<H2><A NAME="SECTION00453000000000000000">
+Push</A>
+</H2>
+
+<P>
+If you use ssh (and preferably also ssh-agent, so you won't have to keep
+retyping your password), you can use the push method to transfer changes
+(using the scp protocol for communication).  This method is again not very
+complicated, since you presumably already have the ssh permissions set up.
+Push can also be used when the target repository is local, in which case
+ssh isn't needed.  On the other hand, in this situation you could as easily
+run a pull, so there isn't much benefit.
+
+<P>
+Note that you can use push to administer a multiple-user repository.  You
+just need to create a user for the repository (or repositories), and give
+everyone with write access ssh access, perhaps using
+<code>.ssh/authorized_keys</code>.  Then they run
+<PRE>
+% darcs push repouser@repo.server:repo/directory
+</PRE>
+
+<P>
+
+<H2><A NAME="SECTION00454000000000000000">
+Push --apply-as</A>
+</H2>
+
+<P>
+Now we get more subtle.  If you like the idea in the previous paragraph
+about creating a repository user to own a repository which is writable by
+a number of users, you have one other option.
+
+<P>
+Push <code>--apply-as</code> can run on either a local repository or one accessed
+with ssh, but uses <code>sudo</code> to run a darcs apply command (having created
+a patch bundle as in send) as another user.  You can add the following line
+in your <code>sudoers</code> file to allow the users to apply their patches to a
+centralized repository:
+<PRE>
+ALL   ALL = (repo-user) NOPASSWD: /usr/bin/darcs apply --all --repodir /repo/path*
+</PRE>
+This method is ideal for a centralized repository when all the users have
+accounts on the same computer, if you don't want your users to be able to
+run arbitrary commands as repo-user.
+
+<P>
+
+<H2><A NAME="SECTION00455000000000000000">
+Sending signed patches by email</A>
+</H2>
+
+<P>
+Most of the previous methods are a bit clumsy if you don't want to give
+each person with write access to a repository an account on your server.  Darcs
+send can be configured to send a cryptographically signed patch by email.
+You can then set up your mail system to have darcs verify that patches were
+signed by an authorized user and apply them when a patch is received by
+email.  The results of the apply can be returned to the user by email.
+Unsigned patches (or patches signed by unauthorized users) will be
+forwarded to the repository owner (or whoever you configure them to be
+forwarded to...).
+
+<P>
+This method is especially nice when combined with the <code>--test</code> option
+of darcs apply, since it allows you to run the test suite (assuming you
+have one) and reject patches that fail--and it's all done on the server,
+so you can happily go on working on your development machine without
+slowdown while the server runs the tests.
+
+<P>
+Setting up darcs to run automatically in response to email is by far the
+most complicated way to get patches from one repository to another... so it'll
+take a few sections to explain how to go about it.
+
+<P>
+
+<H4><A NAME="SECTION00455010000000000000">
+Security considerations</A>
+</H4>
+
+<P>
+When you set up darcs to run apply on signed patches, you should assume
+that a user with write access can write to any file or directory that is
+writable by the user under which the apply process runs.  Unless you
+specify the <code>--no-test</code> flag to darcs apply (and this is <SPAN  CLASS="textit">not</SPAN>
+the default), you are also allowing anyone with write access to that
+repository to run arbitrary code on your machine (since they can run a test
+suite--which they can modify however they like).  This is quite a
+potential security hole.
+
+<P>
+For these reasons, if you don't implicitly trust your users, it is
+recommended that you create a user for each repository to limit the damage
+an attacker can do with access to your repository.  When considering who to
+trust, keep in mind that a security breach on any developer's machine could
+give an attacker access to their private key and passphrase, and thus to
+your repository.
+
+<P>
+
+<H4><A NAME="SECTION00455020000000000000">
+Installing necessary programs</A>
+</H4>
+
+<P>
+You also must install the following programs: gnupg, a mailer configured to
+receive mail (e.g. exim, sendmail or postfix), and a web server (usually
+apache).  If you want to be able to browse your repository on the web you
+must also configure your web server to run cgi scripts and make sure the
+darcs cgi script was properly installed (by either a darcs-server package,
+or `make install-server').
+
+<P>
+
+<H4><A NAME="SECTION00455030000000000000">
+Granting access to a repository</A>
+</H4>
+
+<P>
+You create your gpg key by running (as your normal user):
+<PRE>
+% gpg --gen-key
+</PRE>
+You will be prompted for your name and email address, among other options.
+To add your public key to the allowed keys keyring.  Of course, you can
+skip this step if you already have a gpg key you wish to use.
+
+<P>
+You now need to export the public key so we can tell the patcher about it.
+You can do this with the following command (again as your normal user):
+<PRE>
+% gpg --export "email@address" &gt; /tmp/exported_key
+</PRE>
+And now we can add your key to the <code>allowed_keys</code>:
+<PRE>
+(as root)&gt; gpg --keyring /var/lib/darcs/repos/myproject/allowed_keys \
+               --no-default-keyring --import /tmp/exported_key
+</PRE>
+You can repeat this process any number of times to authorize multiple users
+to send patches to the repository.
+
+<P>
+You should now be able to send a patch to the repository by running as your
+normal user, in a working copy of the repository:
+<PRE>
+% darcs send --sign http://your.computer/repos/myproject
+</PRE>
+You may want to add ``send sign'' to the file <code>_darcs/prefs/defaults</code>
+so that you won't need to type <code>--sign</code> every time you want to
+send...
+
+<P>
+If your gpg key is protected by a passphrase, then executing <code>send</code>
+with the <code>--sign</code> option might give you the following error:
+<PRE>
+darcs failed:  Error running external program 'gpg'
+</PRE>
+The most likely cause of this error is that you have a misconfigured
+gpg that tries to automatically use a non-existent gpg-agent
+program. GnuPG will still work without gpg-agent when you try to sign
+or encrypt your data with a passphrase protected key. However, it will
+exit with an error code 2 (<code>ENOENT</code>) causing <code>darcs</code> to
+fail. To fix this, you will need to edit your <code>~/.gnupg/gpg.conf</code>
+file and comment out or remove the line that says:
+<PRE>
+use-agent
+</PRE>
+If after commenting out or removing the <code>use-agent</code> line in your
+gpg configuration file you still get the same error, then you probably
+have a modified GnuPG with use-agent as a hard-coded option. In that
+case, you should change <code>use-agent</code> to <code>no-use-agent</code> to
+disable it explicitly.
+
+<P>
+
+<H4><A NAME="SECTION00455040000000000000">
+Setting up a sendable repository using procmail</A>
+</H4>
+If you don't have root access on your machine, or perhaps simply don't want
+to bother creating a separate user, you can set up a darcs repository using
+procmail to filter your mail.  I will assume that you already use procmail
+to filter your email.  If not, you will need to read up on it, or perhaps
+should use a different method for routing the email to darcs.
+
+<P>
+To begin with, you must configure your repository so that a darcs send to
+your repository will know where to send the email.  Do this by creating a
+file in <code>/path/to/your/repo/_darcs/prefs</code> called <code>email</code>
+containing your email address.  As a trick (to be explained below), we will
+create the email address with ``darcs repo'' as your name, in an email
+address of the form ``David Roundy <SPAN CLASS="MATH"><IMG
+ WIDTH="16" HEIGHT="28" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1.png"
+ ALT="$&lt;$"></SPAN>droundy@abridgegame.org<SPAN CLASS="MATH"><IMG
+ WIDTH="16" HEIGHT="28" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2.png"
+ ALT="$&gt;$"></SPAN>.''
+<PRE>
+% echo 'my darcs repo &lt;user@host.com&gt;' \
+      &gt; /path/to/your/repo/_darcs/prefs/email
+</PRE>
+
+<P>
+The next step is to set up a gnupg keyring containing the public keys of
+people authorized to send to your repository.  Here I'll give a second way of
+going about this (see above for the first).  This time I'll assume you
+want to give me write access to your repository.  You can do this by:
+<PRE>
+gpg --no-default-keyring \
+    --keyring /path/to/the/allowed_keys --recv-keys D3D5BCEC
+</PRE>
+This works because ``D3D5BCEC'' is the ID of my gpg key, and I have
+uploaded my key to the gpg keyservers.  Actually, this also requires that
+you have configured gpg to access a valid keyserver.  You can, of course,
+repeat this command for all keys you want to allow access to.
+
+<P>
+Finally, we add a few lines to your <code>.procmailrc</code>:
+<PRE>
+:0:
+* ^TOmy darcs repo
+|(umask 022; darcs apply --reply user@host.com \
+    --repodir /path/to/your/repo --verify /path/to/the/allowed_keys)
+</PRE>
+The purpose for the ``my darcs repo'' trick is partially to make it easier
+to recognize patches sent to the repository, but is even more crucial to
+avoid nasty bounce loops by making the <code>--reply</code> option have an email
+address that won't go back to the repository.  This means that unsigned
+patches that are sent to your repository will be forwarded to your ordinary
+email.
+
+<P>
+I find that I need the ``umask 022'' in order to keep procmail from setting
+the umask incorrectly, which causes the repository to no longer be
+world-readable.
+
+<P>
+
+<H4><A NAME="SECTION00455050000000000000">
+Checking if your e-mail patch was applied</A>
+</H4>
+
+<P>
+After sending a patch with <code>darcs send</code>, you may not receive any feedback,
+even if the patch is applied. You can confirm whether or not your patch was applied
+to the remote repository by pointing <code>darcs changes</code> at a remote repository:
+<PRE>
+darcs changes --last=10 --repo=http://abridgegame.org/repos/darcs
+</PRE>
+
+<P>
+That shows you the last 10 changes in the remote repository. You can adjust the options given
+to <code>changes</code> if a more advanced query is needed.
+
+<P>
+
+<H1><A NAME="SECTION00460000000000000000"></A>
+<A NAME="disk-usage"></A>
+<BR>
+Reducing disk space usage
+</H1>
+
+<P>
+A Darcs repository contains the patches that Darcs uses to store
+history, the working directory, and a <SPAN  CLASS="textit">pristine tree</SPAN> (a copy of
+the working directory files with no local modifications).  For large
+repositories, this can add up to a fair amount of disk usage.
+
+<P>
+There are two techniques that can be used to reduce the amount of
+space used by Darcs repositories: linking and using no pristine tree.
+The former can be used on any repository; the latter is only suitable
+in special circumstances, as it makes some operations much slower.
+
+<P>
+
+<H2><A NAME="SECTION00461000000000000000">
+Linking between repositories</A>
+</H2>
+
+<P>
+A number of filesystems support <SPAN  CLASS="textit">linking</SPAN> files, sharing a
+single file data between different directories.  Under some
+circumstances, when repositories are very similar (typically because
+they represent different branches of the same piece of software),
+Darcs will use linking to avoid storing the same file multiple times.
+
+<P>
+Whenever you invoke <code>darcs get</code> to copy a repository from a local
+filesystem onto the same filesystem, Darcs will link patches whenever
+possible.
+
+<P>
+In order to save time, <code>darcs get</code> does not link pristine trees
+even when individual files are identical.  Additionally, as you pull
+patches into trees, patches will become unlinked.  This will result in
+a lot of wasted space if two repositories have been living for a long
+time but are similar.  In such a case, you should <SPAN  CLASS="textit">relink</SPAN> files
+between the two repositories.
+
+<P>
+Relinking is an asymmetric operation: you relink one repository (to
+which you must have write access) to another repository, called the
+<SPAN  CLASS="textit">sibling</SPAN>.  This is done with <code>darcs optimize --relink</code>, with
+-the <code>--sibling</code> flag specifying the sibling.
+<PRE>
+  $ cd /var/repos/darcs-unstable
+  $ darcs optimize --relink --sibling /var/repos/darcs
+</PRE>
+The <code>--sibling</code> flag can be repeated multiple times, in which
+case Darcs will try to find a file to link to in all of the siblings.
+If a default repository is defined, Darcs will try, as a last resort,
+to link against the default repository.
+
+<P>
+Additional space savings can be achieved by relinking files in the
+pristine tree (see below) by using the <code>--relink-pristine</code> flag.
+However, doing this prevents Darcs from having precise timestamps on
+the pristine files, which carries a moderate performance penalty.
+
+<P>
+
+<H2><A NAME="SECTION00462000000000000000">
+Alternate formats for the pristine tree</A>
+</H2>
+
+<P>
+By default, every Darcs repository contains a complete copy of the
+<SPAN  CLASS="textit">pristine tree</SPAN>, the working tree as it would be if there were no
+local edits.  By avoiding the need to consult a possibly large number
+of patches just to find out if a file is modified, the pristine tree
+makes a lot of operations much faster than they would otherwise be.
+
+<P>
+Under some circumstances, keeping a whole pristine tree is not
+desirable.  This is the case when preparing a repository to back up,
+when publishing a repository on a public web server with limited
+space, or when storing a repository on floppies or small USB keys.  In
+such cases, it is possible to use a repository with no pristine tree.
+
+<P>
+Darcs automatically recognizes a repository with no pristine
+tree.  In order to create such a tree, specify the
+<code>--no-pristine-tree</code> flag to <code>darcs initialize</code> or
+<code>darcs get</code>.  There is currently no way to switch an existing
+repository to use no pristine tree.
+
+<P>
+The support for <code>--no-pristine-tree</code> repositories is fairly new,
+and has not been extensively optimized yet.  Please let us know if you
+use this functionality, and which operations you find are too slow.
+
+<P>
+
+<DIV CLASS="navigation"><HR>
+<!--Navigation Panel-->
+<A NAME="tex2html326"
+  HREF="node5.html">
+<IMG WIDTH="22" HEIGHT="22" title="Next"  ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="./next.png"></A> 
+<A NAME="tex2html322"
+  HREF="darcs.html">
+<IMG WIDTH="22" HEIGHT="22" title="Up"  ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="./up.png"></A> 
+<A NAME="tex2html316"
+  HREF="node3.html">
+<IMG WIDTH="22" HEIGHT="22" title="Previous"  ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="./prev.png"></A> 
+<A NAME="tex2html324"
+  HREF="node1.html">
+<IMG WIDTH="22" HEIGHT="22" title="Contents"  ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="./contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html327"
+  HREF="node5.html">Configuring darcs</A>
+<B> Up:</B> <A NAME="tex2html323"
+  HREF="darcs.html">Darcs 1.0.7 (release) Darcs</A>
+<B> Previous:</B> <A NAME="tex2html317"
+  HREF="node3.html">Building darcs</A>
+ &nbsp; <B>  <A NAME="tex2html325"
+  HREF="node1.html">Contents</A></B> </DIV>
+<!--End of Navigation Panel-->
+<ADDRESS>
+Tommy Pettersson
+2006-05-13
+</ADDRESS>
+</BODY>
+</HTML>

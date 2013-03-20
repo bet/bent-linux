@@ -1,0 +1,16 @@
+pkg net-tools-1.60
+
+url http://www.tazenda.demon.co.uk/phil/net-tools/net-tools-1.60.tar.bz2
+    http://downloads.linuxfromscratch.org/net-tools-1.60-miitool-gcc33-1.patch
+    config.h
+    config.make
+    config.status
+
+build \
+    tar xjf net-tools-1.60.tar.bz2
+    cd net-tools-1.60
+    patch -p1 <../net-tools-1.60-miitool-gcc33-1.patch
+    cp ../config.* .
+    make LOPTS=-static 'COPTS=-D_GNU_SOURCE -Wall -Os' 'RESLIB=-lbind' 'DNLIB=-lbind'
+    make BASEDIR=$BPM_ROOT install
+    find $BPM_ROOT -type f|xargs file|sed -n '/ELF.*executable/s/:.*$//p'|xargs strip

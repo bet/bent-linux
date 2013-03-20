@@ -1,0 +1,7 @@
+pkg rpn
+
+url rpn
+
+build \
+    mkdir -p $BPM_ROOT/usr/bin
+    mv rpn $BPM_ROOT/usr/bin

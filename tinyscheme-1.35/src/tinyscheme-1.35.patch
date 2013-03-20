@@ -1,0 +1,26 @@
+diff -ru tinyscheme-1.35.orig/makefile tinyscheme-1.35/makefile
+--- tinyscheme-1.35.orig/makefile	2003-01-07 19:01:04.000000000 +0000
++++ tinyscheme-1.35/makefile	2005-07-19 13:15:05.000000000 +0000
+@@ -33,8 +33,8 @@
+ LD = gcc 
+ LDFLAGS = -shared 
+ DEBUG=-g -Wno-char-subscripts -O
+-SYS_LIBS= -ldl
+-PLATFORM_FEATURES= -DSUN_DL=1
++SYS_LIBS= 
++PLATFORM_FEATURES=
+ 
+  
+ # Solaris 
+@@ -47,9 +47,9 @@
+ #LIBPREFIX = lib 
+ #OUT = -o $@ 
+  
+-FEATURES = $(PLATFORM_FEATURES) -DUSE_DL=1 -DUSE_MATH=0 -DUSE_ASCII_NAMES=0 
++FEATURES = $(PLATFORM_FEATURES) -DSTANDALONE -DUSE_MATH=0 -DUSE_ASCII_NAMES=0 
+  
+-OBJS = scheme.$(Osuf) dynload.$(Osuf) 
++OBJS = scheme.$(Osuf) 
+  
+ LIBTARGET = $(LIBPREFIX)tinyscheme.$(SOsuf) 
+ STATICLIBTARGET = $(LIBPREFIX)tinyscheme.$(LIBsuf)

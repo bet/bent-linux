@@ -1,0 +1,13 @@
+pkg siedcvt-0.2
+
+url http://benroe.com/sied/siedcvt-src.tar.gz
+
+build \
+    tar xzf siedcvt-src.tar.gz
+    cd siedcvt
+    make CXXFLAGS='-D__LITTLE_ENDIAN__ -Os -static'
+    mkdir -p $BPM_ROOT/usr/bin
+    install -s siedcvt $BPM_ROOT/usr/bin/
+    mkdir -p $BPM_ROOT/usr/share/doc/siedcvt-0.2
+    install README $BPM_ROOT/usr/share/doc/siedcvt-0.2/
+

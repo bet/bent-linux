@@ -1,0 +1,12 @@
+pkg lighttpd-1.4.18
+
+url http://www.lighttpd.net/download/lighttpd-1.4.18.tar.gz
+
+build \
+    tar xf lighttpd-1.4.18.tar.gz
+    cd lighttpd-1.4.18
+    CFLAGS=-Os LDFLAGS=-s ./configure --prefix=/usr --mandir=/usr/share/man \
+        --enable-static --disable-shared --enable-mod-chat --enable-mod-cache \
+        --enable-mod-localizer --with-openssl
+    make LIBS=-lbind
+    make DESTDIR=$BPM_ROOT install

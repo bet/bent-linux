@@ -1,0 +1,64 @@
+From thttpd-errors@mail.acme.com  Sat Jul 23 02:25:58 2005
+Message-Id: <200507211541.j6LFf7d8014349@gate.acme.com>
+From: "Ingles, Raymond" <Raymond.Ingles@compuware.com>
+Subject: [THTTPD] CGI of minor interest
+Date: Thu, 21 Jul 2005 11:12:45 -0400
+MIME-Version: 1.0
+Content-Type: text/plain
+
+ I get quite a few worms and other hack attempts on my minor
+little personal website. Of course, they don't do any harm,
+really, since I'm running thttpd, and they are aimed at IIS,
+or, rarely, Apache.
+
+ But I've wanted to do more than just log them. Reporting them
+generally doesn't do any good, so I hit upon the idea of
+redirecting them somewhere. I considered redirecting them to a
+third party (microsoft.com and fbi.gov being good examples) but
+that's ethically dubious. So instead, I resolved to redirect
+them back to the originating machine.
+
+ I can't see any real ethical problems with that (after all,
+they are either an infected zombie, in which case reinfection
+is hardly a problem, or a malicious attacker, in which case I
+can't feel much sympathy), or legal ones for that matter. If
+any attacking is done, it's the originator doing the attacking
+anyway.
+
+ In practice, I doubt this'll do much. I would imagine most
+worms and spiders wouldn't make any distinction between '404'
+and '302' for most purposes. They probably just check to see
+if it returns '200' or 'other'. But it makes me feel better.
+
+ The 'redirect' CGI that comes with thttpd is inconvenient for
+this purpose; having to symlink *and* edit the .redirects file
+is a bit awkward, plus you can't redirect to the originating
+IP; at best you can redirect to 127.0.0.1 (though actually,
+anything in the 127.x.x.x subnet'll work; try pinging 127.5.5.5
+sometime).
+
+ The attached CGI uses the REMOTE_ADDR CGI variable to redirect
+the request back to the originating machine. Remember to compile
+statically if you're using a chroot jail, e.g.:
+
+ gcc bakatca.c -o bakatcha -static
+
+ For example, I have "/cgi-bin", "/_vti_bin", "/formmail.pl",
+and so forth symlinked to this script. Like I said, I don't
+know if it does any real good, but it makes me feel better and
+it's simple to do.
+
+ Sincerely,
+
+ Ray Ingles                                     (313) 227-2317
+
+ "If Bill Gates had a nickel for every time Windows crashed... 
+             ...oh wait, he does." - Nate Fox
+
+
+
+The contents of this e-mail are intended for the named addressee only. It
+contains information that may be confidential. Unless you are the named
+addressee or an authorized designee, you may not copy or use it, or disclose
+it to anyone else. If you received it in error please notify us immediately
+and then destroy it. 

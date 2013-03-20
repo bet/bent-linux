@@ -1,0 +1,11 @@
+pkg libusb-0.1.8
+
+url http://download.sourceforge.net/libusb/libusb-0.1.8.tar.gz
+
+build \
+    tar xzf libusb-0.1.8.tar.gz
+    cd libusb-0.1.8
+    ./configure --prefix=/usr --mandir=/usr/share/man \
+        --disable-shared --enable-static
+    make
+    make DESTDIR=$BPM_ROOT install

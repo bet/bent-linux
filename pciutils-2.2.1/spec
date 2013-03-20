@@ -1,0 +1,11 @@
+pkg pciutils-2.2.1
+
+url ftp://ftp.kernel.org/pub/software/utils/pciutils/pciutils-2.2.1.tar.bz2
+    ftp://ftp.kernel.org/pub/software/utils/pciutils/pciutils-2.2.1.tar.bz2.sign
+
+build \
+    tar xf pciutils-2.2.1.tar.bz2
+    cd pciutils-2.2.1
+    CFLAGS='-Os -s' make PREFIX=/usr
+    make PREFIX=$BPM_ROOT/usr install
+    

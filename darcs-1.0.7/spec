@@ -1,0 +1,26 @@
+pkg darcs-1.0.7
+
+url http://www.pps.jussieu.fr/~jch/software/files/darcs-1.0.7-i386-linux.gz
+    http://www.pps.jussieu.fr/~jch/software/files/darcs-1.0.7-i386-linux.gz.asc
+    http://darcs.net/darcs-1.0.7.tar.gz
+    http://abridgegame.org/darcs/manual/index.html
+    http://abridgegame.org/darcs/manual/node1.html
+    http://abridgegame.org/darcs/manual/node2.html
+    http://abridgegame.org/darcs/manual/node3.html
+    http://abridgegame.org/darcs/manual/node4.html
+    http://abridgegame.org/darcs/manual/node5.html
+    http://abridgegame.org/darcs/manual/node6.html
+    http://abridgegame.org/darcs/manual/node7.html
+    http://abridgegame.org/darcs/manual/node8.html
+    http://abridgegame.org/darcs/manual/node9.html
+    http://abridgegame.org/darcs/manual/node10.html
+    http://abridgegame.org/darcs/manual/node11.html
+
+build \
+    mkdir -p $BPM_ROOT/usr/bin
+    gzip -d <darcs-1.0.7-i386-linux.gz >$BPM_ROOT/usr/bin/darcs
+    chmod 755 $BPM_ROOT/usr/bin/darcs
+    strip $BPM_ROOT/usr/bin/darcs
+    mkdir -p $BPM_ROOT/usr/share/doc/darcs-1.0.7
+    mv *.html $BPM_ROOT/usr/share/doc/darcs-1.0.7/
+    

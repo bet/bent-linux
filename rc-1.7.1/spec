@@ -1,0 +1,14 @@
+pkg rc-1.7.1
+
+url http://www.star.le.ac.uk:80/~tjg/rc/release/rc-1.7.1.tar.gz
+
+build \
+    tar xzf rc-1.7.1.tar.gz
+    cd rc-1.7.1
+    CFLAGS="$CFLAGS $LDFLAGS" ./configure --prefix=/usr --sysconfdir=/etc --bindir=/bin --mandir=/usr/share/man --with-readline
+    make
+    make trip
+    make DESTDIR=$BPM_ROOT install
+    mkdir -p $BPM_ROOT/usr/share/doc/rc-1.7.1
+    cp AUTHORS COPYING ChangeLog EXAMPLES INSTALL NEWS README $BPM_ROOT/usr/share/doc/rc-1.7.1/
+

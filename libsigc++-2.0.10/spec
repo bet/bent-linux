@@ -1,0 +1,11 @@
+pkg libsigc++-2.0.10
+
+url http://ftp.gnome.org/pub/GNOME/sources/libsigc++/2.0/libsigc++-2.0.10.tar.bz2
+
+build \
+    tar xf libsigc++-2.0.10.tar.bz2
+    cd libsigc++-2.0.10
+    ./configure --prefix=/usr \
+        --disable-shared
+    make
+    make DESTDIR=$BPM_ROOT install

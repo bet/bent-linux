@@ -1,0 +1,10 @@
+pkg date_parse_14dec2004
+
+url http://www.acme.com/software/date_parse/date_parse_14dec2004.tar.gz
+
+build \
+    tar xf date_parse_14dec2004.tar.gz
+    cd date_parse
+    make CC='diet gcc' CFLAGS="$CFLAGS -DOS_SYSV"
+    mkdir -p $BPM_ROOT/usr/bin $BPM_ROOT/usr/share/man/man1 $BPM_ROOT/usr/share/man/man3
+    make BINDIR=$BPM_ROOT/usr/bin MANDIR=$BPM_ROOT/usr/share/man install

@@ -1,0 +1,10 @@
+pkg lua-5.1.2
+
+url http://www.lua.org/ftp/lua-5.1.2.tar.gz
+
+build \
+    tar xzf lua-5.1.2.tar.gz
+    cd lua-5.1.2
+    make INSTALL_TOP=/usr INSTALL_MAN=/usr/share/man/man1 linux
+    make INSTALL_TOP=$BPM_ROOT/usr INSTALL_MAN=$BPM_ROOT/usr/share/man/man1 install
+    strip $BPM_ROOT/usr/bin/*

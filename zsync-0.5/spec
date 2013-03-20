@@ -1,0 +1,10 @@
+pkg zsync-0.5
+
+url http://zsync.moria.org.uk/download/zsync-0.5.tar.bz2
+
+build \
+    tar xf zsync-0.5.tar.bz2
+    cd zsync-0.5
+    ./configure --prefix=/usr --mandir=/usr/share/man
+    make
+    make DESTDIR=$BPM_ROOT install

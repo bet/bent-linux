@@ -1,0 +1,13 @@
+pkg SING-1.1
+
+url http://www.s21sec.com/download/SING-current.tar.gz
+    SING-1.1-gcc.patch
+
+build \
+    tar xzf SING-current.tar.gz
+    cd SING-1.1
+    patch -p1 <../SING-1.1-gcc.patch
+    ./configure --prefix=/usr --mandir=/usr/share/man
+    perl -pi -le 's/$/ -lbind/ if /^LIBS\s*=/' Makefile
+    make
+    make DESTDIR=$BPM_ROOT install

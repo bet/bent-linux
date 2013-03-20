@@ -1,0 +1,13 @@
+pkg ed-0.2
+
+url http://mirrors.kernel.org/gnu/ed/ed-0.2.tar.gz
+
+build \
+    tar xzf ed-0.2.tar.gz
+    cd ed-0.2
+    ./configure --prefix=/usr
+    make
+    make prefix=$BPM_ROOT/usr install
+    find $BPM_ROOT -type f|xargs file|sed -n '/ELF.*executable/s/:.*$//p'|xargs strip
+
+isa editor

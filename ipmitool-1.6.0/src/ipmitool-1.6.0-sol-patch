@@ -1,0 +1,12 @@
+diff -ru ipmitool-1.6.0.orig/lib/ipmi_sol.c ipmitool-1.6.0/lib/ipmi_sol.c
+--- ipmitool-1.6.0.orig/lib/ipmi_sol.c	2004-08-31 19:52:57.000000000 -0400
++++ ipmitool-1.6.0/lib/ipmi_sol.c	2005-03-30 11:45:29.000000000 -0500
+@@ -1254,7 +1254,7 @@
+ 	 * This command is only available over RMCP+ (the lanplus
+ 	 * interface).
+ 	 */
+-	if (strncmp(intf->name, "intf_lanplus", 12))
++	if (strncmp(intf->name, "lanplus", 7))
+ 	{
+ 		printf("Error: This command is only available over the "
+ 			   "lanplus interface\n");

@@ -1,0 +1,23 @@
+pkg postfix-2.4.6
+
+url ftp://ftp.porcupine.org/mirrors/postfix-release/official/postfix-2.4.6.tar.gz
+    ftp://ftp.porcupine.org/mirrors/postfix-release/official/postfix-2.4.6.tar.gz.sig
+    postfix-2.2-20050206-nodb.patch
+    postfix.init
+
+build \
+    tar xzf postfix-2.4.6.tar.gz
+    cd postfix-2.4.6
+    patch -p1 <../postfix-2.2-20050206-nodb.patch
+    make -f Makefile.init makefiles CCARGS="-s -static -DHAS_CDB -DHAS_PCRE -I/usr/include/pcre" AUXLIBS="-lcdb -lpcre" OPT=-Os DEBUG=
+    make tidy
+    make -f Makefile.init makefiles CCARGS="-s -static -DHAS_CDB -DHAS_PCRE -I/usr/include/pcre" AUXLIBS="-lcdb -lpcre" OPT=-Os DEBUG=
+    make
+    make non-interactive-package \
+        install_root=$BPM_ROOT \
+        manpage_directory=/usr/share/man \
+        sample_directory=/etc/postfix/samples \
+        readme_directory=/etc/postfix/README_FILES
+    mkdir -p $BPM_ROOT/etc/rc.d/init.d
+    cp ../postfix.init $BPM_ROOT/etc/rc.d/init.d/postfix
+    perl -ni -le 'print unless /manpage_directory/' $BPM_ROOT/etc/postfix/postfix-files

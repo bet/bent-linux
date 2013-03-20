@@ -1,0 +1,10 @@
+pkg dnsmasq-2.19
+
+url http://www.thekelleys.org.uk/dnsmasq/dnsmasq-2.19.tar.gz
+
+build \
+    tar xzf dnsmasq-2.19.tar.gz
+    cd dnsmasq-2.19
+    make LIBS=-lbind
+    make DESTDIR=$BPM_ROOT PREFIX=/usr MANDIR=/usr/share/man install
+    strip $BPM_ROOT/usr/sbin/*

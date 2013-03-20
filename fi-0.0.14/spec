@@ -1,0 +1,11 @@
+pkg fi-0.0.14
+
+url http://www.vanheusden.com/fi/fi-0.0.14.tgz
+
+build \
+    tar xf fi-0.0.14.tgz
+    cd fi-0.0.14
+    make
+    mkdir -p $BPM_ROOT/usr/bin
+    make DESTDIR=$BPM_ROOT install
+    strip $BPM_ROOT/usr/bin/* || true

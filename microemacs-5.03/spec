@@ -1,0 +1,15 @@
+pkg microemacs-5.03
+
+url ftp://ftp.ac-grenoble.fr/ge/Office/microemacs-5.03.tgz
+
+build \
+    tar xzf microemacs-5.03.tgz
+    cd microemacs-5.03
+    make 'CC=gcc -Os -s -static -Dmeta=MeTa'
+    mkdir -p $BPM_ROOT/usr/bin
+    cp microemacs $BPM_ROOT/usr/bin/
+    mkdir -p $BPM_ROOT/usr/lib/microemacs
+    cp lib/emacs.rc lib/emacs.hlp $BPM_ROOT/usr/lib/microemacs/
+
+isa editor
+    emacs

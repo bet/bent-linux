@@ -1,0 +1,13 @@
+pkg tcl-8.4.14
+
+url http://superb-east.dl.sourceforge.net/sourceforge/tcl/tcl8.4.14-src.tar.gz
+
+build \
+    tar xf tcl8.4.14-src.tar.gz
+    cd tcl8.4.14/unix
+    sed -i.bak "s/relid'/relid/" configure
+    ./configure --prefix=/usr --mandir=/usr/share/man --infodir=/usr/share/info \
+        --disable-load --disable-shared --disable-symbols --disable-langinfo
+    make
+    make DESTDIR=$BPM_ROOT install
+    

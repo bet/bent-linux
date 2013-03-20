@@ -1,0 +1,11 @@
+pkg modutils-2.4.26
+
+url ftp://ftp.kernel.org/pub/linux/utils/kernel/modutils/v2.4/modutils-2.4.26.tar.bz2
+
+build \
+    tar xjf modutils-2.4.26.tar.bz2
+    cd modutils-2.4.26
+    CFLAGS=-Os LDFLAGS=-static ./configure
+    (cd genksyms;make lex.c;grep -v 'undef yytext_ptr' lex.c >foo;mv foo lex.c)
+    make 'ZLIB_STATIC='
+    make DESTDIR=$BPM_ROOT install

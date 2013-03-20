@@ -1,0 +1,33 @@
+pkg djbdns-1.05
+
+url http://cr.yp.to/djbdns/djbdns-1.05.tar.gz
+    ftp://ftp.innominate.org/pub/pape/djb/djbdns-1.05-man.tar.gz
+    http://dqd.com/~mayoff/notes/djbdns/tinydns-log.html
+    http://dqd.com/~mayoff/notes/djbdns/dnscache-log.html
+    djbdns-1.05-docs.tar.bz2
+
+build \
+    tar xzf djbdns-1.05.tar.gz
+    cd djbdns-1.05
+    echo /usr >conf-home
+    mkdir docs
+    (cd docs&&tar xIf ../djbdns-1.05-docs.tar.bz2)
+    tar xzvf ../djbdns-1.05-man.tar.gz
+    echo gcc -Os --include /usr/include/errno.h > conf-cc
+    echo gcc -s -static >conf-ld
+    make
+    mkdir -p $BPM_ROOT/etc
+    mkdir -p $BPM_ROOT/usr/etc
+    mkdir -p $BPM_ROOT/usr/bin
+    mkdir -p $BPM_ROOT/usr/man/man1
+    mkdir -p $BPM_ROOT/usr/man/man5
+    mkdir -p $BPM_ROOT/usr/man/man8
+    rm install instcheck auto_home.[co] hier.o
+    echo $BPM_ROOT/usr >conf-home
+    perl -pi -le 's!/!'$BPM_ROOT'!' hier.c
+    make install instcheck
+    ./install
+    ./instcheck
+    for sec in 1 5 8;do
+        install djbdns-man/*.$sec $BPM_ROOT/usr/man/man$sec/
+    done

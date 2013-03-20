@@ -1,0 +1,10 @@
+pkg sox-12.17.7
+
+url http://download.sourceforge.net/sox/sox-12.17.7.tar.gz
+
+build \
+    tar xf sox-12.17.7.tar.gz
+    cd sox-12.17.7
+    ./configure --prefix=/usr --mandir=/usr/share/man
+    make
+    make prefix=$BPM_ROOT/usr mandir=$BPM_ROOT/usr/share/man install

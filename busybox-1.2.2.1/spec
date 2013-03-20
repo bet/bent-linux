@@ -1,0 +1,17 @@
+pkg busybox-1.2.2.1
+
+url http://www.busybox.net/downloads/busybox-1.2.2.1.tar.bz2
+    busybox-1.2.2.1-config
+
+build \
+    tar xjf busybox-1.2.2.1.tar.bz2
+    cd busybox-1.2.2.1
+    make distclean
+    cp ../busybox-1.2.2.1-config .config
+    make
+    ( cat docs/busybox_header.pod; \
+        ./docs/autodocifier.pl include/usage.h; \
+        cat docs/busybox_footer.pod ) > docs/busybox.pod
+    mkdir -p $BPM_ROOT/usr/share/man/man8
+    make PREFIX=$BPM_ROOT install
+    pod2man docs/busybox.pod >$BPM_ROOT/usr/share/man/man8/busybox.8

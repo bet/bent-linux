@@ -1,0 +1,17 @@
+pkg dropbear-0.50
+
+url http://matt.ucc.asn.au/dropbear/releases/dropbear-0.50.tar.gz
+
+build \
+    tar xf dropbear-0.50.tar.gz
+    cd dropbear-0.50
+    CFLAGS=-Os LDFLAGS=-s ./configure --prefix=/usr --mandir=/usr/share/man --infodir=/usr/share/info \
+        --enable-shadow --disable-pam --enable-largefiles --with-zlib \
+        --disable-lastlog --disable-utmp --disable-utmpx --disable-wtmp --disable-wtmpx \
+        --disable-pututline --disable-pututxline
+    make PROGRAMS="dropbear dbclient dropbearkey dropbearconvert scp" STATIC=1 LIBS='libtomcrypt/libtomcrypt.a libtommath/libtommath.a -lutil -lz -lcrypt -lbind'
+    mkdir -p $BPM_ROOT/usr/sbin
+    mkdir -p $BPM_ROOT/usr/bin
+    make PROGRAMS="dropbear dbclient dropbearkey dropbearconvert scp" DESTDIR=$BPM_ROOT STATIC=1 LIBS='libtomcrypt/libtomcrypt.a libtommath/libtommath.a -lutil -lz -lcrypt -lbind' install
+    (cd $BPM_ROOT/usr/bin;ls|perl -lne 'rename $_,$1 if /^static(.*)/')
+    (cd $BPM_ROOT/usr/sbin;ls|perl -lne 'rename $_,$1 if /^static(.*)/')

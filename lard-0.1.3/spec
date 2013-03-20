@@ -1,0 +1,15 @@
+pkg lard-0.1.3
+
+url http://lard.foo-projects.org/download/lard-0.1.3.tar.bz2
+
+build \
+    tar xf lard-0.1.3.tar.bz2
+    cd lard-0.1.3
+    mkdir -p $BPM_ROOT/usr/sbin
+    install -m755 lard $BPM_ROOT/usr/sbin
+    mkdir -p $BPM_ROOT/etc
+    install -m644 lard.conf $BPM_ROOT/etc/
+    mkdir -p $BPM_ROOT/usr/share/man/man5
+    install -m644 lard.conf.5 $BPM_ROOT/usr/share/man/man5/
+    mkdir -p $BPM_ROOT/usr/share/man/man8
+    install -m644 lard.8 $BPM_ROOT/usr/share/man/man8/

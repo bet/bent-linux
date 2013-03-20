@@ -1,0 +1,10 @@
+pkg mtr-0.65
+
+url ftp://ftp.bitwizard.nl/mtr/mtr-0.65.tar.gz
+
+build \
+    tar xzf mtr-0.65.tar.gz
+    cd mtr-0.65
+    CFLAGS="$CFLAGS -Dres_mkquery=__res_mkquery" ./configure --prefix=/usr --mandir=/usr/share/man --infodir=/usr/share/info
+    make
+    make DESTDIR=$BPM_ROOT install

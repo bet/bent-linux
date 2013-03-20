@@ -1,0 +1,12 @@
+pkg libjpeg-6b
+
+url ftp://ftp.uu.net/graphics/jpeg/jpegsrc.v6b.tar.gz
+
+build \
+    tar xzf jpegsrc.v6b.tar.gz
+    cd jpeg-6b
+    ./configure --prefix=/usr --mandir=/usr/share/man \
+        --disable-shared --enable-static
+    make
+    mkdir -p $BPM_ROOT/usr/bin $BPM_ROOT/usr/share/man $BPM_ROOT/usr/lib $BPM_ROOT/usr/include
+    make prefix=$BPM_ROOT/usr mandir=$BPM_ROOT/usr/share/man install install-lib

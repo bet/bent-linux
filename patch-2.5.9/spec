@@ -1,0 +1,11 @@
+pkg patch-2.5.9
+
+url http://ftp.funet.fi/pub/gnu/alpha/gnu/patch/patch-2.5.9.tar.gz
+
+build \
+    tar xzf patch-2.5.9.tar.gz
+    cd patch-2.5.9
+    ./configure --prefix=/usr --mandir=/usr/share/man
+    make
+    make prefix=$BPM_ROOT/usr mandir=$BPM_ROOT/usr/share/man install
+

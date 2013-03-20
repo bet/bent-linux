@@ -1,0 +1,14 @@
+diff -ru snownews-1.5.7.orig/configure snownews-1.5.7/configure
+--- snownews-1.5.7.orig/configure	2005-06-05 09:50:22.000000000 +0000
++++ snownews-1.5.7/configure	2005-06-06 14:41:19.000000000 +0000
+@@ -4,8 +4,8 @@
+ use strict;
+ 
+ # The defaults. Change here if you need.
+-my($prefix) = "/usr/local";
+-my($cflags) = '-Wall -Wno-format-y2k -O2 -DLOCALEPATH="\"$(LOCALEPATH)\"" -DOS=\"$(shell uname)\" `xml2-config --cflags` $(EXTRA_CFLAGS) ';
++my($prefix) = "/usr";
++my($cflags) = '-Wall -Wno-format-y2k -Os -DOS=\"$(shell uname)\" `xml2-config --cflags` $(EXTRA_CFLAGS) ';
+ my($ldflags) = '-lncurses `xml2-config --libs` $(EXTRA_LDFLAGS) ';
+ 
+ parse_cmdl_line();

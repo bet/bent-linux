@@ -1,0 +1,9 @@
+pkg cl-ppcre-1.2.18
+
+url http://weitz.de/files/cl-ppcre.tar.gz
+
+build \
+    tar xf cl-ppcre.tar.gz
+    mkdir -p $BPM_ROOT/usr/share
+    mv cl-ppcre-1.2.18 $BPM_ROOT/usr/share/
+    clisp $BPM_ROOT/usr/share/cl-ppcre-1.2.18/load.lisp

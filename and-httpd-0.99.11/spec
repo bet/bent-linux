@@ -1,0 +1,12 @@
+pkg and-httpd-0.99.11
+
+url http://www.and.org/and-httpd/0.99.11/and-httpd-0.99.11.tar.bz2
+
+build \
+    tar xf and-httpd-0.99.11.tar.bz2
+    cd and-httpd-0.99.11
+    ./configure --prefix=/usr --mandir=/usr/share/man --infodir=/usr/share/info \
+        --disable-dynamic --enable-static
+    make
+    make DESTDIR=$BPM_ROOT install
+    rm -f $BPM_ROOT/usr/share/info/dir

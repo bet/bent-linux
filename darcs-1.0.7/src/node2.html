@@ -1,0 +1,679 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Introduction</TITLE>
+<META NAME="description" CONTENT="Introduction">
+<META NAME="keywords" CONTENT="darcs">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="darcs.css">
+
+<LINK REL="next" HREF="node3.html">
+<LINK REL="previous" HREF="node1.html">
+<LINK REL="up" HREF="darcs.html">
+<LINK REL="next" HREF="node3.html">
+</HEAD>
+
+<BODY >
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html271"
+  HREF="node3.html">
+<IMG WIDTH="22" HEIGHT="22" title="Next"  ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="./next.png"></A> 
+<A NAME="tex2html267"
+  HREF="darcs.html">
+<IMG WIDTH="22" HEIGHT="22" title="Up"  ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="./up.png"></A> 
+<A NAME="tex2html261"
+  HREF="node1.html">
+<IMG WIDTH="22" HEIGHT="22" title="Previous"  ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="./prev.png"></A> 
+<A NAME="tex2html269"
+  HREF="node1.html">
+<IMG WIDTH="22" HEIGHT="22" title="Contents"  ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="./contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html272"
+  HREF="node3.html">Building darcs</A>
+<B> Up:</B> <A NAME="tex2html268"
+  HREF="darcs.html">Darcs 1.0.7 (release) Darcs</A>
+<B> Previous:</B> <A NAME="tex2html262"
+  HREF="node1.html">Contents</A>
+ &nbsp; <B>  <A NAME="tex2html270"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR></DIV>
+<!--End of Navigation Panel-->
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL CLASS="ChildLinks">
+<LI><UL>
+<LI><UL>
+<LI><UL>
+<LI><A NAME="tex2html273"
+  HREF="node2.html#SECTION00200010000000000000">Every source tree a branch</A>
+<LI><A NAME="tex2html274"
+  HREF="node2.html#SECTION00200020000000000000">Theory of patches</A>
+<LI><A NAME="tex2html275"
+  HREF="node2.html#SECTION00200030000000000000">A simple advanced tool</A>
+<LI><A NAME="tex2html276"
+  HREF="node2.html#SECTION00200040000000000000">Keeping track of changes rather than versions</A>
+</UL>
+</UL>
+</UL>
+<BR>
+<LI><A NAME="tex2html277"
+  HREF="node2.html#SECTION00210000000000000000">Features</A>
+<UL>
+<LI><A NAME="tex2html278"
+  HREF="node2.html#SECTION00210010000000000000">Record changes locally</A>
+<LI><A NAME="tex2html279"
+  HREF="node2.html#SECTION00210020000000000000">Interactive records</A>
+<LI><A NAME="tex2html280"
+  HREF="node2.html#SECTION00210030000000000000">Unrecord local changes</A>
+<LI><A NAME="tex2html281"
+  HREF="node2.html#SECTION00210040000000000000">Interactive everything else</A>
+<LI><A NAME="tex2html282"
+  HREF="node2.html#SECTION00210050000000000000">Test suites</A>
+<LI><A NAME="tex2html283"
+  HREF="node2.html#SECTION00210060000000000000">Any old server</A>
+<LI><A NAME="tex2html284"
+  HREF="node2.html#SECTION00210070000000000000">You decide write permissions</A>
+<LI><A NAME="tex2html285"
+  HREF="node2.html#SECTION00210080000000000000">Symmetric repositories</A>
+<LI><A NAME="tex2html286"
+  HREF="node2.html#SECTION00210090000000000000">CGI script</A>
+<LI><A NAME="tex2html287"
+  HREF="node2.html#SECTION002100100000000000000">Portable</A>
+<LI><A NAME="tex2html288"
+  HREF="node2.html#SECTION002100110000000000000">File and directory moves</A>
+<LI><A NAME="tex2html289"
+  HREF="node2.html#SECTION002100120000000000000">Token replace</A>
+<LI><A NAME="tex2html290"
+  HREF="node2.html#SECTION002100130000000000000">Configurable defaults</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html291"
+  HREF="node2.html#SECTION00220000000000000000">Switching from CVS</A>
+<UL>
+<LI><A NAME="tex2html292"
+  HREF="node2.html#SECTION00220010000000000000">Darcs commands for CVS users</A>
+<LI><A NAME="tex2html293"
+  HREF="node2.html#SECTION00220020000000000000">Migrating CVS repositories to darcs</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html294"
+  HREF="node2.html#SECTION00230000000000000000">Switching from arch</A>
+<UL>
+<LI><A NAME="tex2html295"
+  HREF="node2.html#SECTION00230010000000000000">Darcs commands for arch users</A>
+<LI><A NAME="tex2html296"
+  HREF="node2.html#SECTION00230020000000000000">Migrating arch repositories to darcs</A>
+</UL></UL>
+<!--End of Table of Child-Links-->
+<HR>
+
+<H1><A NAME="SECTION00200000000000000000">
+Introduction</A>
+</H1>
+
+<P>
+Darcs is a revision control system, along the lines of CVS or arch.  That
+means that it keeps track of various revisions and branches of your
+project, allows for changes to propagate from one branch to another.  Darcs
+is intended to be an ``advanced'' revision control system.  Darcs has two
+particularly distinctive features which differ from other revision control
+systems: 1) each copy of the source is a fully functional branch, and 2)
+underlying darcs is a consistent and powerful theory of patches.
+
+<P>
+
+<H4><A NAME="SECTION00200010000000000000">
+Every source tree a branch</A>
+</H4>
+The primary simplifying notion of darcs is that <SPAN  CLASS="textit">every</SPAN> copy of your
+source code is a full repository. This is dramatically different from CVS,
+in which the normal usage is for there to be one central repository from
+which source code will be checked out. It is closer to the notion of arch,
+since the `normal' use of arch is for each developer to create his own
+repository. However, darcs makes it even easier, since simply checking out
+the code is all it takes to create a new repository. This has several
+advantages, since you can harness the full power of darcs in any scratch
+copy of your code, without committing your possibly destabilizing changes to
+a central repository.
+
+<P>
+
+<H4><A NAME="SECTION00200020000000000000">
+Theory of patches</A>
+</H4>
+The development of a simplified theory of patches is what originally
+motivated me to create darcs. This patch formalism means that darcs patches
+have a set of properties, which make possible manipulations that couldn't be
+done in other revision control systems. First, every patch is invertible.
+Secondly, sequential patches (i.e. patches that are created in sequence, one
+after the other) can be reordered, although this reordering can fail, which
+means the second patch is dependent on the first. Thirdly, patches which are
+in parallel (i.e. both patches were created by modifying identical trees)
+can be merged, and the result of a set of merges is independent of the order
+in which the merges are performed. This last property is critical to darcs'
+philosophy, as it means that a particular version of a source tree is fully
+defined by the list of patches that are in it, i.e. there is no issue
+regarding the order in which merges are performed. For a more thorough
+discussion of darcs' theory of patches, see Appendix&nbsp;<A HREF="node8.html#Patch"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="./crossref.png"></A>.
+
+<P>
+
+<H4><A NAME="SECTION00200030000000000000">
+A simple advanced tool</A>
+</H4>
+Besides being ``advanced'' as discussed above, darcs is actually also quite
+simple. Versioning tools can be seen as three layers. At the foundation is
+the ability to manipulate changes. On top of that must be placed some kind
+of database system to keep track of the changes. Finally, at the very top is
+some sort of distribution system for getting changes from one place to
+another.
+
+<P>
+Really, only the first of these three layers is of particular interest to
+me, so the other two are done as simply as possible.  At the database
+layer, darcs just has an ordered list of patches along with the patches
+themselves, each stored as an individual file.  Darcs' distribution system
+is strongly inspired by that of arch.  Like arch, darcs uses a dumb server,
+typically apache or just a local or network file system when pulling
+patches.  darcs has built-in support for using <code>ssh</code> to write to a remote file
+system. A darcs executable is called on the remote system to apply the patches.
+Arbitrary other transport protocols are supported, through an environment
+variable describing a command that will run darcs on the remote system.
+See the documentation for DARCS_APPLY_FOO in Chapter&nbsp;<A HREF="node5.html#configuring"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="./crossref.png"></A>
+for details.
+
+<P>
+The recommended method is to send patches through gpg-signed email
+messages, which has the advantage of being mostly asynchronous.
+
+<P>
+
+<H4><A NAME="SECTION00200040000000000000">
+Keeping track of changes rather than versions</A>
+</H4>
+
+<P>
+In the last paragraph, I explained revision control systems in terms of
+three layers.  One can also look at them as having two distinct uses.  One
+is to provide a history of previous versions.  The other is to keep track
+of changes that are made to the repository, and to allow these changes to
+be merged and moved from one repository to another.  These two uses are
+distinct, and almost orthogonal, in the sense that a tool can support one
+of the two uses optimally while providing no support for the other.  Darcs
+is not intended to maintain a history of versions, although it is possible
+to kludge together such a revision history, either by making each new patch
+depend on all previous patches, or by tagging regularly.  In a sense, this
+is what the tag feature is for, but the intention is that tagging will be
+used only to mark particularly notable versions (e.g. released versions, or
+perhaps versions that pass a time consuming test suite).
+
+<P>
+Other revision control systems are centered upon the job of keeping track
+of a history of versions, with the ability to merge changes being added as
+it was seen that this would be desirable.  But the fundamental object
+remained the versions themselves.
+
+<P>
+In such a system, a patch (I am using patch here to mean an encapsulated
+set of changes) is uniquely determined by two trees.  Merging changes that
+are in two trees consists of finding a common parent tree, computing the
+diffs of each tree with their parent, and then cleverly combining those two
+diffs and applying the combined diff to the parent tree, possibly at some
+point in the process allowing human intervention, to allow for fixing up
+problems in the merge such as conflicts.
+
+<P>
+In the world of darcs, the source tree is <SPAN  CLASS="textit">not</SPAN> the fundamental
+object, but rather the patch is the fundamental object.  Rather than a
+patch being defined in terms of the difference between two trees, a tree is
+defined as the result of applying a given set of patches to an empty tree.
+Moreover, these patches may be reordered (unless there are dependencies
+between the patches involved) without changing the tree.  As a result,
+there is no need to find a common parent when performing a merge.  Or, if
+you like, their common parent is defined by the set of common patches, and
+may not correspond to any version in the version history.
+
+<P>
+One useful consequence of darcs' patch-oriented philosophy is that since a
+patch need not be uniquely defined by a pair of trees (old and new), we can
+have several ways of representing the same change, which differ only in how
+they commute and what the result of merging them is.  Of course, creating
+such a patch will require some sort of user input.  This is a Good Thing,
+since the user <SPAN  CLASS="textit">creating</SPAN> the patch should be the one forced to think
+about what he really wants to change, rather than the users merging the
+patch.  An example of this is the token replace patch (See
+Section&nbsp;<A HREF="node8.html#token_replace"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="./crossref.png"></A>).  This feature makes it possible to create a
+patch, for example, which changes every instance of the variable
+``stupidly_named_var'' to ``better_var_name'', while leaving
+``other_stupidly_named_var'' untouched.  When this patch is merged with
+any other patch involving the ``stupidly_named_var'', that instance will
+also be modified to ``better_var_name''.  This is in contrast to a more
+conventional merging method which would not only fail to change new
+instances of the variable, but would also involve conflicts when merging
+with any patch that modifies lines containing the variable.  By more using
+additional information about the programmer's intent, darcs is thus able to
+make the process of changing a variable name the trivial task that it
+really is, which is really just a trivial search and replace, modulo
+tokenizing the code appropriately.
+
+<P>
+The patch formalism discussed in Appendix&nbsp;<A HREF="node8.html#Patch"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="./crossref.png"></A> is what makes darcs'
+approach possible.  In order for a tree to consist of a set of patches,
+there must be a deterministic merge of any set of patches, regardless of the
+order in which they must be merged.  This requires that one be able to
+reorder patches.  While I don't know that the patches are required to be
+invertible as well, my implementation certainly requires invertibility.  In
+particular, invertibility is required to make use of
+Theorem&nbsp;<A HREF="node8.html#merge_thm"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="./crossref.png"></A>, which is used extensively in the manipulation of
+merges.
+
+<P>
+
+<H1><A NAME="SECTION00210000000000000000">
+Features</A>
+</H1>
+
+<P>
+
+<H4><A NAME="SECTION00210010000000000000">
+Record changes locally</A>
+</H4>
+In darcs, the equivalent of a cvs ``commit'' is called record, because it
+doesn't put the change into any remote or centralized repository.  Changes
+are always recorded locally, meaning no net access is required in order to
+work on your project and record changes as you make them.  Moreover, this
+means that there is no need for a separate ``disconnected operation'' mode.
+
+<P>
+
+<H4><A NAME="SECTION00210020000000000000">
+Interactive records</A>
+</H4>
+You can choose to perform an interactive record, in which case darcs will
+prompt you for each change you have made and ask if you wish to record it.
+Of course, you can tell darcs to record all the changes in a given file, or
+to skip all the changes in a given file, or go back to a previous change,
+or whatever.  There is also an experimental graphical interface, which
+allows you to view and choose changes even more easily, and in whichever
+order you like.
+
+<P>
+
+<H4><A NAME="SECTION00210030000000000000">
+Unrecord local changes</A>
+</H4>
+As a corollary to the ``local'' nature of the record operation, if a change
+hasn't yet been published to the world--that is, if the local repository
+isn't accessible by others--you can safely unrecord a change (even if it
+wasn't the most recently recorded change) and then re-record it
+differently, for example if you forgot to add a file, introduced a bug or
+realized that what you recorded as a single change was really two separate
+changes.
+
+<P>
+
+<H4><A NAME="SECTION00210040000000000000">
+Interactive everything else</A>
+</H4>
+Most darcs commands support an interactive interface.  The ``revert''
+command, for example, which undoes unrecorded changes has the same
+interface as record, so you can easily revert just a single change.  Pull,
+push, send and apply all allow you to view and interactively select which
+changes you wish to pull, push, send or apply.
+
+<P>
+
+<H4><A NAME="SECTION00210050000000000000">
+Test suites</A>
+</H4>
+Darcs has support for integrating a test suite with a repository.  If you
+choose to use this, you can define a test command (e.g. ``make check'') and
+have darcs run that command on a clean copy of the project either prior to
+recording a change or prior to applying changes--and to reject changes
+that cause the test to fail.
+
+<P>
+
+<H4><A NAME="SECTION00210060000000000000">
+Any old server</A>
+</H4>
+Darcs does not require a specialized server in order to make a repository
+available for read access.  You can use http, ftp, or even just a plain old
+ssh server to access your darcs repository.
+
+<P>
+
+<H4><A NAME="SECTION00210070000000000000">
+You decide write permissions</A>
+</H4>
+Darcs doesn't try to manage write access.  That's your business.  Supported
+push methods include direct ssh access (if you're willing to <SPAN  CLASS="textit">give</SPAN>
+direct ssh access away), using sudo to allow users who already have shell
+access to only apply changes to the repository, or verification of
+gpg-signed changes sent by email against a list of allowed keys.  In
+addition, there is good support for submission of patches by email that
+are not automatically applied, but can easily be applied with a shell escape
+from a mail reader (this is how I deal with contributions to darcs).
+
+<P>
+
+<H4><A NAME="SECTION00210080000000000000">
+Symmetric repositories</A>
+</H4>
+Every darcs repository is created equal (well, with the exception of a
+``partial'' repository, which doesn't contain a full history...), and every
+working directory has an associated repository.  As a result, there is a
+symmetry between ``uploading'' and ``downloading'' changes--you can use
+the same commands (push or pull) for either purpose.
+
+<P>
+
+<H4><A NAME="SECTION00210090000000000000">
+CGI script</A>
+</H4>
+Darcs has a CGI script that allows browsing of the repositories.
+
+<P>
+
+<H4><A NAME="SECTION002100100000000000000">
+Portable</A>
+</H4>
+Darcs runs on UNIX (or UNIX-like) systems (which includes Mac&nbsp;OS&nbsp;X) as well
+as on Microsoft Windows.
+
+<P>
+
+<H4><A NAME="SECTION002100110000000000000">
+File and directory moves</A>
+</H4>
+Renames or moves of files and directories, of course are handled properly,
+so when you rename a file or move it to a different directory, its history
+is unbroken, and merges with repositories that don't have the file renamed
+will work as expected.
+
+<P>
+
+<H4><A NAME="SECTION002100120000000000000">
+Token replace</A>
+</H4>
+You can use the ``darcs replace'' command to modify all occurrences of a
+particular token (defined by a configurable set of characters that are
+allowed in ``tokens'') in a file.  This has the advantage that merges with
+changes that introduce new copies of the old token will have the effect of
+changing it to the new token--which comes in handy when changing a
+variable or function name that is used throughout a project.
+
+<P>
+
+<H4><A NAME="SECTION002100130000000000000">
+Configurable defaults</A>
+</H4>
+You can easily configure the default flags passed to any command on either
+a per-repository or a per-user basis or a combination thereof.
+
+<P>
+
+<H1><A NAME="SECTION00220000000000000000">
+Switching from CVS</A>
+</H1>
+
+<P>
+Darcs is refreshingly different from CVS.
+
+<P>
+CVS keeps version controlled data in a central repository, and
+requires that users check out a working directory whenever they wish
+to access the version-controlled sources.  In order to modify the
+central repository, a user needs to have write access to the central
+repository; if he doesn't, CVS merely becomes a tool to get the latest
+sources.
+
+<P>
+In darcs there is no distinction between working directories and
+repositories.  In order to work on a project, a user makes a local
+copy of the repository he wants to work in; he may then harness the
+full power of version control locally.  In order to distribute his
+changes, a user who has write access can <SPAN  CLASS="textit">push</SPAN> them to the
+remote repository; one who doesn't can simply send them by e-mail in a
+format that makes them easy to apply on the remote system.
+
+<P>
+
+<H4><A NAME="SECTION00220010000000000000">
+Darcs commands for CVS users</A>
+</H4>
+Because of the different models used by cvs and darcs, it is
+difficult to provide a complete equivalence between cvs and darcs.
+A rough correspondence for the everyday commands follows:
+<BR><DL>
+<DT><STRONG><TT>cvs checkout</TT> </STRONG></DT>
+<DD><TT>darcs get</TT>
+</DD>
+<DT><STRONG><TT>cvs update</TT> </STRONG></DT>
+<DD><TT>darcs pull</TT>
+</DD>
+<DT><STRONG><TT>cvs -n update</TT> </STRONG></DT>
+<DD><TT>darcs pull <code>--dry-run</code></TT>
+      (summarize remote changes)
+</DD>
+<DT><STRONG><TT>cvs -n update</TT> </STRONG></DT>
+<DD><TT>darcs whatsnew <code>--summary</code></TT>
+      (summarize local changes)
+</DD>
+<DT><STRONG><TT>cvs -n update | grep '?'</TT> </STRONG></DT>
+<DD><TT>darcs whatsnew -ls | grep <code>^a</code> </TT>
+      (list potential files to add)
+</DD>
+<DT><STRONG><TT>rm foo.txt; cvs update foo.txt</TT> </STRONG></DT>
+<DD><TT>darcs revert foo.txt</TT>
+      (revert to foo.txt from repo)
+</DD>
+<DT><STRONG><TT>cvs diff</TT> </STRONG></DT>
+<DD><TT>darcs whatsnew</TT>
+      (if checking local changes)
+</DD>
+<DT><STRONG><TT>cvs diff</TT> </STRONG></DT>
+<DD><TT>darcs diff</TT>
+      (if checking recorded changes)
+</DD>
+<DT><STRONG><TT>cvs commit</TT> </STRONG></DT>
+<DD><TT>darcs record</TT>
+      (if committing locally)
+</DD>
+<DT><STRONG><TT>cvs commit</TT> </STRONG></DT>
+<DD><TT>darcs tag</TT>
+      (if marking a version for later use)
+</DD>
+<DT><STRONG><TT>cvs commit</TT> </STRONG></DT>
+<DD><TT>darcs push</TT> or <TT>darcs send</TT>
+      (if committing remotely)
+</DD>
+<DT><STRONG><TT>cvs diff | mail</TT> </STRONG></DT>
+<DD><TT>darcs send</TT>
+</DD>
+<DT><STRONG><TT>cvs add</TT> </STRONG></DT>
+<DD><TT>darcs add</TT>
+</DD>
+<DT><STRONG><TT>cvs tag -b</TT> </STRONG></DT>
+<DD><TT>darcs get</TT>
+</DD>
+<DT><STRONG><TT>cvs tag</TT> </STRONG></DT>
+<DD><TT>darcs tag</TT>
+</DD>
+</DL>
+
+<P>
+
+<H4><A NAME="SECTION00220020000000000000">
+Migrating CVS repositories to darcs</A>
+</H4>
+
+<P>
+Tools and instructions for migrating CVS repositories to darcs are provided
+on the darcs community website: 
+<A NAME="tex2html1"
+  HREF="http://darcs.net/DarcsWiki/ConvertingFromCvs">http://darcs.net/DarcsWiki/ConvertingFromCvs</A>
+<P>
+
+<H1><A NAME="SECTION00230000000000000000">
+Switching from arch</A>
+</H1>
+
+<P>
+Although arch, like darcs, is a distributed system, and the two systems
+have many similarities (both require no special server, for example), their
+essential organization is very different.
+
+<P>
+Like CVS, arch keeps data in two types of data structures:
+repositories (called ``archives'') and working directories.  In order
+to modify a repository, one must first check out a corresponding
+working directory. This requires that users remember a number of
+different ways of pushing data around -- <code>tla</code> <code>get</code>,
+<code>update</code>, <code>commit</code>, <code>archive-mirror</code> and so on.
+
+<P>
+In darcs, on the other hand, there is no distinction between working
+directories and repositories, and just checking out your sources
+creates a local copy of a repository.  This allows you to harness the
+full power of version control in any scratch copy of your sources, and
+also means that there are just two ways to push data around:
+<code>darcs</code> <code>record</code>, which stores edits into your local
+repository, and <code>pull</code>, which moves data between repositories.
+(<code>darcs</code> <code>push</code> is merely the opposite of <code>pull</code>;
+<code>send</code> and <code>apply</code> are just the two halves of <code>push</code>).
+
+<P>
+
+<H4><A NAME="SECTION00230010000000000000">
+Darcs commands for arch users</A>
+</H4>
+
+<P>
+Because of the different models used by arch and darcs, it is
+difficult to provide a complete equivalence between arch and darcs.
+A rough correspondence for the everyday commands follows:
+<BR><DL>
+<DT><STRONG><TT>tla init-tree</TT> </STRONG></DT>
+<DD><TT>darcs initialize</TT>
+</DD>
+<DT><STRONG><TT>tla get</TT> </STRONG></DT>
+<DD><TT>darcs get</TT>
+</DD>
+<DT><STRONG><TT>tla update</TT> </STRONG></DT>
+<DD><TT>darcs pull</TT>
+</DD>
+<DT><STRONG><TT>tla file-diffs f | patch -R </TT> </STRONG></DT>
+<DD><TT>darcs revert</TT>
+</DD>
+<DT><STRONG><TT>tla changes -diffs</TT> </STRONG></DT>
+<DD><TT>darcs whatsnew</TT>
+</DD>
+<DT><STRONG><TT>tla logs</TT> </STRONG></DT>
+<DD><TT>darcs changes</TT>
+</DD>
+<DT><STRONG><TT>tla file-diffs</TT> </STRONG></DT>
+<DD><TT>darcs diff -u</TT>
+</DD>
+<DT><STRONG><TT>tla add</TT> </STRONG></DT>
+<DD><TT>darcs add</TT>
+</DD>
+<DT><STRONG><TT>tla mv</TT> </STRONG></DT>
+<DD><TT>darcs mv</TT>
+      (not <TT>tla move</TT>)
+</DD>
+<DT><STRONG><TT>tla commit</TT> </STRONG></DT>
+<DD><TT>darcs record</TT>
+      (if committing locally)
+</DD>
+<DT><STRONG><TT>tla commit</TT> </STRONG></DT>
+<DD><TT>darcs tag</TT>
+      (if marking a version for later use)
+</DD>
+<DT><STRONG><TT>tla commit</TT> </STRONG></DT>
+<DD><TT>darcs push</TT> or <TT>darcs send</TT>
+      (if committing remotely)
+</DD>
+<DT><STRONG><TT>tla archive-mirror</TT> </STRONG></DT>
+<DD><TT>darcs pull</TT> or <TT>darcs push</TT>
+</DD>
+<DT><STRONG><TT>tla tag</TT> </STRONG></DT>
+<DD><TT>darcs get</TT>
+      (if creating a branch)
+</DD>
+<DT><STRONG><TT>tla tag</TT> </STRONG></DT>
+<DD><TT>darcs tag</TT>
+      (if creating a tag).
+</DD>
+</DL>
+
+<P>
+
+<H4><A NAME="SECTION00230020000000000000">
+Migrating arch repositories to darcs</A>
+</H4>
+
+<P>
+Tools and instructions for migrating arch repositories to darcs are provided
+on the darcs community website: 
+<A NAME="tex2html2"
+  HREF="http://darcs.net/DarcsWiki/ConvertingFromArch">http://darcs.net/DarcsWiki/ConvertingFromArch</A>
+<P>
+
+<DIV CLASS="navigation"><HR>
+<!--Navigation Panel-->
+<A NAME="tex2html271"
+  HREF="node3.html">
+<IMG WIDTH="22" HEIGHT="22" title="Next"  ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="./next.png"></A> 
+<A NAME="tex2html267"
+  HREF="darcs.html">
+<IMG WIDTH="22" HEIGHT="22" title="Up"  ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="./up.png"></A> 
+<A NAME="tex2html261"
+  HREF="node1.html">
+<IMG WIDTH="22" HEIGHT="22" title="Previous"  ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="./prev.png"></A> 
+<A NAME="tex2html269"
+  HREF="node1.html">
+<IMG WIDTH="22" HEIGHT="22" title="Contents"  ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="./contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html272"
+  HREF="node3.html">Building darcs</A>
+<B> Up:</B> <A NAME="tex2html268"
+  HREF="darcs.html">Darcs 1.0.7 (release) Darcs</A>
+<B> Previous:</B> <A NAME="tex2html262"
+  HREF="node1.html">Contents</A>
+ &nbsp; <B>  <A NAME="tex2html270"
+  HREF="node1.html">Contents</A></B> </DIV>
+<!--End of Navigation Panel-->
+<ADDRESS>
+Tommy Pettersson
+2006-05-13
+</ADDRESS>
+</BODY>
+</HTML>

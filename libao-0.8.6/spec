@@ -1,0 +1,11 @@
+pkg libao-0.8.6
+
+url http://downloads.xiph.org/releases/ao/libao-0.8.6.tar.gz
+
+build \
+    tar xf libao-0.8.6.tar.gz
+    cd libao-0.8.6
+    ./configure --prefix=/usr --mandir=/usr/share/man \
+        --disable-shared --enable-static
+    make
+    make DESTDIR=$BPM_ROOT install

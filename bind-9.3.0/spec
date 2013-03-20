@@ -1,0 +1,12 @@
+pkg bind-9.3.0
+
+url ftp://ftp.isc.org/isc/bind9/9.3.0/bind-9.3.0.tar.gz
+
+build \
+    tar xzf bind-9.3.0.tar.gz
+    cd bind-9.3.0
+    CFLAGS=-Os LDFLAGS='-s -static' ./configure --prefix=/usr --mandir=/usr/share/man --disable-shared
+    make
+    make DESTDIR=$BPM_ROOT install
+    mkdir -p $BPM_ROOT/usr/share/doc
+    mv doc $BPM_ROOT/usr/share/doc/bind-9.3.0

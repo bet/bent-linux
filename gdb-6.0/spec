@@ -1,0 +1,22 @@
+pkg gdb-6.0
+
+url http://mirrors.kernel.org/gnu/gdb/gdb-6.0.tar.bz2
+    no-libdl.patch
+
+build \
+    tar xjf gdb-6.0.tar.bz2
+    cd gdb-6.0
+    patch -p1 <../no-libdl.patch
+    ./configure \
+        --prefix=/usr --mandir=/usr/share/man --infodir=/usr/share/info \
+        --disable-nls --with-tui
+    ( cd gdb &&
+        ./configure \
+        --prefix=/usr --mandir=/usr/share/man --infodir=/usr/share/info \
+        --disable-nls --with-tui
+    )
+    perl -pi -le 's/^/#/ if /^LOADLIBES/' gdb/Makefile
+    make
+    make DESTDIR=$BPM_ROOT install
+    strip $BPM_ROOT/usr/bin/*
+    rm -f $BPM_ROOT/usr/share/info/dir

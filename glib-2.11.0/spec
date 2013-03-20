@@ -1,0 +1,12 @@
+pkg glib-2.11.0
+
+url ftp://ftp.gtk.org/pub/gtk/v2.11/glib-2.11.0.tar.bz2
+
+build \
+    tar xjf glib-2.11.0.tar.bz2
+    cd glib-2.11.0
+    CFLAGS=-Os LDFLAGS=-s ./configure --prefix=/usr --mandir=/usr/share/man --infodir=/usr/share/info \
+        --disable-shared --with-libiconv --disable-threads --with-html-dir=/usr/share/doc/glib --with-included-gettext
+    make
+    make DESTDIR=$BPM_ROOT install
+    rm -f $BPM_ROOT/usr/share/info/dir

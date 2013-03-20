@@ -1,0 +1,13 @@
+pkg drill-0.9.1
+
+url http://www.nlnetlabs.nl/downloads/drill/drill-0.9.1.tar.bz2
+
+build \
+    tar xf drill-0.9.1.tar.bz2
+    cd drill
+    ./configure
+    make LIBS='-lcrypto -lbind'
+    mkdir -p $BPM_ROOT/usr/bin
+    cp drill $BPM_ROOT/usr/bin/
+    mkdir -p $BPM_ROOT/usr/share/man/man1
+    cp doc/drill.1 $BPM_ROOT/usr/share/man/man1/

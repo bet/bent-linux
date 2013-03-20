@@ -1,0 +1,10 @@
+pkg micro_httpd_14dec2001
+
+url http://www.acme.com/software/micro_httpd/micro_httpd_14dec2001.tar.gz
+
+build \
+    tar xf micro_httpd_14dec2001.tar.gz
+    cd micro_httpd
+    make 'CC=diet gcc'
+    mkdir -p $BPM_ROOT/usr/sbin $BPM_ROOT/usr/share/man/man8
+    make BINDIR=$BPM_ROOT/usr/sbin MANDIR=$BPM_ROOT/usr/share/man/man8 install

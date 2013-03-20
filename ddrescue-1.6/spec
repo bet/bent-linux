@@ -1,0 +1,13 @@
+pkg ddrescue-1.6
+
+url http://ftp.gnu.org/gnu/ddrescue/ddrescue-1.6.tar.bz2
+    http://ftp.gnu.org/gnu/ddrescue/ddrescue-1.6.tar.bz2.sig
+
+build \
+    tar xf ddrescue-1.6.tar.bz2
+    cd ddrescue-1.6
+    ./configure --prefix=/usr
+    make
+    make DESTDIR=$BPM_ROOT install
+    rm -f $BPM_ROOT/usr/share/info/dir
+    strip $BPM_ROOT/usr/bin/ddrescue

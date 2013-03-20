@@ -1,0 +1,11 @@
+pkg uClibc-0.9.28
+
+url http://www.uclibc.org/downloads/uClibc-0.9.28.tar.bz2
+    uClibc-0.9.28-config
+
+build \
+    tar xf uClibc-0.9.28.tar.bz2
+    cd uClibc-0.9.28
+    cp ../uClibc-0.9.28-config .config
+    make
+    make PREFIX=$BPM_ROOT install install_utils

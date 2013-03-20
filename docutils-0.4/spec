@@ -1,0 +1,8 @@
+pkg docutils-0.4
+
+url http://easynews.dl.sourceforge.net/sourceforge/docutils/docutils-0.4.tar.gz
+
+build \
+    tar xf docutils-0.4.tar.gz
+    cd docutils-0.4
+    python setup.py install --root $BPM_ROOT

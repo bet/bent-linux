@@ -1,0 +1,10 @@
+pkg htop-0.6.6
+
+url http://easynews.dl.sourceforge.net/sourceforge/htop/htop-0.6.6.tar.gz
+
+build \
+    tar xf htop-0.6.6.tar.gz
+    cd htop-0.6.6
+    CFLAGS='-Os -DNDEBUG' LDFLAGS=-s ./configure --prefix=/usr --mandir=/usr/share/man
+    make
+    make DESTDIR=$BPM_ROOT install

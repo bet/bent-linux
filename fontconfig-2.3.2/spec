@@ -1,0 +1,12 @@
+pkg fontconfig-2.3.2
+
+url http://fontconfig.org/release/fontconfig-2.3.2.tar.gz
+
+build \
+    tar xf fontconfig-2.3.2.tar.gz
+    cd fontconfig-2.3.2
+    ./configure --prefix=/usr --sysconfdir=/etc --mandir=/usr/share/man --infodir=/usr/share/info \
+        --enable-static --disable-shared
+    make
+    make DESTDIR=$BPM_ROOT install
+    rm -f $BPM_ROOT/usr/share/info/dir

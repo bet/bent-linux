@@ -1,0 +1,12 @@
+pkg readline-5.1
+
+url http://mirrors.kernel.org/gnu/readline/readline-5.1.tar.gz
+
+build \
+    tar xzf readline-5.1.tar.gz
+    cd readline-5.1
+    CFLAGS="$CFLAGS -I/usr/include/ncurses" ./configure --prefix=/usr --infodir=/usr/share/info --mandir=/usr/share/man \
+        --disable-shared --with-curses
+    make
+    make DESTDIR=$BPM_ROOT install
+    rm -f $BPM_ROOT/usr/share/info/dir

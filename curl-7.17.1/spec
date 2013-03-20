@@ -1,0 +1,11 @@
+pkg curl-7.17.1
+
+url http://curl.haxx.se/download/curl-7.17.1.tar.bz2
+
+build \
+    tar xf curl-7.17.1.tar.bz2
+    cd curl-7.17.1
+    ./configure --prefix=/usr --disable-shared --disable-ldap
+    perl -pi -le 's/^#define (HAVE_GETHOSTBYNAME_R.*) 1/\/* #undef $1 *\//' lib/config.h
+    make 'LIBS=-lssl -lcrypto -lssl -lcrypto -lz -lbind -ldl'
+    make DESTDIR=$BPM_ROOT install

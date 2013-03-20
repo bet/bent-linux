@@ -1,0 +1,10 @@
+pkg nc6-0.5
+
+url http://ftp.deepspace6.net/pub/ds6/sources/nc6/nc6-0.5.tar.bz2
+
+build \
+    tar xf nc6-0.5.tar.bz2
+    cd nc6-0.5
+    CFLAGS=-Os LDFLAGS=-s ./configure --prefix=/usr --mandir=/usr/share/man
+    make
+    make DESTDIR=$BPM_ROOT install

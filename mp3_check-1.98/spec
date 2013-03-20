@@ -1,0 +1,10 @@
+pkg mp3_check-1.98
+
+url http://voxel.dl.sourceforge.net/sourceforge/mp3check/mp3_check-1.98.tar.gz
+
+build \
+    tar xf mp3_check-1.98.tar.gz
+    cd mp3_check-1.98
+    make CFLAGS=-Os
+    mkdir -p $BPM_ROOT/usr/bin
+    install -s mp3_check $BPM_ROOT/usr/bin/

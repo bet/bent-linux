@@ -1,0 +1,13 @@
+pkg libtasn1-0.3.9
+
+url http://josefsson.org/gnutls/releases/libtasn1/libtasn1-0.3.9.tar.gz
+    http://josefsson.org/gnutls/releases/libtasn1/libtasn1-0.3.9.tar.gz.sig
+
+build \
+    tar xzf libtasn1-0.3.9.tar.gz
+    cd libtasn1-0.3.9
+    ./configure --prefix=/usr --mandir=/usr/share/man --infodir=/usr/share/info \
+        --disable-shared --with-html-dir=/usr/share/doc/libtasn1-0.3.9
+    make
+    make DESTDIR=$BPM_ROOT install
+    rm $BPM_ROOT/usr/share/info/dir

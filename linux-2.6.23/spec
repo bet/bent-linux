@@ -1,0 +1,19 @@
+pkg linux-2.6.23
+
+url http://kernel.org/pub/linux/kernel/v2.6/linux-2.6.23.tar.bz2
+    http://kernel.org/pub/linux/kernel/v2.6/linux-2.6.23.tar.bz2.sign 
+    linux-2.6.23-config
+
+build \
+    tar xf linux-2.6.23.tar.bz2
+    cd linux-2.6.23
+    make mrproper
+    cp ../linux-2.6.23-config .config
+    perl -pi -e 's/$/ -DKBUILD_NO_NLS/ if /^HOSTCFLAGS\s/' Makefile
+    yes ''|make oldconfig
+    make bzImage
+    mkdir -p $BPM_ROOT/boot
+    cp arch/i386/boot/bzImage $BPM_ROOT/boot/vmlinuz-2.6.23
+    cp System.map $BPM_ROOT/boot/System.map-2.6.23
+    mkdir -p $BPM_ROOT/usr/share/doc/linux-2.6.23
+    cp -R Documentation/* $BPM_ROOT/usr/share/doc/linux-2.6.23/
