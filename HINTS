@@ -1,0 +1,67 @@
+A disorganized collection of random notes that might be helpful.
+
+Thanks to Rick Philbrick <rickphilbrick@gmail.com> for getting me to
+start this.
+
+Prebuild bpms are in i386 and ppc.
+
+git is my git working tree; packages are available there unpacked.
+
+There are a few ways to start off. If you want a purpose-built
+server, take busybox, add a vmlinuz, then add whatever other servers
+you want. fhs would be good if you need the standard directory
+heirarchy, bent-dev is good if you want a reasonable fully-populated
+/dev with 18 thousand odd inodes eaten under it. My linux-$version
+kernels work for the specific apps I've built them for, they are
+fairly tightly tuned down, odds are against their exactly meeting
+your needs, either build a kernel completely separately or set up a
+dev environment (below) and use it to make an adjusted
+linux-$version package with your own config file (run "make
+menuconfig" or "make xconfig", then copy ".config" to
+src/linux-$version-config).
+
+A dev env is easy, grab a copy of everything and unpack them all.
+"everything" is simplest; if you want to pick and choose there's no
+reason not to, clearly lots of the packages won't be needed to
+satisfy build-time dependencies, and Bent Linux is conspicuously
+close to completely free of install-time dependencies.
+
+I'm hoping to add build-time dependency documentation to the bpm
+system soon.
+
+I periodically run
+	ls -d /var/lib/bpm/* | xargs -l bpmbuild
+to rebuild the whole thing, largely to make sure everything still
+builds clean.
+
+I've not yet written an installer. For bootstrapping a standalone
+Bent Linux cleanly onto new hardware, with no trace of the hosting
+system, I take some existing distro (I tend to have Red Hats of
+various vintages lying about), install that, create a busybox
+initrd with something like:
+	dd if=/dev/zero of=initrd bs=1024k count=4
+	mke2fs initrd
+	mount -o loop initrd /mnt
+	bzip2 -d <busybox-1.00-pre7.cpio.bz2|(cd /mnt&&cpio -idm)
+	sync
+	umount /mnt
+	gzip -9 <initrd >initrd.img
+and make that bootable with a suitable vmlinuz (one that doesn't use
+modules). I'll either add the inodes I need of /dev, or else just
+make an empty dir and use busybox's devfsd plus devfs in the kernel.
+Once I've booted up on the initrd I can repartition the drive,
+unpack the bpms I want to populate it with (from another drive, or
+removable media, or over the net), and make it bootable with lilo.
+	
+Until bpmbuild gets a custom cpio writer that can control perms, you
+need to sudo bpmpkgfix after building; and similarly, there are four
+bpms --- bent-dev, bent-passwd, fhs, and sudo --- that cannot be
+built with bpmbuild, since the content they have to deliver cannot
+be created in a cpio.bz2 using standard tools by a non-priv user
+(or, in the case of fhs, since bpmbuild doesn't scoop empty
+directories).
+
+I've got a wickedly tiny trimmed termcap/terminfo database in
+bent-termdb, basically just defines vt100. If you need anything
+else, you'll need to get the entries from one of the standard
+databases.

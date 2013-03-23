@@ -1,0 +1,53 @@
+Bent Linux: small simple distro, statically linked against uClibc
+
+The original work in Bent Linux --- the bpm software packaging tools
+and the spec files written for them --- is copyright 2004, 2005,
+2006, 2007 Bennett Todd, and is distributed under the terms of the
+GNU General Public License.
+
+News: 2006-07-04 switched from darcs to git
+
+News: 2005-05-29 added ppc
+
+News: 2005-05-18 1.2 -> i386
+
+In anticipation of adding ppc, and recognition that the previous
+Bent Linux revisions are so stale as to not be of interest (and so
+the 1.2 version number no longer communicates anything interesting),
+I've moved the 1.2 dir, containing the built bpms, to i386.
+
+News: 2005-02-19 marks 1.2.
+
+The major change is bpm 0.8 -> 0.9, sha1 file to sha256 for
+manifest; and 1.2 no longer has separate subdirs, bpmdist is
+replaced by the darcs repository.
+
+News: 2004-10-10 marks the splitting off of version 1.1.
+
+The major change is that uClibc is updated, and built without any
+    dynamic libs at all, hence no libdl.
+
+See HINTS for a collection of assorted notes that might make it
+    easier to do something with Bent Linux
+
+If you are interested in being notified of major changes, please
+    email the author, <bet@rahul.net>, and he'll add you to a
+    notification list.
+
+I just added a darcs dir, which I'm hoping will be a darcs
+    repository I'll keep all my work in; if so, it will take over
+    for the bpmdist trees; eventually I may try and import them
+    under darcs.
+
+Darcs users can "darcs get http://bent.latency.net/bent/darcs/" to
+    grab a copy of the darcs repo. Without the sources that bpmbuild
+    will automatically download, it's only about 5.3MB as of this
+    writing.
+
+Based on the darcs version control, I've set up an RSS feed of the
+    patches -- just patch names, no descriptions, but I try to name
+    them meaningfully.
+    <URL:http://bent.latency.net/bent/darcs/bent.xml>
+
+Bpm packages work fine on most any Linux; I've added bpm2rpm to the
+    bpm package.
